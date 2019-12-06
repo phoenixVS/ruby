@@ -1,0 +1,79 @@
+<link href="https://vjs.zencdn.net/7.5.5/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+<script src="https://vjs.zencdn.net/7.5.5/video.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+<video id="video-player" class="video-js" width="640" height="360" data-setup='{}'>
+  <p class="vjs-no-js">
+    To view this video please enable JavaScript, and consider upgrading to a
+    web browser that
+    <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+  </p>
+</video>
+
+<button id="b-play">Play</button>
+<button id="b-mute">Mute</button>
+<button id="b-fs">Fullscreen</button>
+<p id="status"></p>
+<div id="data">
+  <progress id="loader">Loading</progress>
+</div>
+
+<script>
+  let player = null;
+
+  videojs('video-player').ready(function () {
+    player = this;
+
+    $("#b-play").on("click", ev => {
+      var self = ev.target;
+      if (self.innerHTML === "Play") {
+        player.play();
+        self.innerHTML = "Pause";
+      } else {
+        player.pause();
+        self.innerHTML = "Play";
+      }
+    });
+
+    $("#b-mute").on("click", ev => {
+      var self = ev.target;
+      if (self.innerHTML === "Mute") {
+        player.muted(true);
+        self.innerHTML = "UnMute";
+      } else {
+        player.muted(false);
+        self.innerHTML = "Mute";
+      }
+    });
+
+    $("#b-fs").on("click", ev => {
+      player.requestFullscreen();
+    });
+  });
+
+  function loadVideo(name, src) {
+    if (!player) return;
+    player.src({
+      type: "application/x-mpegURL",
+      src: src
+    });
+    player.play();
+    $("#b-play").html("Pause")
+    $("#status").html(name)
+  }
+
+  let url = "http://195.64.155.209/v13.php";
+  url = "https://cors-anywhere.herokuapp.com/" + decodeURIComponent(url);
+  $.get(url, data => {
+    $("#loader").remove();
+    const root = $("#data");
+    data = JSON.parse(data);
+
+    data.forEach(elem => {
+      root.append(`<button onclick="loadVideo('${elem.NA}','${elem.VI[0]}')">${elem.NA}</button><br>`);
+    });
+  });
+
+</script>
