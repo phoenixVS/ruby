@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="23px" height="13px" viewBox="0 0 23 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <circle id="path-1" cx="11.5" cy="6.5" r="1.5"></circle>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-1" y="-1" width="5" height="5">
+            <rect x="9" y="4" width="5" height="5" fill="white"></rect>
+            <use xlink:href="#path-1" fill="black"></use>
+        </mask>
+        <path d="M0.5,3 L2.87720262,3.03997198 C2.87720262,3.03997198 6,3.03997198 6,6.5 C6,9.96002802 2.96368691,9.94199724 2.96368691,9.94199724 L0.5,10" id="path-3"></path>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="5.5" height="7" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+        <path d="M17,3 L19.3772026,3.03997198 C19.3772026,3.03997198 22.5,3.03997198 22.5,6.5 C22.5,9.96002802 19.4636869,9.94199724 19.4636869,9.94199724 L17,10" id="path-5"></path>
+        <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="5.5" height="7" fill="white">
+            <use xlink:href="#path-5"></use>
+        </mask>
+    </defs>
+    <g id="Match-Live-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-54.000000, -58.000000)" id="ML-/-BasketballBW">
+            <g transform="translate(54.000000, 58.000000)">
+                <rect id="Rectangle-50-Copy-9" stroke="#888888" stroke-width="1" stroke-linecap="square" x="0.5" y="0.5" width="22" height="12"></rect>
+                <rect id="Rectangle-964-Copy" fill="#888888" fill-rule="evenodd" x="11" y="1" width="1.00144928" height="4"></rect>
+                <rect id="Rectangle-964-Copy-16" fill="#888888" fill-rule="evenodd" x="11" y="8" width="1.00144928" height="4"></rect>
+                <use id="Oval-364" stroke="#888888" mask="url(#mask-2)" stroke-width="2" xlink:href="#path-1"></use>
+                <use id="Path-1131-Copy-3" stroke="#888888" mask="url(#mask-4)" stroke-width="2" xlink:href="#path-3"></use>
+                <use id="Path-1131-Copy-4" stroke="#888888" mask="url(#mask-6)" stroke-width="2" transform="translate(19.750000, 6.500000) scale(-1, 1) translate(-19.750000, -6.500000) " xlink:href="#path-5"></use>
+            </g>
+        </g>
+    </g>
+</svg>

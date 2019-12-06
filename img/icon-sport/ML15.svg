@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="19px" height="19px" viewBox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path d="M8.5732233,8.6767767 L13.5229708,15.7478445 L15.6442911,13.6265242 L8.5732233,8.6767767 Z M8.5732233,8.6767767 L1.50215549,3.72702923 L3.62347584,1.60570888 L8.5732233,8.6767767 Z M8.5732233,8.6767767 L3.62347584,15.7478445 L1.50215549,13.6265242 L8.5732233,8.6767767 Z M15.6533432,3.54219608 L13.5320228,1.42087574 L8.5,8.5 L15.6533432,3.54219608 Z M8.5,8.5 L7.01049805,17 L10.010498,17 L8.5,8.5 Z M8.5,8.5 L17.036133,10.1508789 L17.036133,7.15087891 L8.5,8.5 Z M8.5,8.5 L7,0 L10,0 L8.5,8.5 Z M8.5,8.5 L0,10 L0,7 L8.5,8.5 Z" id="path-1"></path>
+    </defs>
+    <g id="Match-Live-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-22.000000, -511.000000)" id="ML-/-Darts">
+            <g transform="translate(19.000000, 508.000000)">
+                <circle id="Oval-656" stroke="#FFFFFF" stroke-width="1" fill="#333333" fill-rule="evenodd" cx="12.5" cy="12.5" r="9"></circle>
+                <circle id="Oval-656-Copy" stroke="#AA212E" stroke-width="1" cx="12.5" cy="12.5" r="5"></circle>
+                <path d="M12.5,12.5 L11,21 L14,21 L12.5,12.5 Z M12.5,12.5 L11,4 L14,4 L12.5,12.5 Z M12.5,12.5 L4,14 L4,11 L12.5,12.5 Z M12.5,12.5 L21,14 L21,11 L12.5,12.5 Z" id="Path-4389-Copy-5" fill="#D5BFAF" fill-rule="evenodd"></path>
+                <path d="M12.5789144,12.7791276 L12.58988,12.7169894 L12.6001832,12.7753742 L20.9761412,11.297264 L20.9761412,14.297264 L12.6081573,12.820561 L14.08988,21.2169894 L11.08988,21.2169894 L12.5727066,12.814305 L12.4761412,12.797264 L12.5789144,12.7791276 Z M12.58988,12.7169894 L11.08988,4.21698942 L14.08988,4.21698942 L12.58988,12.7169894 Z M12.58988,12.7169894 L4.08987996,14.2169894 L4.08987996,11.2169894 L12.58988,12.7169894 Z" id="Path-4389-Copy-4" fill="#D5BFAF" fill-rule="evenodd" transform="translate(12.533011, 12.716989) rotate(-45.000000) translate(-12.533011, -12.716989) "></path>
+                <circle id="Oval-658" stroke="#AA212E" stroke-width="1" fill="#AA212E" fill-rule="evenodd" cx="12.5" cy="12.5" r="0.5"></circle>
+                <g id="Path" stroke-width="1" fill-rule="evenodd" transform="translate(4.000000, 4.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Mask"></g>
+                    <circle stroke="#07804A" mask="url(#mask-2)" cx="8.5" cy="8.5" r="5"></circle>
+                </g>
+                <circle id="Oval-656-Copy-2" stroke="#333333" stroke-width="1" cx="12.5" cy="12.5" r="8"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

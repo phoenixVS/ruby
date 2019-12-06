@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="13px" viewBox="0 0 23 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>MLSoccer</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard">
+            <g id="ML-/-Soccer">
+                <rect id="Rectangle-50-Copy-9" stroke="#FFFFFF" stroke-width="1" fill="#347A37" fill-rule="evenodd" stroke-linecap="square" x="0.5" y="0.5" width="22" height="12"></rect>
+                <rect id="Rectangle-964" fill="#FFFFFF" fill-rule="evenodd" opacity="0.799999952" x="11" y="1" width="1.00144928" height="3.5"></rect>
+                <rect id="Rectangle-964-Copy-15" fill="#FFFFFF" fill-rule="evenodd" opacity="0.799999952" x="11" y="8.5" width="1.00144928" height="3.5"></rect>
+                <polygon id="Rectangle-964" fill="#FFFFFF" fill-rule="evenodd" opacity="0.799999952" points="22.0289855 10 19.026087 10 19.026087 3 22.0289855 3 22.0289855 4 20.0275362 4 20.0275362 9 22.0289855 9"></polygon>
+                <polygon id="Rectangle-965" fill="#FFFFFF" fill-rule="evenodd" opacity="0.799999952" transform="translate(2.502899, 6.500000) rotate(181.000000) translate(-2.502899, -6.500000) " points="4.02172408 9.99112149 1.01897783 10.0085739 0.984073021 3.00887851 3.98681927 2.9914261 3.98681927 3.9914261 1.9855223 4.00887851 2.02042711 9.0085739 4.02172408 8.99112149"></polygon>
+                <path d="M9.5,6.5 C9.5,5.33293981 10.3848256,4.5 11.5,4.5 C12.6470957,4.5 13.5,5.33293981 13.5,6.5 C13.5,7.54214028 12.6152107,8.5 11.5,8.5 C10.3528317,8.50003511 9.5,7.54214028 9.5,6.5 L9.5,6.5 Z" id="Ellipse" stroke="#D3E2D3" stroke-width="1"></path>
+            </g>
+        </g>
+    </g>
+</svg>

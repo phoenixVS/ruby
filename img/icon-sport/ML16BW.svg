@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="19px" height="19px" viewBox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <rect id="path-1" x="3" y="3" width="13" height="13"></rect>
+    </defs>
+    <g id="Match-Live-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-56.000000, -471.000000)" id="ML-/-BaseballBW">
+            <g transform="translate(56.000000, 471.000000)">
+                <rect id="Rectangle-2412-Copy" transform="translate(9.500000, 9.500000) rotate(-45.000000) translate(-9.500000, -9.500000) " x="3" y="3" width="13" height="13"></rect>
+                <path d="M3.30617528,12.4985634 C4.32127083,11.8858098 5,10.7721678 5,9.5 C5,8.22783224 4.32127083,7.11419017 3.30617528,6.50143657 L0.307611845,9.5 L3.30617528,12.4985634 L3.30617528,12.4985634 L3.30617528,12.4985634 Z" id="Path-Copy-8" fill="#FFFFFF" fill-rule="evenodd" opacity="0.1"></path>
+                <path d="M18.6843315,9.50000009 C18.6843315,8.22783233 18.0056023,7.11419026 16.9905068,6.50143666 L13.9919434,9.50000009 L16.9905068,12.4985635 L16.6748383,12.4985634 C17.6899339,11.8858098 18.6843315,10.7721679 18.6843315,9.50000009 Z" id="Path-Copy-5" fill="#FFFFFF" fill-rule="evenodd" opacity="0.1" transform="translate(16.338137, 9.500000) scale(-1, 1) translate(-16.338137, -9.500000) "></path>
+                <path d="M11.7132568,2.82518135 C11.7132568,1.55301359 11.2737625,0.663656924 10.258667,0.0509033208 L7.2590332,2.82518125 L10.258667,5.5949707 C11.2737625,4.9822171 11.7132568,4.09734911 11.7132568,2.82518135 Z" id="Path-Copy-6" fill="#FFFFFF" fill-rule="evenodd" opacity="0.1" transform="translate(9.486145, 2.822937) scale(-1, 1) rotate(-270.000000) translate(-9.486145, -2.822937) "></path>
+                <path d="M11.7110125,16.1987165 C11.7110125,14.9265487 11.2715182,14.0371921 10.2564227,13.4244385 L7.25678886,16.1987164 L10.2564227,18.9685059 C11.2715182,18.3557523 11.7110125,17.4708843 11.7110125,16.1987165 Z" id="Path-Copy-7" fill="#FFFFFF" fill-rule="evenodd" opacity="0.1" transform="translate(9.483901, 16.196472) scale(-1, -1) rotate(-270.000000) translate(-9.483901, -16.196472) "></path>
+                <g id="Oval-655-Copy-+-Oval-655-Copy-2-+-Oval-655-Copy-3-+-Rectangle-2412-Mask" stroke-width="1" fill-rule="evenodd">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Mask" transform="translate(9.500000, 9.500000) rotate(-45.000000) translate(-9.500000, -9.500000) "></g>
+                </g>
+                <polygon id="Rectangle-2412-Copy-2" stroke="#888888" stroke-width="1" transform="translate(9.500000, 9.500000) rotate(-45.000000) translate(-9.500000, -9.500000) " points="3.13603897 3.13603897 16 3 15.863961 15.863961 3 16"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,202 @@
+@font-face{
+	font-family: 'sportsicons';
+	src:url('../fonts/SportIcons/sportsicons.OSN3OY.eot');
+	src:url('../fonts/SportIcons/sportsicons.OSN3OY.eot#iefix') format('embedded-opentype'),
+		url('../fonts/SportIcons/sportsicons.b1HROM.ttf') format('truetype'),
+		url('../fonts/SportIcons/sportsicons.EXfBMs.woff') format('woff');
+	font-weight: normal;
+	font-style: normal
+}
+[class^="sports-"]:before,
+[class*=" sports-"]:before{
+	font-family: 'sportsicons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	margin-top: 2px;
+}
+/* .sports-gd-home:before{content:""}
+.sports-check:before{content:""}
+.sports-globe:before{content:""}
+.sports-favourites:before{content:""}
+.sports-soon:before{content:""}
+.sports-home:before{content:""}
+.sports-sb-timeout:before{content:""}
+.sports-sb-setball-v:before{content:""}
+.sports-handle:before{content:""}
+.sports-filter:before{content:""}
+.sports-sb-point-v:before{content:""}
+.sports-handle-reversed:before{content:""}
+.sports-sb-point-t:before{content:""}
+.sports-all:before{content:""}
+.sports-sb-retirement-t:before{content:""}
+.sports-stats:before{content:""}
+.sports-sb-fault:before{content:""}
+.sports-sb-doublefault:before{content:""}
+.sports-league:before{content:""}
+.sports-sb-ace:before{content:""}
+.sports-sb-summary:before{content:""}
+.sports-sb-weather-4-i:before{content:""}
+.sports-sb-weather-4:before{content:""}
+.sports-sb-throw-in:before{content:""}
+.sports-sb-weather-3-i:before{content:""}
+.sports-sb-race-to:before{content:""}
+.sports-sb-weather-3:before{content:""}
+.sports-sb-intermission:before{content:""}
+.sports-sb-weather-2-i:before{content:""}
+.sports-sb-foul:before{content:""}
+.sports-sb-weather-2:before{content:""}
+.sports-sb-even:before{content:""}
+.sports-sb-weather-1-i:before{content:""}
+.sports-sb-weather-1:before{content:""}
+.sports-sb-empty-net:before{content:""}
+.sports-tournament:before{content:""}
+.sports-sb-penalty-scored-hand:before{content:""}
+.sports-sb-penalty-missed-hand:before{content:""}
+.sports-competition:before{content:""}
+.sports-calendar:before{content:""}
+.sports-sb-goal-hand:before{content:""}
+.sports-topbets:before{content:""}
+.sports-sb-penalty-hand:before{content:""}
+.sports-sb-flag:before{content:""}
+.sports-sb-substitution:before{content:""}
+.sports-sb-card:before{content:""}
+.sports-sb-flag-revoked:before{content:""}
+.sports-sb-score-b:before{content:""}
+.sports-sb-rebound:before{content:""}
+.sports-sb-freethrow-b:before{content:""}
+.sports-sb-tiebreaks-start:before{content:""}
+.sports-sb-freethrow-missed-b:before{content:""}
+.sports-sb-tiebreaks-end:before{content:""}
+.sports-sb-assist-b:before{content:""}
+.sports-sb-set-won:before{content:""}
+.sports-sb-3point-b:before{content:""}
+.sports-sb-2point-b:before{content:""}
+.sports-sb-set-point:before{content:""}
+.sports-sb-safety-car:before{content:""}
+.sports-sb-pit-stop:before{content:""}
+.sports-sb-penalty-shootout-f:before{content:""}
+.sports-sb-penalty-h:before{content:""}
+.sports-sb-penalty-f:before{content:""}
+.sports-sb-offside:before{content:""}
+.sports-sb-goal-h:before{content:""}
+.sports-sb-goal-f:before{content:""}
+.sports-sb-goal-kick-f:before{content:""}
+.sports-sb-free-kick-f:before{content:""}
+.sports-sb-extra-time:before{content:""}
+.sports-sb-drop-out:before{content:""}
+.sports-sb-double-fault:before{content:""}
+.sports-sb-corner:before{content:""}
+.sports-sb-break-t:before{content:""}
+.sports-sb-setball-t:before{content:""}
+.sports-refresh:before{content:""}
+.sports-minus:before{content:""}
+.sports-highlights:before{content:""}
+.sports-country:before{content:""}
+.sports-sb-powerplay:before{content:""}
+.sports-bat:before{content:""}
+.sports-glove:before{content:""}
+.sports-protektor-i:before{content:""}
+.sports-protektor:before{content:""}
+.sports-video_bigger:before{content:""} */
+
+
+.sports-4:before{content:""}
+.sports-5:before{content:""}
+.sports-6:before{content:""}
+.sports-7:before{content:""}
+.sports-8:before{content:""}
+.sports-9:before{content:""}
+.sports-10:before{content:""}
+.sports-11:before{content:""}
+.sports-12:before{content:""}
+.sports-13:before{content:""}
+.sports-14:before{content:""}
+.sports-15:before{content:""}
+.sports-16:before{content:""}
+.sports-17:before{content:""}
+.sports-18:before{content:""}
+.sports-21:before{content:""}
+.sports-22:before{content:""}
+.sports-23:before{content:""}
+.sports-24:before{content:""}
+.sports-25:before{content:""}
+.sports-26:before{content:""}
+.sports-27:before{content:""}
+.sports-28:before{content:""}
+.sports-29:before{content:""}
+.sports-30:before{content:""}
+.sports-31:before{content:""}
+.sports-32:before{content:""}
+.sports-33:before{content:""}
+.sports-34:before{content:""}
+.sports-35:before{content:""}
+.sports-36:before{content:""}
+.sports-37:before{content:""}
+.sports-38:before{content:""}
+.sports-39:before{content:""}
+.sports-40:before{content:""}
+.sports-41:before{content:""}
+.sports-42:before{content:""}
+.sports-43:before{content:""}
+.sports-44:before{content:""}
+.sports-45:before{content:""}
+.sports-46:before{content:""}
+.sports-47:before{content:""}
+.sports-48:before{content:""}
+.sports-49:before{content:""}
+.sports-50:before{content:""}
+.sports-51:before{content:""}
+.sports-52:before{content:""}
+.sports-53:before{content:""}
+.sports-54:before{content:""}
+.sports-55:before{content:""}
+.sports-56:before{content:""}
+.sports-57:before{content:""}
+.sports-58:before{content:""}
+.sports-59:before{content:""}
+.sports-60:before{content:""}
+.sports-61:before{content:""}
+.sports-62:before{content:""}
+.sports-63:before{content:""}
+.sports-64:before{content:""}
+.sports-65:before{content:""}
+.sports-66:before{content:""}
+.sports-67:before{content:""}
+.sports-68:before{content:""}
+.sports-69:before{content:""}
+.sports-70:before{content:""}
+.sports-71:before{content:""}
+.sports-72:before{content:""}
+.sports-73:before{content:""}
+.sports-74:before{content:""}
+.sports-75:before{content:""}
+.sports-76:before{content:""}
+.sports-77:before{content:""}
+.sports-78:before{content:""}
+.sports-79:before{content:""}
+.sports-80:before{content:""}
+.sports-81:before{content:""}
+.sports-82:before{content:""}
+.sports-83:before{content:""}
+.sports-84:before{content:""}
+.sports-85:before{content:""}
+.sports-86:before{content:""}
+.sports-87:before{content:""}
+.sports-88:before{content:""}
+.sports-89:before{content:""}
+.sports-90:before{content:""}
+.sports-91:before{content:""}
+.sports-92:before{content:""}
+.sports-93:before{content:""}
+.sports-94:before{content:""}
+.sports-95:before{content:""}
+.sports-96:before{content:""}
+.sports-97:before{content:""}
+.sports-98:before{content:""}
+.sports-99:before{content:""}

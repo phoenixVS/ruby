@@ -1,0 +1,13 @@
+<svg width="19px" height="19px" viewBox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g id="Match-Live-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-56.000000, -511.000000)" id="ML-/-DartsBW">
+            <g transform="translate(53.000000, 508.000000)">
+                <circle id="Oval-656" stroke="#888888" stroke-width="1" cx="12.5" cy="12.5" r="9"></circle>
+                <circle id="Oval-656-Copy" stroke="#FFFFFF" stroke-width="1" opacity="0.100000001" cx="12.5" cy="12.5" r="5"></circle>
+                <path d="M12.5,12.5 L11,21 L14,21 L12.5,12.5 Z M12.5,12.5 L11,4 L14,4 L12.5,12.5 Z M12.5,12.5 L4,14 L4,11 L12.5,12.5 Z M12.5,12.5 L21,14 L21,11 L12.5,12.5 Z" id="Path-4389-Copy-5" fill="#FFFFFF" fill-rule="evenodd" opacity="0.119999997"></path>
+                <path d="M12.5690039,12.6665901 L11.0690039,21.1665901 L14.0690039,21.1665901 L12.5690039,12.6665901 Z M12.5690039,12.6665901 L11.0690039,4.16659014 L14.0690039,4.16659014 L12.5690039,12.6665901 Z M12.5690039,12.6665901 L4.0690039,14.1665901 L4.0690039,11.1665901 L12.5690039,12.6665901 Z M12.5978158,12.598067 L21.0978158,14.098067 L21.0978158,11.098067 L12.5978158,12.598067 Z" id="Path-4389-Copy-4" fill="#FFFFFF" fill-rule="evenodd" opacity="0.12" transform="translate(12.583410, 12.666590) rotate(-45.000000) translate(-12.583410, -12.666590) "></path>
+                <circle id="Oval-658" stroke-opacity="0.12" stroke="#FFFFFF" stroke-width="1" cx="12.5" cy="12.5" r="0.5"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

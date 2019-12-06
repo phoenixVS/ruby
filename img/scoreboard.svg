@@ -1,0 +1,60 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='17' height='251'>
+	<defs>
+		<filter id='a' width='200%' height='200%' x='-50%' y='-50%' filterUnits='objectBoundingBox'>
+			<feOffset dy='1' in='SourceAlpha' result='shadowOffsetOuter1'/>
+			<feGaussianBlur stdDeviation='.5' in='shadowOffsetOuter1' result='shadowBlurOuter1'/>
+			<feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.35 0' in='shadowBlurOuter1' result='shadowMatrixOuter1'/>
+			<feMerge>
+				<feMergeNode in='shadowMatrixOuter1'/>
+				<feMergeNode in='SourceGraphic'/>
+			</feMerge>
+		</filter>
+	</defs>
+	<g fill='none' fill-rule='evenodd' transform='translate(-50 -35)'>
+		<ellipse cx='59.5' cy='254.5' fill='#FFF' rx='5.5' ry='1.5'/>
+		<path fill='#207C2F' d='M53 223l3 3.994 3-3.947-6-.047z'/>
+		<path fill='#207C2F' d='M55 215h2v8.5h-2z'/>
+		<path fill='#E83838' d='M59 219l3-4.006 3 4.053-6-.047z'/>
+		<path fill='#E83838' d='M61 221h2v1h-2z' opacity='.5'/>
+		<path fill='#E83838' d='M61 218.5h2v8.5h-2z'/>
+		<path fill='#3AA56E' d='M53 191h11v6H53z'/>
+		<path fill='#FFF' d='M52 190h1v7h-1z'/>
+		<path fill='#FFF' d='M52.5 190h12v1h-12zm2 4h8v1h-8z'/>
+		<path fill='#FFF' d='M64 190h1v7h-1zm-2 4h1v3h-1zm-8 0h1v3h-1z'/>
+		<path fill='#DDD' d='M55.5 187h6l-3-3.5-3 3.5z'/>
+		<path stroke='#DDD' d='M58.5 186v8'/>
+		<rect width='7' height='11' x='55' y='95' fill='#E83838' rx='.889'/>
+		<rect width='7' height='11' x='55' y='65' fill='#ECE63D' rx='.889'/>
+	<g fill='#fff'>
+		<path d='M53 46h11v-1H54V35h-1v11z'/>
+		<path d='M58.5 44.625a4.125 4.125 0 0 0-5.5-3.89l.43 1.215a2.836 2.836 0 0 1 3.781 2.675c0 .327-.05.645-.16.945l1.22.43a4 4 0 0 0 .24-1.375z'/>
+	</g>
+	<path fill='#fff' d='M9510857153 1254164994h-10v-10l10 10z'/>
+	<path stroke='#fff' d='M60 127.5c-4.023 0-6.41 1.943-6.5 8.5'/>
+	<path fill='#fff' d='M60 131v-7l5.5 3.5L60 131z'/>
+	<g transform='translate(50 152)'>
+		<g fill='#FFF' transform='translate(0 2)'>
+			<ellipse cx='2.05' cy='1.75' rx='1.05' ry='1.023'/>
+			<path d='M0 2.773h3.5V7H0z'/>
+			<path d='M1 6.5h2V11H1V6.5z'/>
+		</g>
+		<g fill='#FFF' transform='matrix(-1 0 0 1 12.5 2)'>
+			<ellipse cx='2.45' cy='1.75' rx='1.05' ry='1.023'/>
+			<path d='M.5 2.773H4V7H.5z'/>
+			<path d='M1.5 6.5h2V11h-2V6.5z'/>
+		</g>
+		<ellipse cx='6.05' cy='3.75' fill='#FFF' rx='1.05' ry='1.023'/>
+		<path fill='#FFF' d='M4.5 4.773h3V9h-3z'/>
+		<path fill='#FFF' d='M5 8.5h2V13H5V8.5z'/>
+		<path stroke='#FFF' d='M13 14.5S16.5 12 16.5 8s-2-6.5-2-6.5'/>
+		<path fill='#FFF' d='M13 3.5V0h3.5L13 3.5z'/>
+		<path fill='#FFF' d='M3.5 4.78h1v4.23h-1zm4 0h1v4.23h-1z'/>
+	</g>
+		<path fill='#F8F8F8' stroke='#525252' stroke-width='.5' d='M59.217 285c2.8 0 5.26-2.462 5.26-5.5s-2.46-5.5-5.26-5.5c-3.276 0-5.74 2.462-5.74 5.5s2.464 5.5 5.74 5.5z'/>
+		<path stroke='gray' stroke-width='.652' d='M60.652 274.478l-.956.957-.48.478m4.043 2.915s-.73-.64-1.48-1.025c-.75-.383-1.83-.49-1.83-.49m-1.89 1.044s-.12.882 0 1.607l.5 1.606m1.9 1.107s1.06.064 1.87-.522c.81-.585 1.202-1.394 1.202-1.394m-9.47-1.72s.316-.74 1-1.21c.69-.46 1.66-.62 1.66-.62M55.75 275c.793-.21 1.54 1.01 1.54 1.01m-2.87 5s.48.89 1.193 1.263c.71.37 1.594.42 1.594.42m2.413 1.447l.35.85m-1.96-.936l-.374.957'/>
+		<path fill='#1A1A1A' d='M60.174 277.384l-1.917 1.4-1.91-1.43.8-1.906 2.376-.013.65 1.95zM60 284.522l.652-1.95-1.917-1.398-1.91 1.43.8 1.903 2.375.015zm-6.438-5.87h.91l.406 2.78-.702.766s-.412-.437-.624-1.6c-.172-.94.01-1.945.01-1.945zm10.434-1.178l-1.486 1.21.458 2.523 1.342-.39s.203-.84.092-1.83c-.086-.736-.406-1.513-.406-1.513zm-3.822-2.517l1.913-.277s-.296-.192-.957-.428c-.66-.238-.956-.252-.956-.252v.957z'/>
+		<path fill='#F8F8F8' stroke='#525252' stroke-width='.5' d='M5.7 10c2.565 0 4.822-2.24 4.822-5S8.265 0 5.7 0C2.695 0 .437 2.24.437 5s2.258 5 5.26 5z' filter='url(#a)' transform='translate(54 244)'/>
+		<path stroke='gray' stroke-width='.652' d='M61.014 244.435l-.876.87-.44.434m3.706 2.65s-.667-.59-1.354-.94c-.685-.35-1.675-.45-1.675-.45m-1.73.95s-.104.8 0 1.46l.458 1.46m1.745 1.003s.973.06 1.716-.474c.745-.533 1.107-1.27 1.107-1.27M55 248.57s.29-.68.92-1.105c.63-.422 1.52-.56 1.52-.56m-.89-2.015c.73-.19 1.41.915 1.41.915m-2.63 4.55s.44.81 1.09 1.15c.66.333 1.47.38 1.47.38m2.212 1.31l.324.774m-1.796-.85l-.345.87'/>
+		<path fill='#1A1A1A' d='M60.576 247.076l-1.757 1.272-1.75-1.3.73-1.73 2.18-.014.59 1.772zm-.16 6.49l.598-1.772-1.757-1.272-1.75 1.3.732 1.73 2.17.013zm-5.9-5.336h.834l.372 2.526-.644.697s-.377-.398-.572-1.454c-.158-.86.01-1.77.01-1.77zm9.563-1.072l-1.37 1.1.42 2.293 1.23-.35s.18-.76.08-1.66c-.08-.67-.37-1.37-.37-1.37zm-3.51-2.288l1.75-.252s-.27-.174-.88-.39c-.61-.215-.88-.228-.88-.228v.87z'/>
+	</g>
+</svg>
