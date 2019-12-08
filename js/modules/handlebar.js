@@ -69,6 +69,21 @@ function emptyHandler() {
                 and everthing because of: ${error}`);
         });
 }
+    let json_data;
+
+    $.ajax({
+        url: 'http://bestline.bet/inplay/',
+        success: function (data) {
+      
+        if (data != undefined) {
+            json_data = data;
+            return json_data;        
+        } else {
+            console.log("ERROR: Data is undefined")
+            return 0;
+        }
+        }
+    });
 
 // filters from slider
 function filterHandler(json, ID) {
@@ -194,22 +209,11 @@ function betslip_smallHandler() {
 
 function locationHashChanged() {
     let hash = window.location.hash.split('/');
-
-    $.ajax({
-        url: 'http://bestline.bet/inplay/',
-        success: function (data) {
-      
-        if (data != undefined) {
-            switch (hash[1]) {
-                case 'filter': filterHandler(data, window.location.hash.substr(9)); break;
-                case 'game': gameHandler(); break;
-                case 'betslip': betslipHandler(); break;
-                case 'betslip-small': betslip_smallHandler(); break;
-                default: emptyHandler(); break;
-            }        
-        } else {
-            console.log("ERROR: Data is undefined")
-        }
-        }
-    });
+    switch (hash[1]) {
+        case 'filter': filterHandler(json_data, window.location.hash.substr(9)); break;
+        case 'game': gameHandler(); break;
+        case 'betslip': betslipHandler(); break;
+        case 'betslip-small': betslip_smallHandler(); break;
+        default: emptyHandler(); break;
+    }
 }
