@@ -4,6 +4,7 @@ exports('game', (params, done) => {
       "game/game.html"
     ]
   }, () => {
+    
     done();
   });
 });

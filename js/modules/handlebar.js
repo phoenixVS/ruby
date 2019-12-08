@@ -69,20 +69,26 @@ function emptyHandler() {
                 and everthing because of: ${error}`);
         });
 }
+// filters from slider
+function filterHandler(ID) {
+
+}
+
 // game video player page load
-function videoHandler() {
-    const videoWrapper = $('[data-id=video]');
+function gameHandler() {
+    console.log('game');
+    const gameWrapper = $('[data-id=game]');
 
     let onModulesLoad = new Promise((resolve, reject) => {
         loadJsModules({
-            video: { loadCSS: false, loadLanguage: false },
+            game: { loadCSS: false, loadLanguage: false },
         });
         resolve();
     });
 
     onModulesLoad.then(
         result => {
-            videoWrapper.data(`display`, 'true');
+            gameWrapper.data(`display`, 'true');
             // betslip lurk
             let betslip = $(`[data-id=betslip]`);
             if (betslip.data(`display`) === 'none') {
@@ -135,10 +141,12 @@ function betslip_smallHandler() {
 }
 
 function locationHashChanged() {
-    switch (location.hash) {
-        case "": case "#": case "#/home": emptyHandler(); break;
-        case "#/video": videoHandler(); break;
-        case "#/betslip": betslipHandler(); break;
-        case "#/betslip-small": betslip_smallHandler(); break;
+    let hash = window.location.hash.split('/');
+    switch (hash[1]) {
+        case 'filter': filterHandler(window.location.hash.substr(9)); break;
+        case 'game': gameHandler(); break;
+        case 'betslip': betslipHandler(); break;
+        case 'betslip-small': betslip_smallHandler(); break;
+        default: emptyHandler(); break;
     }
 }

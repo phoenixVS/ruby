@@ -5,15 +5,26 @@
 <link rel="stylesheet" type="text/css" href="./css/style.css">
 <link rel="stylesheet" type="text/css" href="./css/sports-icon.css">
 <link rel="stylesheet" type="text/css" href="./css/font-awesome.css">
+<link rel="stylesheet" type="text/css" href="./css/preloader.css">
 
 <script src="js/libs/jquery.min.js"></script>
 <script src="js/import-export.js"></script>
 <script src="js/module-loader.js"></script>
+
+
 <script>
   loadJsModules({
     handlebar: { loadCSS: false, loadLanguage: false }, /* hash routing */
   });
 </script>
+<div id="page-preloader" data-status='not-done' class="preloader">
+    <div class="loader">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
 <div id="content">
   <div class="blur none">
     <!--header-->
@@ -36,7 +47,7 @@
         <!--game and video-player-->
         <div data-id="game" data-display='none' class="[ video game ]"></div>
 
-        <div class="flex-container align-justify [ play-big ]"></div>
+        <div data-id="play-big" class="flex-container align-justify [ play-big ]"></div>
         <div class="table [ coeficient-table ]"></div>
         <div class="[ live ]"></div>
         <div data-id="play-table" data-display='true' class="table [ play-table ]"></div>
@@ -51,3 +62,4 @@
   <!--betslip-link-->
   <div data-id="betslip-link" data-display='y' class="[ betslip-link active ]"></div>
 </div><!-- end of content -->
+<script src="js/modules/preloader.js"></script>
