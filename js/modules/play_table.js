@@ -2310,7 +2310,6 @@ exports('play_table', (params, done) => {
     }
 
     function RenderTable(data, ID) {
-      console.log("Rendering");
       const json = JSON.parse(data);
       json.DATA.forEach(sport => {
         if (parseInt(sport.ID) == ID) {
@@ -2352,7 +2351,7 @@ exports('play_table', (params, done) => {
                 }
               }
               $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
-              <div class="cell"> <p class="font">'${sport.CT[i].NA} '</p> </div> 
+              <div class="cell"> <p class="font">${sport.CT[i].NA} </p> </div> 
               <div class="cell"> <p class="font">1</p> </div> 
               <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>`);
             } else {
