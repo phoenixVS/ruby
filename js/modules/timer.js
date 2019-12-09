@@ -1,8 +1,8 @@
 exports('timer', (params, done) => {
     insertHtmlModules({}, () => {
 
-        function getTime(DC, TT, TU, TM, TS) {
-            
+        function getTime() {
+            //Делаем запрос на FI и получаем DC, TU, TT, TM
         }
         
 
