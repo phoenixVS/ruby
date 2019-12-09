@@ -37,6 +37,8 @@ exports('play_big', (params, done) => {
       }
     }
 
+    playBig.css('overflow', 'scroll');
+
     done();
   });
 });
