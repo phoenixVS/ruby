@@ -2310,6 +2310,7 @@ exports('play_table', (params, done) => {
     }
 
     function RenderTable(data, ID) {
+      console.log("Rendering");
       const json = JSON.parse(data);
       json.DATA.forEach(sport => {
         if (parseInt(sport.ID) == ID) {
@@ -2337,6 +2338,7 @@ exports('play_table', (params, done) => {
                    <button class="button coefficient">1/1</button> </div> 
                    <div class="cell"> <button class="button coefficient">1/1</button> </div> </div>`);
                   mutchCounter++;
+                  
                 }
               } else {
                 for (let j = 0; j < 4; j++) {
@@ -2361,8 +2363,6 @@ exports('play_table', (params, done) => {
         }
       });
     }
-    // console.log(data);
-    // console.log(JSON.parse(data));
     RenderTable(data, ID);
 
   });
