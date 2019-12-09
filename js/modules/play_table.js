@@ -1,8 +1,8 @@
 exports('play_table', (params, done) => {
   insertHtmlModules({
-    ".play-table": [
-      "play-table/play-table.html"
-    ]
+    // ".play-table": [
+    //   "play-table/play-table.html"
+    // ]
   }, () => {
 
     const rows = $('.play-table .row');
@@ -2330,7 +2330,7 @@ exports('play_table', (params, done) => {
                    <p class="font m-white ellipsis">${sport.CT[i].EV[j].NA.split('vs')[0]} vs</p>
                    <p class="font m-white ellipsis">${sport.CT[i].EV[j].NA.split('vs')[1]}</p>
                   </div> 
-                   <div class="[ play-link-block ] text-right"> <div class="sport-icon play"></div> <p class="font m-white">'${sport.CT[i].EV[j].SS}'</p> 
+                   <div class="[ play-link-block ] text-right"> <div class="sport-icon play"></div> <p class="font m-white">${sport.CT[i].EV[j].SS}</p> 
                    <p class="font m-white">87:03</p> </div> </div> </div> 
                    <div class="cell"> 
                    <button class="button coefficient">1/1</button> </div> 
@@ -2342,9 +2342,10 @@ exports('play_table', (params, done) => {
                 }
               } else {
                 for (let j = 0; j < 4; j++) {
-                  $(`[data-id="play-table"]`).append(`<div class="row"> <div class="cell"> <div class="[ play-link ]"> <div class="[ play-link-block ]"> <p class="font m-white ellipsis">'${sport.CT[i].EV[j].NA}'</p> <p class="font m-white ellipsis">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis fugiat porro consectetur ratione repellendus quae assumenda ducimus totam ipsam earum quas quos ex consequatur provident repellat voluptatibus eum? Aspernatur esse.</p> </div>
+                  $(`[data-id="play-table"]`).append(`<div class="row"> <div class="cell"> <div class="[ play-link ]"> <div class="[ play-link-block ]"> <p class="font m-white ellipsis">${sport.CT[i].EV[j].NA.split('vs')[0] + ' vs'}</p> 
+                  <p class="font m-white ellipsis">${sport.CT[i].EV[j].NA.split('vs')[1]}</p> </div>
                    <div class="[ play-link-block ] text-right"> <div class="sport-icon play"></div>
-                   <p class="font m-white">'${sport.CT[i].EV[j].SS}'</p>
+                   <p class="font m-white">${sport.CT[i].EV[j].SS}</p>
                    <p class="font m-white">87:03</p> </div> </div> </div> <div class="cell"> <button class="button coefficient">1/1</button> </div> 
                   <div class="cell"> <button class="button coefficient">1/1</button> </div> <div class="cell"> <button class="button coefficient">1/1</button> </div> </div>`);
                   mutchCounter++;
