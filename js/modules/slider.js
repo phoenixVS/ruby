@@ -4446,7 +4446,39 @@ exports('slider', (params, done) => {
           ]
         }`;
 
-      const myData = JSON.parse(data);
+      function loadJSON(url, str) {
+        var xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function () {
+          if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+            if (xmlhttp.status == 200) {
+              dataOnLoad(xmlhttp.responseText, str);
+            }
+            else if (xmlhttp.status == 400) {
+              alert('There was an error 400');
+            }
+            else {
+              alert('something else other than 200 or 400 was returned');
+            }
+          }
+        };
+
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+      }
+
+      let DataLoad = new Promise()
+      function dataOnLoad(data, str) {
+        if(str == 'inplay') {
+          inplay = JSON.parse(data);
+          console.log(inplay);
+        }
+      }
+
+      inplay = loadJSON("http://bestline.bet/inplay/", 'inplay');
+      // let games = loadJSON("http://212.8.249.162:81/inplay.php");
+      
+      const myData = inplay;
       if (myData) {
         myData.DATA.forEach((el) => {
           sliderWrapper.append(`
