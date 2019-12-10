@@ -67,11 +67,73 @@ function emptyHandler() {
 }
 
 function filterHandler(ID) {
-
     $(`[data-id="play-table"]`).empty();
-    loadJsModules({
-        play_table: { gameID: ID, loadCSS: false, loadLanguage: false },
+    $(`[data-id="play-big"]`).empty();
+
+    if (performance.navigation.type == 1) {
+        console.info("This page is reloaded");
+        loadJsModules({
+            header: { loadCSS: false, loadLanguage: false },
+            aside: { loadCSS: false, loadLanguage: false },
+            slider: { loadCSS: false, loadLanguage: false },
+            coef_table: { loadCSS: false, loadLanguage: false },
+            live: { loadCSS: false, loadLanguage: false },
+            betslip_link: { loadCSS: false, loadLanguage: false },
+        });
+    } else {
+        console.info("This page is not reloaded");
+    }
+    let onModulesLoad = new Promise((resolve, reject) => {
+        loadJsModules({
+            play_big: { sportID: ID, loadCSS: false, loadLanguage: false },
+            play_table: { sportID: ID, loadCSS: false, loadLanguage: false },
+        });
+        resolve();
     });
+
+    onModulesLoad.then(
+        result => {
+            // video lurk
+            let video = $(`[data-id=video]`);
+            if (video.data(`display`) === 'none') {
+                video.css('display', 'none');
+            }
+            else {
+                video.data(`display`, 'none').attr('data-display', 'none');
+                video.css('display', 'none');
+            }
+            // betslip lurk
+            let betslip = $(`[data-id=betslip]`);
+            if (betslip.data(`display`) === 'none') {
+                betslip.css('display', 'none');
+            }
+            else {
+                betslip.data(`display`, 'none').attr('data-display', 'none');
+                betslip.css('display', 'none');
+            }
+            // betslip lurk
+            let betslip_small = $(`[data-id=betslip-small]`);
+            if (betslip_small.data(`display`) === 'none') {
+                betslip_small.css('display', 'none');
+            }
+            else {
+                betslip_small.data(`display`, 'none').attr('data-display', 'none');
+                betslip_small.css('display', 'none');
+            }
+            // betslip-link lurk
+            let betslip_link = $(`[data-id=betslip-link]`);
+            if (betslip_link.data(`display`) === 'none') {
+                betslip_link.css('display', 'none');
+            }
+            else {
+                betslip_link.data(`display`, 'none').attr('data-display', 'none');
+                betslip_link.css('display', 'none');
+            }
+        },
+        error => {
+            console.log(`modules haven't been loaded :_( \n
+                and everthing because of: ${error}`);
+        });
 }
 
 // game video player page load
