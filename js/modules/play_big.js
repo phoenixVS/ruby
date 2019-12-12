@@ -4443,6 +4443,33 @@ exports('play_big', (params, done) => {
       ID = curID;
     }
 
+    function TimerBig() {
+
+      let tmCurrent = parseInt($(`[data-id="timer-big"]`).text().split(':')[0]),
+          tsCurrent = parseInt($(`[data-id="timer-big"]`).text().split(':')[1]);
+      
+      let tm, ts;
+      if (tsCurrent == 59) {
+        tm = tmCurrent + 1;
+        ts = 0;
+      } else {
+        tm = tmCurrent;
+        ts = tsCurrent + 1;
+      }
+
+      if (tm < 9) {
+        tm = '0' + tm;
+      } 
+
+      if (ts < 9) {
+        ts = '0' + ts;
+      }
+
+      $(`[data-id="timer-big"]`).text(tm + ':' + ts);
+    }
+
+
+
     (function fillPlayBig(data, ID) {
       if (data != undefined) {
         const json = JSON.parse(data);
@@ -4454,14 +4481,17 @@ exports('play_big', (params, done) => {
           <p class="font white title ellipsis">${sport.CT[0].EV[0].NA}</p>
           </div>
           <div class="block">
-          <p class="font m-white ellipsis text-right">00:00</p>
+          <p data-id="timer-big" class="font m-white ellipsis text-right">00:00</p>
           <p class="font white title ellipsis text-right">${sport.CT[0].EV[0].SS}</p>
           </div>`);
+          setInterval(TimerBig, 1000);
           }
         });
       } else {
         console.log("Oops, 404");
       }
+
+      TimerBig(0,0);
     })(data, ID);
 
     playBig.css('overflow', 'scroll');
