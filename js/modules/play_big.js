@@ -4467,9 +4467,7 @@ exports('play_big', (params, done) => {
 
       $(`[data-id="timer-big"]`).text(tm + ':' + ts);
     }
-
-
-
+    let intervalCounter;
     (function fillPlayBig(data, ID) {
       if (data != undefined) {
         const json = JSON.parse(data);
@@ -4484,16 +4482,17 @@ exports('play_big', (params, done) => {
           <p data-id="timer-big" class="font m-white ellipsis text-right">00:00</p>
           <p class="font white title ellipsis text-right">${sport.CT[0].EV[0].SS}</p>
           </div>`);
-          setInterval(TimerBig, 1000);
           }
         });
       } else {
         console.log("Oops, 404");
       }
-
-      TimerBig(0,0);
     })(data, ID);
 
+    if (intervalCounter != 1) {
+      setInterval(TimerBig, 1000);
+      intervalCounter = 1;
+    }
     playBig.css('overflow', 'scroll');
 
     done();
