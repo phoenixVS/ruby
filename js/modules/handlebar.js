@@ -137,8 +137,8 @@ function filterHandler(ID) {
 }
 
 // game video player page load
-function gameHandler() {
-    console.log('game');
+function gameHandler(ID) {
+    console.log(ID);
     const gameWrapper = $('[data-id=game]');
 
     let onModulesLoad = new Promise((resolve, reject) => {
@@ -169,7 +169,16 @@ function gameHandler() {
                 betslip_small.data(`display`, 'none').attr('data-display', 'none');
                 betslip_small.css('display', 'none');
             }
-            // paly-table lurk
+            // play-big lurk
+            let play_big = $(`[data-id=play-big]`);
+            if (play_big.data(`display`) === 'none') {
+                play_big.css('display', 'none');
+            }
+            else {
+                play_big.data(`display`, 'none').attr('data-display', 'none');
+                play_big.css('display', 'none');
+            }
+            // play-table lurk
             let play_table = $(`[data-id=play-table]`);
             if (play_table.data(`display`) === 'none') {
                 play_table.css('display', 'none');
@@ -206,7 +215,7 @@ function locationHashChanged() {
     let hash = window.location.hash.split('/');
     switch (hash[1]) {
         case 'filter': filterHandler(window.location.hash.substr(9)); break;
-        case 'game': gameHandler(); break;
+        case 'game': gameHandler(window.location.hash.substr(7)); break;
         case 'betslip': betslipHandler(); break;
         case 'betslip-small': betslip_smallHandler(); break;
         default: emptyHandler(); break;
