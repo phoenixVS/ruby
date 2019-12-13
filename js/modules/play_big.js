@@ -94,6 +94,10 @@ exports('play_big', (params, done) => {
       TimerBig(0, 0);
     }
 
+    if (intervalCounter != 1) {
+      setInterval(TimerBig, 1000);
+      intervalCounter = 1;
+    }
     playBig.css('overflow', 'scroll');
 
     // Handle opening of game section
