@@ -20,7 +20,7 @@ exports('slider', (params, done) => {
 
       let urlInplay = 'http://bestline.bet/inplay/',
         urlGames = 'http://212.8.249.162:81/inplay.php',
-        urlBets = 'http://212.8.249.162:81/event.php?FI=84396839';
+        urlBets = 'http://bestline.bet/event/?FI=';
       // Fetch API request
       function httpGet(url, name) {
         fetch(url)

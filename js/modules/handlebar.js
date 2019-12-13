@@ -76,7 +76,7 @@ function filterHandler(ID) {
             header: { loadCSS: false, loadLanguage: false },
             aside: { loadCSS: false, loadLanguage: false },
             slider: { loadCSS: false, loadLanguage: false },
-            coef_table: { loadCSS: false, loadLanguage: false },
+            coef_table: { sportID: ID, loadCSS: false, loadLanguage: false },
             live: { loadCSS: false, loadLanguage: false },
             betslip_link: { loadCSS: false, loadLanguage: false },
         });
@@ -138,19 +138,31 @@ function filterHandler(ID) {
 
 // game video player page load
 function gameHandler(ID) {
-    console.log(ID);
     const gameWrapper = $('[data-id=game]');
+
+    if (performance.navigation.type == 1) {
+        console.info("This page is reloaded");
+        loadJsModules({
+            header: { loadCSS: false, loadLanguage: false },
+            aside: { loadCSS: false, loadLanguage: false },
+            coef_table: { loadCSS: false, loadLanguage: false },
+        });
+    } else {
+        console.info("This page is not reloaded");
+    }
 
     let onModulesLoad = new Promise((resolve, reject) => {
         loadJsModules({
-            game: { loadCSS: false, loadLanguage: false },
+            game: { gameId: ID, loadCSS: false, loadLanguage: false },
         });
         resolve();
     });
 
     onModulesLoad.then(
         result => {
-            gameWrapper.data(`display`, 'true');
+            // video unlurk
+            gameWrapper.data(`display`, 'true').attr('display', 'block');
+            gameWrapper.css('display', 'block');
             // betslip lurk
             let betslip = $(`[data-id=betslip]`);
             if (betslip.data(`display`) === 'none') {
@@ -196,6 +208,15 @@ function gameHandler(ID) {
                 betslip_link.data(`display`, 'none').attr('data-display', 'none');
                 betslip_link.css('display', 'none');
             }
+            // slider lurk
+            let slider = $(`[data-id=slider]`);
+            if (slider.data(`display`) === 'none') {
+                slider.css('display', 'none');
+            }
+            else {
+                slider.data(`display`, 'none').attr('data-display', 'none');
+                slider.css('display', 'none');
+            }
         },
         error => {
             console.log(`modules haven't been loaded :_( \n
@@ -215,7 +236,7 @@ function locationHashChanged() {
     let hash = window.location.hash.split('/');
     switch (hash[1]) {
         case 'filter': filterHandler(window.location.hash.substr(9)); break;
-        case 'game': gameHandler(window.location.hash.substr(7)); break;
+        case 'event': gameHandler(window.location.hash.substr(8)); break;
         case 'betslip': betslipHandler(); break;
         case 'betslip-small': betslip_smallHandler(); break;
         default: emptyHandler(); break;
