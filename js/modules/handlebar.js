@@ -71,6 +71,7 @@ function filterHandler(ID) {
     $(`[data-id="play-big"]`).empty();
 
     if (performance.navigation.type == 1) {
+        //clearInterval(window.t_interval);
         console.info("This page is reloaded");
         loadJsModules({
             header: { loadCSS: false, loadLanguage: false },
@@ -81,6 +82,7 @@ function filterHandler(ID) {
             betslip_link: { loadCSS: false, loadLanguage: false },
         });
     } else {
+        clearInterval(window.t_interval);
         console.info("This page is not reloaded");
     }
     let onModulesLoad = new Promise((resolve, reject) => {

@@ -44,6 +44,106 @@ exports('play_big', (params, done) => {
 
       /*Timer for Play Big starts here*/
 
+      function createTimer(tm, ts) {
+        let tm_, ts_;
+
+        if (tm < 10) {
+          tm_ = '0' + tm;
+        } else {
+          tm_ = tm;
+        }
+
+        if (ts < 10) {
+          ts_ = '0' + ts;
+        } else {
+          ts_ = ts;
+        }
+
+        return tm_ + ':' + ts_;
+      }
+
+      function calculateDiffMinutes(data, c_years, c_mounth, c_days, c_hr, c_tm, c_ts) {
+        let now = new Date();
+        let c_tu = new Date(c_years, c_mounth, c_days, c_hr, c_tm, c_ts);
+
+        let delta = new Date(now - c_tu);
+
+        return parseInt(delta.getMinutes()) + data.TM;
+      }
+
+      function calculateDiffSeconds(data, c_years, c_mounth, c_days, c_hr, c_tm, c_ts) {
+        let now = new Date();
+        let c_tu = new Date(c_years, c_mounth, c_days, c_hr, c_tm, c_ts);
+
+        let delta = new Date(now - c_tu);
+
+        return parseInt(delta.getSeconds()) + data.TS;
+      }
+
+      function startTimerBig(data) {
+        if (data.DC == 1) {
+          if (data.TT == 0) {
+            $(`[data-id=timer-big]`).text("Break");
+          } else {
+            if (data.TM == 0) {
+              
+                let tu = $(`[data-id=timer-big]`).data("tu");
+                let etu = tu.toString();
+
+                let years = etu.substring(0,4), 
+	              month = etu.substring(4,6),
+	              day = etu.substring(6,8),
+	              hours = etu.substring (8,10),
+	              minute = etu.substring(10,12),
+                second = etu.substring(12,14);
+                
+                $(`[data-id=timer-big]`).data("tm", calculateDiffMinutes(data, years, month, day, hours, minute, second));
+                $(`[data-id=timer-big]`).data("ts", calculateDiffSeconds(data, years, month, day, hours, minute, second));
+              
+              let interval = setInterval(function() {
+
+                let tm = parseInt($(`[data-id=timer-big]`).data("tm"));
+                let ts = parseInt($(`[data-id=timer-big]`).data("ts"));
+    
+                if (ts == 59) {
+                  tm = tm + 1;
+                  ts = 0;
+                } else {
+                  ts = ts + 1;
+                }
+    
+                $(`[data-id=timer-big]`).text(createTimer(tm, ts));
+    
+                $(`[data-id=timer-big]`).data("tm", tm);
+                $(`[data-id=timer-big]`).data("ts", ts);
+              }, 1000);
+              window.t_interval = interval;
+            } else {
+              let interval = setInterval(function() {
+                let tm = parseInt($(`[data-id=timer-big]`).data("tm"));
+                let ts = parseInt($(`[data-id=timer-big]`).data("ts"));
+    
+                if (ts == 59) {
+                  tm = tm + 1;
+                  ts = 0;
+                } else {
+                  ts = ts + 1;
+                }
+    
+                $(`[data-id=timer-big]`).text(createTimer(tm, ts));
+    
+                $(`[data-id=timer-big]`).data("tm", tm);
+                $(`[data-id=timer-big]`).data("ts", ts);
+              }, 1000);
+              window.t_interval = interval;
+            }
+          }
+        } else {
+          $(`[data-id=timer-big]`).text("Match has no time ");
+        }
+      }
+
+      /*
       function checkTime(data) {
           let timer = '';
           let half = '';
@@ -115,12 +215,20 @@ exports('play_big', (params, done) => {
       }
 
       function startTimer() {
-          $('[data=tt=0]').each(function(i, elem) {
-              /*Get current tm, ts*/
-              /*let timer = timerTT(tm, ts);*/
-              //$('.team-time').text(timer); 
-          });
+          setInterval(function() {
+            let tu, tm, ts;
+            tu = $(`data-id=timer-big`).data("tu");
+            tm = $(`data-id=timer-big`).data("tm");
+            ts = $(`data-id=timer-big`).data("ts");
+
+            let timer = timer(tu, tm, ts);
+
+            $(`data-id=timer-big`).text(timer);
+
+
+          }, 500);
       }
+      */
 /*
       setInterval(function(){
 		$('[data-tt=1]').each(function(i, elem){
@@ -147,9 +255,10 @@ exports('play_big', (params, done) => {
             <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis">${sport.CT[0].EV[0].NA}</p>
             </div>
             <div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
-            <p data-game-id="${sport.CT[0].EV[0].FI}" data-id="timer-big" class="font m-white ellipsis text-right">00:00</p>
+            <p data-game-id="${sport.CT[0].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[0].EV[0].TU}" data-tm="${sport.CT[0].EV[0].TM}" data-ts="${sport.CT[0].EV[0].TS}" class="font m-white ellipsis text-right">00:00</p>
             <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis text-right">${sport.CT[0].EV[0].SS}</p>
             </div>`);
+            startTimerBig(sport.CT[0].EV[0]);
             }
           });
         } else {
