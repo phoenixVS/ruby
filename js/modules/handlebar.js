@@ -76,7 +76,6 @@ function filterHandler(ID) {
             header: { loadCSS: false, loadLanguage: false },
             aside: { loadCSS: false, loadLanguage: false },
             slider: { loadCSS: false, loadLanguage: false },
-            coef_table: { sportID: ID, loadCSS: false, loadLanguage: false },
             live: { loadCSS: false, loadLanguage: false },
             betslip_link: { loadCSS: false, loadLanguage: false },
         });
@@ -85,8 +84,9 @@ function filterHandler(ID) {
     }
     let onModulesLoad = new Promise((resolve, reject) => {
         loadJsModules({
-            play_big: { sportID: ID, loadCSS: false, loadLanguage: false },
-            play_table: { sportID: ID, loadCSS: false, loadLanguage: false },
+            coef_table: { sportId: ID, loadCSS: false, loadLanguage: false },
+            play_big: { sportId: ID, loadCSS: false, loadLanguage: false },
+            play_table: { sportId: ID, loadCSS: false, loadLanguage: false },
         });
         resolve();
     });
@@ -145,7 +145,6 @@ function gameHandler(ID) {
         loadJsModules({
             header: { loadCSS: false, loadLanguage: false },
             aside: { loadCSS: false, loadLanguage: false },
-            coef_table: { loadCSS: false, loadLanguage: false },
         });
     } else {
         console.info("This page is not reloaded");
@@ -153,6 +152,7 @@ function gameHandler(ID) {
 
     let onModulesLoad = new Promise((resolve, reject) => {
         loadJsModules({
+            coef_table: { gameId: ID, loadCSS: false, loadLanguage: false },
             game: { gameId: ID, loadCSS: false, loadLanguage: false },
         });
         resolve();
@@ -163,6 +163,15 @@ function gameHandler(ID) {
             // video unlurk
             gameWrapper.data(`display`, 'true').attr('display', 'block');
             gameWrapper.css('display', 'block');
+            // live lurk
+            let live = $(`[data-id=live]`);
+            if (live.data(`display`) === 'none') {
+                live.css('display', 'none');
+            }
+            else {
+                live.data(`display`, 'none').attr('data-display', 'none');
+                live.css('display', 'none');
+            }
             // betslip lurk
             let betslip = $(`[data-id=betslip]`);
             if (betslip.data(`display`) === 'none') {

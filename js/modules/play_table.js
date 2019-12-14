@@ -5,7 +5,7 @@ exports('play_table', (params, done) => {
     // ]
   }, () => {
 
-    let curID = params.sportID;
+    let curID = params.sportId;
 
     let urlInplay = 'http://bestline.bet/inplay/',
       urlGames = 'http://212.8.249.162:81/inplay.php',
@@ -44,8 +44,8 @@ exports('play_table', (params, done) => {
           if (parseInt(sport.ID) == ID) {
 
             for (let i = 0; i < sport.CT.length; i++) {
-                  for (let j = 0; j < sport.CT[i].EV.length; j++) {
-                    $(`[data-id="play-table"]`).append(`
+              for (let j = 0; j < sport.CT[i].EV.length; j++) {
+                $(`[data-id="play-table"]`).append(`
                     <div class="row">
                     <div class="cell" data-game-id="${sport.CT[i].EV[j].FI}" data-id="event">
                     <div data-class="play-link" data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link ]">
@@ -64,8 +64,8 @@ exports('play_table', (params, done) => {
                         <button class="button coefficient" data-class="play-link">1/1</button> 
                       </div>
                     </div>`);
-                  }
-                $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
+              }
+              $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
                 <div class="cell"> <p class="font">${sport.CT[i].NA} </p> </div> 
                 <div class="cell"> <p class="font">1</p> </div> 
                 <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>`);
