@@ -71,7 +71,10 @@ function filterHandler(ID) {
     $(`[data-id="play-big"]`).empty();
 
     if (performance.navigation.type == 1) {
-        //clearInterval(window.t_interval);
+        clearInterval(window.t_interval);
+        /*for (let i = 0; i < window.intervals.length; i++) {
+            clearInterval(window.intervals[i]);
+        }*/
         console.info("This page is reloaded");
         loadJsModules({
             header: { loadCSS: false, loadLanguage: false },
@@ -82,6 +85,9 @@ function filterHandler(ID) {
         });
     } else {
         clearInterval(window.t_interval);
+        /*for (let i = 0; i < window.intervals.length; i++) {
+            clearInterval(window.intervals[i]);
+        }*/
         console.info("This page is not reloaded");
     }
     let onModulesLoad = new Promise((resolve, reject) => {
