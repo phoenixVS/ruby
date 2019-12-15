@@ -98,13 +98,14 @@ exports('play_big', (params, done) => {
               minute = etu.substring(10, 12),
               second = etu.substring(12, 14);
 
-            $(`[data-id=timer-big]`).data("tm", calculateDiffMinutes(data, years, month, day, hours, minute, second));
-            $(`[data-id=timer-big]`).data("ts", calculateDiffSeconds(data, years, month, day, hours, minute, second));
+            $(`[data-id=timer-big]`).data("tm", minute);
+            $(`[data-id=timer-big]`).data("ts", second);
 
             let interval = setInterval(function () {
 
               let tm = parseInt($(`[data-id=timer-big]`).data("tm"));
               let ts = parseInt($(`[data-id=timer-big]`).data("ts"));
+
               if (ts == 59) {
                 tm = tm + 1;
                 ts = 0;
@@ -208,7 +209,7 @@ exports('play_big', (params, done) => {
         }
 
         if (ts < 10) {
-          ts = '0' + ts;
+           ts = '0' + ts;
         }
 
         return tm + ':' + ts;
@@ -224,20 +225,22 @@ exports('play_big', (params, done) => {
           let timer = timer(tu, tm, ts);
 
           $(`data-id=timer-big`).text(timer);
+
+
         }, 500);
-      }
-      * /
-/*
-    setInterval(function(){
-  $('[data-tt=1]').each(function(i, elem){
-    var tu = $(this).data("tu");
-    var tm = $(this).data("tm");
-    var ts = $(this).data("ts");
-    var timer = self.timer(tu, tm, ts);
-    $(this).find('.team-time').text(timer);
-  });
-  }, 500);
-*/
+    }
+    */
+    /*
+        setInterval(function(){
+      $('[data-tt=1]').each(function(i, elem){
+        var tu = $(this).data("tu");
+        var tm = $(this).data("tm");
+        var ts = $(this).data("ts");
+        var timer = self.timer(tu, tm, ts);
+        $(this).find('.team-time').text(timer);
+      });
+      }, 500);
+    */
     /*End of Timer*/
 
 
@@ -248,14 +251,14 @@ exports('play_big', (params, done) => {
         data.DATA.forEach(sport => {
           if (parseInt(sport.ID) == ID) {
             playBig.data(`[gameId]`, `${sport.CT[0].EV[0].FI}`).attr('data-game-id', `${sport.CT[0].EV[0].FI}`);
-            playBig.empty().append(`<div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
-              <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white ellipsis">${sport.CT[0].NA}</p>
-              <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis">${sport.CT[0].EV[0].NA}</p>
-              </div>
-              <div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
-              <p data-game-id="${sport.CT[0].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[0].EV[0].TU}" data-tm="${sport.CT[0].EV[0].TM}" data-ts="${sport.CT[0].EV[0].TS}" class="font m-white ellipsis text-right">00:00</p>
-              <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis text-right">${sport.CT[0].EV[0].SS}</p>
-              </div>`);
+            playBig.append(`<div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
+          <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white ellipsis">${sport.CT[0].NA}</p>
+          <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis">${sport.CT[0].EV[0].NA}</p>
+          </div>
+          <div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
+          <p data-game-id="${sport.CT[0].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[0].EV[0].TU}" data-tm="${sport.CT[0].EV[0].TM}" data-ts="${sport.CT[0].EV[0].TS}" class="font m-white ellipsis text-right">00:00</p>
+          <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis text-right">${sport.CT[0].EV[0].SS}</p>
+          </div>`);
             startTimerBig(sport.CT[0].EV[0]);
           }
         });
@@ -271,7 +274,6 @@ exports('play_big', (params, done) => {
       let curURL = window.location.href;
       //if filter is active - clean it
       if (window.location.hash.split('/')[1] == 'filer') {
-        console.log(window.location.hash.split('/')[1]);
         window.location.href = window.location.href.split('#')[0];
         window.location.href += `#/event/${id}`;
       }
