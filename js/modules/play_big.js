@@ -1,5 +1,3 @@
-
-
 exports('play_big', (params, done) => {
   insertHtmlModules({
     // ".play-big": [
@@ -210,7 +208,7 @@ exports('play_big', (params, done) => {
         }
 
         if (ts < 10) {
-           ts = '0' + ts;
+          ts = '0' + ts;
         }
 
         return tm + ':' + ts;
@@ -250,7 +248,7 @@ exports('play_big', (params, done) => {
         data.DATA.forEach(sport => {
           if (parseInt(sport.ID) == ID) {
             playBig.data(`[gameId]`, `${sport.CT[0].EV[0].FI}`).attr('data-game-id', `${sport.CT[0].EV[0].FI}`);
-            playBig.append(`<div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
+            playBig.empty().append(`<div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
               <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white ellipsis">${sport.CT[0].NA}</p>
               <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis">${sport.CT[0].EV[0].NA}</p>
               </div>
@@ -273,6 +271,7 @@ exports('play_big', (params, done) => {
       let curURL = window.location.href;
       //if filter is active - clean it
       if (window.location.hash.split('/')[1] == 'filer') {
+        console.log(window.location.hash.split('/')[1]);
         window.location.href = window.location.href.split('#')[0];
         window.location.href += `#/event/${id}`;
       }

@@ -92,6 +92,12 @@ exports('play_table', (params, done) => {
               window.location.href += `#/event/${id}`;
             }
           });
+          // Preloader finishes
+          const preloader = $('#page-preloader');
+          if (preloader.data(`status`) != 'done') {
+            preloader.addClass('done');
+            preloader.data(`status`, 'done').attr('data-status', 'done');
+          }
         });
     }
   });

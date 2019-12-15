@@ -8,7 +8,7 @@
   width: 100%;
   height: 100%;
   background: #33202b;
-  z-index: 2;
+  z-index: 99;
   visibility: visible;
 }
 .preloader.done {
