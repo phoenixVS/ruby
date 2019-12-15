@@ -253,12 +253,18 @@ function emptyHandler() {
 
 function locationHashChanged() {
     let hash = window.location.href.split('/')[4];
-    switch (hash) {
-        case '': case '/': case '#': mainHandler(); break;
-        case 'filter': filterHandler(window.location.hash.substr(9)); break;
-        case 'event': gameHandler(window.location.hash.substr(8)); break;
-        case 'betslip': betslipHandler(); break;
-        case 'betslip-small': betslip_smallHandler(); break;
-        default: emptyHandler();
+    if (hash == '') {
+        mainHandler();
+    }
+    else {
+        console.log(window.location.href.split('/')[5]);
+        switch (window.location.href.split('/')[5]) {
+            case '': case '/': case '#': mainHandler(); break;
+            case 'filter': filterHandler(window.location.href.split('/')[6]); break;
+            case 'event': gameHandler(window.location.href.split('/')[6]); break;
+            case 'betslip': betslipHandler(); break;
+            case 'betslip-small': betslip_smallHandler(); break;
+            default: emptyHandler();
+        }
     }
 }
