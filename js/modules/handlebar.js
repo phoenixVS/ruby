@@ -5,7 +5,7 @@ exports("handlebar", () => {
     });
 });
 
-function emptyHandler() {
+function mainHandler() {
     // loading modules for main view
     let onModulesLoad = new Promise((resolve, reject) => {
         loadJsModules({
@@ -243,13 +243,22 @@ function betslip_smallHandler() {
 
 }
 
+function emptyHandler() {
+    loadJsModules({
+        header: { loadCSS: false, loadLanguage: false },
+        aside: { loadCSS: false, loadLanguage: false },
+        p404: { loadCSS: false, loadLanguage: false },
+    });
+}
+
 function locationHashChanged() {
-    let hash = window.location.hash.split('/');
-    switch (hash[1]) {
+    let hash = window.location.href.split('/')[4];
+    switch (hash) {
+        case '': case '/': case '#': mainHandler(); break;
         case 'filter': filterHandler(window.location.hash.substr(9)); break;
         case 'event': gameHandler(window.location.hash.substr(8)); break;
         case 'betslip': betslipHandler(); break;
         case 'betslip-small': betslip_smallHandler(); break;
-        default: emptyHandler(); break;
+        default: emptyHandler();
     }
 }
