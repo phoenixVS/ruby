@@ -257,9 +257,8 @@ function locationHashChanged() {
         mainHandler();
     }
     else {
-        console.log(window.location.href.split('/')[5]);
         switch (window.location.href.split('/')[5]) {
-            case '': case '/': case '#': mainHandler(); break;
+            case '': case undefined: mainHandler(); break;
             case 'filter': filterHandler(window.location.href.split('/')[6]); break;
             case 'event': gameHandler(window.location.href.split('/')[6]); break;
             case 'betslip': betslipHandler(); break;

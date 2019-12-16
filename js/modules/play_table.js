@@ -42,10 +42,10 @@ exports('play_table', (params, done) => {
       let promise = new Promise((resolve, reject) => {
         data.DATA.forEach(sport => {
           if (parseInt(sport.ID) == ID) {
-
-            for (let i = 0; i < sport.CT.length; i++) {
-              for (let j = 0; j < sport.CT[i].EV.length; j++) {
-                $(`[data-id="play-table"]`).append(`
+            if (sport.ID == 1) {
+              for (let i = 0; i < sport.CT.length; i++) {
+                for (let j = 0; j < sport.CT[i].EV.length; j++) {
+                  $(`[data-id="play-table"]`).append(`
                     <div class="row">
                     <div class="cell" data-game-id="${sport.CT[i].EV[j].FI}" data-id="event">
                     <div data-class="play-link" data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link ]">
@@ -64,13 +64,41 @@ exports('play_table', (params, done) => {
                         <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[2].OD.F}</button> 
                       </div>
                     </div>`);
-              }
-              $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
+                  $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
                 <div class="cell"> <p class="font">${sport.CT[i].NA} </p> </div> 
                 <div class="cell"> <p class="font">1</p> </div> 
                 <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>`);
+                }
+              }
             }
-          } else {
+            else {
+              for (let i = 0; i < sport.CT.length; i++) {
+                for (let j = 0; j < sport.CT[i].EV.length; j++) {
+                  $(`[data-id="play-table"]`).append(`
+                    <div class="row">
+                    <div class="cell" data-game-id="${sport.CT[i].EV[j].FI}" data-id="event">
+                    <div data-class="play-link" data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link ]">
+                      <div data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link-block ]"> 
+                        <p data-game-id="${sport.CT[i].EV[j].FI}" class="font m-white ellipsis">${sport.CT[i].EV[j].NA.split('vs')[0]} vs</p>
+                        <p data-game-id="${sport.CT[i].EV[j].FI}" class="font m-white ellipsis">${sport.CT[i].EV[j].NA.split('vs')[1]}</p>
+                      </div> 
+                    <div data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link-block ] text-right"> <div data-game-id="${sport.CT[i].EV[j].FI}" class="sport-icon play"></div> <p data-game-id="${sport.CT[i].EV[j].FI}" data-class="play-link" class="font m-white">${sport.CT[i].EV[j].SS}</p> 
+                      <p data-game-id="${sport.CT[i].EV[j].FI}" class="font m-white">87:03</p> </div> </div> </div> 
+                      <div class="cell">
+                        <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[0].OD.F}</button> </div> 
+                      <div class="cell"> 
+                        <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[1].OD.F}</button>
+                      </div> 
+                    </div>`);
+                  $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
+                <div class="cell"> <p class="font">${sport.CT[i].NA} </p> </div> 
+                <div class="cell"> <p class="font">1</p> </div> 
+                <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>`);
+                }
+              }
+            }
+          }
+          else {
             return true;
           }
         });
@@ -83,13 +111,20 @@ exports('play_table', (params, done) => {
           $(`[data-id=event]`).on('click', (event) => {
             let id = $(event.target).data('gameId');
             let curURL = window.location.href;
-            //if filter is active - clean it
+            console.log(window.location.href.split('#')[0]);
+            //if filter is active - remove it from hash
             if (window.location.hash.split('/')[1] == 'filer') {
-              window.location.href = window.location.href.split('#')[0];
-              window.location.href += `#/event/${id}`;
+              console.log(window.location.href.split('#')[0]);
+              window.location.hash = '';
+              window.location.href += `/event/${id}`;
             }
             else {
-              window.location.href += `#/event/${id}`;
+              if (window.location.hash == '#') {
+                window.location.href += `/event/${id}`;
+              }
+              else {
+                window.location.href += `#/event/${id}`;
+              }
             }
           });
           // Preloader finishes
