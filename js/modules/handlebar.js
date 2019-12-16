@@ -72,6 +72,7 @@ function filterHandler(ID) {
 
     if (performance.navigation.type == 1) {
         clearInterval(window.t_interval);
+        clearInterval(window.inplay_interval);
         /*for (let i = 0; i < window.intervals.length; i++) {
             clearInterval(window.intervals[i]);
         }*/
@@ -85,6 +86,7 @@ function filterHandler(ID) {
         });
     } else {
         clearInterval(window.t_interval);
+        clearInterval(window.inplay_interval);
         /*for (let i = 0; i < window.intervals.length; i++) {
             clearInterval(window.intervals[i]);
         }*/

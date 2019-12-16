@@ -153,7 +153,7 @@ exports('play_big', (params, done) => {
         data.DATA.forEach(sport => {
           if (parseInt(sport.ID) == ID) {
             playBig.data(`[gameId]`, `${sport.CT[0].EV[0].FI}`).attr('data-game-id', `${sport.CT[0].EV[0].FI}`);
-            playBig.empty().append(`<div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
+            playBig.append(`<div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
           <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white ellipsis">${sport.CT[0].NA}</p>
           <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis">${sport.CT[0].EV[0].NA}</p>
           </div>
