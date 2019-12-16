@@ -56,12 +56,12 @@ exports('play_table', (params, done) => {
                     <div data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link-block ] text-right"> <div data-game-id="${sport.CT[i].EV[j].FI}" class="sport-icon play"></div> <p data-game-id="${sport.CT[i].EV[j].FI}" data-class="play-link" class="font m-white">${sport.CT[i].EV[j].SS}</p> 
                       <p data-game-id="${sport.CT[i].EV[j].FI}" class="font m-white">87:03</p> </div> </div> </div> 
                       <div class="cell">
-                        <button class="button coefficient" data-class="play-link">1/1</button> </div> 
+                        <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[0].OD.F}</button> </div> 
                       <div class="cell"> 
-                        <button class="button coefficient" data-class="play-link">1/1</button>
+                        <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[1].OD.F}</button>
                       </div> 
                       <div class="cell">
-                        <button class="button coefficient" data-class="play-link">1/1</button> 
+                        <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[2].OD.F}</button> 
                       </div>
                     </div>`);
               }
