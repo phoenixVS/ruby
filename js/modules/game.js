@@ -35,7 +35,7 @@ exports('game', (params, done) => {
       let promise = new Promise((resolve, reject) => {
         if (data) {
           let gameWrapper = $(`[data-id=game]`);
-          gameWrapper.append(`
+          gameWrapper.empty().append(`
           <div class="[ video-title not-active ] flex-container align-center-middle">
             <button class="button square [ video-title-button ] fa fa-angle-left"></button>
             <p class="font [ video-title-text ]"><span>${data.RESULT.EV[0].NA.split(' v ')[0] + ' - ' + data.RESULT.EV[0].NA.split(' v ')[1]}</span></p>

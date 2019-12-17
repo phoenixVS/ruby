@@ -178,7 +178,11 @@ exports('play_table', (params, done) => {
                     <div data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link-block ] text-right"> <div data-game-id="${sport.CT[i].EV[j].FI}" class="sport-icon play"></div> <p data-game-id="${sport.CT[i].EV[j].FI}" data-class="play-link" class="font m-white">${sport.CT[i].EV[j].SS}</p> 
                       <p data-game-id="${sport.CT[i].EV[j].FI}" class="font m-white">87:03</p> </div> </div> </div> 
                       <div class="cell">
-                        <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[0].OD.F}</button> </div> 
+                        <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[0].OD.F}</button> 
+                      </div>
+                      <div class="cell">
+                        <button class="button coefficient" data-class="play-link"></button> 
+                      </div>
                       <div class="cell"> 
                         <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[1].OD.F}</button>
                       </div> 
@@ -193,7 +197,7 @@ exports('play_table', (params, done) => {
 
             //startTimerInplay(sport.CT[i].EV);
           } else {
-              return true;
+            return true;
           }
         });
         resolve();
@@ -205,10 +209,8 @@ exports('play_table', (params, done) => {
           $(`[data-id=event]`).on('click', (event) => {
             let id = $(event.target).data('gameId');
             let curURL = window.location.href;
-            console.log(window.location.href.split('#')[0]);
             //if filter is active - remove it from hash
-            if (window.location.hash.split('/')[1] == 'filer') {
-              console.log(window.location.href.split('#')[0]);
+            if (window.location.hash.split('/')[1] == 'filter') {
               window.location.hash = '';
               window.location.href += `/event/${id}`;
             }
