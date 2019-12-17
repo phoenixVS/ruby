@@ -193,7 +193,7 @@ exports('play_table', (params, done) => {
 
             //startTimerInplay(sport.CT[i].EV);
           } else {
-            return true;
+              return true;
           }
         });
         resolve();

@@ -7,7 +7,7 @@ exports('play_big', (params, done) => {
     const playBig = $(`[data-id=play-big]`);
 
 
-    let curID = params.sportID;
+    let curID = params.sportId;
 
     let urlInplay = 'http://bestline.bet/inplay/',
       urlGames = 'http://212.8.249.162:81/inplay.php',
