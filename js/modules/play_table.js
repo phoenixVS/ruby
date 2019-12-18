@@ -55,23 +55,19 @@ exports('play_table', (params, done) => {
       return tm_ + ':' + ts_;
     }
 
-    
     function startTimerInplay() {
+      let timers = $('.timer-el');
       let interval = setInterval(function() {
-        $(`[data-id=play-table]`).each(element => {
-
-
-          
-
-
-          if ($(element).data("dc") == 1) {
-            console.log($(element).data("dc"));
-            if ($(element).data("tt") == 0) {
-              $(element).text("Break");
+        for (let i = 0; i < timers.length; i++) {
+      
+          if ($(timers[i]).data("dc") == 1) {
+              
+            if ($(timers[i]).data("tt") == 0) {
+              $(timers[i]).text("Break");
             } else {
-              if ($(element).data("tm") == 0) {
+              if ($(timers[i]).data("tm") == 0) {
     
-                let tu = $(element).data("tu");
+                let tu = $(timers[i]).data("tu");
                 let etu = tu.toString();
     
                 let years = etu.substring(0, 4),
@@ -81,11 +77,11 @@ exports('play_table', (params, done) => {
                   minute = etu.substring(10, 12),
                   second = etu.substring(12, 14);
     
-                  $(element).data("tm", minute);
-                  $(element).data("ts", second);
+                  $(timers[i]).data("tm", minute);
+                  $(timers[i]).data("ts", second);
     
-                let tm = parseInt($(element).data("tm"));
-                let ts = parseInt($(element).data("ts"));
+                let tm = parseInt($(timers[i]).data("tm"));
+                let ts = parseInt($(timers[i]).data("ts"));
     
                   if (ts == 59) {
                     tm = tm + 1;
@@ -94,13 +90,13 @@ exports('play_table', (params, done) => {
                     ts = ts + 1;
                   }
     
-                  $(element).text(createTimerInplay(tm, ts));
+                  $(timers[i]).text(createTimerInplay(tm, ts));
     
-                  $(element).data("tm", tm);
-                  $(element).data("ts", ts);
+                  $(timers[i]).data("tm", tm);
+                  $(timers[i]).data("ts", ts);
               } else {
-                  let tm = parseInt($(element).data("tm"));
-                  let ts = parseInt($(element).data("ts"));
+                  let tm = parseInt($(timers[i]).data("tm"));
+                  let ts = parseInt($(timers[i]).data("ts"));
     
                   if (ts == 59) {
                     tm = tm + 1;
@@ -109,24 +105,21 @@ exports('play_table', (params, done) => {
                     ts = ts + 1;
                   }
     
-                  $(element).text(createTimerInplay(tm, ts));
+                  $(timers[i]).text(createTimerInplay(tm, ts));
     
-                  $(element).data("tm", tm);
-                  $(element).data("ts", ts);
+                  $(timers[i]).data("tm", tm);
+                  $(timers[i]).data("ts", ts);
               }
             }
           } else {
-            $(element).text("Match has no time ");
-            console.log($(element).data("dc"));
+            $(timers[i]).text("Match has no time ");
+            //console.log(" 404 undefined");
           }
-        
-        
-        
-        
-        });
+        }
       }, 1000);
       window.inplay_interval = interval;
     }
+  
 
     httpGet(urlInplay, 'inplay');
     function renderTable(data, ID) {
@@ -147,7 +140,7 @@ exports('play_table', (params, done) => {
                         <p data-game-id="${sport.CT[i].EV[j].FI}" class="font m-white ellipsis">${sport.CT[i].EV[j].NA.split('vs')[1]}</p>
                       </div> 
                     <div data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link-block ] text-right"> <div data-game-id="${sport.CT[i].EV[j].FI}" class="sport-icon play"></div> <p data-game-id="${sport.CT[i].EV[j].FI}" data-class="play-link" class="font m-white">${sport.CT[i].EV[j].SS}</p> 
-                      <p data-find="timer" data-timer="${sport.CT[i].EV[j].FI}" data-game-id="${sport.CT[i].EV[j].FI}" data-tu="${sport.CT[i].EV[j].TU}" data-tm="${sport.CT[i].EV[j].TM}" data-ts="${sport.CT[i].EV[j].TS}" data-dc="${sport.CT[i].EV[j].DC}" class="font m-white">87:03</p> </div> </div> </div> 
+                      <p data-find="timer" data-timer="${sport.CT[i].EV[j].FI}" data-game-id="${sport.CT[i].EV[j].FI}" data-tu="${sport.CT[i].EV[j].TU}" data-tm="${sport.CT[i].EV[j].TM}" data-ts="${sport.CT[i].EV[j].TS}" data-dc="${sport.CT[i].EV[j].DC}" class="font m-white timer-el">87:03</p> </div> </div> </div> 
                       <div class="cell">
                         <button class="button coefficient" data-class="play-link">1/1</button> </div> 
                       <div class="cell"> 
@@ -195,7 +188,7 @@ exports('play_table', (params, done) => {
             preloader.data(`status`, 'done').attr('data-status', 'done');
           }
         });
-        //startTimerInplay();
+        startTimerInplay();
     }
   });
 });
