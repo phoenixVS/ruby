@@ -112,7 +112,7 @@ exports('play_table', (params, done) => {
               }
             }
           } else {
-            $(timers[i]).text("Match has no time ");
+            $(timers[i]).text("");
             //console.log(" 404 undefined");
           }
         }
