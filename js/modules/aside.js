@@ -50,15 +50,12 @@ exports('aside', (params, done) => {
         let name = data.DATA[i].NA;
 
         $(`[data-id=aside]`).append(`
-        <a class="[ navigation-link ] flex-container align-middle align-justify">
+        <a data-id="aside-link" class="[ navigation-link ] flex-container align-middle align-justify" href="#/filter/${ID}">
           <span class="font">${name}</span>
           <span class="sports-${ID}"></span>
         </a>
         `);
       }
-
-      /*$(`[data-id=aside]`).append(`
-      <a class="close [ aside-close ]"></a>`);*/
     }
 
 
