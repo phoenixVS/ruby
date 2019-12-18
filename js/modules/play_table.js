@@ -150,11 +150,11 @@ exports('play_table', (params, done) => {
                         <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[2].OD.F}</button> 
                       </div>
                     </div>`);
-                  $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
+                }
+                $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
                 <div class="cell"> <p class="font">${sport.CT[i].NA} </p> </div> 
                 <div class="cell"> <p class="font">1</p> </div> 
                 <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>`);
-                }
               }
             }
             else {
@@ -180,11 +180,11 @@ exports('play_table', (params, done) => {
                         <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[1].OD.F}</button>
                       </div> 
                     </div>`);
-                  $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
+                }
+                $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
                 <div class="cell"> <p class="font">${sport.CT[i].NA} </p> </div> 
                 <div class="cell"> <p class="font">1</p> </div> 
                 <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>`);
-                }
               }
             }
 
