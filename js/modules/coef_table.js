@@ -28,11 +28,9 @@ exports('coef_table', (params, done) => {
         .then((data) => {
           if (name == 'inplay') {
             let small = true;
-            if (sportId === undefined) {
-              let ID = parseInt(data.DATA[0].ID);
-            }
-            else {
-              let ID = sportId;
+            let ID = parseInt(data.DATA[0].ID);
+            if (sportId != undefined) {
+              ID = sportId;
             }
             renderCoefTable(data, ID, small);
           }
@@ -58,19 +56,19 @@ exports('coef_table', (params, done) => {
               <div class="cell w33">
                 <button class="button coefficient">
                   <span class="font m-white">1</span>
-                  <span data-id="coef-one" class="font">9.50</span> 
+                  <span data-id="coef-one" class="font"></span> 
                 </button>
               </div>
               <div class="cell w33">
                 <button class="button coefficient">
                   <span class="font m-white">x</span>
-                  <span data-id="coef-two" class="font">6.00</span>
+                  <span data-id="coef-two" class="font"></span>
                 </button>
               </div>
               <div class="cell w33">
                 <button class="button coefficient">
                   <span class="font m-white">2</span>
-                  <span data-id="coef-three" class="font">2.75</span>
+                  <span data-id="coef-three" class="font"></span>
                 </button>
               </div>
             </div>
@@ -85,16 +83,22 @@ exports('coef_table', (params, done) => {
         if (small) {
           if (data != undefined) {
             data.DATA.forEach(sport => {
-              if (sport.ID == ID) {
-                $(`[data-id=coef-one]`).text(sport.CT[0].EV[0].MA[0].PA[0].OD.D);
-                $(`[data-id=coef-two]`).text(sport.CT[0].EV[0].MA[0].PA[2].OD.D);
-                $(`[data-id=coef-three]`).text(sport.CT[0].EV[0].MA[0].PA[1].OD.D);
+              if (parseInt(sport.ID) == ID) {
+                if (ID == 1) {
+                  $(`[data-id=coef-one]`).text(sport.CT[0].EV[0].MA[0].PA[0].OD.D);
+                  $(`[data-id=coef-two]`).text(sport.CT[0].EV[0].MA[0].PA[2].OD.D);
+                  $(`[data-id=coef-three]`).text(sport.CT[0].EV[0].MA[0].PA[1].OD.D);
+                }
+                else {
+                  $(`[data-id=coef-one]`).text(sport.CT[0].EV[0].MA[0].PA[0].OD.D);
+                  $(`[data-id=coef-three]`).text(sport.CT[0].EV[0].MA[0].PA[1].OD.D);
+                  $(`[data-id=coef-two]`).remove();
+                }
               }
             });
           } else {
             console.log("ERROR: Data is undefined")
           }
-
         }
         else {
           $(`[data-id=coef_table]`).empty();

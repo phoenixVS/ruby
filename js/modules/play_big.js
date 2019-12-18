@@ -7,7 +7,7 @@ exports('play_big', (params, done) => {
     const playBig = $(`[data-id=play-big]`);
 
 
-    let curID = params.sportID;
+    let curID = params.sportId;
 
     let urlInplay = 'http://bestline.bet/inplay/',
       urlGames = 'http://212.8.249.162:81/inplay.php',
@@ -140,7 +140,7 @@ exports('play_big', (params, done) => {
           }
         }
       } else {
-        $(`[data-id=timer-big]`).text("Match has no time ");
+        $(`[data-id=timer-big]`).text(" ");
       }
     }
     /*End of Timer*/
@@ -148,42 +148,53 @@ exports('play_big', (params, done) => {
 
 
     function fillPlayBig(data, ID) {
-      if (data != undefined) {
-        let id = parseInt(ID);
-        data.DATA.forEach(sport => {
-          if (parseInt(sport.ID) == ID) {
-            playBig.data(`[gameId]`, `${sport.CT[0].EV[0].FI}`).attr('data-game-id', `${sport.CT[0].EV[0].FI}`);
-            playBig.append(`<div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
-          <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white ellipsis">${sport.CT[0].NA}</p>
-          <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis">${sport.CT[0].EV[0].NA}</p>
-          </div>
-          <div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
-          <p data-game-id="${sport.CT[0].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[0].EV[0].TU}" data-tm="${sport.CT[0].EV[0].TM}" data-ts="${sport.CT[0].EV[0].TS}" class="font m-white ellipsis text-right">    </p>
-          <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis text-right">${sport.CT[0].EV[0].SS}</p>
-          </div>`);
-            startTimerBig(sport.CT[0].EV[0]);
-          }
+      let promise = new Promise((resolve, reject) => {
+        if (data != undefined) {
+          let id = parseInt(ID);
+          data.DATA.forEach(sport => {
+            if (parseInt(sport.ID) == ID) {
+              playBig.data(`[gameId]`, `${sport.CT[0].EV[0].FI}`).attr('data-game-id', `${sport.CT[0].EV[0].FI}`);
+              playBig.empty().append(`<div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
+                <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white ellipsis">${sport.CT[0].NA}</p>
+                <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis">${sport.CT[0].EV[0].NA}</p>
+                </div>
+                <div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
+                <p data-game-id="${sport.CT[0].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[0].EV[0].TU}" data-tm="${sport.CT[0].EV[0].TM}" data-ts="${sport.CT[0].EV[0].TS}" class="font m-white ellipsis text-right"></p>
+                <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis text-right">${sport.CT[0].EV[0].SS}</p>
+                </div>`);
+              startTimerBig(sport.CT[0].EV[0]);
+            }
+            resolve();
+          });
+        } else {
+          reject(`Data 404`);
+        }
+      });
+      promise
+        .then(() => {
+          // Handle opening of game section
+          $(`[data-id=play-big]`).on('click', (event) => {
+            let id = $(event.target).data('gameId');
+            let curURL = window.location.href;
+            //if filter is active - remove it from hash
+            if (window.location.hash.split('/')[1] == 'filter') {
+              window.location.hash = '';
+              window.location.href += `/event/${id}`;
+            }
+            else {
+              if (window.location.hash == '#') {
+                window.location.hash = '';
+                window.location.href += `/event/${id}`;
+              }
+              else {
+                window.location.hash = '';
+                window.location.href += `/event/${id}`;
+              }
+            }
+          });
         });
-      } else {
-        console.log("Oops, 404");
-      }
     }
     playBig.css('overflow', 'scroll');
-
-    // Handle opening of game section
-    $(`[data-id=play-big]`).on('click', (event) => {
-      let id = $(event.target).data('gameId');
-      let curURL = window.location.href;
-      //if filter is active - clean it
-      if (window.location.hash.split('/')[1] == 'filer') {
-        window.location.href = window.location.href.split('#')[0];
-        window.location.href += `#/event/${id}`;
-      }
-      else {
-        window.location.href += `#/event/${id}`;
-      }
-    });
-
     done();
   });
 });

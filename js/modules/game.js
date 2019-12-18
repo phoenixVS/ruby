@@ -32,27 +32,43 @@ exports('game', (params, done) => {
     httpGet((urlBets + ID.toString()), 'bets');
     // rendering game data
     function renderEvent(data, ID) {
-      if (data) {
-        let gameWrapper = $(`[data-id=game]`);
-        gameWrapper.append(`
-        <div class="[ video-title not-active ] flex-container align-center-middle">
-          <button class="button square [ video-title-button ] fa fa-angle-left"></button>
-          <p class="font [ video-title-text ]"><span>${data.RESULT.EV[0].NA.split(' v ')[0] + ' - ' + data.RESULT.EV[0].NA.split(' v ')[1]}</span></p>
-        </div>
-        <div class="[ video-play ] flex-container align-middle align-justify">
-          <p class="flex-container align-middle">
-            <span class="[ video-play-square white ]"></span>
-            <span class="font">${data.RESULT.EV[0].NA.split(' v ')[0]}</span>
-          </p>
-          <p class="font title [ video-play-count ]">${data.RESULT.EV[0].SS}</p>
-          <p class="flex-container align-middle">
-            <span class="font">${data.RESULT.EV[0].NA.split(' v ')[0]}</span>
-            <span class="[ video-play-square red ]"></span>
-          </p>
-        </div>
-        <div class="[ video-body ]"></div>
-        `);
-      }
+      let promise = new Promise((resolve, reject) => {
+        if (data) {
+          let gameWrapper = $(`[data-id=game]`);
+          gameWrapper.empty().append(`
+          <div class="[ video-title not-active ] flex-container align-center-middle">
+            <button class="button square [ video-title-button ] fa fa-angle-left"></button>
+            <p class="font [ video-title-text ]"><span>${data.RESULT.EV[0].NA.split(' v ')[0] + ' - ' + data.RESULT.EV[0].NA.split(' v ')[1]}</span></p>
+          </div>
+          <div class="[ video-play ] flex-container align-middle align-justify">
+            <p class="flex-container align-middle">
+              <span class="[ video-play-square white ]"></span>
+              <span class="font">${data.RESULT.EV[0].NA.split(' v ')[0]}</span>
+            </p>
+            <p class="font title [ video-play-count ]">${data.RESULT.EV[0].SS}</p>
+            <p class="flex-container align-middle">
+              <span class="font">${data.RESULT.EV[0].NA.split(' v ')[0]}</span>
+              <span class="[ video-play-square red ]"></span>
+            </p>
+          </div>
+          <div class="[ video-body ]"></div>
+          `);
+          resolve();
+        }
+        else {
+          reject(`Error: Data 404`);
+        }
+      });
+      promise
+        .then(() => {
+          // Preloader finishes
+          const preloader = $('#page-preloader');
+          if (preloader.data(`status`) != 'done') {
+            preloader.addClass('done');
+            preloader.data(`status`, 'done').attr('data-status', 'done');
+          }
+        })
+        .catch((reject) => { console.log(reject); });
     }
 
     done();
