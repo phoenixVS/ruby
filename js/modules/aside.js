@@ -31,17 +31,30 @@ exports('aside', (params, done) => {
         })
     }
 
+    function httpGetAll(url, name) {
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+          if (name == 'inplay') {
+            RenderAsideAll(data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
+
     function RenderAside(data) {
 
       $(`[data-id=aside]`).empty();
       $(`[data-id=aside]`).append(`
-  <a class="[ favourite-category ] flex-container align-middle align-justify">
+  <a data-id="aside-fav"class="[ favourite-category ] flex-container align-middle align-justify">
     <span class="font">My favourites</span>
     <span class="star"></span>
   </a>
   <div class="[ tab-header border ] flex-container align-middle align-justify">
-    <a class="[ tab-link active ]">Live</a>
-    <a class="[ tab-link ]">All</a>
+    <a data-id="aside-live" class="[ tab-link active ]">Live</a>
+    <a data-id="aside-all" class="[ tab-link ]">All</a>
   </div>`);
 
       for (let i = 0; i < data.DATA.length; i++) {
@@ -50,14 +63,82 @@ exports('aside', (params, done) => {
         let name = data.DATA[i].NA;
 
         $(`[data-id=aside]`).append(`
-        <a data-id="aside-link" class="[ navigation-link ] flex-container align-middle align-justify" href="#/filter/${ID}">
-          <span class="font">${name}</span>
+        <a data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle align-justify nav-link" >
           <span class="sports-${ID}"></span>
+          <span class="font">${name}</span>
+          <span data-id="fav-star" data-sport="${ID}" class="star"></span>
         </a>
         `);
+        $(`[data-id=aside-link-${ID}]`).on('click', () => {
+        
+          window.location = 'http://localhost/everest/#/filter/' + ID;
+        
+          aside.removeClass('active');
+          aside.addClass('not-active');
+        });
+        $(`[data-id=fav-star-${ID}]`).on('click', () => {
+          AddSportCookie(ID);
+          console.log("Cookie added");
+        });
       }
+
+      $(`[data-id=aside-all]`).on('click', () => {
+
+        httpGetAll(urlInplay, 'inplay');
+      });
     }
 
+    function RenderAsideAll(data) {
+      $(`[data-id=aside]`).empty();
+      $(`[data-id=aside]`).append(`
+  <a data-id="aside-fav" class="[ favourite-category ] flex-container align-middle align-justify">
+    <span class="font">My favourites</span>
+    <span class="star"></span>
+  </a>
+  <div class="[ tab-header border ] flex-container align-middle align-justify">
+    <a data-id="aside-live" class="[ tab-link ]">Live</a>
+    <a data-id="aside-all" class="[ tab-link active ]">All</a>
+  </div>`);
+
+  for (let i = 0; i < data.DATA.length; i++) {
+        
+    let ID = data.DATA[i].ID;
+    let name = data.DATA[i].NA;
+
+    $(`[data-id=aside]`).append(`
+    <a data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle align-justify nav-link" >
+      
+      <span class="sports-${ID}"></span>
+      <span class="font">${name}</span>
+      <span data-id="fav-star-${ID}" data-sport="${ID}" class="star"></span>
+    </a>
+    `);
+    $(`[data-id=aside-link-${ID}]`).on('click', () => {
+    
+      window.location = 'http://localhost/everest/#/filter/' + ID;
+    
+      aside.removeClass('active');
+      aside.addClass('not-active');
+    });
+    $(`[data-id=fav-star-${ID}]`).on('click', () => {
+      AddSportCookie(ID);
+      console.log("Cookie added");
+    });
+  }
+
+  $(`[data-id=aside-live]`).on('click', () => {
+
+    httpGet(urlInplay, 'inplay');
+  });
+    }
+
+    function RenderAsideFav() {
+
+    }
+
+    function AddSportCookie(sportID) {
+      Cookies.set(sportID, 'added');
+    }
 
     let aside_close = $('.aside-close');
     aside_close.on('click', () => {
