@@ -5,6 +5,7 @@ exports('game', (params, done) => {
     // ]
   }, () => {
     let ID = params.gameId;
+    let sport = params.sport;
     let urlInplay = 'http://bestline.bet/inplay/',
       urlBets = 'http://bestline.bet/event/?FI=';
     // Fetch API request
@@ -35,25 +36,50 @@ exports('game', (params, done) => {
       let promise = new Promise((resolve, reject) => {
         if (data) {
           let gameWrapper = $(`[data-id=game]`);
-          gameWrapper.empty().append(`
-          <div class="[ video-title not-active ] flex-container align-center-middle">
-            <button class="button square [ video-title-button ] fa fa-angle-left"></button>
-            <p class="font [ video-title-text ]"><span>${data.RESULT.EV[0].NA.split(' v ')[0] + ' - ' + data.RESULT.EV[0].NA.split(' v ')[1]}</span></p>
-          </div>
-          <div class="[ video-play ] flex-container align-middle align-justify">
-            <p class="flex-container align-middle">
-              <span class="[ video-play-square white ]"></span>
-              <span class="font">${data.RESULT.EV[0].NA.split(' v ')[0]}</span>
-            </p>
-            <p class="font title [ video-play-count ]">${data.RESULT.EV[0].SS}</p>
-            <p class="flex-container align-middle">
-              <span class="font">${data.RESULT.EV[0].NA.split(' v ')[0]}</span>
-              <span class="[ video-play-square red ]"></span>
-            </p>
-          </div>
-          <div class="[ video-body ]"></div>
-          `);
-          resolve();
+          if (sport == 1) {
+            gameWrapper.empty().append(`
+            <div class="[ video-title not-active ] flex-container align-center-middle">
+              <button class="button square [ video-title-button ] fa fa-angle-left"></button>
+              <p class="font [ video-title-text ]"><span>${data.RESULT.EV[0].NA.split(' v ')[0]
+              + ' - ' + data.RESULT.EV[0].NA.split(' v ')[1]}</span></p>
+            </div>
+            <div class="[ video-play ] flex-container align-middle align-justify">
+              <p class="flex-container align-middle">
+                <span class="[ video-play-square white ]"></span>
+                <span class="font">${data.RESULT.EV[0].NA.split(' v ')[0]}</span>
+              </p>
+              <p class="font title [ video-play-count ]">${data.RESULT.EV[0].SS}</p>
+              <p class="flex-container align-middle">
+                <span class="font">${data.RESULT.EV[0].NA.split(' v ')[0]}</span>
+                <span class="[ video-play-square red ]"></span>
+              </p>
+            </div>
+            <div class="[ video-body ]"></div>
+            `);
+            resolve();
+          }
+          else {
+            gameWrapper.empty().append(`
+            <div class="[ video-title not-active ] flex-container align-center-middle">
+              <button class="button square [ video-title-button ] fa fa-angle-left"></button>
+              <p class="font [ video-title-text ]"><span>${data.RESULT.EV[0].NA.split(' vs ')[0]
+              + ' - ' + data.RESULT.EV[0].NA.split(' vs ')[1]}</span></p>
+            </div>
+            <div class="[ video-play ] flex-container align-middle align-justify">
+              <p class="flex-container align-middle">
+                <span class="[ video-play-square white ]"></span>
+                <span class="font">${data.RESULT.EV[0].NA.split(' v ')[0]}</span>
+              </p>
+              <p class="font title [ video-play-count ]">${data.RESULT.EV[0].SS}</p>
+              <p class="flex-container align-middle">
+                <span class="font">${data.RESULT.EV[0].NA.split(' v ')[0]}</span>
+                <span class="[ video-play-square red ]"></span>
+              </p>
+            </div>
+            <div class="[ video-body ]"></div>
+            `);
+            resolve();
+          }
         }
         else {
           reject(`Error: Data 404`);

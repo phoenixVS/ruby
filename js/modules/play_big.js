@@ -188,7 +188,7 @@ exports('play_big', (params, done) => {
               }
               else {
                 window.location.hash = '';
-                window.location.href += `/event/${id}`;
+                window.location.href += `#/event/${id}`;
               }
             }
           });

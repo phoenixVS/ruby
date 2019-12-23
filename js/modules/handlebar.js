@@ -147,7 +147,7 @@ function filterHandler(ID) {
 }
 
 // game video player page load
-function gameHandler(ID) {
+function gameHandler(sport, ID) {
     const gameWrapper = $('[data-id=game]');
 
     if (performance.navigation.type == 1) {
@@ -162,8 +162,8 @@ function gameHandler(ID) {
 
     let onModulesLoad = new Promise((resolve, reject) => {
         loadJsModules({
-            coef_table: { gameId: ID, loadCSS: false, loadLanguage: false },
-            game: { gameId: ID, loadCSS: false, loadLanguage: false },
+            coef_table: { sport: sport, gameId: ID, loadCSS: false, loadLanguage: false },
+            game: { sport: sport, gameId: ID, loadCSS: false, loadLanguage: false },
         });
         resolve();
     });
@@ -268,7 +268,7 @@ function locationHashChanged() {
         switch (window.location.href.split('/')[5]) {
             case '': case undefined: mainHandler(); break;
             case 'filter': filterHandler(window.location.href.split('/')[6]); break;
-            case 'event': gameHandler(window.location.href.split('/')[6]); break;
+            case 'event': gameHandler(window.location.href.split('/')[6], window.location.href.split('/')[7]); break;
             case 'betslip': betslipHandler(); break;
             case 'betslip-small': betslip_smallHandler(); break;
             default: emptyHandler();

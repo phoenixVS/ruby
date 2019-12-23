@@ -101,6 +101,7 @@ exports('coef_table', (params, done) => {
           }
         }
         else {
+          let sport = params.sport;
           $(`[data-id=coef_table]`).empty();
           data.RESULT.EV[0].MA.forEach((ma, i) => {
             $(`[data-id=coef_table]`).append(`
