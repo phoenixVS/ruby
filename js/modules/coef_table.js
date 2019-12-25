@@ -102,27 +102,33 @@ exports('coef_table', (params, done) => {
         }
         else {
           let sport = params.sport;
-          $(`[data-id=coef_table]`).empty();
-          data.RESULT.EV[0].MA.forEach((ma, i) => {
-            $(`[data-id=coef_table]`).append(`
-            <div class="row info">
+          let rowsPromise = new Promise((resolve, reject) => {
+            $(`[data-id=coef_table]`).empty();
+            data.RESULT.EV[0].MA.forEach((ma, i) => {
+              $(`[data-id=coef_table]`).append(`
+            <div data-id="row info" data-coef-id="${ma.ID}" class="row info">
               <div class="cell">
                 <p class="font">${ma.NA}</p>
               </div>
             </div>
-            <div data-id="coef_row-${i}" class="row">
-            </div>
-            `);
-            ma.PA.forEach((pa) => {
-              $(`[data-id=coef_row-${i}]`).append(`
-              <div class="cell w33">
-                  <button class="button coefficient">
-                    <span class="font m-white"></span>
-                    <span class="font">${pa.OD.D}</span>
-                  </button>
-                </div>
             `);
             });
+            resolve();
+            // <div data-id="coef_row-${i}" class="row">
+            // </div>
+            // ma.PA.forEach((pa) => {
+            //   $(`[data-id=coef_row-${i}]`).append(`
+            //   <div class="cell w33">
+            //       <button class="button coefficient">
+            //         <span class="font m-white"></span>
+            //         <span class="font">${pa.OD.D}</span>
+            //       </button>
+            //     </div>
+            // `);
+            // });
+          });
+          rowsPromise.then((resolve) => {
+            $(`[data-id=row info]`)
           });
         }
       });

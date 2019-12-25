@@ -113,7 +113,6 @@ exports('play_table', (params, done) => {
             }
           } else {
             $(timers[i]).text(" ");
-            //console.log(" 404 undefined");
           }
         }
       }, 1000);
@@ -128,8 +127,6 @@ exports('play_table', (params, done) => {
       let promise = new Promise((resolve, reject) => {
         data.DATA.forEach(sport => {
           if (parseInt(sport.ID) == ID) {
-            console.log(sport.ID);
-            console.log(ID);
             if (sport.ID == 1) {
               for (let i = 0; i < sport.CT.length; i++) {
                 for (let j = 0; j < sport.CT[i].EV.length; j++) {
@@ -190,7 +187,6 @@ exports('play_table', (params, done) => {
               }
             }
 
-            //startTimerInplay(sport.CT[i].EV);
           } else {
             return true;
           }
