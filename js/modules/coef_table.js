@@ -106,9 +106,9 @@ exports('coef_table', (params, done) => {
             $(`[data-id=coef_table]`).empty();
             data.RESULT.EV[0].MA.forEach((ma, i) => {
               $(`[data-id=coef_table]`).append(`
-            <div data-id="row info" data-coef-id="${ma.ID}" class="row info">
+            <div data-row-status="not_active" data-coef-id="${ma.ID}" class="row info">
               <div class="cell">
-                <p class="font">${ma.NA}</p>
+                <p data-coef-id="${ma.ID}" class="font">${ma.NA}</p>
               </div>
             </div>
             `);
@@ -128,7 +128,34 @@ exports('coef_table', (params, done) => {
             // });
           });
           rowsPromise.then((resolve) => {
-            $(`[data-id=row info]`)
+            $(`[data-row-status=not_active]`).on('click', (elem) => {
+              let cur = $(elem.target);
+              data.RESULT.EV[0].MA.forEach((ma) => {
+                if (ma.ID == cur.data('coefId')) {
+                  cur.after(`<div data-id="coef_row" class="row">
+                        </div>`);
+                  ma.PA.forEach((pa) => {
+                    $(`[data-id=coef_row]`).append(`
+                    <div class="cell w33">
+                    <button class="button coefficient">
+                      <span class="font m-white"></span>
+                      <span class="font">${pa.OD.D}</span>
+                    </button>
+                  </div>`);
+                  });
+                }
+              });
+              cur.data('rowStatus', 'active').attr('data-row-status', 'active');
+            });
+            $(`[data-row-status=active]`).on('click', (elem) => {
+              let cur = $(elem.target);
+              data.RESULT.EV[0].MA.forEach((ma) => {
+                if (ma.ID == cur.data('coefId')) {
+                  cur.after(``);
+                }
+              });
+              cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
+            });
           });
         }
       });
