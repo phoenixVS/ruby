@@ -106,7 +106,7 @@ exports('coef_table', (params, done) => {
             $(`[data-id=coef_table]`).empty();
             data.RESULT.EV[0].MA.forEach((ma, i) => {
               $(`[data-id=coef_table]`).append(`
-            <div data-row-status="not_active" data-coef-id="${ma.ID}" class="row info">
+            <div data-id="row_info" data-row-status="not_active" data-coef-id="${ma.ID}" class="row info">
               <div class="cell">
                 <p data-coef-id="${ma.ID}" class="font">${ma.NA}</p>
               </div>
@@ -128,35 +128,50 @@ exports('coef_table', (params, done) => {
             // });
           });
           rowsPromise.then((resolve) => {
-            $(`[data-row-status=not_active]`).on('click', (elem) => {
+            $(`[data-id=row_info]`).on('click', (elem) => {
               let cur = $(elem.target);
-              data.RESULT.EV[0].MA.forEach((ma) => {
-                if (ma.ID == cur.data('coefId')) {
-                  cur.after(`<div data-id="coef_row" class="row">
-                        </div>`);
-                  ma.PA.forEach((pa) => {
-                    $(`[data-id=coef_row]`).append(`
-                    <div class="cell w33">
-                    <button class="button coefficient">
-                      <span class="font m-white"></span>
-                      <span class="font">${pa.OD.D}</span>
-                    </button>
-                  </div>`);
-                  });
-                }
-              });
-              cur.data('rowStatus', 'active').attr('data-row-status', 'active');
-            });
-            $(`[data-row-status=active]`).on('click', (elem) => {
-              let cur = $(elem.target);
-              data.RESULT.EV[0].MA.forEach((ma) => {
-                if (ma.ID == cur.data('coefId')) {
-                  cur.after(``);
-                }
-              });
-              cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
+              if (cur.data('rowStatus') == 'not_active') {
+                data.RESULT.EV[0].MA.forEach((ma) => {
+                  if (ma.ID == cur.data('coefId')) {
+                    let new_item = $(`<div data-id="coef_row" data-bet="${ma.ID}" class="row">
+                    </div>`).hide();
+                    cur.after(new_item);
+                    ma.PA.forEach((pa) => {
+                      $(`[data-bet=${ma.ID}]`).append(`
+                      <div style="margin: auto; max-width: 2000px;" class="cell">
+                      <button class="button coefficient">
+                        <span class="font m-white"></span>
+                        <span class="font">${pa.OD.D}</span>
+                      </button>
+                    </div>`);
+                    });
+                    new_item.show('normal');
+                    RenderRows(cur.data('coefId'));
+                  }
+                });
+                $(`[data-bet=${cur.data('coefId')}]`).css({
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'space-between',
+                  //alignContent: 'stretch',
+                  //alignItems: 'stretch',
+                });
+                cur.data('rowStatus', 'active').attr('data-row-status', 'active');
+              }
+              else {
+                $(`[data-bet=${cur.data('coefId')}]`).remove();
+                cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
+              }
             });
           });
+          function RenderRows(ID) {
+            let cur = $(`[data-bet=${ID}]`);
+            switch (ID) {
+              case 1777:
+                console.log(`It's ${ID}`);
+              default: break;
+            }
+          }
         }
       });
     }
