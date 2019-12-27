@@ -106,7 +106,7 @@ exports('coef_table', (params, done) => {
             $(`[data-id=coef_table]`).empty();
             data.RESULT.EV[0].MA.forEach((ma, i) => {
               $(`[data-id=coef_table]`).append(`
-            <div data-id="row_info" data-row-status="not_active" data-coef-id="${ma.ID}" class="row info">
+            <div data-id="row_info" data-row-status="not_active" data-coef-id="${ma.ID}" class="row info det">
               <div class="cell">
                 <p data-coef-id="${ma.ID}" class="font">${ma.NA}</p>
               </div>
@@ -114,33 +114,26 @@ exports('coef_table', (params, done) => {
             `);
             });
             resolve();
-            // <div data-id="coef_row-${i}" class="row">
-            // </div>
-            // ma.PA.forEach((pa) => {
-            //   $(`[data-id=coef_row-${i}]`).append(`
-            //   <div class="cell w33">
-            //       <button class="button coefficient">
-            //         <span class="font m-white"></span>
-            //         <span class="font">${pa.OD.D}</span>
-            //       </button>
-            //     </div>
-            // `);
-            // });
           });
           rowsPromise.then((resolve) => {
             $(`[data-id=row_info]`).on('click', (elem) => {
               let cur = $(elem.target);
+                    if(cur.is('p')){
+                            cur = cur.parent().parent();
+                    }
               if (cur.data('rowStatus') == 'not_active') {
+                cur.addClass('active');
+                cur.removeClass('not-active');
                 data.RESULT.EV[0].MA.forEach((ma) => {
                   if (ma.ID == cur.data('coefId')) {
-                    let new_item = $(`<div data-id="coef_row" data-bet="${ma.ID}" class="row">
+                    let new_item = $(`<div data-id="coef_row" data-bet="${ma.ID}" class="row" style="height: auto;">
                     </div>`).hide();
                     cur.after(new_item);
                     ma.PA.forEach((pa) => {
                       $(`[data-bet=${ma.ID}]`).append(`
-                      <div style="margin: auto; max-width: 2000px;" class="cell">
+                      <div style="margin: auto;flex: 1 1 200px;" class="cell">
                       <button class="button coefficient">
-                        <span class="font m-white"></span>
+                        <span class="font m-white">${pa.NA}</span>
                         <span class="font">${pa.OD.D}</span>
                       </button>
                     </div>`);
@@ -149,16 +142,19 @@ exports('coef_table', (params, done) => {
                     RenderRows(cur.data('coefId'));
                   }
                 });
+                $('[data-id=row_info]').css('position', 'relative');
                 $(`[data-bet=${cur.data('coefId')}]`).css({
+                  position: 'relative',
                   display: 'flex',
                   flexWrap: 'wrap',
                   justifyContent: 'space-between',
-                  //alignContent: 'stretch',
-                  //alignItems: 'stretch',
                 });
+                $('[data-id=row_info]').children().css('position', 'relative');
                 cur.data('rowStatus', 'active').attr('data-row-status', 'active');
               }
               else {
+               cur.removeClass('active');
+               cur.addClass('not-active');
                 $(`[data-bet=${cur.data('coefId')}]`).remove();
                 cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
               }
