@@ -1,0 +1,21 @@
+div.row.info.det:before {
+  cursor: pointer;
+  content: '\f107';
+  font-family: FontAwesome;
+  font-size: 20px;
+  color: #fff;
+  position: absolute;
+  right: 12px;
+  margin-top: 12px;
+  transform: translateY(-50%);
+}
+div.row.info.det.active:before{
+  transform: rotate(90deg); 
+  transition-duration: 0.5s;
+  margin-top: 0px;
+}
+div.row.info.det.not-active:before{
+  transform: rotate(0deg); 
+  transition-duration: 0.5s;
+  margin-top: 0px;
+}

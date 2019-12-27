@@ -39,11 +39,8 @@ exports('play_big', (params, done) => {
     }
 
     httpGet(urlInplay, 'inplay');
-    // httpGet(urlBets, 'bets');
-    // httpGet(urlGames, 'games');
 
     /*Timer for Play Big starts here*/
-
     function createTimer(tm, ts) {
       let tm_, ts_;
 
@@ -175,20 +172,19 @@ exports('play_big', (params, done) => {
           // Handle opening of game section
           $(`[data-id=play-big]`).on('click', (event) => {
             let id = $(event.target).data('gameId');
+            let sport = ID;
             let curURL = window.location.href;
             //if filter is active - remove it from hash
             if (window.location.hash.split('/')[1] == 'filter') {
               window.location.hash = '';
-              window.location.href += `/event/${id}`;
+              window.location.href += `/event/${sport}/${id}`;
             }
             else {
               if (window.location.hash == '#') {
-                window.location.hash = '';
-                window.location.href += `/event/${id}`;
+                window.location.href += `/event/${sport}/${id}`;
               }
               else {
-                window.location.hash = '';
-                window.location.href += `/event/${id}`;
+                window.location.href += `#/event/${sport}/${id}`;
               }
             }
           });
