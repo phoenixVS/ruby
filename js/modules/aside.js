@@ -61,11 +61,15 @@ exports('aside', (params, done) => {
       Cookies.set('favourites', ID);
     }
 
+    jQuery.fn.outerHTML = function() {
+      return $(this).clone().wrap('<div></div>').parent().html();
+    };
+
     function RenderAside(data) {
 
       let promise = new Promise( (resolve, reject) => {
         $(`[data-id=aside]`).empty();
-      $(`[data-id=aside]`).append(`
+    $(`[data-id=aside]`).append(`
   <a data-id="aside-fav"class="[ favourite-category ] flex-container align-middle align-justify">
     <span class="font">My favourites</span>
     <span data-id="main-fav-star" class="star"></span>
@@ -73,25 +77,26 @@ exports('aside', (params, done) => {
   <div class="[ tab-header border ] flex-container align-middle align-justify">
     <a data-id="aside-live" class="[ tab-link active ]">Live</a>
     <a data-id="aside-all" class="[ tab-link ]">All</a>
-  </div>`);
+  </div><div data-id="aside-ul"></div>`);
         for (let i = 0; i < data.DATA.length; i++) {
         
           let ID = data.DATA[i].ID;
           let name = data.DATA[i].NA;
   
           $(`[data-id=aside]`).append(`
-          <div id="${i}" data-id="liel" data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" >
+          <div id="${i}" data-id="liel" data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative;" >
           <span class="sports-${ID}" style="margin-left: 5px; "></span>
           <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
-          <span data-id="fav-star" data-sport="${ID}" class="star" style="position: absolute; left: 79%;"></span>
+          <span data-id="fav-star" data-sport="${ID}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
           </div>
           `);
-          $(`[data-id=aside-link-${ID}]`).on('click', () => {
+          $(`[data-id=aside-link-${ID}]`).on('click', (elem) => {
+            if (true) {
+              window.location = 'http://localhost/everest/#/filter/' + ID;
           
-            window.location = 'http://localhost/everest/#/filter/' + ID;
-          
-            aside.removeClass('active');
-            aside.addClass('not-active');
+              aside.removeClass('active');
+              aside.addClass('not-active');
+            }
           });
         }
         resolve();
@@ -111,6 +116,34 @@ exports('aside', (params, done) => {
         $(`[data-id=fav-star]`).click( (elem) => {
           AddFav($(elem.target).data(`sport`));
           console.log('Added to fav ' + $(elem.target).data(`sport`));
+
+          $(elem.target).addClass('active:before');
+          $(elem.target).removeClass('not-active:before');
+        });
+        $(`[data-id=fav-star]`).on('click', (elem) => {
+          let $myLi = $($(elem.target)).parent();
+          let listHeight = $(`[data-id=aside-ul]`).innerHeight();
+          let elemHeight = $myLi.height();
+          let elemTop = $myLi.position().top;
+          let moveUp = listHeight - (listHeight - elemTop);
+          let moveDown = elemHeight;
+          let liId = $myLi.attr("id");
+          let enough = false;
+          let liHtml = $myLi.outerHTML();
+    
+          $(`[data-id=liel]`).each(function() {
+            if ($($(elem.target)).parent().attr("id") == liId) {
+              return false;
+          }
+          $($(elem.target)).parent().animate({"top": '+=' + moveDown}, 200);
+          });
+    
+          $myLi.animate({"top": '-=' + moveUp}, 500, function() {
+          $myLi.remove();
+          var oldHtml = $(`[data-id=aside-ul]`).html();
+          $(`[data-id=aside-ul]`).html(liHtml + oldHtml);
+          //$(`[data-id=liel]`).attr("style", "");
+          });
         });
       }); 
     }
