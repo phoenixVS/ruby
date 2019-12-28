@@ -10,6 +10,16 @@ exports('header', (params, done) => {
             "header/menu.html"
         ]
     }, () => {
+        if (Cookies.get('logon') == true) {
+            loadJsModules({
+                user: { loadCSS: false, loadLanguage: false },
+            });
+        }
+        else {
+            loadJsModules({
+                login: { loadCSS: false, loadLanguage: false },
+            });
+        }
         // clocks
         const time = $('#time');
         (function updateTime() {

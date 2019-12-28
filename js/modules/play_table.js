@@ -122,6 +122,13 @@ exports('play_table', (params, done) => {
     httpGet(urlInplay, 'inplay');
 
     function renderTable(data, ID) {
+      data.DATA[0].CT.forEach(ct => {
+        ct.EV.forEach(ev => {
+          if (ev.MA[0].PA[0] == undefined || ev.MA[0].PA[1] == undefined || ev.MA[0].PA[2] == undefined) {
+            console.log(ev.NA);
+          }
+        });
+      });
       //window.intervalCount = 0;
       //window.intervals = new Array();
       let promise = new Promise((resolve, reject) => {

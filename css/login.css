@@ -1,0 +1,13 @@
+.loginContainer {
+  position: fixed;
+  z-index: 11;
+  left: 50%;
+  top: 100px;
+  width: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  max-width: 350px;
+  max-height: 100%;
+  overflow-y: auto;
+  background-color: #33202b;
+}
