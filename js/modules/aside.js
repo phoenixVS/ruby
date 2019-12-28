@@ -77,20 +77,20 @@ exports('aside', (params, done) => {
   <div class="[ tab-header border ] flex-container align-middle align-justify">
     <a data-id="aside-live" class="[ tab-link active ]">Live</a>
     <a data-id="aside-all" class="[ tab-link ]">All</a>
-  </div><div data-id="aside-ul"></div>`);
+  </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
         for (let i = 0; i < data.DATA.length; i++) {
         
           let ID = data.DATA[i].ID;
           let name = data.DATA[i].NA;
   
-          $(`[data-id=aside]`).append(`
-          <div id="${i}" data-id="liel" data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative;" >
+          $(`[data-id=aside-ul]`).append(`
+          <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
           <span class="sports-${ID}" style="margin-left: 5px; "></span>
           <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
           <span data-id="fav-star" data-sport="${ID}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
-          </div>
+          </li>
           `);
-          $(`[data-id=aside-link-${ID}]`).on('click', (elem) => {
+          $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
             if (true) {
               window.location = 'http://localhost/everest/#/filter/' + ID;
           
@@ -113,14 +113,20 @@ exports('aside', (params, done) => {
           httpGetFav(urlInplay, 'inplay');
         });
 
-        $(`[data-id=fav-star]`).click( (elem) => {
-          AddFav($(elem.target).data(`sport`));
-          console.log('Added to fav ' + $(elem.target).data(`sport`));
-
-          $(elem.target).addClass('active:before');
-          $(elem.target).removeClass('not-active:before');
-        });
         $(`[data-id=fav-star]`).on('click', (elem) => {
+          asideOrderAnim(elem)
+        });
+      }); 
+    }
+
+    function asideOrderAnim(elem) {
+      elem.stopPropagation();
+      AddFav($(elem.target).data(`sport`));
+          console.log('Added to fav ' + $(elem.target).data(`sport`));
+          $(elem.target).addClass('active');
+          $(elem.target).removeClass('not-active');
+          $(elem.target).data('id', '');
+
           let $myLi = $($(elem.target)).parent();
           let listHeight = $(`[data-id=aside-ul]`).innerHeight();
           let elemHeight = $myLi.height();
@@ -142,10 +148,11 @@ exports('aside', (params, done) => {
           $myLi.remove();
           var oldHtml = $(`[data-id=aside-ul]`).html();
           $(`[data-id=aside-ul]`).html(liHtml + oldHtml);
-          //$(`[data-id=liel]`).attr("style", "");
+          $(elem.target).data('id', '');
+          $(`[data-id=fav-star]`).on('click', (elem) => {
+            asideOrderAnim(elem)
           });
-        });
-      }); 
+          });
     }
 
     function RenderAsideAll(data) {
@@ -160,19 +167,19 @@ exports('aside', (params, done) => {
   <div class="[ tab-header border ] flex-container align-middle align-justify">
     <a data-id="aside-live" class="[ tab-link ]">Live</a>
     <a data-id="aside-all" class="[ tab-link active ]">All</a>
-  </div>`);
+  </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
     for (let i = 0; i < data.DATA.length; i++) {
         
       let ID = data.DATA[i].ID;
       let name = data.DATA[i].NA;
   
-      $(`[data-id=aside]`).append(`
-      <a data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" >
+      $(`[data-id=aside-ul]`).append(`
+      <li id="${i}" data-id="liel" data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
         
         <span class="sports-${ID}" style="margin-left: 5px; "></span>
         <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
         <span data-id="fav-star" data-sport="${ID}" class="star" style="position: absolute; left: 79%;"></span>
-      </a>
+      </li>
       `);
       $(`[data-id=aside-link-${ID}]`).on('click', () => {
       
@@ -196,8 +203,7 @@ exports('aside', (params, done) => {
        });
     
        $(`[data-id=fav-star]`).click( (elem) => {
-        AddFav($(elem.target).data(`sport`));
-        console.log('Added to fav ' + $(elem.target).data(`sport`));
+        asideOrderAnim(elem);
       });
 
       });
