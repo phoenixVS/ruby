@@ -118,6 +118,7 @@ exports('coef_table', (params, done) => {
           rowsPromise.then((resolve) => {
             $(`[data-id=row_info]`).on('click', (elem) => {
               let cur = $(elem.target);
+
               if (cur.is('p')) {
                 cur = cur.parent().parent();
               }
@@ -186,20 +187,20 @@ exports('coef_table', (params, done) => {
                 betNames.eq(0).html(`1`);
                 betNames.eq(1).html(`2`); break;
               case 50281:
-                           betNames.each((elem) => {
-                                    console.log(elem);
-                            });
-               // betNames.forEach((elem) => {
-               //   console.log(elem);
-               // });
-                            //betNames.eq(0).html(`${ma.PA[0].HA}`);
-                //betNames.eq(1).html(`${ma.PA[1].HA}`);
-                //betNames.eq(2).html(`${ma.PA[2].HA}`);
-                //betNames.eq(3).html(`${ma.PA[3].HA}`);
-                //betNames.eq(4).html(`${ma.PA[4].HA}`);
-                //betNames.eq(5).html(`${ma.PA[5].HA}`);
-                //betNames.eq(6).html(`${ma.PA[6].HA}`);
-                //betNames.eq(7).html(`${ma.PA[7].HA}`); break;
+                betNames.each((elem) => {
+                  console.log(elem);
+                });
+              // betNames.forEach((elem) => {
+              //   console.log(elem);
+              // });
+              //betNames.eq(0).html(`${ma.PA[0].HA}`);
+              //betNames.eq(1).html(`${ma.PA[1].HA}`);
+              //betNames.eq(2).html(`${ma.PA[2].HA}`);
+              //betNames.eq(3).html(`${ma.PA[3].HA}`);
+              //betNames.eq(4).html(`${ma.PA[4].HA}`);
+              //betNames.eq(5).html(`${ma.PA[5].HA}`);
+              //betNames.eq(6).html(`${ma.PA[6].HA}`);
+              //betNames.eq(7).html(`${ma.PA[7].HA}`); break;
               default: break;
             }
           }
@@ -208,4 +209,4 @@ exports('coef_table', (params, done) => {
     }
     done();
   });
-});  
+});
