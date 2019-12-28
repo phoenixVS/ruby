@@ -106,7 +106,7 @@ exports('coef_table', (params, done) => {
             $(`[data-id=coef_table]`).empty();
             data.RESULT.EV[0].MA.forEach((ma, i) => {
               $(`[data-id=coef_table]`).append(`
-            <div data-id="row_info" data-row-status="not_active" data-coef-id="${ma.ID}" class="row info det">
+            <div data-id="row_info" data-row-status="not_active" data-coef-id="${ma.ID}" class="row info det" style="height: 50px; border-bottom: 0.5px solid black;">
               <div class="cell">
                 <p data-coef-id="${ma.ID}" class="font">${ma.NA}</p>
               </div>
@@ -118,6 +118,7 @@ exports('coef_table', (params, done) => {
           rowsPromise.then((resolve) => {
             $(`[data-id=row_info]`).on('click', (elem) => {
               let cur = $(elem.target);
+
               if (cur.is('p')) {
                 cur = cur.parent().parent();
               }
@@ -131,8 +132,8 @@ exports('coef_table', (params, done) => {
                     cur.after(new_item);
                     ma.PA.forEach((pa) => {
                       $(`[data-bet=${ma.ID}]`).append(`
-                      <div style="margin: auto;flex: 1 1 auto;" class="cell">
-                      <button class="button coefficient">
+                      <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
+                      <button style="padding-left: 10px;" class="button coefficient">
                         <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${pa.NA}</span>
                         <span class="font">${pa.OD.D}</span>
                       </button>
@@ -186,14 +187,20 @@ exports('coef_table', (params, done) => {
                 betNames.eq(0).html(`1`);
                 betNames.eq(1).html(`2`); break;
               case 50281:
-                betNames.eq(0).html(`${ma.PA[0].HA}`);
-                betNames.eq(1).html(`${ma.PA[1].HA}`);
-                betNames.eq(2).html(`${ma.PA[2].HA}`);
-                betNames.eq(3).html(`${ma.PA[3].HA}`);
-                betNames.eq(4).html(`${ma.PA[4].HA}`);
-                betNames.eq(5).html(`${ma.PA[5].HA}`);
-                betNames.eq(6).html(`${ma.PA[6].HA}`);
-                betNames.eq(7).html(`${ma.PA[7].HA}`); break;
+                betNames.each((elem) => {
+                  console.log(elem);
+                });
+              // betNames.forEach((elem) => {
+              //   console.log(elem);
+              // });
+              //betNames.eq(0).html(`${ma.PA[0].HA}`);
+              //betNames.eq(1).html(`${ma.PA[1].HA}`);
+              //betNames.eq(2).html(`${ma.PA[2].HA}`);
+              //betNames.eq(3).html(`${ma.PA[3].HA}`);
+              //betNames.eq(4).html(`${ma.PA[4].HA}`);
+              //betNames.eq(5).html(`${ma.PA[5].HA}`);
+              //betNames.eq(6).html(`${ma.PA[6].HA}`);
+              //betNames.eq(7).html(`${ma.PA[7].HA}`); break;
               default: break;
             }
           }
@@ -202,4 +209,4 @@ exports('coef_table', (params, done) => {
     }
     done();
   });
-});  
+});
