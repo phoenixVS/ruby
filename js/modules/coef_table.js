@@ -118,9 +118,9 @@ exports('coef_table', (params, done) => {
           rowsPromise.then((resolve) => {
             $(`[data-id=row_info]`).on('click', (elem) => {
               let cur = $(elem.target);
-                    if(cur.is('p')){
-                            cur = cur.parent().parent();
-                    }
+              if (cur.is('p')) {
+                cur = cur.parent().parent();
+              }
               if (cur.data('rowStatus') == 'not_active') {
                 cur.addClass('active');
                 cur.removeClass('not-active');
@@ -139,7 +139,7 @@ exports('coef_table', (params, done) => {
                     </div>`);
                     });
                     new_item.show('normal');
-                    RenderRows(cur.data('coefId'));
+                    RenderRows(cur.data('coefId'), ma);
                   }
                 });
                 $('[data-id=row_info]').css('position', 'relative');
@@ -153,21 +153,47 @@ exports('coef_table', (params, done) => {
                 cur.data('rowStatus', 'active').attr('data-row-status', 'active');
               }
               else {
-               cur.removeClass('active');
-               cur.addClass('not-active');
+                cur.removeClass('active');
+                cur.addClass('not-active');
                 $(`[data-bet=${cur.data('coefId')}]`).remove();
                 cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
               }
             });
           });
-          function RenderRows(ID) {
+          function RenderRows(ID, ma) {
             let cur = $(`[data-bet=${ID}]`);
             let betNames = $(`[data-id=bet_name_${ID}]`);
+            console.log(ID);
             switch (ID) {
               case 1777:
-               betNames.eq(0).html(`1`);
-               betNames.eq(1).html(`x`);
-               betNames.eq(2).html(`0`);
+                betNames.eq(0).html(`1`);
+                betNames.eq(1).html(`X`);
+                betNames.eq(2).html(`2`); break;
+              case 10115:
+                betNames.eq(0).html(`1X`);
+                betNames.eq(1).html(`X2`);
+                betNames.eq(2).html(`12`); break;
+              case 10161:
+                betNames.eq(0).html(`1`);
+                betNames.eq(1).html(`X`);
+                betNames.eq(2).html(`2`); break;
+              case 1778:
+                betNames.eq(0).html(`1`);
+                betNames.eq(2).html(`2`); break;
+              case 10124: break;
+              case 10568: break;
+              case 10147:
+                betNames.eq(0).html(`1`);
+                betNames.eq(1).html(`2`); break;
+              case 50281:
+                betNames.eq(0).html(`${ma.PA[0].HA}`);
+                betNames.eq(1).html(`${ma.PA[1].HA}`);
+                betNames.eq(2).html(`${ma.PA[2].HA}`);
+                betNames.eq(3).html(`${ma.PA[3].HA}`);
+                betNames.eq(4).html(`${ma.PA[4].HA}`);
+                betNames.eq(5).html(`${ma.PA[5].HA}`);
+                betNames.eq(6).html(`${ma.PA[6].HA}`);
+                betNames.eq(7).html(`${ma.PA[7].HA}`); break;
               default: break;
             }
           }
