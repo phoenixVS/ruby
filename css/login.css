@@ -1,13 +1,101 @@
 .loginContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   z-index: 11;
   left: 50%;
-  top: 100px;
-  width: 50%;
+  top: 140px;
+  width: 60%;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
-  max-width: 350px;
   max-height: 100%;
   overflow-y: auto;
   background-color: #33202b;
+  border: 2px solid #33202b;
+  border-radius: 5px;
+}
+/* #login-overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+  cursor: pointer;
+} */
+.loginHeader {
+  color: #fff;
+  font-size: 25px;
+  text-align: center;
+  padding: 0 0 20px;
+}
+.loginContent input[type='text'],
+input[type='password'] {
+  width: 100%;
+  margin: 5px 5px 5px 5px;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  background: transparent;
+  outline: none;
+  font-size: 16px;
+  color: #fff;
+  height: 40px;
+}
+.loginContent input::placeholder {
+  color: #fff;
+  font-size: 16px;
+}
+.loginContent .checkboxText {
+  color: #fff;
+  font-size: 14px;
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.container:hover input ~ .checkboxInput {
+  background-color: #ccc;
+}
+.checkboxText input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkboxText .checkboxInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+.loginContent .loginButton {
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background: #fb2525;
+  color: #fff;
+}
+.loginContent .lostLogin {
+  color: #fff;
+  font-size: 16px;
+}
+.loginContent .failedLogin {
+  display: none;
+  color: #fff;
 }

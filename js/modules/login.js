@@ -7,11 +7,11 @@ exports('login', (params, done) => {
         $('#content').prepend(`
         <div class="loginContainer">
           <div class="loginContent">
-            <div class="loginHeader"></div>
+            <div class="loginHeader">Login</div>
             <!--User Name-->
             <div class="inputLogin">
               <input type="text" placeholder="User name" autocapitalize="off" autocomplete="off" autocorrect="off" class="userName">
-              <div class="ClearButton"></div>
+              <div class="clearButton"></div>
             </div>
             <!--Password-->
             <div class="inputPassword>
@@ -26,11 +26,12 @@ exports('login', (params, done) => {
             <div class="stayInContainer">
               <div class="checkboxContainer">
                 <label class="checkboxText">
-                    <span type="checkbox" class="checkboxInput"></span> Remain in the system
+                  <input type="checkbox">
+                  <span type="checkbox" class="checkboxInput"></span> Remain in the system
                 </label>
               </div>
             </div>
-            <div class="loginButton">Login</div>
+            <div class="loginButton">Submit</div>
             <div class="lostLogin ">Forgot the password?</div>
           </div>
         </div>
@@ -38,15 +39,17 @@ exports('login', (params, done) => {
         resolve();
       });
       renderPromise.then(() => {
+        $(`[data-id=login]`).off('click', renderLoginPopup);
         const login = $('.loginContainer');
-        $('.blur').on('click', () => {
-          login.css('display', 'none');
-          $('.blur').removeClass('block').addClass('none');
+        const blur = $('.blur');
+        blur.removeClass('none').addClass('block');
+        blur.on('click', () => {
+          //blur.removeClass('block').addClass('none');
+          console.log(`clicked`);
         });
       });
     }
     $(`[data-id=login]`).on('click', renderLoginPopup);
-
     done();
   });
 });
