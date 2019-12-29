@@ -68,6 +68,9 @@ input[type='password'] {
 .container:hover input ~ .checkboxInput {
   background-color: #ccc;
 }
+.container input:checked ~ .checkboxInput {
+  background-color: #2196f3;
+}
 .checkboxText input {
   position: absolute;
   opacity: 0;
@@ -83,13 +86,29 @@ input[type='password'] {
   width: 25px;
   background-color: #eee;
 }
+.checkboxInput:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.checkboxText input:checked ~ .checkboxInput:after {
+  display: block;
+}
+
+.checkboxText .checkboxInput:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;                
+}
 .loginContent .loginButton {
   color: #fff;
   font-size: 18px;
   border: none;
   outline: none;
-  background: #fb2525;
-  color: #fff;
+  background: #cc22ff ;
 }
 .loginContent .lostLogin {
   color: #fff;
