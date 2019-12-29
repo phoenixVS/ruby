@@ -61,6 +61,10 @@ exports('aside', (params, done) => {
       Cookies.set('favourites', ID);
     }
 
+    function RemoveFav(ID) {
+
+    }
+
     jQuery.fn.outerHTML = function() {
       return $(this).clone().wrap('<div></div>').parent().html();
     };
@@ -113,8 +117,13 @@ exports('aside', (params, done) => {
           httpGetFav(urlInplay, 'inplay');
         });
 
-        $(`[data-id=fav-star]`).on('click', (elem) => {
-          asideOrderAnim(elem)
+        $(`[data-id=fav-star]`).on('click', (el) => {
+              
+          if ( $(el.target).data('clicked') == 'on') {
+            asideOrderBack(el);
+          } else {
+            asideOrderAnim(el);
+          }
         });
       }); 
     }
@@ -125,7 +134,7 @@ exports('aside', (params, done) => {
           console.log('Added to fav ' + $(elem.target).data(`sport`));
           $(elem.target).addClass('active');
           $(elem.target).removeClass('not-active');
-          $(elem.target).data('id', '');
+          $(elem.target).attr('data-clicked', 'on');
 
           let $myLi = $($(elem.target)).parent();
           let listHeight = $(`[data-id=aside-ul]`).innerHeight();
@@ -137,21 +146,64 @@ exports('aside', (params, done) => {
           let enough = false;
           let liHtml = $myLi.outerHTML();
     
-          $(`[data-id=liel]`).each(function() {
-            if ($($(elem.target)).parent().attr("id") == liId) {
+          $(`[data-id=liel]`).each(function(el) {
+            if ($(el.target).attr("id") == liId) {
               return false;
           }
-          $($(elem.target)).parent().animate({"top": '+=' + moveDown}, 200);
+            $(el.target).animate({"top": '+=' + moveDown}, 380);
           });
     
-          $myLi.animate({"top": '-=' + moveUp}, 500, function() {
-          $myLi.remove();
-          var oldHtml = $(`[data-id=aside-ul]`).html();
-          $(`[data-id=aside-ul]`).html(liHtml + oldHtml);
-          $(elem.target).data('id', '');
-          $(`[data-id=fav-star]`).on('click', (elem) => {
-            asideOrderAnim(elem)
+          $myLi.animate({"top": '-=' + moveUp}, 380, function() {
+            $myLi.remove();
+            let oldHtml = $(`[data-id=aside-ul]`).html();
+            $(`[data-id=aside-ul]`).html(liHtml + oldHtml);
+            $(`[data-id=fav-star]`).on('click', (el) => {
+              
+              if ( $(el.target).data('clicked') == 'on') {
+                asideOrderBack(el);
+              } else {
+                asideOrderAnim(el);
+              }
+            });
           });
+    }
+
+    function asideOrderBack(elem) {
+      elem.stopPropagation();
+      //Remove cookies
+      $(elem.target).addClass('not-active');
+      $(elem.target).removeClass('active');
+      $(elem.target).attr('data-clicked', 'off');
+
+      let $myLi = $($(elem.target)).parent();
+          let listHeight = $(`[data-id=aside-ul]`).innerHeight();
+          let elemHeight = $myLi.height();
+          let elemTop = $myLi.position().top;
+          let moveUp = listHeight - (listHeight - elemTop);
+          let moveDown = elemHeight;
+          let liId = $myLi.attr("id");
+          let enough = false;
+          let liHtml = $myLi.outerHTML();
+    
+          $(`[data-id=liel]`).each(function(el) {
+            if ($(el.target).attr("id") == liId) {
+              return false;
+          }
+            $(el.target).animate({"top": '+=' + moveDown}, 380);
+          });
+    
+          $myLi.animate({"top": '-=' + moveUp}, 380, function() {
+            $myLi.remove();
+            let oldHtml = $(`[data-id=aside-ul]`).html();
+            $(`[data-id=aside-ul]`).html(liHtml + oldHtml);
+            $(`[data-id=fav-star]`).on('click', (el) => {
+              
+              if ( $(el.target).data('clicked') == 'on') {
+                asideOrderBack(el);
+              } else {
+                asideOrderAnim(el);
+              }
+            });
           });
     }
 
@@ -178,7 +230,7 @@ exports('aside', (params, done) => {
         
         <span class="sports-${ID}" style="margin-left: 5px; "></span>
         <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
-        <span data-id="fav-star" data-sport="${ID}" class="star" style="position: absolute; left: 79%;"></span>
+        <span data-id="fav-star" data-sport="${ID}"class="star" style="position: absolute; left: 79%;"></span>
       </li>
       `);
       $(`[data-id=aside-link-${ID}]`).on('click', () => {
