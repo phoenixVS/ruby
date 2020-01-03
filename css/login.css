@@ -38,7 +38,7 @@
 } */
 .loginHeader {
     color: #fff;
-    font-size: 25px;
+    font-size: 28px;
     text-align: center;
     padding: 0 0 20px;
 }
@@ -62,57 +62,63 @@
 
 .loginContent input::placeholder {
     color: #fff;
-    font-size: 12px;
+    font-size: 16px;
 }
+/*container = checkboxText*/
 .checkboxText {
-    display: flex;
-    align-items: center;
-    color: #fff;
-    font-size: 14px;
+    display: block;
     position: relative;
     padding-left: 35px;
-    margin-bottom: 32px;
+    margin-bottom: 12px;
     cursor: pointer;
+    font-size: 16px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    color: #fff;
 }
-.checkboxText:nth-child(1) {
-    padding: 5px 0 0 35px;
-}
-.container:hover input ~ .checkboxInput {
-    background-color: #ccc;
-}
-.checkboxText {
-    position: relative;
+  /* Hide the browser's default checkbox */
+.checkboxText input {
+    position: absolute;
+    opacity: 0;
     cursor: pointer;
-    left: 0;
+    height: 0;
+    width: 0;
+}
+  /* Create a custom checkbox */
+.checkmark {
+    position: absolute;
     top: 0;
+    left: 0;
     height: 25px;
     width: 25px;
     background-color: #eee;
 }
-.checkboxText input:checked ~ .checkboxInput {
-    background-color: #2196f3;
+/* On mouse-over, add a grey background color */
+.checkboxText:hover input ~ .checkmark {
+    background-color: #ccc;
 }
-.checkboxInput:after {
-    content: '';
+
+/* When the checkbox is checked, add a blue background */
+.checkboxText input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
     position: absolute;
     display: none;
 }
-.checkboxText input:checked ~ .checkboxInput:after {
+
+/* Show the checkmark when checked */
+.checkboxText input:checked ~ .checkmark:after {
     display: block;
 }
-.checkboxText .checkboxInput {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: #eee;
-}
-.checkboxText .checkboxInput:after {
+
+/* Style the checkmark/indicator */
+.checkboxText .checkmark:after {
     left: 9px;
     top: 5px;
     width: 5px;
@@ -122,23 +128,6 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-}
-.checkboxInput:after {
-    content: '';
-    position: absolute;
-    display: none;
-}
-.checkboxText input:checked ~ .checkboxInput:after {
-    display: block;
-}
-
-.checkboxText .checkboxInput:after {
-    top: 9px;
-    left: 9px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: white;
 }
 .loginContent .loginButton {
     color: #fff;
@@ -153,14 +142,14 @@
 .loginContent .loginButton:active {
     cursor: pointer;
     color: #000;
-    background: #ffc107;
+    background: gray;
 }
 .loginContent .lostLogin {
     color: #fff;
     font-size: 12px;
 }
 .loginContent .lostLogin:hover {
-    color: #ffc107;
+    color: gray;
     font-size: 12px;
 }
 .loginContent .failedLogin {

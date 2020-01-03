@@ -4,8 +4,7 @@ exports('login', (params, done) => {
     function renderLoginPopup() {
       let renderPromise = new Promise((resolve, reject) => {
         $('.blur').removeClass('none').addClass('block');
-        $('#content').prepend(`
-        <div data-id="loginContainer" class="loginContainer">
+        $(`<div style="display: none;" data-id="loginContainer" class="loginContainer">
           <div class="loginContent">
             <div class="loginHeader">Login</div>
             <!--User Name-->
@@ -26,9 +25,9 @@ exports('login', (params, done) => {
             <div class="stayInContainer">
               <div class="checkboxContainer">
                 <label class="checkboxText">
-                  <div><input type="checkbox">
-                  <span type="checkbox" class="checkboxInput"></span></div>
-                  <div>Remain in the system</div>
+                Remain in the system
+                  <input id="checkbox" type="checkbox">
+                  <span class="checkmark"></span>
                 </label>
               </div>
             </div>
@@ -36,13 +35,18 @@ exports('login', (params, done) => {
             <div class="lostLogin ">Forgot the password?</div>
           </div>
         </div>
-      `);
+      `).prependTo('#content').fadeIn('slow');
         resolve();
       });
       renderPromise.then(() => {
         $(`[data-id=login]`).off('click', renderLoginPopup);
         const login = $('.loginContainer');
         const blur = $(`[data-id=blur]`);
+        $('.loginButton').on('click', () => {
+          login.fadeOut().remove("active");
+          blur.removeClass('block').addClass('none');
+          $(`[data-id=login]`).on('click', renderLoginPopup);
+        });
         $("body").click(function (e) {
           if ($(e.target).closest(`[data-id=login]`).length != 0) return false; // disable trigger on first click to log in
           if ($(e.target).closest(`[data-id=loginContainer]`).length != 0) return false; // disable trigger on login popup
@@ -50,6 +54,16 @@ exports('login', (params, done) => {
           blur.removeClass('block').addClass('none');
           $(`[data-id=login]`).on('click', renderLoginPopup);
         });
+        // Checkbox handler
+        function checkmark() {
+          if ($('#checkbox').is(':checked')) {
+            $('#checkbox').prop('checked', false);
+          }
+          else {
+            $('#checkbox').prop('checked', true);
+          }
+        }
+        $('.checkboxText').on('click', checkmark);
         blur.removeClass('none').addClass('block');
       });
     }

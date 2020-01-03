@@ -170,6 +170,7 @@ function gameHandler(sport, ID) {
 
     onModulesLoad.then(
         result => {
+            console.log(`Here`);
             // video unlurk
             gameWrapper.data(`display`, 'true').attr('display', 'block');
             gameWrapper.css('display', 'block');
