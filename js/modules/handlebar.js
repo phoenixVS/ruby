@@ -76,7 +76,6 @@ function filterHandler(ID) {
         /*for (let i = 0; i < window.intervals.length; i++) {
             clearInterval(window.intervals[i]);
         }*/
-        console.info("This page is reloaded");
         loadJsModules({
             header: { loadCSS: false, loadLanguage: false },
             aside: { loadCSS: false, loadLanguage: false },
@@ -90,7 +89,6 @@ function filterHandler(ID) {
         /*for (let i = 0; i < window.intervals.length; i++) {
             clearInterval(window.intervals[i]);
         }*/
-        console.info("This page is not reloaded");
     }
     let onModulesLoad = new Promise((resolve, reject) => {
         loadJsModules({
@@ -151,13 +149,10 @@ function gameHandler(sport, ID) {
     const gameWrapper = $('[data-id=game]');
 
     if (performance.navigation.type == 1) {
-        console.info("This page is reloaded");
         loadJsModules({
             header: { loadCSS: false, loadLanguage: false },
             aside: { loadCSS: false, loadLanguage: false },
         });
-    } else {
-        console.info("This page is not reloaded");
     }
 
     let onModulesLoad = new Promise((resolve, reject) => {
@@ -170,7 +165,6 @@ function gameHandler(sport, ID) {
 
     onModulesLoad.then(
         result => {
-            console.log(`Here`);
             // video unlurk
             gameWrapper.data(`display`, 'true').attr('display', 'block');
             gameWrapper.css('display', 'block');
@@ -251,13 +245,140 @@ function betslipHandler() {
 function betslip_smallHandler() {
 
 }
+function userHandler(username, nav_link, nav_link_small) {
+    let reload_status = 0;
+    if (performance.navigation.type == 1) {
+        reload_status = 1;
+        loadJsModules({
+            header: { loadCSS: false, loadLanguage: false },
+        });
+    }
 
+    let onModulesLoad = new Promise((resolve, reject) => {
+        loadJsModules({
+            user: { username: username, nav_link: nav_link, nav_link_small: nav_link_small, loadCSS: false, loadLanguage: false },
+        });
+        resolve();
+    });
+
+    onModulesLoad.then(
+        result => {
+            if (reload_status == 0) {
+                const gameWrapper = $('[data-id=game]');
+                // video lurk
+                gameWrapper.data(`display`, 'false').attr('display', 'none');
+                gameWrapper.css('display', 'none');
+                // coef_table lurk
+                let coef_table = $(`[data-id=coef_table]`);
+                coef_table.data(`display`, 'false').attr('display', 'none');
+                coef_table.css('display', 'none');
+                // live lurk
+                let live = $(`[data-id=live]`);
+                if (live.data(`display`) === 'none') {
+                    live.css('display', 'none');
+                }
+                else {
+                    live.data(`display`, 'none').attr('data-display', 'none');
+                    live.css('display', 'none');
+                }
+                // betslip lurk
+                let betslip = $(`[data-id=betslip]`);
+                if (betslip.data(`display`) === 'none') {
+                    betslip.css('display', 'none');
+                }
+                else {
+                    betslip.data(`display`, 'none').attr('data-display', 'none');
+                    betslip.css('display', 'none');
+                }
+                // betslip small lurk
+                let betslip_small = $(`[data-id=betslip-small]`);
+                if (betslip_small.data(`display`) === 'none') {
+                    betslip_small.css('display', 'none');
+                }
+                else {
+                    betslip_small.data(`display`, 'none').attr('data-display', 'none');
+                    betslip_small.css('display', 'none');
+                }
+                // play-big lurk
+                let play_big = $(`[data-id=play-big]`);
+                if (play_big.data(`display`) === 'none') {
+                    play_big.css('display', 'none');
+                }
+                else {
+                    play_big.data(`display`, 'none').attr('data-display', 'none');
+                    play_big.css('display', 'none');
+                }
+                // play-table lurk
+                let play_table = $(`[data-id=play-table]`);
+                if (play_table.data(`display`) === 'none') {
+                    play_table.css('display', 'none');
+                }
+                else {
+                    play_table.data(`display`, 'none').attr('data-display', 'none');
+                    play_table.css('display', 'none');
+                }
+                // betslip-link lurk
+                let betslip_link = $(`[data-id=betslip-link]`);
+                if (betslip_link.data(`display`) === 'none') {
+                    betslip_link.css('display', 'none');
+                }
+                else {
+                    betslip_link.data(`display`, 'none').attr('data-display', 'none');
+                    betslip_link.css('display', 'none');
+                }
+                // slider lurk
+                let slider = $(`[data-id=slider]`);
+                if (slider.data(`display`) === 'none') {
+                    slider.css('display', 'none');
+                }
+                else {
+                    slider.data(`display`, 'none').attr('data-display', 'none');
+                    slider.css('display', 'none');
+                }
+            }
+            else {
+                // slider lurk
+                let slider = $(`[data-id=slider]`);
+                if (slider.data(`display`) === 'none') {
+                    slider.css('display', 'none');
+                }
+                else {
+                    slider.data(`display`, 'none').attr('data-display', 'none');
+                    slider.css('display', 'none');
+                }
+                // betslip-link lurk
+                let betslip_link = $(`[data-id=betslip-link]`);
+                if (betslip_link.data(`display`) === 'none') {
+                    betslip_link.css('display', 'none');
+                }
+                else {
+                    betslip_link.data(`display`, 'none').attr('data-display', 'none');
+                    betslip_link.css('display', 'none');
+                }
+            }
+        },
+        error => {
+            console.log(`modules haven't been loaded :_( \n
+        and everthing because of: ${error}`);
+        });
+}
+
+// 404 Page not found
 function emptyHandler() {
     loadJsModules({
         header: { loadCSS: false, loadLanguage: false },
         aside: { loadCSS: false, loadLanguage: false },
         p404: { loadCSS: false, loadLanguage: false },
     });
+    // betslip-link lurk
+    let betslip_link = $(`[data-id=betslip-link]`);
+    if (betslip_link.data(`display`) === 'none') {
+        betslip_link.css('display', 'none');
+    }
+    else {
+        betslip_link.data(`display`, 'none').attr('data-display', 'none');
+        betslip_link.css('display', 'none');
+    }
 }
 
 function locationHashChanged() {
@@ -272,6 +393,7 @@ function locationHashChanged() {
             case 'event': gameHandler(window.location.href.split('/')[6], window.location.href.split('/')[7]); break;
             case 'betslip': betslipHandler(); break;
             case 'betslip-small': betslip_smallHandler(); break;
+            case 'user': userHandler(window.location.href.split('/')[6], window.location.href.split('/')[7], window.location.href.split('/')[8]); break;
             default: emptyHandler();
         }
     }

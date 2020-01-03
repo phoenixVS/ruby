@@ -12,7 +12,7 @@ exports('header', (params, done) => {
     }, () => {
         if (Cookies.get('logon') == true) {
             loadJsModules({
-                user: { loadCSS: false, loadLanguage: false },
+                account: { loadCSS: false, loadLanguage: false },
             });
         }
         else {
@@ -97,6 +97,9 @@ exports('header', (params, done) => {
             });
         })(0); // end of langs changer
 
+        // Account profile redirect
+        let username = 'vasya1999';
+        $(`[data-id=user]`).prop('href', `#/user/${username}/balance/casier`);
         done();
     });
 });
