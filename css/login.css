@@ -1,20 +1,28 @@
 .loginContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  z-index: 11;
-  left: 50%;
-  top: 140px;
-  width: 60%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  max-height: 100%;
-  overflow-y: auto;
-  background-color: #33202b;
-  border: 2px solid #33202b;
-  border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 11;
+    left: 50%;
+    top: 240px;
+    width: 60%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    max-height: 100%;
+    overflow-y: auto;
+    background-color: #33202b;
+    border: 2px solid #33202b;
+    border-radius: 5px;
 }
+/* .login-ava {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top: -50%;
+    left: calc(50%-50px);
+} */
 /* #login-overlay {
   position: fixed;
   display: none;
@@ -29,73 +37,117 @@
   cursor: pointer;
 } */
 .loginHeader {
-  color: #fff;
-  font-size: 25px;
-  text-align: center;
-  padding: 0 0 20px;
+    color: #fff;
+    font-size: 25px;
+    text-align: center;
+    padding: 0 0 20px;
+}
+.inputPassword {
+    margin-bottom: 35px;
 }
 .loginContent input[type='text'],
-input[type='password'] {
-  width: 100%;
-  margin: 5px 5px 5px 5px;
-  padding: 10px;
-  border: none;
-  border-bottom: 1px solid #fff;
-  background: transparent;
-  outline: none;
-  font-size: 16px;
-  color: #fff;
-  height: 40px;
+.loginContent input[type='password'] {
+    position: relative;
+    width: 100%;
+    margin: 5px 5px 5px 5px;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    outline: none;
+    font-size: 16px;
+    color: #fff;
+    height: 40px;
 }
+
 .loginContent input::placeholder {
-  color: #fff;
-  font-size: 16px;
+    color: #fff;
+    font-size: 12px;
 }
-.loginContent .checkboxText {
-  color: #fff;
-  font-size: 14px;
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+.checkboxText {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 14px;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 32px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.checkboxText:nth-child(1) {
+    padding: 5px 0 0 35px;
 }
 .container:hover input ~ .checkboxInput {
-  background-color: #ccc;
+    background-color: #ccc;
 }
-.checkboxText input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
+.checkboxText {
+    position: relative;
+    cursor: pointer;
+    left: 0;
+    top: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+.checkboxText input:checked ~ .checkboxInput {
+    background-color: #2196f3;
+}
+.checkboxInput:after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+.checkboxText input:checked ~ .checkboxInput:after {
+    display: block;
 }
 .checkboxText .checkboxInput {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #eee;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+.checkboxText .checkboxInput:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 .loginContent .loginButton {
-  color: #fff;
-  font-size: 18px;
-  border: none;
-  outline: none;
-  background: #fb2525;
-  color: #fff;
+    color: #fff;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background: #fb2525;
+    border-radius: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+.loginContent .loginButton:active {
+    cursor: pointer;
+    color: #000;
+    background: #ffc107;
 }
 .loginContent .lostLogin {
-  color: #fff;
-  font-size: 16px;
+    color: #fff;
+    font-size: 12px;
+}
+.loginContent .lostLogin:hover {
+    color: #ffc107;
+    font-size: 12px;
 }
 .loginContent .failedLogin {
-  display: none;
-  color: #fff;
+    display: none;
+    color: #fff;
+    font-size: 12px;
 }

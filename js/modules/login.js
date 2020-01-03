@@ -5,17 +5,17 @@ exports('login', (params, done) => {
       let renderPromise = new Promise((resolve, reject) => {
         $('.blur').removeClass('none').addClass('block');
         $('#content').prepend(`
-        <div class="loginContainer">
+        <div data-id="loginContainer" class="loginContainer">
           <div class="loginContent">
             <div class="loginHeader">Login</div>
             <!--User Name-->
             <div class="inputLogin">
-              <input type="text" placeholder="User name" autocapitalize="off" autocomplete="off" autocorrect="off" class="userName">
+              <input type="text" placeholder="User name" name="username" autocapitalize="off" autocomplete="off" autocorrect="off">
               <div class="clearButton"></div>
             </div>
             <!--Password-->
-            <div class="inputPassword>
-              <input type="password" placeholder="Password" autocapitalize="off" autocomplete="off" autocorrect="off" class="pwd">
+            <div class="inputPassword">
+              <input type="password" placeholder="Password" name="password" autocapitalize="off" autocomplete="off" autocorrect="off">
               <div class="showPassword"></div>
             </div>
             <div class="failedLogin">
@@ -26,8 +26,9 @@ exports('login', (params, done) => {
             <div class="stayInContainer">
               <div class="checkboxContainer">
                 <label class="checkboxText">
-                  <input type="checkbox">
-                  <span type="checkbox" class="checkboxInput"></span> Remain in the system
+                  <div><input type="checkbox">
+                  <span type="checkbox" class="checkboxInput"></span></div>
+                  <div>Remain in the system</div>
                 </label>
               </div>
             </div>
@@ -41,12 +42,15 @@ exports('login', (params, done) => {
       renderPromise.then(() => {
         $(`[data-id=login]`).off('click', renderLoginPopup);
         const login = $('.loginContainer');
-        const blur = $('.blur');
-        blur.removeClass('none').addClass('block');
-        blur.on('click', () => {
-          //blur.removeClass('block').addClass('none');
-          console.log(`clicked`);
+        const blur = $(`[data-id=blur]`);
+        $("body").click(function (e) {
+          if ($(e.target).closest(`[data-id=login]`).length != 0) return false; // disable trigger on first click to log in
+          if ($(e.target).closest(`[data-id=loginContainer]`).length != 0) return false; // disable trigger on login popup
+          login.fadeOut().remove("active");
+          blur.removeClass('block').addClass('none');
+          $(`[data-id=login]`).on('click', renderLoginPopup);
         });
+        blur.removeClass('none').addClass('block');
       });
     }
     $(`[data-id=login]`).on('click', renderLoginPopup);

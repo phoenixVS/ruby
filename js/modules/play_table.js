@@ -122,22 +122,19 @@ exports('play_table', (params, done) => {
     httpGet(urlInplay, 'inplay');
 
     function renderTable(data, ID) {
-      data.DATA[0].CT.forEach(ct => {
-        ct.EV.forEach(ev => {
-          if (ev.MA[0].PA[0] == undefined || ev.MA[0].PA[1] == undefined || ev.MA[0].PA[2] == undefined) {
-            console.log(ev.NA);
-          }
-        });
-      });
       //window.intervalCount = 0;
       //window.intervals = new Array();
-      let promise = new Promise((resolve, reject) => {
-        data.DATA.forEach(sport => {
-          if (parseInt(sport.ID) == ID) {
-            if (sport.ID == 1) {
-              for (let i = 0; i < sport.CT.length; i++) {
-                for (let j = 0; j < sport.CT[i].EV.length; j++) {
-                  $(`[data-id="play-table"]`).append(`
+      try {
+        let promise = new Promise((resolve, reject) => {
+          data.DATA.forEach(sport => {
+            if (parseInt(sport.ID) == ID) {
+              if (sport.ID == 1) {
+                for (let i = 0; i < sport.CT.length; i++) {
+                  for (let j = 0; j < sport.CT[i].EV.length; j++) {
+                    if (sport.CT[i].EV[j].MA[0].PA[0] === undefined || sport.CT[i].EV[j].MA[0].PA[1] === undefined || sport.CT[i].EV[j].MA[0].PA[2] === undefined) {
+                      throw (ev.NA);
+                    }
+                    $(`[data-id="play-table"]`).append(`
                     <div class="row">
                     <div class="cell" data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" data-id="event">
                     <div data-sport-id="${sport.ID}" data-class="play-link" data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link ]">
@@ -156,17 +153,17 @@ exports('play_table', (params, done) => {
                         <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[2].OD.F}</button> 
                       </div>
                     </div>`);
-                }
-                $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
+                  }
+                  $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
                 <div class="cell"> <p class="font">${sport.CT[i].NA} </p> </div> 
                 <div class="cell"> <p class="font">1</p> </div> 
                 <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>`);
+                }
               }
-            }
-            else {
-              for (let i = 0; i < sport.CT.length; i++) {
-                for (let j = 0; j < sport.CT[i].EV.length; j++) {
-                  $(`[data-id="play-table"]`).append(`
+              else {
+                for (let i = 0; i < sport.CT.length; i++) {
+                  for (let j = 0; j < sport.CT[i].EV.length; j++) {
+                    $(`[data-id="play-table"]`).append(`
                     <div class="row">
                     <div class="cell" data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" data-id="event">
                     <div data-class="play-link" data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link ]">
@@ -186,49 +183,52 @@ exports('play_table', (params, done) => {
                         <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[1].OD.F}</button>
                       </div> 
                     </div>`);
-                }
-                $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
+                  }
+                  $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
                 <div class="cell"> <p class="font">${sport.CT[i].NA} </p> </div> 
                 <div class="cell"> <p class="font">1</p> </div> 
                 <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>`);
+                }
               }
-            }
 
-          } else {
-            return true;
-          }
+            } else {
+              return true;
+            }
+          });
+          resolve();
         });
-        resolve();
-      });
-
-      promise
-        .then(() => {
-          // Handle opening of game section
-          $(`[data-id=event]`).on('click', (event) => {
-            let id = $(event.target).data('gameId');
-            let sport = $(event.target).data('sportId');
-            let curURL = window.location.href;
-            //if filter is active - remove it from hash
-            if (window.location.hash.split('/')[1] == 'filter') {
-              window.location.hash = '';
-              window.location.href += `/event/${sport}/${id}`;
-            }
-            else {
-              if (window.location.hash == '#') {
+        promise
+          .then(() => {
+            // Handle opening of game section
+            $(`[data-id=event]`).on('click', (event) => {
+              let id = $(event.target).data('gameId');
+              let sport = $(event.target).data('sportId');
+              let curURL = window.location.href;
+              //if filter is active - remove it from hash
+              if (window.location.hash.split('/')[1] == 'filter') {
+                window.location.hash = '';
                 window.location.href += `/event/${sport}/${id}`;
               }
               else {
-                window.location.href += `#/event/${sport}/${id}`;
+                if (window.location.hash == '#') {
+                  window.location.href += `/event/${sport}/${id}`;
+                }
+                else {
+                  window.location.href += `#/event/${sport}/${id}`;
+                }
               }
+            });
+            // Preloader finishes
+            const preloader = $('#page-preloader');
+            if (preloader.data(`status`) != 'done') {
+              preloader.addClass('done');
+              preloader.data(`status`, 'done').attr('data-status', 'done');
             }
           });
-          // Preloader finishes
-          const preloader = $('#page-preloader');
-          if (preloader.data(`status`) != 'done') {
-            preloader.addClass('done');
-            preloader.data(`status`, 'done').attr('data-status', 'done');
-          }
-        });
+      }
+      catch (err) {
+        console.log(`Event name: ${err}`);
+      }
       startTimerInplay();
     }
   });
