@@ -123,6 +123,23 @@
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+.checkboxInput:after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+.checkboxText input:checked ~ .checkboxInput:after {
+    display: block;
+}
+
+.checkboxText .checkboxInput:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
 .loginContent .loginButton {
     color: #fff;
     font-size: 18px;
