@@ -43,15 +43,18 @@ exports('user', (params, done) => {
           $(`[data-id=setting-box]`).append($('<div>').load(`./html/modules/user/${nav_link}/setting-nav.html`, function () {
             let nav_link_small = params.nav_link_small;
             if (nav_link_small === undefined) {
-              $(`[data-id=setting-box]`).empty().append($('<div>').load(`./html/modules/user/${nav_link}/default.html`));
+              $(`[data-id=setting-box]`).empty().append($('<div>').load(`./html/modules/user/${nav_link}/default.html`, () => {
+                resolve();
+              }));
             }
             else {
               $(`[data-id=${nav_link_small}]`).addClass('active');
-              $(`[data-id=setting-box]`).append($('<div>').load(`./html/modules/user/${nav_link}/${nav_link_small}.html`));
+              $(`[data-id=setting-box]`).append($('<div>').load(`./html/modules/user/${nav_link}/${nav_link_small}.html`, () => {
+                resolve();
+              }));
             }
           }));
         });
-      resolve();
     });
     renderPromise
       .then(() => {
@@ -61,24 +64,22 @@ exports('user', (params, done) => {
           preloader.addClass('done');
           preloader.data(`status`, 'done').attr('data-status', 'done');
         }
+        $('.setting-nav-link').off('click');
         $('.setting-nav-link').on('click', (event) => {
           let cur = $(event.target);
           if (cur.data('status') == 'active') { }
           else {
             let t = cur.data('id');
-            window.location.hash = '';
-            window.location.href += `/user/${params.username}/${t}`;
+            window.location.href = `#/user/${params.username}/${t}`;
           }
         });
-        $('.setting-nav-link.small').on('click', (event) => {
+        $(`[data-class=nav-link-small]`).off('click');
+        $(`[data-class=nav-link-small]`).on('click', (event) => {
           let cur = $(event.target);
-          console.log(`Hello`);
+          console.log(cur.data(`id`));
           if (cur.data('status') == 'active') { }
           else {
-
-            let t = cur.data('id');
-            window.location.hash = '';
-            window.location.href += `/user/${params.username}/${$('.setting-nav-link.active').data('id')}/${t}`;
+            window.location.href = `#/user/${params.username}/${$('.setting-nav-link.active').data('id')}/${cur.data('id')}`;
           }
         });
       });

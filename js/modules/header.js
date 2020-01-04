@@ -12,7 +12,7 @@ exports('header', (params, done) => {
     }, () => {
         if (Cookies.get('logon') == true) {
             loadJsModules({
-                account: { loadCSS: false, loadLanguage: false },
+                user_menu: { loadCSS: false, loadLanguage: false },
             });
         }
         else {
