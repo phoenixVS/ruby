@@ -124,6 +124,7 @@ exports('play_table', (params, done) => {
     function renderTable(data, ID) {
       //window.intervalCount = 0;
       //window.intervals = new Array();
+      $(`[data-id="play-table"]`).empty();
       try {
         let promise = new Promise((resolve, reject) => {
           data.DATA.forEach(sport => {

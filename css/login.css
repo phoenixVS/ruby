@@ -40,7 +40,7 @@
     color: #fff;
     font-size: 28px;
     text-align: center;
-    padding: 0 0 20px;
+    margin: 30px 0;
 }
 .inputPassword {
     margin-bottom: 35px;
@@ -68,6 +68,7 @@
 .checkboxText {
     display: block;
     position: relative;
+    margin-left: 20px;
     padding-left: 35px;
     margin-bottom: 12px;
     cursor: pointer;
@@ -138,22 +139,29 @@
     border-radius: 20px;
     text-align: center;
     line-height: 50px;
+    width: 230px;
+    margin: 20px;
 }
 .loginContent .loginButton:active {
     cursor: pointer;
     color: #000;
     background: gray;
 }
-.loginContent .lostLogin {
+.loginContent .inscriptions {
     color: #fff;
-    font-size: 12px;
+    font-size: 14px;
+    padding: 10px 0;
 }
-.loginContent .lostLogin:hover {
+.register:active,
+.lostLogin:active {
     color: gray;
-    font-size: 12px;
+    font-size: 14px;
+}
+.inscriptions .register {
+    float: right;
 }
 .loginContent .failedLogin {
     display: none;
     color: #fff;
-    font-size: 12px;
+    font-size: 14px;
 }

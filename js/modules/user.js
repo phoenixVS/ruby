@@ -76,7 +76,6 @@ exports('user', (params, done) => {
         $(`[data-class=nav-link-small]`).off('click');
         $(`[data-class=nav-link-small]`).on('click', (event) => {
           let cur = $(event.target);
-          console.log(cur.data(`id`));
           if (cur.data('status') == 'active') { }
           else {
             window.location.href = `#/user/${params.username}/${$('.setting-nav-link.active').data('id')}/${cur.data('id')}`;

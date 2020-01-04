@@ -32,10 +32,13 @@ exports('login', (params, done) => {
               </div>
             </div>
             <div class="loginButton">Submit</div>
-            <div class="lostLogin ">Forgot the password?</div>
+            <div class="inscriptions">
+              <span class="lostLogin">Forgot the password?</span>
+              <span class="register">Registration</span>
+            </div>
           </div>
         </div>
-      `).prependTo('#content').fadeIn('slow');
+      `).prependTo('#content').fadeIn('middle');
         resolve();
       });
       renderPromise.then(() => {
@@ -43,7 +46,7 @@ exports('login', (params, done) => {
         const login = $('.loginContainer');
         const blur = $(`[data-id=blur]`);
         $('.loginButton').on('click', () => {
-          login.fadeOut().remove("active");
+          login.fadeOut('middle').remove("active");
           blur.removeClass('block').addClass('none');
           $(`[data-id=login]`).on('click', renderLoginPopup);
         });
