@@ -86,20 +86,24 @@ exports('aside', (params, done) => {
           let ID_ = Cookies.get(name_);
           let id_;
 
-          for (let j = 0; j < data.DATA.length; j++) {
-            if (name_ == data.DATA[j].NA) {
-              id_ = j;
+          if (name_ != 'logon') {
+            for (let j = 0; j < data.DATA.length; j++) {
+              if (name_ == data.DATA[j].NA) {
+                id_ = j;
+              }
             }
+  
+            $(`[data-id=aside-ul]`).append(`
+            <li id="${id_}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+            <span class="sports-${ID_}" style="margin-left: 5px; "></span>
+            <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
+            <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
+            </li>
+            `);
+            fav_arr.push(name_);
+          } else {
+            continue;
           }
-
-          $(`[data-id=aside-ul]`).append(`
-          <li id="${id_}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
-          <span class="sports-${ID_}" style="margin-left: 5px; "></span>
-          <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
-          <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
-          </li>
-          `);
-          fav_arr.push(name_);
         }
         for (let i = 0; i < data.DATA.length; i++) {
         
@@ -255,20 +259,24 @@ exports('aside', (params, done) => {
           let ID_ = Cookies.get(name_);
           let id_;
 
-          for (let j = 0; j < data.DATA.length; j++) {
-            if (name_ == data.DATA[j].NA) {
-              id_ = j;
+          if (name_ != 'logon') {
+            for (let j = 0; j < data.DATA.length; j++) {
+              if (name_ == data.DATA[j].NA) {
+                id_ = j;
+              }
             }
+  
+            $(`[data-id=aside-ul]`).append(`
+            <li id="${id_}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+            <span class="sports-${ID_}" style="margin-left: 5px; "></span>
+            <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
+            <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
+            </li>
+            `);
+            fav_arr.push(name_);
+          } else {
+            continue;
           }
-
-          $(`[data-id=aside-ul]`).append(`
-          <li id="${id_}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
-          <span class="sports-${ID_}" style="margin-left: 5px; "></span>
-          <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
-          <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
-          </li>
-          `);
-          fav_arr.push(name_);
         }
         for (let i = 0; i < data.DATA.length; i++) {
         
