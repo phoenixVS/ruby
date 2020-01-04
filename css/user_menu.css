@@ -1,3 +1,12 @@
+.menu-wrapper {
+  position: absolute;
+  min-width: 260px;
+  max-width: 260px;
+  margin-right: 10px;
+  z-index: 11;
+  float: right;
+  top: 110px;
+}
 .user-menu {
   background-color: #391d2e;
   padding: 5px;
@@ -101,6 +110,24 @@ hr {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+}
+.user-menu-notification {
+  height: 20px;
+  width: 20px;
+  background-color: #c8304d;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  right: 10px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.user-menu-link * {
+  color: rgba(255, 255, 255, 0.6);
+  margin-right: 5px;
 }
 .user-menu-notification:before {
     content: '\f12a';

@@ -10,7 +10,7 @@ exports('header', (params, done) => {
             "header/menu.html"
         ]
     }, () => {
-        Cookies.set('logon', 'false');
+        Cookies.set('logon', 'true');
         if (Cookies.get('logon') == 'true') {
             loadJsModules({
                 user_menu: { loadCSS: false, loadLanguage: false },

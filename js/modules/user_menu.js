@@ -6,7 +6,8 @@ exports('user_menu', (params, done) => {
   }, () => {
     function renderUserMenu() {
       let renderPromise = new Promise((resolve, reject) => {
-        $(`
+        $(`<div class="container">
+        <div data-id="user-menu" class="menu-wrapper">
           <div class="[ user-menu ]">
           <div class="[ user-menu-wrapper ]">
             <div class="[ user-menu-img ]"></div>
@@ -43,6 +44,8 @@ exports('user_menu', (params, done) => {
               <p class="font">Выйти</p>
             </a>
           </div>
+        </div>
+        </div>
         </div>`).prependTo('#content').slideDown('slow');
         resolve();
       });
