@@ -57,13 +57,14 @@ exports('aside', (params, done) => {
         })
     }
 
-    function AddFav(ID) {
-      Cookies.set('favourites', ID);
+    function AddFav(NAME, ID) {
+      Cookies.set(NAME, ID);
     }
 
     jQuery.fn.outerHTML = function() {
       return $(this).clone().wrap('<div></div>').parent().html();
     };
+    
 
     function RenderAside(data) {
 
@@ -77,27 +78,54 @@ exports('aside', (params, done) => {
   <div class="[ tab-header border ] flex-container align-middle align-justify">
     <a data-id="aside-live" class="[ tab-link active ]">Live</a>
     <a data-id="aside-all" class="[ tab-link ]">All</a>
-  </div><div data-id="aside-ul"></div>`);
+  </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
+        let cks = JSON.parse(JSON.stringify(Cookies.get()));
+        let fav_arr = [];
+        for (let i in cks) {
+          let name_ = i;
+          let ID_ = Cookies.get(name_);
+          let id_;
+
+          for (let j = 0; j < data.DATA.length; j++) {
+            if (name_ == data.DATA[j].NA) {
+              id_ = j;
+            }
+          }
+
+          $(`[data-id=aside-ul]`).append(`
+          <li id="${id_}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+          <span class="sports-${ID_}" style="margin-left: 5px; "></span>
+          <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
+          <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
+          </li>
+          `);
+          fav_arr.push(name_);
+        }
         for (let i = 0; i < data.DATA.length; i++) {
         
           let ID = data.DATA[i].ID;
           let name = data.DATA[i].NA;
+
+          if (fav_arr.includes(name)) {
+            continue;
+          } else {
+            $(`[data-id=aside-ul]`).append(`
+            <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+            <span class="sports-${ID}" style="margin-left: 5px; "></span>
+            <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
+            <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
+            </li>
+            `);
   
-          $(`[data-id=aside]`).append(`
-          <div id="${i}" data-id="liel" data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative;" >
-          <span class="sports-${ID}" style="margin-left: 5px; "></span>
-          <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
-          <span data-id="fav-star" data-sport="${ID}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
-          </div>
-          `);
-          $(`[data-id=aside-link-${ID}]`).on('click', (elem) => {
-            if (true) {
-              window.location = 'http://localhost/everest/#/filter/' + ID;
-          
-              aside.removeClass('active');
-              aside.addClass('not-active');
-            }
-          });
+            $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
+              if (true) {
+                window.location = 'http://localhost/everest/#/filter/' + ID;
+            
+                aside.removeClass('active');
+                aside.addClass('not-active');
+              }
+            });
+          }
         }
         resolve();
       });
@@ -109,18 +137,33 @@ exports('aside', (params, done) => {
 
           httpGetAll(urlInplay, 'inplay');
         });
+        $(`[data-id=main-fav-star]`).click( (el) => {
+          //console.log("Just click");
+          $(el.target).slideUp();
+        });
         $(`[data-id=main-fav-star]`).click( () => {
           httpGetFav(urlInplay, 'inplay');
         });
 
-        $(`[data-id=fav-star]`).click( (elem) => {
-          AddFav($(elem.target).data(`sport`));
-          console.log('Added to fav ' + $(elem.target).data(`sport`));
-
-          $(elem.target).addClass('active:before');
-          $(elem.target).removeClass('not-active:before');
+        $(`[data-id=fav-star]`).on('click', (el) => {
+              
+          if ( $(el.target).data('clicked') == 'on') {
+            asideOrderBack(el);
+          } else {
+            asideOrderAnim(el);
+          }
         });
-        $(`[data-id=fav-star]`).on('click', (elem) => {
+      }); 
+    }
+
+    function asideOrderAnim(elem) {
+      elem.stopPropagation();
+      AddFav($(elem.target).data(`name`), $(elem.target).data(`sport`));
+          console.log('Added to fav ' + $(elem.target).data(`sport`));
+          $(elem.target).addClass('active');
+          $(elem.target).removeClass('not-active');
+          $(elem.target).attr('data-clicked', 'on');
+
           let $myLi = $($(elem.target)).parent();
           let listHeight = $(`[data-id=aside-ul]`).innerHeight();
           let elemHeight = $myLi.height();
@@ -131,21 +174,65 @@ exports('aside', (params, done) => {
           let enough = false;
           let liHtml = $myLi.outerHTML();
     
-          $(`[data-id=liel]`).each(function() {
-            if ($($(elem.target)).parent().attr("id") == liId) {
+          $(`[data-id=liel]`).each(function(el) {
+            if ($(el.target).attr("id") == liId) {
               return false;
           }
-          $($(elem.target)).parent().animate({"top": '+=' + moveDown}, 200);
+            $(el.target).animate({"top": '+=' + moveDown}, 380);
           });
     
-          $myLi.animate({"top": '-=' + moveUp}, 500, function() {
-          $myLi.remove();
-          var oldHtml = $(`[data-id=aside-ul]`).html();
-          $(`[data-id=aside-ul]`).html(liHtml + oldHtml);
-          //$(`[data-id=liel]`).attr("style", "");
+          $myLi.animate({"top": '-=' + moveUp}, 380, function() {
+            $myLi.remove();
+            let oldHtml = $(`[data-id=aside-ul]`).html();
+            $(`[data-id=aside-ul]`).html(liHtml + oldHtml);
+            $(`[data-id=fav-star]`).on('click', (el) => {
+              
+              if ( $(el.target).data('clicked') == 'on') {
+                asideOrderBack(el);
+              } else {
+                asideOrderAnim(el);
+              }
+            });
           });
-        });
-      }); 
+    }
+
+    function asideOrderBack(elem) {
+      elem.stopPropagation();
+      Cookies.remove($(elem.target).data(`name`));
+      $(elem.target).addClass('not-active');
+      $(elem.target).removeClass('active');
+      $(elem.target).attr('data-clicked', 'off');
+
+      let $myLi = $($(elem.target)).parent();
+          let listHeight = $(`[data-id=aside-ul]`).innerHeight();
+          let elemHeight = $myLi.height();
+          let elemTop = $myLi.position().top;
+          let moveUp = listHeight - (listHeight - elemTop);
+          let moveDown = elemHeight;
+          let liId = $myLi.attr("id");
+          let enough = false;
+          let liHtml = $myLi.outerHTML();
+    
+          $(`[data-id=liel]`).each(function(el) {
+            if ($(el.target).attr("id") == liId) {
+              return false;
+          }
+            $(el.target).animate({"top": '+=' + moveDown}, 380);
+          });
+    
+          $myLi.animate({"top": '-=' + moveUp}, 380, function() {
+            $myLi.remove();
+            let oldHtml = $(`[data-id=aside-ul]`).html();
+            $(`[data-id=aside-ul]`).html(liHtml + oldHtml);
+            $(`[data-id=fav-star]`).on('click', (el) => {
+              
+              if ( $(el.target).data('clicked') == 'on') {
+                asideOrderBack(el);
+              } else {
+                asideOrderAnim(el);
+              }
+            });
+          });
     }
 
     function RenderAsideAll(data) {
@@ -160,28 +247,55 @@ exports('aside', (params, done) => {
   <div class="[ tab-header border ] flex-container align-middle align-justify">
     <a data-id="aside-live" class="[ tab-link ]">Live</a>
     <a data-id="aside-all" class="[ tab-link active ]">All</a>
-  </div>`);
-    for (let i = 0; i < data.DATA.length; i++) {
+  </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
+  let cks = JSON.parse(JSON.stringify(Cookies.get()));
+        let fav_arr = [];
+        for (let i in cks) {
+          let name_ = i;
+          let ID_ = Cookies.get(name_);
+          let id_;
+
+          for (let j = 0; j < data.DATA.length; j++) {
+            if (name_ == data.DATA[j].NA) {
+              id_ = j;
+            }
+          }
+
+          $(`[data-id=aside-ul]`).append(`
+          <li id="${id_}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+          <span class="sports-${ID_}" style="margin-left: 5px; "></span>
+          <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
+          <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
+          </li>
+          `);
+          fav_arr.push(name_);
+        }
+        for (let i = 0; i < data.DATA.length; i++) {
         
-      let ID = data.DATA[i].ID;
-      let name = data.DATA[i].NA;
+          let ID = data.DATA[i].ID;
+          let name = data.DATA[i].NA;
+
+          if (fav_arr.includes(name)) {
+            continue;
+          } else {
+            $(`[data-id=aside-ul]`).append(`
+            <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+            <span class="sports-${ID}" style="margin-left: 5px; "></span>
+            <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
+            <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
+            </li>
+            `);
   
-      $(`[data-id=aside]`).append(`
-      <a data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" >
-        
-        <span class="sports-${ID}" style="margin-left: 5px; "></span>
-        <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
-        <span data-id="fav-star" data-sport="${ID}" class="star" style="position: absolute; left: 79%;"></span>
-      </a>
-      `);
-      $(`[data-id=aside-link-${ID}]`).on('click', () => {
-      
-        window.location = 'http://localhost/everest/#/filter/' + ID;
-      
-        aside.removeClass('active');
-        aside.addClass('not-active');
-      });
-    }
+            $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
+              if (true) {
+                window.location = 'http://localhost/everest/#/filter/' + ID;
+            
+                aside.removeClass('active');
+                aside.addClass('not-active');
+              }
+            });
+          }
+        }
     resolve();
       });
       promise
@@ -191,13 +305,17 @@ exports('aside', (params, done) => {
 
           httpGet(urlInplay, 'inplay');
         });
-       $(`[data-id=main-fav-star]`).click( () => {
+       
+        $(`[data-id=main-fav-star]`).click( (el) => {
+          //console.log("Just click");
+          $(el.target).slideUp();
+        });
+        $(`[data-id=main-fav-star]`).click( (el) => {
          httpGetFav(urlInplay, 'inplay');
+         //console.log("FadeIn");
        });
-    
        $(`[data-id=fav-star]`).click( (elem) => {
-        AddFav($(elem.target).data(`sport`));
-        console.log('Added to fav ' + $(elem.target).data(`sport`));
+        asideOrderAnim(elem);
       });
 
       });
@@ -205,9 +323,8 @@ exports('aside', (params, done) => {
 
     function RenderAsideFav(data) {
 
-      //window.fav_array = JSON.parse(Cookies.get());
-
-      $(`[data-id=aside]`).empty();
+      let promise = new Promise( (resolve, reject) => {
+        $(`[data-id=aside]`).empty();
       $(`[data-id=aside]`).append(`
   <a data-id="aside-fav" class="[ favourite-category ] flex-container align-middle align-justify">
     <span class="font">My favourites</span>
@@ -216,40 +333,40 @@ exports('aside', (params, done) => {
     <a data-id="aside-live" class="[ tab-link ]">Live</a>
     <a data-id="aside-all" class="[ tab-link ]">All</a>
   </div>`);
-     /* if (window.fav_array != undefined) {
-        if (window.fav_array.length == 1 || window.fav_array.length > 1) {
-          for (let i = 0; i < data.DATA.length; i++) {
+     let cookies = JSON.parse(JSON.stringify(Cookies.get()));
+     for (let i in cookies) {
+       console.log(i);
+       let name = i;
+       let ID = Cookies.get(name);
+  
+      $(`[data-id=aside]`).append(`
+      <div data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
         
-            let ID = data.DATA[i].ID;
-            let name = data.DATA[i].NA;
-        
-            $(`[data-id=aside]`).append(`
-            <a data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" >
-              
-              <span class="sports-${ID}"></span>
-              <span class="font" style = "margin-left: 5px;" >${name}</span>
-            </a>
-            `);
-            $(`[data-id=aside-link-${ID}]`).on('click', () => {
-            
-              window.location = 'http://localhost/everest/#/filter/' + ID;
-            
-              aside.removeClass('active');
-              aside.addClass('not-active');
-            });
-          }
-        } else {
-          console.log('Length is 0');
-        }
-      }*/
-  $(`[data-id=aside-live]`).on('click', () => {
+        <span class="sports-${ID}" style="margin-left: 5px; "></span>
+        <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
+      </div>
+      `);
+      $(`[data-id=aside-link-${ID}]`).on('click', () => {
+      
+        window.location = 'http://localhost/everest/#/filter/' + ID;
+      
+        aside.removeClass('active');
+        aside.addClass('not-active');
+      });
+     }
+     $(`[data-id=aside-live]`).on('click', () => {
 
-    httpGet(urlInplay, 'inplay');
-  });
-  $(`[data-id=aside-all]`).on('click', () => {
+      httpGet(urlInplay, 'inplay');
+    });
+    $(`[data-id=aside-all]`).on('click', () => {
+  
+      httpGetAll(urlInplay, 'inplay');
+    });
+      });
 
-    httpGetAll(urlInplay, 'inplay');
-  });
+      promise.then( () => {
+        console.log('Promise done');
+      });
     }
 
     let aside_close = $('.aside-close');
