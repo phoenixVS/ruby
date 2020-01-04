@@ -10,6 +10,17 @@ exports('header', (params, done) => {
             "header/menu.html"
         ]
     }, () => {
+        Cookies.set('logon', 'false');
+        if (Cookies.get('logon') == 'true') {
+            loadJsModules({
+                user_menu: { loadCSS: false, loadLanguage: false },
+            });
+        }
+        else {
+            loadJsModules({
+                login: { loadCSS: false, loadLanguage: false },
+            });
+        }
         // clocks
         const time = $('#time');
         (function updateTime() {
@@ -87,6 +98,9 @@ exports('header', (params, done) => {
             });
         })(0); // end of langs changer
 
+        // Account profile redirect
+        let username = 'vasya1999';
+        $(`[data-id=user]`).prop('href', `#/user/${username}/balance/casier`);
         done();
     });
 });

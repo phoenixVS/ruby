@@ -7,61 +7,63 @@
 <link rel="stylesheet" type="text/css" href="./css/sports-icon.css" />
 <link rel="stylesheet" type="text/css" href="./css/font-awesome.css" />
 <link rel="stylesheet" type="text/css" href="./css/preloader.css" />
-<link rel="stylesheet" type="text/css" href="./css/coef_table.css">
-<link rel="stylesheet" type="text/css" href="./css/aside.css">
+<link rel="stylesheet" type="text/css" href="./css/coef_table.css" />
+<link rel="stylesheet" type="text/css" href="./css/aside.css" />
+<link rel="stylesheet" type="text/css" href="./css/login.css" />
+<link rel="stylesheet" type="text/css" href="./css/user.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
 <script src="js/import-export.js"></script>
 <script src="js/module-loader.js"></script>
 
 <script>
-  loadJsModules({
-    handlebar: { loadCSS: false, loadLanguage: false } /* hash routing */
-  });
+    loadJsModules({
+        handlebar: { loadCSS: false, loadLanguage: false } /* hash routing */
+    });
 </script>
 <div id="page-preloader" data-status="not-done" class="preloader">
-  <div class="loader">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
+    <div class="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 </div>
 <div id="content">
-  <div class="blur none">
-    <!--header-->
-    <header class="[ header ]">
-      <div class="[ top ] container-fluid"></div>
-      <nav class="[ nav ] container-fluid">
-        <div class="container flex-container align-middle align-justify">
-          <a class="[ show-menu ]"></a>
-          <a hre="./index.html" class="[ logo ]"><img src="./img/logo.png" alt="Everest bet" /></a>
-          <menu class="[ menu ] flex-container align-center-middle"></menu>
-        </div>
-      </nav>
-    </header>
-    <!--aside-->
-    <aside class="[ aside not-active ]"></aside>
-    <div class="main">
-      <!--slider-->
-      <div data-id='slider' class="[ slider ]"></div>
-      <div class="container">
-        <!--game and video-player-->
-        <div data-id="game" data-display="none" class="[ video game ]"></div>
+    <div data-id="blur" class="blur none">
+        <!--header-->
+        <header class="[ header ]">
+            <div class="[ top ] container-fluid"></div>
+            <nav class="[ nav ] container-fluid">
+                <div class="container flex-container align-middle align-justify">
+                    <a class="[ show-menu ]"></a>
+                    <a href="#" class="[ logo ]"><img src="./img/logo.png" alt="Everest bet" /></a>
+                    <menu class="[ menu ] flex-container align-center-middle"></menu>
+                </div>
+            </nav>
+        </header>
+        <!--aside-->
+        <aside class="[ aside not-active ]"></aside>
+        <div class="main">
+            <!--slider-->
+            <div data-id="slider" class="[ slider ]"></div>
+            <div class="container">
+                <!--game and video-player-->
+                <div data-id="game" data-display="none" class="[ video game ]"></div>
 
-        <div data-id="play-big" class="flex-container align-justify [ play-big ]"></div>
-        <div data-id="coef_table" class="table [ coeficient-table ]"></div>
-        <div data-id="live" class="[ live ]"></div>
-        <div data-id="play-table" data-display="true" class="table [ play-table ]"></div>
-      </div>
-      <div data-id="betslip-link" class="[ betslip-link active ]"></div>
+                <div data-id="play-big" class="flex-container align-justify [ play-big ]"></div>
+                <div data-id="coef_table" class="table [ coeficient-table ]"></div>
+                <div data-id="live" class="[ live ]"></div>
+                <div data-id="play-table" data-display="true" class="table [ play-table ]"></div>
+            </div>
+            <div data-id="betslip-link" class="[ betslip-link active ]"></div>
+        </div>
     </div>
-  </div>
-  <!-- betslip -->
-  <div data-id="betslip" data-display="none" class="[ betslip ] scroll"></div>
-  <!-- betslip-small -->
-  <div data-id="betslip-small" data-display="none" class="[ betslip-small ] scroll"></div>
-  <!--betslip-link-->
-  <div data-id="betslip-link" data-display="none" class="[ betslip-link active ]"></div>
+    <!-- betslip -->
+    <div data-id="betslip" data-display="none" class="[ betslip ] scroll"></div>
+    <!-- betslip-small -->
+    <div data-id="betslip-small" data-display="none" class="[ betslip-small ] scroll"></div>
+    <!--betslip-link-->
+    <div data-id="betslip-link" data-display="none" class="[ betslip-link active ]"></div>
 </div>
 <!-- end of content -->
