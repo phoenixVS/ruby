@@ -101,6 +101,7 @@ exports('header', (params, done) => {
         // Account profile redirect
         let username = 'vasya1999';
         $(`[data-id=user]`).prop('href', `#/user/${username}/balance/casier`);
+        $(`[data-id=registration]`).prop('href', `#/registration`);
         done();
     });
 });
