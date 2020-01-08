@@ -211,7 +211,7 @@ exports('play_table', (params, done) => {
                 window.location.href += `/event/${sport}/${id}`;
               }
               else {
-                if (window.location.hash == '#') {
+                if (curURL.includes('#')) {
                   window.location.href += `/event/${sport}/${id}`;
                 }
                 else {

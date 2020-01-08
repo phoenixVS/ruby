@@ -8,10 +8,10 @@ function insertHtmlModules(srcs, onLoad) {
 
             (function processElement(index) {
                 if (index < elements.length) {
-                    root.append()
-                        .load("html/modules/" + elements[index], () => {
-                            processElement(index + 1);
-                        });
+                    $.get("html/modules/" + elements[index], function (data) {
+                        $(data).appendTo(root);
+                        processElement(index + 1);
+                    });
                 } else {
                     processKey(keyIndex + 1);
                 }
@@ -37,6 +37,21 @@ function loadJsModules(config) {
                     processKey(index + 1);
                 });
             })
+
+            // Loading css dynamically
+            if (moduleParams.loadCSS) {
+                let fileref = document.createElement("link");
+                let filename = `./css/modules/${moduleName}.css`;
+                if (document.querySelector(`[href=${CSS.escape(filename)}]`)) { }
+                else {
+                    fileref.setAttribute("rel", "stylesheet");
+                    fileref.setAttribute("type", "text/css");
+                    fileref.setAttribute("href", filename);
+                    if (typeof fileref != "undefined") {
+                        document.getElementsByTagName("head")[0].appendChild(fileref);
+                    }
+                }
+            }
         })(0);
     });
 }
