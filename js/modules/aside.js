@@ -72,7 +72,7 @@ exports('aside', (params, done) => {
     $(`[data-id=aside]`).append(`
   <a data-id="aside-fav"class="[ favourite-category ] flex-container align-middle align-justify">
     <span class="font">My favourites</span>
-    <span data-id="main-fav-star" class="star"></span>
+    <span data-id="main-fav-star" class="star not-active:before active"></span>
   </a>
   <div class="[ tab-header border ] flex-container align-middle align-justify">
     <a data-id="aside-live" class="[ tab-link active ]">In-play</a>
@@ -116,7 +116,7 @@ exports('aside', (params, done) => {
             ev_count++;
           }
             $(`[data-id=aside-ul]`).append(`
-            <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+            <li data-d="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
             <span class="sports-${ID}" style="margin-left: 5px; "></span>
             <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
             <span style="position: absolute; left: 75%;">${ev_count} Events</span>
@@ -179,8 +179,9 @@ exports('aside', (params, done) => {
           let enough = false;
           let liHtml = $myLi.outerHTML();
     
-          $(`[data-id=liel]`).each(function(el) {
-            if ($(el.target).attr("id") == liId) {
+          $(`[data-id=liel]`).each( (el) => {
+            console.log($(el.target).data('di'));
+            if ($(el.target).data('di') == liId) {
               return false;
           }
             $(el.target).animate({"top": '+=' + moveDown}, 380);
@@ -218,8 +219,8 @@ exports('aside', (params, done) => {
           let enough = false;
           let liHtml = $myLi.outerHTML();
     
-          $(`[data-id=liel]`).each(function(el) {
-            if ($(el.target).attr("id") == liId) {
+          $(`[data-id=aside-ul]`).children().each( (i, el) => {
+            if ($(el.target).data(`di`) == liId) {
               return false;
           }
             $(el.target).animate({"top": '+=' + moveDown}, 380);
@@ -247,7 +248,7 @@ exports('aside', (params, done) => {
       $(`[data-id=aside]`).append(`
   <a data-id="aside-fav" class="[ favourite-category ] flex-container align-middle align-justify">
     <span class="font">My favourites</span>
-    <span data-id="main-fav-star" class="star"></span>
+    <span data-id="main-fav-star" class="star not-active:before active"></span>
   </a>
   <div class="[ tab-header border ] flex-container align-middle align-justify">
     <a data-id="aside-live" class="[ tab-link ]">In-play</a>
@@ -268,7 +269,7 @@ exports('aside', (params, done) => {
             }
   
             $(`[data-id=aside-ul]`).append(`
-            <li id="${id_}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+            <li data-id="liel" data-di="${id_}" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
             <span class="sports-${ID_}" style="margin-left: 5px; "></span>
             <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
             <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
@@ -288,7 +289,7 @@ exports('aside', (params, done) => {
             continue;
           } else {
             $(`[data-id=aside-ul]`).append(`
-            <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+            <li data-d="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
             <span class="sports-${ID}" style="margin-left: 5px; "></span>
             <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
             <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
@@ -305,6 +306,7 @@ exports('aside', (params, done) => {
             });
           }
         }
+        
     resolve();
       });
       promise
