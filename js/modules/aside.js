@@ -348,20 +348,20 @@ exports('aside', (params, done) => {
        let ID = Cookies.get(name);
 
        if (name != 'logon') {
-        $(`[data-id=aside]`).append(`
-        <div data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
-          
-          <span class="sports-${ID}" style="margin-left: 5px; "></span>
-          <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
-        </div>
-        `);
-        $(`[data-id=aside-link-${ID}]`).on('click', () => {
+          $(`[data-id=aside]`).append(`
+      <div data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
         
-          window.location = 'http://localhost/everest/#/filter/' + ID;
-        
-          aside.removeClass('active');
-          aside.addClass('not-active');
-        });
+        <span class="sports-${ID}" style="margin-left: 5px; "></span>
+        <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
+      </div>
+      `);
+      $(`[data-id=aside-link-${ID}]`).on('click', () => {
+      
+        window.location = 'http://localhost/everest/#/filter/' + ID;
+      
+        aside.removeClass('active');
+        aside.addClass('not-active');
+      });
        } else {
          continue;
        }
