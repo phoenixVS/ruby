@@ -29,7 +29,7 @@ button {
 }
 .setting-nav {
     position: relative;
-    height: 50px;
+    height: 60px;
 }
 .setting-nav-link.active,
 .setting-nav-link:hover {
@@ -76,7 +76,7 @@ button {
 .setting-nav:after {
     content: '';
     position: absolute;
-    height: 2px;
+    height: 3px;
     width: 100%;
     left: 0;
     bottom: 0;
@@ -185,7 +185,7 @@ button {
     background-position: right 10px top 50%;
 }
 .setting-select {
-    background-image: url(../img/select-arrow.png);
+    background-image: url(../../img/select-arrow.png);
 }
 .setting-field,
 .setting-select {
@@ -274,4 +274,18 @@ button {
 }
 .padding {
     padding: 0 !important;
+}
+.secondary {
+    display: flex;
+    justify-content: center;
+    /* margin-left: 30px; */
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.secondary::after{
+    height: 0;
+}
+.setting-nav-link.small.active {
+    margin-top: -5px;
+    padding: 0 20px;
 }

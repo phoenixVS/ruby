@@ -7,20 +7,22 @@ exports('header', (params, done) => {
             "header/show-menu.html",
         ],
         ".header .menu": [
-            "header/menu.html"
+            "header/menu.html",
         ]
     }, () => {
-        Cookies.set('logon', 'true');
-        if (Cookies.get('logon') == 'true') {
-            loadJsModules({
-                user_menu: { loadCSS: false, loadLanguage: false },
-            });
-        }
-        else {
-            loadJsModules({
-                login: { loadCSS: false, loadLanguage: false },
-            });
-        }
+        Cookies.set('logon', 'false');
+        $(`[data-id=login]`).on('click', () => {
+            if (Cookies.get('logon') == 'true') {
+                loadJsModules({
+                    user_menu: { loadCSS: true, loadLanguage: false },
+                });
+            }
+            else {
+                loadJsModules({
+                    login: { loadCSS: true, loadLanguage: false },
+                });
+            }
+        });
         // clocks
         const time = $('#time');
         (function updateTime() {
@@ -81,7 +83,8 @@ exports('header', (params, done) => {
                 $(`[data-class=lang]`).on('click', (event) => {
                     let cur = $(event.target);
                     if (cur.data('langStatus') != 'active') {
-                        $(`[data-lang-status=active]`).removeClass('active')
+                        $(`[data-lang-status=active]`)
+                            .removeClass('active')
                             .data('langStatus', 'not-active')
                             .attr('lang-status', 'not-active');
                         cur.data('langStatus', 'active').attr('data-lang-status', 'active');

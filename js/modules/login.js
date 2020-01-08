@@ -42,20 +42,21 @@ exports('login', (params, done) => {
         resolve();
       });
       renderPromise.then(() => {
-        $(`[data-id=login]`).off('click', renderLoginPopup);
+        // $(`[data-id=login]`).off('click', renderLoginPopup);
         const login = $('.loginContainer');
         const blur = $(`[data-id=blur]`);
         $('.loginButton').on('click', () => {
           login.fadeOut('middle').remove("active");
           blur.removeClass('block').addClass('none');
-          $(`[data-id=login]`).on('click', renderLoginPopup);
+          Cookies.set('logon', 'true');
+          //$(`[data-id=login]`).on('click', renderLoginPopup);
         });
         $("body").click(function (e) {
           if ($(e.target).closest(`[data-id=login]`).length != 0) return false; // disable trigger on first click to log in
           if ($(e.target).closest(`[data-id=loginContainer]`).length != 0) return false; // disable trigger on login popup
           login.fadeOut().remove("active");
           blur.removeClass('block').addClass('none');
-          $(`[data-id=login]`).on('click', renderLoginPopup);
+          // $(`[data-id=login]`).on('click', renderLoginPopup);
         });
         // Checkbox handler
         function checkmark() {
@@ -70,7 +71,8 @@ exports('login', (params, done) => {
         blur.removeClass('none').addClass('block');
       });
     }
-    $(`[data-id=login]`).on('click', renderLoginPopup);
+    renderLoginPopup();
+    // $(`[data-id=login]`).on('click', renderLoginPopup);
     done();
   });
 });

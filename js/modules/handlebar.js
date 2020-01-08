@@ -10,10 +10,10 @@ function mainHandler() {
     let onModulesLoad = new Promise((resolve, reject) => {
         loadJsModules({
             header: { loadCSS: false, loadLanguage: false },
-            aside: { loadCSS: false, loadLanguage: false },
+            aside: { loadCSS: true, loadLanguage: false },
             slider: { loadCSS: false, loadLanguage: false },
             play_big: { loadCSS: false, loadLanguage: false },
-            coef_table: { loadCSS: false, loadLanguage: false },
+            coef_table: { loadCSS: true, loadLanguage: false },
             live: { loadCSS: false, loadLanguage: false },
             play_table: { loadCSS: false, loadLanguage: false },
             betslip_link: { loadCSS: false, loadLanguage: false },
@@ -23,6 +23,9 @@ function mainHandler() {
 
     onModulesLoad.then(
         result => {
+            const formWrapper = $(`[data-id=registrationWrapper]`);
+            formWrapper.data('display', 'none').attr('data-display', 'none');
+            formWrapper.css('display', 'none');
             // video lurk
             let video = $(`[data-id=video]`);
             if (video.data(`display`) === 'none') {
@@ -101,6 +104,9 @@ function filterHandler(ID) {
 
     onModulesLoad.then(
         result => {
+            const formWrapper = $(`[data-id=registrationWrapper]`);
+            formWrapper.data('display', 'none').attr('data-display', 'none');
+            formWrapper.css('display', 'none');
             // video lurk
             let video = $(`[data-id=video]`);
             if (video.data(`display`) === 'none') {
@@ -151,13 +157,13 @@ function gameHandler(sport, ID) {
     if (performance.navigation.type == 1) {
         loadJsModules({
             header: { loadCSS: false, loadLanguage: false },
-            aside: { loadCSS: false, loadLanguage: false },
+            aside: { loadCSS: true, loadLanguage: false },
         });
     }
 
     let onModulesLoad = new Promise((resolve, reject) => {
         loadJsModules({
-            coef_table: { sport: sport, gameId: ID, loadCSS: false, loadLanguage: false },
+            coef_table: { sport: sport, gameId: ID, loadCSS: true, loadLanguage: false },
             game: { sport: sport, gameId: ID, loadCSS: false, loadLanguage: false },
         });
         resolve();
@@ -165,6 +171,9 @@ function gameHandler(sport, ID) {
 
     onModulesLoad.then(
         result => {
+            const formWrapper = $(`[data-id=registrationWrapper]`);
+            formWrapper.data('display', 'none').attr('data-display', 'none');
+            formWrapper.css('display', 'none');
             // video unlurk
             gameWrapper.data(`display`, 'true').attr('display', 'block');
             gameWrapper.css('display', 'block');
@@ -256,13 +265,17 @@ function registrationHandler() {
 
     let onModulesLoad = new Promise((resolve, reject) => {
         loadJsModules({
-            regist: { loadCSS: false, loadLanguage: false },
+            regist: { loadCSS: true, loadLanguage: false },
         });
         resolve();
     });
 
     onModulesLoad.then(
         result => {
+            // Form unlurk
+            const formWrapper = $(`[data-id=registrationWrapper]`);
+            formWrapper.data('display', 'block').attr('data-display', 'block');
+            formWrapper.css('display', 'block');
             // video unlurk
             const gameWrapper = $('[data-id=game]');
             gameWrapper.data(`display`, 'false').attr('display', 'none');
@@ -345,7 +358,7 @@ function registrationHandler() {
         });
 }
 
-// Handler of 
+// Handler of user's personal room
 function userHandler(username, nav_link, nav_link_small) {
     let reload_status = 0;
     if (performance.navigation.type == 1) {
@@ -357,7 +370,7 @@ function userHandler(username, nav_link, nav_link_small) {
 
     let onModulesLoad = new Promise((resolve, reject) => {
         loadJsModules({
-            user: { username: username, nav_link: nav_link, nav_link_small: nav_link_small, loadCSS: false, loadLanguage: false },
+            user: { username: username, nav_link: nav_link, nav_link_small: nav_link_small, loadCSS: true, loadLanguage: false },
         });
         resolve();
     });
@@ -468,7 +481,7 @@ function userHandler(username, nav_link, nav_link_small) {
 function emptyHandler() {
     loadJsModules({
         header: { loadCSS: false, loadLanguage: false },
-        aside: { loadCSS: false, loadLanguage: false },
+        aside: { loadCSS: true, loadLanguage: false },
         p404: { loadCSS: false, loadLanguage: false },
     });
     // betslip-link lurk
