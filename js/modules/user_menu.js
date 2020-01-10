@@ -7,6 +7,7 @@ exports('user_menu', (params, done) => {
     function renderUserMenu() {
       let renderPromise = new Promise((resolve, reject) => {
         $(`
+        <div data-id="user-menu" class="menu-wrapper">
           <div class="[ user-menu ]">
           <div class="[ user-menu-wrapper ]">
             <div class="[ user-menu-img ]"></div>
@@ -21,7 +22,7 @@ exports('user_menu', (params, done) => {
             <p class="font text-uppercase [ user-menu-big primary ]">0.00 UAH</p>
           </div>
           <div class="[ user-menu-links ]">
-            <a href="#" class="[ user-menu-link active ] flex-container align-middle">
+            <a href="#" class="[ user-menu-link ] flex-container align-middle">
               <p class="fa fa-money"></p>
               <p class="font">История счета</p>
             </a>
@@ -43,20 +44,21 @@ exports('user_menu', (params, done) => {
               <p class="font">Выйти</p>
             </a>
           </div>
+        </div>
         </div>`).prependTo('#content').slideDown('slow');
         resolve();
       });
       renderPromise.then(() => {
         $(`[data-id=login]`).off('click', renderUserMenu);
-        const login = $('.user-menu');
+        const user_menu = $(`[data-id=user-menu]`);
         $('.loginButton').on('click', () => {
-          login.fadeOut().remove("active");
+          user_menu.fadeOut().remove("active");
           $(`[data-id=login]`).on('click', renderUserMenu);
         });
         $("body").click(function (e) {
           if ($(e.target).closest(`[data-id=login]`).length != 0) return false; // disable trigger on first click to log in
           if ($(e.target).closest(`[data-id=user-menu]`).length != 0) return false; // disable trigger on login popup
-          login.fadeOut().remove("active");
+          user_menu.fadeOut().remove("active");
           $(`[data-id=login]`).on('click', renderUserMenu);
         });
       });

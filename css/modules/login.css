@@ -15,6 +15,25 @@
     border: 2px solid #33202b;
     border-radius: 5px;
 }
+@media screen and  (max-width: 400px) {
+    .loginContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        z-index: 11;
+        left: 50%;
+        top: 240px;
+        width: 80%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        max-height: 100%;
+        overflow-y: auto;
+        background-color: #33202b;
+        border: 2px solid #33202b;
+        border-radius: 5px;
+    }
+}
 /* .login-ava {
     width: 100px;
     height: 100px;
@@ -150,7 +169,7 @@
 .loginContent .inscriptions {
     color: #fff;
     font-size: 14px;
-    padding: 10px 0;
+    padding: 10px 15px;
 }
 .register:active,
 .lostLogin:active {

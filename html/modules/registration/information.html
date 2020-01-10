@@ -1,0 +1,126 @@
+<div data-id="information" class="[ popup not-active information ]">
+  <div class="[ sign-up ] scroll">
+    <div class="[ sign-up-nav ] flex-container align-middle">
+      <a class="[ sign-up-nav-item correct ]">
+        <p class="font title">1</p>
+        <p class="font">ДЕТАЛИ ПОЛЬЗОВАТЕЛЯ</p>
+      </a>
+      <a class="[ sign-up-nav-item active ]">
+        <p class="font title">2</p>
+        <p class="font">ПЕРСОНАЛЬНАЯ<br>ИНФОРМАЦИЯ</p>
+      </a>
+      <a class="[ sign-up-nav-item ]">
+        <p class="font title">3</p>
+        <p class="font">ПОДТВЕРЖДЕНИЕ</p>
+      </a>
+    </div>
+
+    <div class="[ sign-up-body ]">
+      <div class="[ sign-up-body-item corrected ]">
+        <p class="[ sign-up-body-title ] font text-uppercase">
+          <span>Страна:</span>
+          <sup>⚹</sup>
+        </p>
+        <select class="select [ sign-up-body-select ]">
+          <option value="1">Украина</option>
+        </select>
+      </div>
+      <div class="[ sign-up-body-item corrected ]">
+        <p class="[ sign-up-body-title ] font text-uppercase">
+          <span>Предпочитаемая валюта:</span>
+          <sup>⚹</sup>
+        </p>
+        <select class="select [ sign-up-body-select ] w25">
+          <option value="1">UAH</option>
+          <option value="2">USD</option>
+          <option value="3">EURO</option>
+        </select>
+      </div>
+      <div class="[ sign-up-body-item corrected ] flex-container align-middle">
+        <div class="w50 mr">
+          <p class="[ sign-up-body-title ] font text-uppercase">
+            <span>Имя:</span>
+            <sup>⚹</sup>
+          </p>
+          <input type="text" class="field [ sign-up-body-field ]">
+        </div>
+        <div class="w50">
+          <p class="[ sign-up-body-title ] font text-uppercase">
+            <span>Фамилия:</span>
+            <sup>⚹</sup>
+          </p>
+          <input type="text" class="field [ sign-up-body-field ]">
+        </div>
+      </div>
+      <div class="[ sign-up-body-item corrected ]">
+        <p class="[ sign-up-body-title ] font text-uppercase">
+          <span>Мобильный телефон:</span>
+          <sup>⚹</sup>
+        </p>
+        <div class="flex-container align-items">
+          <div class="block mr">
+            <img src="./img/icon_country/Ukraine.ico" class="[ sign-up-body-country ] icon-country">
+            <select class="select [ sign-up-body-select country ]">
+              <option value="1">+380</option>
+            </select>
+          </div>
+          <input type="text" class="field [ sign-up-body-field ]">
+        </div>
+      </div>
+      <div class="[ sign-up-body-item corrected ]">
+        <p class="[ sign-up-body-title ] font text-uppercase">
+          <span>Email:</span>
+          <sup>⚹</sup>
+        </p>
+        <input type="email" class="field [ sign-up-body-field ]">
+      </div>
+      <div class="[ sign-up-body-item corrected ]">
+        <p class="[ sign-up-body-title ] font text-uppercase">
+          <span>Дата рождения:</span>
+          <sup>⚹</sup>
+        </p>
+        <div class="flex-container align-middle">
+          <select class="select [ sign-up-body-select ] mr">
+            <option value="1">04</option>
+          </select>
+          <select class="select [ sign-up-body-select ] mr">
+            <option value="1">Январь</option>
+          </select>
+          <select class="select [ sign-up-body-select ]">
+            <option value="1">1980</option>
+          </select>
+        </div>
+      </div>
+      <div class="[ sign-up-body-item ]">
+        <p class="[ sign-up-body-title ] font text-uppercase">Адресc:</p>
+        <input type="text" class="field [ sign-up-body-field ]">
+      </div>
+      <div class="[ sign-up-body-item ]">
+        <p class="[ sign-up-body-title ] font text-uppercase mb">
+          <span>Пол:</span>
+          <sup>⚹</sup>
+        </p>
+        <div class="flex-container align-middle">
+          <input type="radio" class="radio" id="man" name="male" value="man" checked>
+          <label for="man" class="font [ sign-up-body-label ]">Мужской</label>
+          <input type="radio" class="radio" id="woman" name="male" value="woman">
+          <label for="woman" class="font [ sign-up-body-label ]">Женский</label>
+        </div>
+      </div>
+      <div class="block">
+        <hr class="[ sign-up-body-separate ]">
+        <p class="font text-center [ sign-up-body-inform ]">Все поля, отмеченные символом (<sup class="font">⚹</sup>),
+          обязательны для заполнения</p>
+      </div>
+    </div>
+
+    <div class="[ sign-up-footer ] flex-container align-middle">
+      <button data-id="prevButton" class="button primary [ sign-up-footer-button disable ]">
+        <p class="fa fa-angle-left mr"></p> Назад
+      </button>
+      <button data-id="nextButton" class="button primary [ sign-up-footer-button ]">Далее <p class="fa fa-angle-right">
+        </p>
+      </button>
+    </div>
+  </div>
+</div>
