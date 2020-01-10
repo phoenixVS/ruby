@@ -283,7 +283,7 @@ button {
     margin-bottom: 5px;
 }
 .secondary::after{
-    height: 0;
+    height: 2px;
 }
 .setting-nav-link.small.active {
     margin-top: -5px;

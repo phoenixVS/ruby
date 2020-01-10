@@ -16,84 +16,88 @@
     </div>
 
     <div class="[ sign-up-body ]">
-      <div class="[ sign-up-body-item corrected ]">
+      <div class="[ sign-up-body-item ]">
         <p class="[ sign-up-body-title ] font text-uppercase">
           <span>Страна:</span>
           <sup>⚹</sup>
         </p>
-        <select class="select [ sign-up-body-select ]">
-          <option value="1">Украина</option>
+        <select id="Country" class="select [ sign-up-body-select ]">
+          <option value="0">Select a country:</option>
+          <option value="1">Ukraine</option>
+          <option value="2">England</option>
+          <option value="3">Spain</option>
         </select>
       </div>
-      <div class="[ sign-up-body-item corrected ]">
+      <div class="[ sign-up-body-item ]">
         <p class="[ sign-up-body-title ] font text-uppercase">
           <span>Предпочитаемая валюта:</span>
           <sup>⚹</sup>
         </p>
         <select class="select [ sign-up-body-select ] w25">
+          <option id="Currency" value="0">Select currency</option>
           <option value="1">UAH</option>
           <option value="2">USD</option>
           <option value="3">EURO</option>
         </select>
       </div>
-      <div class="[ sign-up-body-item corrected ] flex-container align-middle">
+      <div class="[ sign-up-body-item ] flex-container align-middle">
         <div class="w50 mr">
           <p class="[ sign-up-body-title ] font text-uppercase">
-            <span>Имя:</span>
+            <span>Name:</span>
             <sup>⚹</sup>
           </p>
-          <input type="text" class="field [ sign-up-body-field ]">
+          <input id="FirstName" type="text" class="field [ sign-up-body-field ]">
         </div>
         <div class="w50">
           <p class="[ sign-up-body-title ] font text-uppercase">
-            <span>Фамилия:</span>
+            <span>Surname:</span>
             <sup>⚹</sup>
           </p>
-          <input type="text" class="field [ sign-up-body-field ]">
+          <input id="SecondName" type="text" class="field [ sign-up-body-field ]">
         </div>
       </div>
-      <div class="[ sign-up-body-item corrected ]">
+      <div class="[ sign-up-body-item ]">
         <p class="[ sign-up-body-title ] font text-uppercase">
-          <span>Мобильный телефон:</span>
+          <span>Phone:</span>
           <sup>⚹</sup>
         </p>
         <div class="flex-container align-items">
           <div class="block mr">
             <img src="./img/icon_country/Ukraine.ico" class="[ sign-up-body-country ] icon-country">
-            <select class="select [ sign-up-body-select country ]">
+            <select id="Operator" class="select [ sign-up-body-select country ]">
               <option value="1">+380</option>
             </select>
           </div>
-          <input type="text" class="field [ sign-up-body-field ]">
+          <input id="Number" type="text" class="field [ sign-up-body-field ]">
         </div>
       </div>
-      <div class="[ sign-up-body-item corrected ]">
+      <div class="[ sign-up-body-item ]">
         <p class="[ sign-up-body-title ] font text-uppercase">
           <span>Email:</span>
           <sup>⚹</sup>
         </p>
-        <input type="email" class="field [ sign-up-body-field ]">
+        <input id="Email" type="email" class="field [ sign-up-body-field ]">
       </div>
-      <div class="[ sign-up-body-item corrected ]">
+      <div class="[ sign-up-body-item ]">
         <p class="[ sign-up-body-title ] font text-uppercase">
-          <span>Дата рождения:</span>
+          <span>Date of Birth:</span>
           <sup>⚹</sup>
         </p>
         <div class="flex-container align-middle">
-          <select class="select [ sign-up-body-select ] mr">
+          <select id="Day" class="select [ sign-up-body-select ] mr">
             <option value="1">04</option>
           </select>
-          <select class="select [ sign-up-body-select ] mr">
+          <select id="Month" class="select [ sign-up-body-select ] mr">
             <option value="1">Январь</option>
           </select>
-          <select class="select [ sign-up-body-select ]">
+          <select id="Year" class="select [ sign-up-body-select ]">
             <option value="1">1980</option>
           </select>
         </div>
       </div>
       <div class="[ sign-up-body-item ]">
-        <p class="[ sign-up-body-title ] font text-uppercase">Адресc:</p>
-        <input type="text" class="field [ sign-up-body-field ]">
+        <p class="[ sign-up-body-title ] font text-uppercase">Adress:</p>
+        <input id="Adress" type="text" class="field [ sign-up-body-field ]">
       </div>
       <div class="[ sign-up-body-item ]">
         <p class="[ sign-up-body-title ] font text-uppercase mb">
@@ -102,9 +106,9 @@
         </p>
         <div class="flex-container align-middle">
           <input type="radio" class="radio" id="man" name="male" value="man" checked>
-          <label for="man" class="font [ sign-up-body-label ]">Мужской</label>
+          <label data-class="gender" for="man" class="font [ sign-up-body-label ]">Мужской</label>
           <input type="radio" class="radio" id="woman" name="male" value="woman">
-          <label for="woman" class="font [ sign-up-body-label ]">Женский</label>
+          <label data-class="gender" for="woman" class="font [ sign-up-body-label ]">Женский</label>
         </div>
       </div>
       <div class="block">

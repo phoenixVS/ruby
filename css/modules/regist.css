@@ -21,7 +21,7 @@
 }
 .popup {
     position: relative;
-    z-index: 9;
+    z-index: 2;
     /* -webkit-transform: translateX(-50%);
     -ms-transform: translateX(-50%);
     transform: translateX(-50%); */
@@ -74,7 +74,7 @@
     -webkit-transform: translateX(100%);
     -ms-transform: translateX(100%);
     transform: translateX(100%);
-    z-index: 9;
+    z-index: 2;
 }
 .sign-up {
     max-height: 100%;
