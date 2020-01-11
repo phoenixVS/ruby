@@ -9,9 +9,101 @@ exports('regist', (params, done) => {
     // Preliminary handle
     $(`[data-id=details]`).removeClass('not-active');
     $(`[data-id=details]`).addClass('active');
-    let curPopup = 'details';
     $('.button.primary.disable').removeClass('disable');
     $('.button.primary.disable').addClass('backward');
+    // curPopup handler
+    Popup = {
+      activeInternal: 10,
+      activeListener: function (val) { },
+      set active(val) {
+        this.activeInternal = val;
+        this.activeListener(val);
+      },
+      get active() {
+        return this.activeInternal;
+      },
+      registerListener: function (listener) {
+        this.activeListener = listener;
+      }
+    }
+    // Switching checkmark
+    function onCheckmark(input) {
+      input.parent().parent()
+        .addClass('corrected')
+        .removeClass('uncorrected');
+    }
+    function offCheckmark(input) {
+      input.parent().parent()
+        .addClass('uncorrected')
+        .removeClass('corrected');
+    }
+    // Form validation
+    Popup.registerListener((val) => {
+      if (val == 'details') {
+        $(`[data-id=nextButton]`).addClass('disable');
+        $('#Login').on('input', (event) => {
+          let cur = $(event.target);
+          if (/^([A-Za-z0-9]{8,})$/.test(cur.val())) {
+            onCheckmark(cur);
+            if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+              $(`[data-id=nextButton]`).removeClass('disable');
+            } else {
+              $(`[data-id=nextButton]`).addClass('disable');
+            }
+          }
+          else {
+            offCheckmark(cur);
+            $(`[data-id=nextButton]`).addClass('disable');
+          }
+        });
+        $('#Password').on('input', (event) => {
+          $(`[data-id=nextButton]`).addClass('disable');
+          let cur = $(event.target);
+          if (/^([A-Za-z0-9]{8,})$/.test(cur.val())) {
+            onCheckmark(cur);
+            if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+              $(`[data-id=nextButton]`).removeClass('disable');
+            } else {
+              $(`[data-id=nextButton]`).addClass('disable');
+            }
+          }
+          else {
+            offCheckmark(cur);
+            $(`[data-id=nextButton]`).addClass('disable');
+          }
+        });
+        $('#PasswordSecondary').on('input', (event) => {
+          $(`[data-id=nextButton]`).addClass('disable');
+          let cur = $(event.target);
+          if (cur.val() == $('#Password').val()) {
+            cur.parent()
+              .addClass('corrected')
+              .removeClass('uncorrected');
+            if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+              $(`[data-id=nextButton]`).removeClass('disable');
+            } else {
+              $(`[data-id=nextButton]`).addClass('disable');
+            }
+          }
+          else {
+            cur.parent()
+              .removeClass('corrected')
+              .addClass('uncorrected');
+            $(`[data-id=nextButton]`).addClass('disable');
+          }
+        });
+      } else {
+        if (val == 'information') {
+          // TODO: information handlers
+        } else {
+          if (val == 'confirmation') {
+            // TODO: conf handlers
+          }
+        }
+      }
+    });
+
+    Popup.active = 'details';
     // Preloader finishes
     const preloader = $('#page-preloader');
     if (preloader.data(`status`) != 'done') {
@@ -22,20 +114,20 @@ exports('regist', (params, done) => {
     // Registration logic
     // Move forward
     $(`[data-id=nextButton]`).on('click', () => {
-      if (curPopup == 'details') {
+      if (Popup.active == 'details') {
         $(`[data-id=details]`).removeClass('active');
         $(`[data-id=details]`).addClass('not-active');
         $(`[data-id=information]`).removeClass('not-active');
         $(`[data-id=information]`).addClass('active');
-        curPopup = 'information';
+        Popup.active = 'information';
       }
       else {
-        if (curPopup == 'information') {
+        if (Popup.active == 'information') {
           $(`[data-id=information]`).removeClass('active');
           $(`[data-id=information]`).addClass('not-active');
           $(`[data-id=confirmation]`).removeClass('not-active')
           $('.button.primary.disabled').removeClass('disabled');
-          curPopup = 'confirmation';
+          Popup.active = 'confirmation';
         }
         else {
           // TODO: registration confirmed
@@ -44,20 +136,20 @@ exports('regist', (params, done) => {
     });
     // Move backward
     $(`[data-id=prevButton]`).on('click', () => {
-      if (curPopup == 'information') {
+      if (Popup.active == 'information') {
         $(`[data-id=information]`).removeClass('active');
         $(`[data-id=information]`).addClass('not-active');
         $(`[data-id=details]`).removeClass('not-active');
         $(`[data-id=details]`).addClass('active');
-        curPopup = 'details';
+        Popup.active = 'details';
       }
       else {
-        if (curPopup == 'confirmation') {
+        if (Popup.active == 'confirmation') {
           $(`[data-id=confirmation]`).removeClass('active');
           $(`[data-id=confirmation]`).addClass('not-active');
           $(`[data-id=information]`).removeClass('not-active');
           $(`[data-id=information]`).addClass('active');
-          curPopup = 'information';
+          Popup.active = 'information';
         }
       }
     });

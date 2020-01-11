@@ -64,7 +64,6 @@ exports('aside', (params, done) => {
     jQuery.fn.outerHTML = function() {
       return $(this).clone().wrap('<div></div>').parent().html();
     };
-    
 
     function RenderAside(data) {
 
@@ -73,12 +72,13 @@ exports('aside', (params, done) => {
     $(`[data-id=aside]`).append(`
   <a data-id="aside-fav"class="[ favourite-category ] flex-container align-middle align-justify">
     <span class="font">My favourites</span>
-    <span data-id="main-fav-star" class="star"></span>
+    <span data-id="main-fav-star" class="star not-active:before active"></span>
   </a>
   <div class="[ tab-header border ] flex-container align-middle align-justify">
-    <a data-id="aside-live" class="[ tab-link active ]">Live</a>
+    <a data-id="aside-live" class="[ tab-link active ]">In-play</a>
     <a data-id="aside-all" class="[ tab-link ]">All</a>
   </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
+        /*
         let cks = JSON.parse(JSON.stringify(Cookies.get()));
         let fav_arr = [];
         for (let i in cks) {
@@ -90,9 +90,10 @@ exports('aside', (params, done) => {
             for (let j = 0; j < data.DATA.length; j++) {
               if (name_ == data.DATA[j].NA) {
                 id_ = j;
+
               }
             }
-  
+          
             $(`[data-id=aside-ul]`).append(`
             <li id="${id_}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
             <span class="sports-${ID_}" style="margin-left: 5px; "></span>
@@ -104,20 +105,21 @@ exports('aside', (params, done) => {
           } else {
             continue;
           }
-        }
+        }*/
         for (let i = 0; i < data.DATA.length; i++) {
         
           let ID = data.DATA[i].ID;
           let name = data.DATA[i].NA;
+          let ev_count = 0;
 
-          if (fav_arr.includes(name)) {
-            continue;
-          } else {
+          for (let n = 0; n < data.DATA[i].CT.length; n++) {
+            ev_count++;
+          }
             $(`[data-id=aside-ul]`).append(`
-            <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+            <li data-d="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
             <span class="sports-${ID}" style="margin-left: 5px; "></span>
             <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
-            <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
+            <span style="position: absolute; left: 75%;">${ev_count} Events</span>
             </li>
             `);
   
@@ -129,7 +131,6 @@ exports('aside', (params, done) => {
                 aside.addClass('not-active');
               }
             });
-          }
         }
         resolve();
       });
@@ -178,8 +179,9 @@ exports('aside', (params, done) => {
           let enough = false;
           let liHtml = $myLi.outerHTML();
     
-          $(`[data-id=liel]`).each(function(el) {
-            if ($(el.target).attr("id") == liId) {
+          $(`[data-id=liel]`).each( (el) => {
+            console.log($(el.target).data('di'));
+            if ($(el.target).data('di') == liId) {
               return false;
           }
             $(el.target).animate({"top": '+=' + moveDown}, 380);
@@ -217,8 +219,8 @@ exports('aside', (params, done) => {
           let enough = false;
           let liHtml = $myLi.outerHTML();
     
-          $(`[data-id=liel]`).each(function(el) {
-            if ($(el.target).attr("id") == liId) {
+          $(`[data-id=aside-ul]`).children().each( (i, el) => {
+            if ($(el.target).data(`di`) == liId) {
               return false;
           }
             $(el.target).animate({"top": '+=' + moveDown}, 380);
@@ -246,10 +248,10 @@ exports('aside', (params, done) => {
       $(`[data-id=aside]`).append(`
   <a data-id="aside-fav" class="[ favourite-category ] flex-container align-middle align-justify">
     <span class="font">My favourites</span>
-    <span data-id="main-fav-star" class="star"></span>
+    <span data-id="main-fav-star" class="star not-active:before active"></span>
   </a>
   <div class="[ tab-header border ] flex-container align-middle align-justify">
-    <a data-id="aside-live" class="[ tab-link ]">Live</a>
+    <a data-id="aside-live" class="[ tab-link ]">In-play</a>
     <a data-id="aside-all" class="[ tab-link active ]">All</a>
   </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
   let cks = JSON.parse(JSON.stringify(Cookies.get()));
@@ -267,7 +269,7 @@ exports('aside', (params, done) => {
             }
   
             $(`[data-id=aside-ul]`).append(`
-            <li id="${id_}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+            <li data-id="liel" data-di="${id_}" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
             <span class="sports-${ID_}" style="margin-left: 5px; "></span>
             <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
             <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
@@ -287,7 +289,7 @@ exports('aside', (params, done) => {
             continue;
           } else {
             $(`[data-id=aside-ul]`).append(`
-            <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+            <li data-d="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
             <span class="sports-${ID}" style="margin-left: 5px; "></span>
             <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
             <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
@@ -304,6 +306,7 @@ exports('aside', (params, done) => {
             });
           }
         }
+        
     resolve();
       });
       promise
@@ -338,7 +341,7 @@ exports('aside', (params, done) => {
     <span class="font">My favourites</span>
   </a>
   <div class="[ tab-header border ] flex-container align-middle align-justify">
-    <a data-id="aside-live" class="[ tab-link ]">Live</a>
+    <a data-id="aside-live" class="[ tab-link ]">In-play</a>
     <a data-id="aside-all" class="[ tab-link ]">All</a>
   </div>`);
      let cookies = JSON.parse(JSON.stringify(Cookies.get()));
