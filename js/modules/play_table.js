@@ -125,17 +125,16 @@ exports('play_table', (params, done) => {
       //window.intervalCount = 0;
       //window.intervals = new Array();
       $(`[data-id="play-table"]`).empty();
-      try {
-        let promise = new Promise((resolve, reject) => {
-          data.DATA.forEach(sport => {
-            if (parseInt(sport.ID) == ID) {
-              if (sport.ID == 1) {
-                for (let i = 0; i < sport.CT.length; i++) {
-                  for (let j = 0; j < sport.CT[i].EV.length; j++) {
-                    if (sport.CT[i].EV[j].MA[0].PA[0] === undefined || sport.CT[i].EV[j].MA[0].PA[1] === undefined || sport.CT[i].EV[j].MA[0].PA[2] === undefined) {
-                      throw (ev.NA);
-                    }
-                    $(`[data-id="play-table"]`).append(`
+      let promise = new Promise((resolve, reject) => {
+        data.DATA.forEach(sport => {
+          if (parseInt(sport.ID) == ID) {
+            if (sport.ID == 1) {
+              for (let i = 0; i < sport.CT.length; i++) {
+                for (let j = 0; j < sport.CT[i].EV.length; j++) {
+                  if (sport.CT[i].EV[j].MA[0].PA === undefined) {
+                    reject(new Error(ev.NA));
+                  }
+                  $(`[data-id="play-table"]`).append(`
                     <div class="row">
                     <div class="cell" data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" data-id="event">
                     <div data-sport-id="${sport.ID}" data-class="play-link" data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link ]">
@@ -154,17 +153,17 @@ exports('play_table', (params, done) => {
                         <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[2].OD.F}</button> 
                       </div>
                     </div>`);
-                  }
-                  $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
+                }
+                $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
                 <div class="cell"> <p class="font">${sport.CT[i].NA} </p> </div> 
                 <div class="cell"> <p class="font">1</p> </div> 
                 <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>`);
-                }
               }
-              else {
-                for (let i = 0; i < sport.CT.length; i++) {
-                  for (let j = 0; j < sport.CT[i].EV.length; j++) {
-                    $(`[data-id="play-table"]`).append(`
+            }
+            else {
+              for (let i = 0; i < sport.CT.length; i++) {
+                for (let j = 0; j < sport.CT[i].EV.length; j++) {
+                  $(`[data-id="play-table"]`).append(`
                     <div class="row">
                     <div class="cell" data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" data-id="event">
                     <div data-class="play-link" data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link ]">
@@ -184,22 +183,23 @@ exports('play_table', (params, done) => {
                         <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[1].OD.F}</button>
                       </div> 
                     </div>`);
-                  }
-                  $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
+                }
+                $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
                 <div class="cell"> <p class="font">${sport.CT[i].NA} </p> </div> 
                 <div class="cell"> <p class="font">1</p> </div> 
                 <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>`);
-                }
               }
-
-            } else {
-              return true;
             }
-          });
-          resolve();
+
+          } else {
+            return true;
+          }
         });
-        promise
-          .then(() => {
+        resolve();
+      });
+      promise
+        .then(
+          (response) => {
             // Handle opening of game section
             $(`[data-id=event]`).on('click', (event) => {
               let id = $(event.target).data('gameId');
@@ -225,11 +225,10 @@ exports('play_table', (params, done) => {
               preloader.addClass('done');
               preloader.data(`status`, 'done').attr('data-status', 'done');
             }
+          },
+          (error) => {
+            console.log(`Event name: ${err}`);
           });
-      }
-      catch (err) {
-        console.log(`Event name: ${err}`);
-      }
       startTimerInplay();
     }
   });

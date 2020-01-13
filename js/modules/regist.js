@@ -40,64 +40,197 @@ exports('regist', (params, done) => {
     // Form validation
     Popup.registerListener((val) => {
       if (val == 'details') {
-        $(`[data-id=nextButton]`).addClass('disable');
+        if ($('.sign-up-body-item').filter('.corrected').length != 3) {
+          $(`[data-id=nextButton]`).addClass('disable');
+        }
+        else {
+          $(`[data-id=nextButton]`).removeClass('disable');
+        }
         $('#Login').on('input', (event) => {
           let cur = $(event.target);
-          if (/^([A-Za-z0-9_-]{8,})$/.test(cur.val())) {
-            onCheckmark(cur);
-            if ($('.sign-up-body-item').filter('.corrected').length == 3) {
-              $(`[data-id=nextButton]`).removeClass('disable');
-            } else {
+          if (cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
+            if (/^([A-Za-z0-9_-]{8,})$/.test(cur.val())) {
+              onCheckmark(cur);
+              if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+                $(`[data-id=nextButton]`).removeClass('disable');
+              } else {
+                $(`[data-id=nextButton]`).addClass('disable');
+              }
+            }
+            else {
+              offCheckmark(cur);
               $(`[data-id=nextButton]`).addClass('disable');
             }
           }
-          else {
-            offCheckmark(cur);
-            $(`[data-id=nextButton]`).addClass('disable');
-          }
+        });
+        $('#Login').on('blur', (event) => {
+          let cur = $(event.target);
+          if (cur.val().length < 8) offCheckmark(cur);
         });
         $('#Password').on('input', (event) => {
           $(`[data-id=nextButton]`).addClass('disable');
           let cur = $(event.target);
-          if (/^([A-Za-z0-9]{8,})$/.test(cur.val())) {
-            onCheckmark(cur);
-            if ($('.sign-up-body-item').filter('.corrected').length == 3) {
-              $(`[data-id=nextButton]`).removeClass('disable');
-            } else {
+          if (cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
+            if (/^([A-Za-z0-9]{8,})$/.test(cur.val())) {
+              onCheckmark(cur);
+              if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+                $(`[data-id=nextButton]`).removeClass('disable');
+              } else {
+                $(`[data-id=nextButton]`).addClass('disable');
+              }
+            }
+            else {
+              offCheckmark(cur);
               $(`[data-id=nextButton]`).addClass('disable');
             }
           }
-          else {
-            offCheckmark(cur);
-            $(`[data-id=nextButton]`).addClass('disable');
-          }
+        });
+        $('#Password').on('blur', (event) => {
+          let cur = $(event.target);
+          if (cur.val().length < 8) offCheckmark(cur);
         });
         $('#PasswordSecondary').on('input', (event) => {
           $(`[data-id=nextButton]`).addClass('disable');
           let cur = $(event.target);
-          if (cur.val() == $('#Password').val()) {
+          if (cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
+            if (cur.val() == $('#Password').val()) {
+              cur.parent()
+                .addClass('corrected')
+                .removeClass('uncorrected');
+              if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+                $(`[data-id=nextButton]`).removeClass('disable');
+              } else {
+                $(`[data-id=nextButton]`).addClass('disable');
+              }
+            }
+            else {
+              cur.parent()
+                .removeClass('corrected')
+                .addClass('uncorrected');
+              $(`[data-id=nextButton]`).addClass('disable');
+            }
+          }
+        });
+        $('#PasswordSecondary').on('blur', (event) => {
+          let cur = $(event.target);
+          if (cur.val().length < 8) offCheckmark(cur);
+        });
+      } else {
+        if (val == 'information') {
+          if ($('.sign-up-body-item').filter('.corrected').length < 11) {
+            $(`[data-id=nextButton]`).addClass('disable');
+          }
+          else {
+            $(`[data-id=nextButton]`).removeClass('disable');
+          }
+          // Country
+          $('#Country').on('click', (event) => {
+            let cur = $(event.target);
+            cur.children('[value="0"]').wrap('<span/>')
+          });
+          $('#Country').on('change', (event) => {
+            let cur = $(event.target);
             cur.parent()
-              .addClass('corrected')
-              .removeClass('uncorrected');
-            if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+              .addClass('corrected');
+            if ($('.sign-up-body-item').filter('.corrected').length == 11) {
               $(`[data-id=nextButton]`).removeClass('disable');
             } else {
               $(`[data-id=nextButton]`).addClass('disable');
             }
-          }
-          else {
+          });
+          // Currency
+          $('#Currency').on('click', (event) => {
+            let cur = $(event.target);
+            cur.children('[value="0"]').wrap('<span/>')
+          });
+          $('#Currency').on('change', (event) => {
+            let cur = $(event.target);
             cur.parent()
-              .removeClass('corrected')
-              .addClass('uncorrected');
-            $(`[data-id=nextButton]`).addClass('disable');
-          }
-        });
-      } else {
-        if (val == 'information') {
-          // TODO: information handlers
+              .addClass('corrected');
+            if ($('.sign-up-body-item').filter('.corrected').length == 11) {
+              $(`[data-id=nextButton]`).removeClass('disable');
+            } else {
+              $(`[data-id=nextButton]`).addClass('disable');
+            }
+          });
+          // Name and Surname
+          $('#FirstName').on('input', (event) => {
+            let cur = $(event.target);
+            let curNeighbour = $('#SecondName');
+            if (cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
+              if (/^([A-Za-z0-9_-]{8,})$/.test(cur.val()) && /^([A-Za-z0-9_-]{8,})$/.test(curNeighbour.val())) {
+                onCheckmark(cur);
+                if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+                  $(`[data-id=nextButton]`).removeClass('disable');
+                } else {
+                  $(`[data-id=nextButton]`).addClass('disable');
+                }
+              }
+              else {
+                offCheckmark(cur);
+                $(`[data-id=nextButton]`).addClass('disable');
+              }
+            }
+          });
+          $('#SecondName').on('input', (event) => {
+            let cur = $(event.target);
+            let curNeighbour = $('#FirstName');
+            if (cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
+              if (/^([A-Za-z0-9_-]{8,})$/.test(cur.val()) && /^([A-Za-z0-9_-]{8,})$/.test(curNeighbour.val())) {
+                onCheckmark(cur);
+                if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+                  $(`[data-id=nextButton]`).removeClass('disable');
+                } else {
+                  $(`[data-id=nextButton]`).addClass('disable');
+                }
+              }
+              else {
+                offCheckmark(cur);
+                $(`[data-id=nextButton]`).addClass('disable');
+              }
+            }
+          });
+          // Phone
+          $('#Number').on('input', (event) => {
+            let cur = $(event.target);
+            if (cur.val().length >= 7 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
+              if (/^([0-9]{7,})$/.test(cur.val())) {
+                onCheckmark(cur);
+                if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+                  $(`[data-id=nextButton]`).removeClass('disable');
+                } else {
+                  $(`[data-id=nextButton]`).addClass('disable');
+                }
+              }
+              else {
+                offCheckmark(cur);
+                $(`[data-id=nextButton]`).addClass('disable');
+              }
+            }
+          });
+          // Email
+          $('#Email').on('input', (event) => {
+            let cur = $(event.target);
+            if (cur.val().length >= 6 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
+              if (/^([A-Za-z0-9_-@]{6,})$/.test(cur.val())) {
+                onCheckmark(cur);
+                if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+                  $(`[data-id=nextButton]`).removeClass('disable');
+                } else {
+                  $(`[data-id=nextButton]`).addClass('disable');
+                }
+              }
+              else {
+                offCheckmark(cur);
+                $(`[data-id=nextButton]`).addClass('disable');
+              }
+            }
+          });
         } else {
           if (val == 'confirmation') {
-            // TODO: conf handlers
+            if ($('.sign-up-body-item').filter('.corrected').length < 14) {
+              $(`[data-id=nextButton]`).addClass('disable');
+            }
           }
         }
       }
