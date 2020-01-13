@@ -43,7 +43,7 @@ exports('regist', (params, done) => {
         $(`[data-id=nextButton]`).addClass('disable');
         $('#Login').on('input', (event) => {
           let cur = $(event.target);
-          if (/^([A-Za-z0-9]{8,})$/.test(cur.val())) {
+          if (/^([A-Za-z0-9_-]{8,})$/.test(cur.val())) {
             onCheckmark(cur);
             if ($('.sign-up-body-item').filter('.corrected').length == 3) {
               $(`[data-id=nextButton]`).removeClass('disable');
