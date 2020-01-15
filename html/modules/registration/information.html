@@ -226,7 +226,7 @@
       </div>
       <div class="[ sign-up-body-item ]">
         <p class="[ sign-up-body-title ] font text-uppercase">Adress:</p>
-        <input id="Adress" type="text" class="field [ sign-up-body-field ]">
+        <input id="Adress" type="text" class="field [ sign-up-body-field ]" maxlength="50">
       </div>
       <div class="[ sign-up-body-item ]">
         <p class="[ sign-up-body-title ] font text-uppercase mb">
@@ -234,10 +234,10 @@
           <sup>⚹</sup>
         </p>
         <div class="flex-container align-middle">
-          <input type="radio" class="radio" id="man" name="male" value="man">
-          <label data-class="gender" for="man" class="font [ sign-up-body-label ]">Male</label>
-          <input type="radio" class="radio" id="woman" name="male" value="woman">
-          <label data-class="gender" for="woman" class="font [ sign-up-body-label ]">Female</label>
+          <input data-class="gender" type="radio" class="radio" id="man" name="male" value="man">
+          <label for="man" class="font [ sign-up-body-label ]">Male</label>
+          <input data-class="gender" type="radio" class="radio" id="woman" name="male" value="woman">
+          <label for="woman" class="font [ sign-up-body-label ]">Female</label>
         </div>
       </div>
       <div class="block">
@@ -251,7 +251,8 @@
       <button data-id="prevButton" class="button primary [ sign-up-footer-button disable ]">
         <p class="fa fa-angle-left mr"></p> Back
       </button>
-      <button data-id="nextButton" class="button primary [ sign-up-footer-button ]">Next <p class="fa fa-angle-right">
+      <button data-id="nextButton" class="button primary [ sign-up-footer-button ] disable">Next <p
+          class="fa fa-angle-right">
         </p>
       </button>
     </div>

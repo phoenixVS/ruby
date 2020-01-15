@@ -40,7 +40,7 @@ exports('regist', (params, done) => {
     // Form validation
     Popup.registerListener((val) => {
       if (val == 'details') {
-        if ($('.sign-up-body-item').filter('.corrected').length != 3) {
+        if ($('.details .sign-up-body-item').filter('.corrected').length != 3) {
           $(`[data-id=nextButton]`).addClass('disable');
         }
         else {
@@ -51,7 +51,7 @@ exports('regist', (params, done) => {
           if (cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
             if (/^([A-Za-z0-9_-]{8,})$/.test(cur.val())) {
               onCheckmark(cur);
-              if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+              if ($('.details .sign-up-body-item').filter('.corrected').length == 3) {
                 $(`[data-id=nextButton]`).removeClass('disable');
               } else {
                 $(`[data-id=nextButton]`).addClass('disable');
@@ -105,7 +105,7 @@ exports('regist', (params, done) => {
               cur.parent()
                 .addClass('corrected')
                 .removeClass('uncorrected');
-              if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+              if ($('.details .sign-up-body-item').filter('.corrected').length == 3) {
                 $(`[data-id=nextButton]`).removeClass('disable');
               } else {
                 $(`[data-id=nextButton]`).addClass('disable');
@@ -125,7 +125,7 @@ exports('regist', (params, done) => {
         });
       } else {
         if (val == 'information') {
-          if ($('.sign-up-body-item').filter('.corrected').length < 11) {
+          if ($('.information .sign-up-body-item').filter('.corrected').length != 8) {
             $(`[data-id=nextButton]`).addClass('disable');
           }
           else {
@@ -141,7 +141,7 @@ exports('regist', (params, done) => {
             cur.parent()
               .removeClass('uncorrected')
               .addClass('corrected');
-            if ($('.sign-up-body-item').filter('.corrected').length == 11) {
+            if ($('.information .sign-up-body-item').filter('.corrected').length == 8) {
               $(`[data-id=nextButton]`).removeClass('disable');
             } else {
               $(`[data-id=nextButton]`).addClass('disable');
@@ -157,46 +157,57 @@ exports('regist', (params, done) => {
             cur.parent()
               .removeClass('uncorrected')
               .addClass('corrected');
-            if ($('.sign-up-body-item').filter('.corrected').length == 11) {
+            if ($('.information .sign-up-body-item').filter('.corrected').length == 8) {
               $(`[data-id=nextButton]`).removeClass('disable');
             } else {
               $(`[data-id=nextButton]`).addClass('disable');
             }
           });
           // Name and Surname
+          $('#FirstName').on('change', (event) => {
+            firstEnter++;
+          });
+          let firstEnter = 0;
           $('#FirstName').on('input', (event) => {
             let cur = $(event.target);
             let curNeighbour = $('#SecondName');
             if (cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
-              if (/^([A-Za-z0-9_-]{8,})$/.test(cur.val()) && /^([A-Za-z0-9_-]{8,})$/.test(curNeighbour.val())) {
+              if (/^([A-Za-z_-]{8,})$/.test(cur.val()) && /^([A-Za-z0-9_-]{8,})$/.test(curNeighbour.val())) {
                 onCheckmark(cur);
-                if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+                if ($('.information .sign-up-body-item').filter('.corrected').length == 8) {
                   $(`[data-id=nextButton]`).removeClass('disable');
                 } else {
                   $(`[data-id=nextButton]`).addClass('disable');
                 }
               }
               else {
-                offCheckmark(cur);
-                $(`[data-id=nextButton]`).addClass('disable');
+                if (firstEnter > 1) {
+                  offCheckmark(cur);
+                  $(`[data-id=nextButton]`).addClass('disable');
+                }
               }
             }
+          });
+          $('#SecondName').on('change', (event) => {
+            firstEnter++;
           });
           $('#SecondName').on('input', (event) => {
             let cur = $(event.target);
             let curNeighbour = $('#FirstName');
             if (cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
-              if (/^([A-Za-z0-9_-]{8,})$/.test(cur.val()) && /^([A-Za-z0-9_-]{8,})$/.test(curNeighbour.val())) {
+              if (/^([A-Za-z_-]{8,})$/.test(cur.val()) && /^([A-Za-z0-9_-]{8,})$/.test(curNeighbour.val())) {
                 onCheckmark(cur);
-                if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+                if ($('.information .sign-up-body-item').filter('.corrected').length == 8) {
                   $(`[data-id=nextButton]`).removeClass('disable');
                 } else {
                   $(`[data-id=nextButton]`).addClass('disable');
                 }
               }
               else {
-                offCheckmark(cur);
-                $(`[data-id=nextButton]`).addClass('disable');
+                if (firstEnter > 1) {
+                  offCheckmark(cur);
+                  $(`[data-id=nextButton]`).addClass('disable');
+                }
               }
             }
           });
@@ -206,7 +217,7 @@ exports('regist', (params, done) => {
             if (cur.val().length >= 7 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
               if (/^([0-9]{7,})$/.test(cur.val())) {
                 onCheckmark(cur);
-                if ($('.sign-up-body-item').filter('.corrected').length == 3) {
+                if ($('.information .sign-up-body-item').filter('.corrected').length == 8) {
                   $(`[data-id=nextButton]`).removeClass('disable');
                 } else {
                   $(`[data-id=nextButton]`).addClass('disable');
@@ -225,7 +236,7 @@ exports('regist', (params, done) => {
               if (/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(cur.val().toLowerCase())) {
                 cur.parent().removeClass('uncorrected')
                   .addClass('corrected');
-                if ($('.sign-up-body-item').filter('.corrected').length < 14) {
+                if ($('.information .sign-up-body-item').filter('.corrected').length == 8) {
                   $(`[data-id=nextButton]`).removeClass('disable');
                 } else {
                   $(`[data-id=nextButton]`).addClass('disable');
@@ -238,18 +249,22 @@ exports('regist', (params, done) => {
               }
             }
           });
+          const date = {
+            day: false,
+            month: false,
+            year: false,
+          };
           // Birth Date day
           $('#Day').on('click', (event) => {
             let cur = $(event.target);
-            cur.children('[value="00"]').wrap('<span/>')
+            cur.children('[value="00"]').wrap('<span/>');
           });
           $('#Day').on('change', (event) => {
+            date.day = true;
             let cur = $(event.target);
-            if (cur.siblings().children().eq(0).val() != '00' && (cur.siblings().children().eq(0).val(1) != '00')) {
-              cur.parent()
-                .removeClass('uncorrected')
-                .addClass('corrected');
-              if ($('.sign-up-body-item').filter('.corrected').length == 11) {
+            if (date.day && (date.year && date.month)) {
+              onCheckmark(cur);
+              if ($('.information .sign-up-body-item').filter('.corrected').length == 8) {
                 $(`[data-id=nextButton]`).removeClass('disable');
               } else {
                 $(`[data-id=nextButton]`).addClass('disable');
@@ -259,15 +274,14 @@ exports('regist', (params, done) => {
           // Birth Date month
           $('#Month').on('click', (event) => {
             let cur = $(event.target);
-            cur.children('[value="00"]').wrap('<span/>')
+            cur.children('[value="00"]').wrap('<span/>');
           });
           $('#Month').on('change', (event) => {
+            date.month = true;
             let cur = $(event.target);
-            if (cur.siblings().children().eq(0).val() != '00' && (cur.siblings().children().eq(0).val(1) != '00')) {
-              cur.parent()
-                .removeClass('uncorrected')
-                .addClass('corrected');
-              if ($('.sign-up-body-item').filter('.corrected').length == 11) {
+            if (date.day && (date.year && date.month)) {
+              onCheckmark(cur);
+              if ($('.information .sign-up-body-item').filter('.corrected').length == 8) {
                 $(`[data-id=nextButton]`).removeClass('disable');
               } else {
                 $(`[data-id=nextButton]`).addClass('disable');
@@ -277,15 +291,14 @@ exports('regist', (params, done) => {
           // Birth Date year
           $('#Year').on('click', (event) => {
             let cur = $(event.target);
-            cur.children('[value="00"]').wrap('<span/>')
+            cur.children('[value="00"]').wrap('<span/>');
           });
           $('#Year').on('change', (event) => {
+            date.year = true;
             let cur = $(event.target);
-            if (cur.siblings().children().eq(0).val() != '00' && (cur.siblings().children().eq(0).val(1) != '00')) {
-              cur.parent()
-                .removeClass('uncorrected')
-                .addClass('corrected');
-              if ($('.sign-up-body-item').filter('.corrected').length == 11) {
+            if (date.day && (date.year && date.month)) {
+              onCheckmark(cur);
+              if ($('.information .sign-up-body-item').filter('.corrected').length == 8) {
                 $(`[data-id=nextButton]`).removeClass('disable');
               } else {
                 $(`[data-id=nextButton]`).addClass('disable');
@@ -295,19 +308,21 @@ exports('regist', (params, done) => {
           // Adress
           $('#Adress').on('input', (event) => {
             let cur = $(event.target);
-            if (cur.val().length >= 10) {
-              if (/^([A-Za-z0-9-.,]{8,})$/.test(cur.val())) {
-                onCheckmark(cur);
-                if ($('.sign-up-body-item').filter('.corrected').length == 3) {
-                  $(`[data-id=nextButton]`).removeClass('disable');
-                } else {
-                  $(`[data-id=nextButton]`).addClass('disable');
-                }
-              }
-              else {
-                offCheckmark(cur);
+            if (/^[a-zA-Z0-9\s,.'-]{7,}$/.test(cur.val())) {
+              cur.parent()
+                .removeClass('uncorrected')
+                .addClass('corrected');
+              if ($('.information .sign-up-body-item').filter('.corrected').length == 8) {
+                $(`[data-id=nextButton]`).removeClass('disable');
+              } else {
                 $(`[data-id=nextButton]`).addClass('disable');
               }
+            }
+            else {
+              cur.parent()
+                .removeClass('corrected')
+                .addClass('uncorrected');
+              $(`[data-id=nextButton]`).addClass('disable');
             }
           });
           // Gender
@@ -317,15 +332,80 @@ exports('regist', (params, done) => {
               .addClass('uncorrected');
           }
           $(`[data-class=gender]`).on('click', (event) => {
-            $(event.target).parent()
-              .removeClass('uncorrected')
-              .addClass('corrected');
+            const cur = $(event.target);
+            onCheckmark(cur);
+            if ($('.information .sign-up-body-item').filter('.corrected').length == 8) {
+              $(`[data-id=nextButton]`).removeClass('disable');
+            } else {
+              $(`[data-id=nextButton]`).addClass('disable');
+            }
           });
         } else {
           if (val == 'confirmation') {
-            if ($('.sign-up-body-item').filter('.corrected').length < 14) {
-              $(`[data-id=nextButton]`).addClass('disable');
+            $(`[data-id=nextButton]`).addClass('disable');
+            const confs = {
+              personalInfo: false,
+              totalAge: false,
+              casinoAge: false,
+              termsCond: false,
+            };
+            function checkButton() {
+              if (confs.personalInfo && (confs.totalAge && (confs.casinoAge && confs.termsCond))) {
+                $(`[data-id=nextButton]`).removeClass('disable');
+              }
+              else {
+                if (confs.personalInfo && (confs.totalAge && confs.termsCond)) {
+                  $(`[data-id=nextButton]`).removeClass('disable');
+                }
+                else {
+                  $(`[data-id=nextButton]`).addClass('disable');
+                }
+              }
             }
+            $('#personalInfo').on('click', () => {
+              const cur = $(event.target);
+              if (!confs.personalInfo) {
+                confs.personalInfo = true;
+                checkButton();
+              }
+              else {
+                confs.personalInfo = false;
+                checkButton();
+              }
+            });
+            $('#totalAge').on('click', () => {
+              const cur = $(event.target);
+              if (!confs.totalAge) {
+                confs.totalAge = true;
+                checkButton();
+              }
+              else {
+                confs.totalAge = false;
+                checkButton();
+              }
+            });
+            $('#casinoAge').on('click', () => {
+              const cur = $(event.target);
+              if (!confs.casinoAge) {
+                confs.casinoAge = true;
+                checkButton();
+              }
+              else {
+                confs.casinoAge = false;
+                checkButton();
+              }
+            });
+            $('#termsCond').on('click', () => {
+              const cur = $(event.target);
+              if (!confs.termsCond) {
+                confs.termsCond = true;
+                checkButton();
+              }
+              else {
+                confs.termsCond = false;
+                checkButton();
+              }
+            });
           }
         }
       }
