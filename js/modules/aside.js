@@ -178,19 +178,22 @@ exports('aside', (params, done) => {
           let liId = $myLi.attr("id");
           let enough = false;
           let liHtml = $myLi.outerHTML();
-    
-          $(`[data-id=liel]`).each( (el) => {
-            console.log($(el.target).data('di'));
-            if ($(el.target).data('di') == liId) {
+
+          $(`[data-id=liel]`).each( (index, el) => {
+            console.log(liId);
+            console.log($(el).attr('id'));
+            if ($(el).attr('id') == liId) {
               return false;
+          } else {
+            $(el).animate({"top": '+=' + moveDown}, 380);
           }
-            $(el.target).animate({"top": '+=' + moveDown}, 380);
           });
     
           $myLi.animate({"top": '-=' + moveUp}, 380, function() {
             $myLi.remove();
             let oldHtml = $(`[data-id=aside-ul]`).html();
             $(`[data-id=aside-ul]`).html(liHtml + oldHtml);
+            $(`[data-id=liel]`).attr("style", "position: relative; top: 0; left: 0;");
             $(`[data-id=fav-star]`).on('click', (el) => {
               
               if ( $(el.target).data('clicked') == 'on') {
@@ -219,17 +222,21 @@ exports('aside', (params, done) => {
           let enough = false;
           let liHtml = $myLi.outerHTML();
     
-          $(`[data-id=aside-ul]`).children().each( (i, el) => {
-            if ($(el.target).data(`di`) == liId) {
+          $(`[data-id=liel]`).each( (index, el) => {
+            console.log(liId);
+            console.log($(el).attr('id'));
+            if ($(el).attr('id') == liId) {
               return false;
+          } else {
+            $(el).animate({"top": '+=' + moveDown}, 380);
           }
-            $(el.target).animate({"top": '+=' + moveDown}, 380);
           });
     
           $myLi.animate({"top": '-=' + moveUp}, 380, function() {
             $myLi.remove();
             let oldHtml = $(`[data-id=aside-ul]`).html();
             $(`[data-id=aside-ul]`).html(liHtml + oldHtml);
+            $(`[data-id=liel]`).attr("style", "position: relative; top: 0; left: 0;");
             $(`[data-id=fav-star]`).on('click', (el) => {
               
               if ( $(el.target).data('clicked') == 'on') {
@@ -269,7 +276,7 @@ exports('aside', (params, done) => {
             }
   
             $(`[data-id=aside-ul]`).append(`
-            <li data-id="liel" data-di="${id_}" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+            <li id=${id_} data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
             <span class="sports-${ID_}" style="margin-left: 5px; "></span>
             <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
             <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
@@ -289,7 +296,7 @@ exports('aside', (params, done) => {
             continue;
           } else {
             $(`[data-id=aside-ul]`).append(`
-            <li data-d="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+            <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
             <span class="sports-${ID}" style="margin-left: 5px; "></span>
             <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
             <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
