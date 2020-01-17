@@ -90,6 +90,8 @@ button {
     width: auto;
 }
 .setting-box.second {
+    /* height: calc(100vh - 244px);
+    height: -webkit-calc(100vh - 244px); */
     padding: 10px 0;
     background-color: #281420;
 }
@@ -133,6 +135,12 @@ button {
     position: relative;
 }
 .button.primary {
+    /* position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 10px; */
+    margin: 10px;
     background-color: #c8304d;
     color: #fff;
 }
