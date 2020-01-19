@@ -179,8 +179,37 @@
 .inscriptions .register {
     float: right;
 }
+
 .loginContent .failedLogin {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+}
+
+.loginContent .failedLoginHeader {
     display: none;
-    color: #fff;
+    color: red;
     font-size: 14px;
+    text-align: center;
+}
+
+.loginContent .failedLoginCaseSensitive {
+    display: none;
+    color: red;
+    font-size: 14px;
+    text-align: center;
+}
+
+.loginContent .failedLoginAccountLock {
+    display: none;
+    color: red;
+    font-size: 14px;
+    text-align: center;
+}
+
+.loginContent .failedLogPass {
+    display: none;
+    color: red;
+    font-size: 14px;
+    text-align: center;
 }

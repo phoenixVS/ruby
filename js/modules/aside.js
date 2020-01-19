@@ -357,7 +357,7 @@ exports('aside', (params, done) => {
        let name = i;
        let ID = Cookies.get(name);
 
-       if (name != 'logon') {
+       if (name != 'logon' && name != 'username' && name != 'password') {
           $(`[data-id=aside]`).append(`
       <div data-id="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
         

@@ -4,15 +4,16 @@ exports('login', (params, done) => {
 
     function sendLoginData(data) {
       //TODO: sending data for validation
-      return true;
+      return false;
     }   
 
     function LoginHandler(login, blur, attempt_counter, data) {
+      console.log(attempt_counter);
       let usr_name = $('#username').val();
       let password = $('#password').val();
 
       if (usr_name != '' && password != '') {
-
+        
         const loginForm = {
           DATA: {
             username: usr_name,
@@ -28,12 +29,24 @@ exports('login', (params, done) => {
           Cookies.set('logon', 'true');
           console.log('success');
         } else {
-          if (attempt_counter == 2) {
+          attempt_counter++;
+          if (attempt_counter == 3) {
             console.log(attempt_counter);
             console.log('Blocking account...');
-          } else {
-            console.log('Unsuccess');
-            attempt_counter+=1;
+            /*Только для теста, потом убрать*/
+            /*Вместо блокировки выполняет логин*/ 
+            /*........................................*/
+            login.fadeOut('middle').remove("active");
+            blur.removeClass('block').addClass('none');
+            Cookies.set('logon', 'true');
+            console.log('success');
+            /*.........................................*/
+          } else if (attempt_counter == 1 || attempt_counter == 2) {
+            console.log(attempt_counter);
+            $('.failedLogPass').css('display', 'none');
+            $('.failedLoginAccountLock').show();
+            $('.failedLoginHeader').show();
+            $('.loginButton').prop("onclick", null).off("click");
             $('.loginButton').on('click', () => {
               LoginHandler(login, blur, attempt_counter);
             });
@@ -45,7 +58,8 @@ exports('login', (params, done) => {
           console.log('Blocking account...');
         } else {
           console.log('Unsuccess');
-          attempt_counter+=1;
+          $('.failedLogPass').show();
+          $('.loginButton').prop("onclick", null).off("click");
           $('.loginButton').on('click', () => {
             LoginHandler(login, blur, attempt_counter);
           });
@@ -53,9 +67,6 @@ exports('login', (params, done) => {
       }
     }
 
-    /*login.fadeOut('middle').remove("active");
-        blur.removeClass('block').addClass('none');
-        Cookies.set('logon', 'true');*/
     function renderLoginPopup() {
       let renderPromise = new Promise((resolve, reject) => {
         $('.blur').removeClass('none').addClass('block');
@@ -76,6 +87,7 @@ exports('login', (params, done) => {
               <div class="failedLoginHeader">Your access details were not found.</div>
               <div class="failedLoginCaseSensitive">The password recognition system is case sensitive.</div>
               <div class="failedLoginAccountLock ">Your account will be blocked after three unsuccessful login attempts.</div>
+              <div class="failedLogPass">Enter login and password</div>
             </div>
             <div class="stayInContainer">
               <div class="checkboxContainer">
@@ -106,6 +118,9 @@ exports('login', (params, done) => {
           LoginHandler(login, blur, attempt_counter);
         });
 
+        $('.checkboxText').on('click', checkmark);
+        blur.removeClass('none').addClass('block');
+
         $("body").click(function (e) {
           if ($(e.target).closest(`[data-id=login]`).length != 0) return false; // disable trigger on first click to log in
           if ($(e.target).closest(`[data-id=loginContainer]`).length != 0) return false; // disable trigger on login popup
@@ -120,10 +135,9 @@ exports('login', (params, done) => {
           }
           else {
             $('#checkbox').prop('checked', true);
+            console.log('Checked');
           }
         }
-        $('.checkboxText').on('click', checkmark);
-        blur.removeClass('none').addClass('block');
       });
     }
     renderLoginPopup();
