@@ -109,6 +109,12 @@ exports('login', (params, done) => {
         resolve();
       });
       renderPromise.then(() => {
+
+        $('.register').on('click', () => {
+          login.fadeOut('middle').remove("active");
+          blur.removeClass('block').addClass('none');
+          window.location = 'http://localhost/everest/#/registration/';
+        });
         // $(`[data-id=login]`).off('click', renderLoginPopup);
         const login = $('.loginContainer');
         const blur = $(`[data-id=blur]`);
