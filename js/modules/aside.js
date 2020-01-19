@@ -125,7 +125,7 @@ exports('aside', (params, done) => {
   
             $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
               if (true) {
-                window.location = 'http://localhost/everest/#/filter/' + ID;
+                window.location = 'http://46.101.202.52/everest/#/filter/' + ID;
             
                 aside.removeClass('active');
                 aside.addClass('not-active');
@@ -305,7 +305,7 @@ exports('aside', (params, done) => {
   
             $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
               if (true) {
-                window.location = 'http://localhost/everest/#/filter/' + ID;
+                window.location = 'http://46.101.202.52/everest/#/filter/' + ID;
             
                 aside.removeClass('active');
                 aside.addClass('not-active');
@@ -367,7 +367,7 @@ exports('aside', (params, done) => {
       `);
       $(`[data-id=aside-link-${ID}]`).on('click', () => {
       
-        window.location = 'http://localhost/everest/#/filter/' + ID;
+        window.location = 'http://46.101.202.52/everest/#filter/' + ID;
       
         aside.removeClass('active');
         aside.addClass('not-active');
