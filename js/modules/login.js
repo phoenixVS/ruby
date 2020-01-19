@@ -35,7 +35,7 @@ exports('login', (params, done) => {
             console.log('Blocking account...');
             /*Только для теста, потом убрать*/
             /*Вместо блокировки выполняет логин*/ 
-            /*........................................*/
+            /*.......................................*/
             login.fadeOut('middle').remove("active");
             blur.removeClass('block').addClass('none');
             Cookies.set('logon', 'true');
