@@ -6,11 +6,11 @@
     z-index: 11;
     left: 50%;
     top: 240px;
-    width: 60%;
+    width: 70%;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     max-height: 100%;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     background-color: #33202b;
     border: 2px solid #33202b;
     border-radius: 5px;
@@ -28,7 +28,7 @@
         transform: translate(-50%, -50%);
         -webkit-transform: translate(-50%, -50%);
         max-height: 100%;
-        overflow-y: auto;
+        /* overflow-y: auto; */
         background-color: #33202b;
         border: 2px solid #33202b;
         border-radius: 5px;
