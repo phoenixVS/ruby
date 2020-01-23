@@ -10,6 +10,7 @@ function mainHandler() {
     let onModulesLoad = new Promise((resolve, reject) => {
         if ($('script[src="js/modules/header.js"]').length > 0) {
             loadJsModules({
+                wsocket: { loadCSS: false, loadLanguage: false },
                 play_big: { loadCSS: false, loadLanguage: false },
                 play_table: { loadCSS: false, loadLanguage: false },
             });
@@ -20,11 +21,12 @@ function mainHandler() {
                 header: { loadCSS: false, loadLanguage: false },
                 aside: { loadCSS: true, loadLanguage: false },
                 slider: { loadCSS: false, loadLanguage: false },
-                play_big: { loadCSS: false, loadLanguage: false },
+                betslip_link: { loadCSS: false, loadLanguage: false },
                 coef_table: { loadCSS: true, loadLanguage: false },
                 live: { loadCSS: false, loadLanguage: false },
+                wsocket: { loadCSS: false, loadLanguage: false },
+                play_big: { loadCSS: false, loadLanguage: false },
                 play_table: { loadCSS: false, loadLanguage: false },
-                betslip_link: { loadCSS: false, loadLanguage: false },
             });
             resolve();
         }
