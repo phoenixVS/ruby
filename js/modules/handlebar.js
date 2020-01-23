@@ -15,8 +15,9 @@ function mainHandler() {
             play_big: { loadCSS: false, loadLanguage: false },
             coef_table: { loadCSS: true, loadLanguage: false },
             live: { loadCSS: false, loadLanguage: false },
-            play_table: { loadCSS: false, loadLanguage: false },
+            wsocket: { loadCSS: false, loadLanguage: false },
             betslip_link: { loadCSS: false, loadLanguage: false },
+            play_table: { loadCSS: false, loadLanguage: false },
         });
         resolve();
     });
