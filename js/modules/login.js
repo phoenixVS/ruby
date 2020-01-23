@@ -46,7 +46,7 @@ exports('login', (params, done) => {
         const login = $('.loginContainer');
         const blur = $(`[data-id=blur]`);
         $('.loginButton').on('click', () => {
-          login.fadeOut('middle').remove("active");
+          login.fadeOut('middle').remove("active").remove();
           blur.removeClass('block').addClass('none');
           Cookies.set('logon', 'true');
           //$(`[data-id=login]`).on('click', renderLoginPopup);
@@ -55,6 +55,7 @@ exports('login', (params, done) => {
           if ($(e.target).closest(`[data-id=login]`).length != 0) return false; // disable trigger on first click to log in
           if ($(e.target).closest(`[data-id=loginContainer]`).length != 0) return false; // disable trigger on login popup
           login.fadeOut().remove("active");
+          login.remove();
           blur.removeClass('block').addClass('none');
           // $(`[data-id=login]`).on('click', renderLoginPopup);
         });

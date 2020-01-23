@@ -1,9 +1,5 @@
 exports('user_menu', (params, done) => {
-  insertHtmlModules({
-    // ".play-table": [
-    //   "play-table/play-table.html"
-    // ]
-  }, () => {
+  insertHtmlModules({}, () => {
     function renderUserMenu() {
       let renderPromise = new Promise((resolve, reject) => {
         $(`
@@ -22,24 +18,24 @@ exports('user_menu', (params, done) => {
             <p class="font text-uppercase [ user-menu-big primary ]">0.00 UAH</p>
           </div>
           <div class="[ user-menu-links ]">
-            <a href="#/user/vasya1999/transaction" class="[ user-menu-link ] flex-container align-middle">
+            <a data-id="accountHistory" href="#" class="[ user-menu-link ] flex-container align-middle">
               <p class="fa fa-money"></p>
               <p class="font">Account history</p>
             </a>
-            <a href="#/user/vasya1999/balance/account" class="[ user-menu-link ] flex-container align-middle">
+            <a data-id="accountSettings" href="#" class="[ user-menu-link ] flex-container align-middle">
               <p class="fa fa-cogs"></p>
               <p class="font">Account settings</p>
               <div class="[ user-menu-notification ]"></div>
             </a>
-            <a href="#/user/vasya1999/balance/deposit" class="[ user-menu-link ] flex-container align-middle">
+            <a data-id="depositWithdraw" href="#" class="[ user-menu-link ] flex-container align-middle">
               <p class="fa fa-refresh"></p>
               <p class="font">Deposit / Withdraw funds</p>
             </a>
-            <a href="#" class="[ user-menu-link ] flex-container align-middle">
+            <a data-id="promoBonuses" href="#" class="[ user-menu-link ] flex-container align-middle">
               <p class="fa fa-gift"></p>
               <p class="font">Promotions and bonuses</p>
             </a>
-            <a href="#" class="[ user-menu-link ] flex-container align-middle">
+            <a data-id="exitUser" href="#" class="[ user-menu-link ] flex-container align-middle">
               <p class="fa fa-sign-out"></p>
               <p class="font">Exit</p>
             </a>
@@ -53,18 +49,29 @@ exports('user_menu', (params, done) => {
         const user_menu = $(`[data-id=user-menu]`);
         $('.loginButton').on('click', () => {
           user_menu.fadeOut().remove("active");
-          $(`[data-id=login]`).on('click', renderUserMenu);
+          //$(`[data-id=login]`).on('click', renderUserMenu);
         });
         $("body").click(function (e) {
           if ($(e.target).closest(`[data-id=login]`).length != 0) return false; // disable trigger on first click to log in
           if ($(e.target).closest(`[data-id=user-menu]`).length != 0) return false; // disable trigger on login popup
-          user_menu.fadeOut().remove("active");
-          $('#content .menu-wrapper').remove();
-          $(`[data-id=login]`).on('click', renderUserMenu);
+          user_menu.fadeOut().remove("active").remove();
+          //$(`[data-id=login]`).on('click', renderUserMenu);
+        });
+        // Account profile redirect
+        let username = 'vasya1999';
+        $('.user-menu-links a').css('z-index', '102');
+        $(`[data-id=accountHistory]`).prop('href', `#/user/${username}/transaction`);
+        $(`[data-id=accountSettings]`).prop('href', `#/user/${username}/balance/account`);
+        $(`[data-id=depositWithdraw]`).prop('href', `#/user/${username}/balance/deposit`);
+        $(`[data-id=promoBonuses]`).prop('href', `#`);
+        $(`[data-id=exitUser]`).on('click', (event) => {
+          user_menu.fadeOut().remove("active").remove();
+          Cookies.set('logon', 'false');
         });
       });
     }
-    $(`[data-id=login]`).on('click', renderUserMenu);
-    done();
+
+    renderUserMenu();
   });
+  done();
 });
