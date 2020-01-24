@@ -108,13 +108,15 @@ exports('header', (params, done) => {
         var navbar = document.querySelector("#navbar");
         // Get the offset position of the navbar
         var sticky = navbar.offsetTop;
-        console.log(sticky);
+
         // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
         function stick() {
             if (window.pageYOffset >= sticky) {
                 navbar.classList.add("sticky")
+                document.querySelector('.slider').style.marginTop = '64px';
             } else {
                 navbar.classList.remove("sticky");
+                document.querySelector('.slider').style.marginTop = '0';
             }
         }
 

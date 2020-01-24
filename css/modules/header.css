@@ -2,5 +2,5 @@
     position: fixed;
     top: 0;
     width: 100%;
-    /* padding-top: 14px; */
+    z-index: 100;
 }
