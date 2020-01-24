@@ -41,31 +41,30 @@ exports('user_menu', (params, done) => {
             </a>
           </div>
         </div>
-        </div>`).prependTo('#content').slideDown('slow');
+        </div>`).prependTo($('#content')).slideDown("fast");
         resolve();
       });
       renderPromise.then(() => {
         $(`[data-id=login]`).off('click', renderUserMenu);
         const user_menu = $(`[data-id=user-menu]`);
         $('.loginButton').on('click', () => {
-          user_menu.fadeOut().remove("active");
+          user_menu.slideUp().remove("active");
           //$(`[data-id=login]`).on('click', renderUserMenu);
         });
         $("body").click(function (e) {
           if ($(e.target).closest(`[data-id=login]`).length != 0) return false; // disable trigger on first click to log in
           if ($(e.target).closest(`[data-id=user-menu]`).length != 0) return false; // disable trigger on login popup
-          user_menu.fadeOut().remove("active").remove();
+          user_menu.slideUp().remove("active").remove();
           //$(`[data-id=login]`).on('click', renderUserMenu);
         });
         // Account profile redirect
         let username = 'vasya1999';
-        $('.user-menu-links a').css('z-index', '102');
         $(`[data-id=accountHistory]`).prop('href', `#/user/${username}/transaction`);
         $(`[data-id=accountSettings]`).prop('href', `#/user/${username}/balance/account`);
         $(`[data-id=depositWithdraw]`).prop('href', `#/user/${username}/balance/deposit`);
         $(`[data-id=promoBonuses]`).prop('href', `#`);
         $(`[data-id=exitUser]`).on('click', (event) => {
-          user_menu.fadeOut().remove("active").remove();
+          user_menu.slideUp().remove("active").remove();
           Cookies.set('logon', 'false');
         });
       });

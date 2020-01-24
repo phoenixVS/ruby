@@ -10,6 +10,7 @@ exports('header', (params, done) => {
             "header/menu.html",
         ]
     }, () => {
+        // Login and user menu handlers
         Cookies.set('logon', 'false');
         $(`[data-id=login]`).on('click', () => {
             if (Cookies.get('logon') == 'true') {
@@ -100,6 +101,22 @@ exports('header', (params, done) => {
                 });
             });
         })(0); // end of langs changer
+
+        // Sticky navbar
+        window.onscroll = function () { stick() };
+        // Get the navbar
+        var navbar = document.querySelector("#navbar");
+        // Get the offset position of the navbar
+        var sticky = navbar.offsetTop;
+        console.log(sticky);
+        // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+        function stick() {
+            if (window.pageYOffset >= sticky) {
+                navbar.classList.add("sticky")
+            } else {
+                navbar.classList.remove("sticky");
+            }
+        }
 
         // Account profile redirect
         let username = 'vasya1999';

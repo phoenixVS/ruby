@@ -18,7 +18,7 @@ function mainHandler() {
         }
         else {
             loadJsModules({
-                header: { loadCSS: false, loadLanguage: false },
+                header: { loadCSS: true, loadLanguage: false },
                 aside: { loadCSS: true, loadLanguage: false },
                 slider: { loadCSS: false, loadLanguage: false },
                 betslip_link: { loadCSS: false, loadLanguage: false },
@@ -121,7 +121,7 @@ function filterHandler(ID) {
             clearInterval(window.intervals[i]);
         }*/
         loadJsModules({
-            header: { loadCSS: false, loadLanguage: false },
+            header: { loadCSS: true, loadLanguage: false },
             aside: { loadCSS: false, loadLanguage: false },
             slider: { loadCSS: false, loadLanguage: false },
             live: { loadCSS: false, loadLanguage: false },
@@ -228,7 +228,7 @@ function gameHandler(sport, ID) {
 
     if (performance.navigation.type == 1) {
         loadJsModules({
-            header: { loadCSS: false, loadLanguage: false },
+            header: { loadCSS: true, loadLanguage: false },
             aside: { loadCSS: true, loadLanguage: false },
         });
     }
@@ -330,7 +330,7 @@ function betslip_smallHandler() {
 function registrationHandler() {
     if (performance.navigation.type == 1) {
         loadJsModules({
-            header: { loadCSS: false, loadLanguage: false },
+            header: { loadCSS: true, loadLanguage: false },
             aside: { loadCSS: false, loadLanguage: false },
         });
     }
@@ -436,7 +436,7 @@ function userHandler(username, nav_link, nav_link_small) {
     if (performance.navigation.type == 1) {
         reload_status = 1;
         loadJsModules({
-            header: { loadCSS: false, loadLanguage: false },
+            header: { loadCSS: true, loadLanguage: false },
         });
     }
 
@@ -552,7 +552,7 @@ function userHandler(username, nav_link, nav_link_small) {
 // 404 Page not found
 function emptyHandler() {
     loadJsModules({
-        header: { loadCSS: false, loadLanguage: false },
+        header: { loadCSS: true, loadLanguage: false },
         aside: { loadCSS: true, loadLanguage: false },
         p404: { loadCSS: false, loadLanguage: false },
     });
