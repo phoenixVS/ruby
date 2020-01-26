@@ -128,7 +128,8 @@ exports('play_table', (params, done) => {
               for (let i = 0; i < sport.CT.length; i++) {
                 for (let j = 0; j < sport.CT[i].EV.length; j++) {
                   if (sport.CT[i].EV[j].MA[0].PA === undefined) {
-                    reject(new Error(ev.NA));
+                    console.log(sport.CT[i].EV[j].NA);
+                    throw new Error(sport.CT[i].EV[j].NA);
                   }
                   $(`[data-id="play-table"]`).append(`
                     <div class="row">
@@ -192,7 +193,8 @@ exports('play_table', (params, done) => {
           }
         });
         resolve();
-      });
+      })
+        .catch((err) => { console.log(err); });
       promise
         .then(
           (response) => {
@@ -223,7 +225,7 @@ exports('play_table', (params, done) => {
             }
           },
           (error) => {
-            console.log(`Event name: ${err}`);
+            console.log(`Event name: ${error}`);
           });
       startTimerInplay();
     }

@@ -5,6 +5,23 @@ exports("handlebar", () => {
     });
 });
 
+function lurking(lurks, unlurks) {
+    for (const element of lurks) {
+        element.data('display', 'none').attr('data-display', 'none');
+        element.css('display', 'none');;
+    }
+    for (const element of unlurks) {
+        if (element.is('.play-big')) {
+            element.data('display', 'true').attr('data-display', 'true');
+            element.css('display', 'flex');
+        }
+        else {
+            element.data('display', 'true').attr('data-display', 'true');
+            element.css('display', 'block');
+        }
+    }
+}
+
 function mainHandler() {
     // loading modules for main view
     let onModulesLoad = new Promise((resolve, reject) => {
@@ -33,76 +50,34 @@ function mainHandler() {
     });
     onModulesLoad.then(
         result => {
+            const mybets = $(`[data-id=mybets]`);
+            const slider = $(`[data-id=slider]`);
             const formWrapper = $(`[data-id=registrationWrapper]`);
-            formWrapper.data('display', 'none').attr('data-display', 'none');
-            formWrapper.css('display', 'none');
-            // play-big unlurk
-            let play_big = $(`[data-id=play-big]`);
-            if (play_big.data(`display`) === 'flex') {
-                play_big.css('display', 'flex');
-            }
-            else {
-                play_big.data(`display`, 'flex').attr('data-display', 'flex');
-                play_big.css('display', 'flex');
-            }
-            // coef_table unlurk
-            let coef_table = $(`[data-id=coef_table]`);
-            coef_table.data(`display`, 'block').attr('display', 'block');
-            coef_table.css('display', 'block');
-            // play-table unlurk
-            let play_table = $(`[data-id=play-table]`);
-            if (play_table.data(`display`) === 'block') {
-                play_table.css('display', 'block');
-            }
-            else {
-                play_table.data(`display`, 'block').attr('data-display', 'block');
-                play_table.css('display', 'block');
-            }
-            // live unlurk
-            let live = $(`[data-id=live]`);
-            if (live.data(`display`) === 'block') {
-                live.css('display', 'block');
-            }
-            else {
-                live.data(`display`, 'block').attr('data-display', 'block');
-                live.css('display', 'block');
-            }
-            // video lurk
-            let video = $(`[data-id=video]`);
-            if (video.data(`display`) === 'none') {
-                video.css('display', 'none');
-            }
-            else {
-                video.data(`display`, 'none').attr('data-display', 'none');
-                video.css('display', 'none');
-            }
-            // betslip lurk
-            let betslip = $(`[data-id=betslip]`);
-            if (betslip.data(`display`) === 'none') {
-                betslip.css('display', 'none');
-            }
-            else {
-                betslip.data(`display`, 'none').attr('data-display', 'none');
-                betslip.css('display', 'none');
-            }
-            // betslip lurk
-            let betslip_small = $(`[data-id=betslip-small]`);
-            if (betslip_small.data(`display`) === 'none') {
-                betslip_small.css('display', 'none');
-            }
-            else {
-                betslip_small.data(`display`, 'none').attr('data-display', 'none');
-                betslip_small.css('display', 'none');
-            }
-            // betslip-link lurk
-            let betslip_link = $(`[data-id=betslip-link]`);
-            if (betslip_link.data(`display`) === 'none') {
-                betslip_link.css('display', 'none');
-            }
-            else {
-                betslip_link.data(`display`, 'none').attr('data-display', 'none');
-                betslip_link.css('display', 'none');
-            }
+            const play_big = $(`[data-id=play-big]`);
+            const coef_table = $(`[data-id=coef_table]`);
+            const play_table = $(`[data-id=play-table]`);
+            const live = $(`[data-id=live]`);
+            const video = $(`[data-id=video]`);
+            const betslip = $(`[data-id=betslip]`);
+            const betslip_link = $(`[data-id=betslip-link]`);
+            const betslip_small = $(`[data-id=betslip-small]`);
+            const lurks = [
+                mybets,
+                formWrapper,
+                video,
+                betslip,
+                betslip_link,
+                betslip_small,
+            ];
+            const unlurks = [
+                play_big,
+                coef_table,
+                play_table,
+                live,
+                slider,
+            ];
+            lurking(lurks, unlurks);
+            mybets.empty();
         },
         error => {
             console.log(`modules haven't been loaded :_( \n
@@ -145,76 +120,34 @@ function filterHandler(ID) {
 
     onModulesLoad.then(
         result => {
+            const mybets = $(`[data-id=mybets]`);
+            const slider = $(`[data-id=slider]`);
             const formWrapper = $(`[data-id=registrationWrapper]`);
-            formWrapper.data('display', 'none').attr('data-display', 'none');
-            formWrapper.css('display', 'none');
-            // play-big unlurk
-            let play_big = $(`[data-id=play-big]`);
-            if (play_big.data(`display`) === 'flex') {
-                play_big.css('display', 'flex');
-            }
-            else {
-                play_big.data(`display`, 'flex').attr('data-display', 'flex');
-                play_big.css('display', 'flex');
-            }
-            // coef_table unlurk
-            let coef_table = $(`[data-id=coef_table]`);
-            coef_table.data(`display`, 'block').attr('display', 'block');
-            coef_table.css('display', 'block');
-            // play-table unlurk
-            let play_table = $(`[data-id=play-table]`);
-            if (play_table.data(`display`) === 'block') {
-                play_table.css('display', 'block');
-            }
-            else {
-                play_table.data(`display`, 'block').attr('data-display', 'block');
-                play_table.css('display', 'block');
-            }
-            // live unlurk
-            let live = $(`[data-id=live]`);
-            if (live.data(`display`) === 'block') {
-                live.css('display', 'block');
-            }
-            else {
-                live.data(`display`, 'block').attr('data-display', 'block');
-                live.css('display', 'block');
-            }
-            // video lurk
-            let video = $(`[data-id=video]`);
-            if (video.data(`display`) === 'none') {
-                video.css('display', 'none');
-            }
-            else {
-                video.data(`display`, 'none').attr('data-display', 'none');
-                video.css('display', 'none');
-            }
-            // betslip lurk
-            let betslip = $(`[data-id=betslip]`);
-            if (betslip.data(`display`) === 'none') {
-                betslip.css('display', 'none');
-            }
-            else {
-                betslip.data(`display`, 'none').attr('data-display', 'none');
-                betslip.css('display', 'none');
-            }
-            // betslip lurk
-            let betslip_small = $(`[data-id=betslip-small]`);
-            if (betslip_small.data(`display`) === 'none') {
-                betslip_small.css('display', 'none');
-            }
-            else {
-                betslip_small.data(`display`, 'none').attr('data-display', 'none');
-                betslip_small.css('display', 'none');
-            }
-            // betslip-link lurk
-            let betslip_link = $(`[data-id=betslip-link]`);
-            if (betslip_link.data(`display`) === 'none') {
-                betslip_link.css('display', 'none');
-            }
-            else {
-                betslip_link.data(`display`, 'none').attr('data-display', 'none');
-                betslip_link.css('display', 'none');
-            }
+            const play_big = $(`[data-id=play-big]`);
+            const coef_table = $(`[data-id=coef_table]`);
+            const play_table = $(`[data-id=play-table]`);
+            const live = $(`[data-id=live]`);
+            const video = $(`[data-id=video]`);
+            const betslip = $(`[data-id=betslip]`);
+            const betslip_link = $(`[data-id=betslip-link]`);
+            const betslip_small = $(`[data-id=betslip-small]`);
+            const lurks = [
+                mybets,
+                formWrapper,
+                video,
+                betslip,
+                betslip_link,
+                betslip_small,
+            ];
+            const unlurks = [
+                play_big,
+                coef_table,
+                play_table,
+                live,
+                slider,
+            ];
+            lurking(lurks, unlurks);
+            mybets.empty();
         },
         error => {
             console.log(`modules haven't been loaded :_( \n
@@ -243,75 +176,34 @@ function gameHandler(sport, ID) {
 
     onModulesLoad.then(
         result => {
+            const mybets = $(`[data-id=mybets]`);
+            const slider = $(`[data-id=slider]`);
             const formWrapper = $(`[data-id=registrationWrapper]`);
-            formWrapper.data('display', 'none').attr('data-display', 'none');
-            formWrapper.css('display', 'none');
-            // video unlurk
-            gameWrapper.data(`display`, 'true').attr('display', 'block');
-            gameWrapper.css('display', 'block');
-            // live lurk
-            let live = $(`[data-id=live]`);
-            if (live.data(`display`) === 'none') {
-                live.css('display', 'none');
-            }
-            else {
-                live.data(`display`, 'none').attr('data-display', 'none');
-                live.css('display', 'none');
-            }
-            // betslip lurk
-            let betslip = $(`[data-id=betslip]`);
-            if (betslip.data(`display`) === 'none') {
-                betslip.css('display', 'none');
-            }
-            else {
-                betslip.data(`display`, 'none').attr('data-display', 'none');
-                betslip.css('display', 'none');
-            }
-            // betslip small lurk
-            let betslip_small = $(`[data-id=betslip-small]`);
-            if (betslip_small.data(`display`) === 'none') {
-                betslip_small.css('display', 'none');
-            }
-            else {
-                betslip_small.data(`display`, 'none').attr('data-display', 'none');
-                betslip_small.css('display', 'none');
-            }
-            // play-big lurk
-            let play_big = $(`[data-id=play-big]`);
-            if (play_big.data(`display`) === 'none') {
-                play_big.css('display', 'none');
-            }
-            else {
-                play_big.data(`display`, 'none').attr('data-display', 'none');
-                play_big.css('display', 'none');
-            }
-            // play-table lurk
-            let play_table = $(`[data-id=play-table]`);
-            if (play_table.data(`display`) === 'none') {
-                play_table.css('display', 'none');
-            }
-            else {
-                play_table.data(`display`, 'none').attr('data-display', 'none');
-                play_table.css('display', 'none');
-            }
-            // betslip-link lurk
-            let betslip_link = $(`[data-id=betslip-link]`);
-            if (betslip_link.data(`display`) === 'none') {
-                betslip_link.css('display', 'none');
-            }
-            else {
-                betslip_link.data(`display`, 'none').attr('data-display', 'none');
-                betslip_link.css('display', 'none');
-            }
-            // slider lurk
-            let slider = $(`[data-id=slider]`);
-            if (slider.data(`display`) === 'none') {
-                slider.css('display', 'none');
-            }
-            else {
-                slider.data(`display`, 'none').attr('data-display', 'none');
-                slider.css('display', 'none');
-            }
+            const play_big = $(`[data-id=play-big]`);
+            const coef_table = $(`[data-id=coef_table]`);
+            const play_table = $(`[data-id=play-table]`);
+            const live = $(`[data-id=live]`);
+            const video = $(`[data-id=video]`);
+            const betslip = $(`[data-id=betslip]`);
+            const betslip_link = $(`[data-id=betslip-link]`);
+            const betslip_small = $(`[data-id=betslip-small]`);
+            const lurks = [
+                mybets,
+                live,
+                formWrapper,
+                slider,
+                play_big,
+                play_table,
+                betslip,
+                betslip_link,
+                betslip_small,
+            ];
+            const unlurks = [
+                video,
+                coef_table,
+            ];
+            lurking(lurks, unlurks);
+            mybets.empty();
         },
         error => {
             console.log(`modules haven't been loaded :_( \n
@@ -344,85 +236,34 @@ function registrationHandler() {
 
     onModulesLoad.then(
         result => {
-            // Form unlurk
+            const mybets = $(`[data-id=mybets]`);
+            const slider = $(`[data-id=slider]`);
             const formWrapper = $(`[data-id=registrationWrapper]`);
-            formWrapper.data('display', 'block').attr('data-display', 'block');
-            formWrapper.css('display', 'block');
-            // video unlurk
-            const gameWrapper = $('[data-id=game]');
-            gameWrapper.data(`display`, 'false').attr('display', 'none');
-            gameWrapper.css('display', 'none');
-            // coef_table lurk
-            let coef_table = $(`[data-id=coef_table]`);
-            coef_table.data(`display`, 'false').attr('display', 'none');
-            coef_table.css('display', 'none');
-            // user page lurk
-            let userPage = $('.userContent');
-            userPage.data(`display`, 'false').attr('display', 'none');
-            userPage.css('display', 'none');
-            // live lurk
-            let live = $(`[data-id=live]`);
-            if (live.data(`display`) === 'none') {
-                live.css('display', 'none');
-            }
-            else {
-                live.data(`display`, 'none').attr('data-display', 'none');
-                live.css('display', 'none');
-            }
-            // betslip lurk
-            let betslip = $(`[data-id=betslip]`);
-            if (betslip.data(`display`) === 'none') {
-                betslip.css('display', 'none');
-            }
-            else {
-                betslip.data(`display`, 'none').attr('data-display', 'none');
-                betslip.css('display', 'none');
-            }
-            // betslip small lurk
-            let betslip_small = $(`[data-id=betslip-small]`);
-            if (betslip_small.data(`display`) === 'none') {
-                betslip_small.css('display', 'none');
-            }
-            else {
-                betslip_small.data(`display`, 'none').attr('data-display', 'none');
-                betslip_small.css('display', 'none');
-            }
-            // play-big lurk
-            let play_big = $(`[data-id=play-big]`);
-            if (play_big.data(`display`) === 'none') {
-                play_big.css('display', 'none');
-            }
-            else {
-                play_big.data(`display`, 'none').attr('data-display', 'none');
-                play_big.css('display', 'none');
-            }
-            // play-table lurk
-            let play_table = $(`[data-id=play-table]`);
-            if (play_table.data(`display`) === 'none') {
-                play_table.css('display', 'none');
-            }
-            else {
-                play_table.data(`display`, 'none').attr('data-display', 'none');
-                play_table.css('display', 'none');
-            }
-            // betslip-link lurk
-            let betslip_link = $(`[data-id=betslip-link]`);
-            if (betslip_link.data(`display`) === 'none') {
-                betslip_link.css('display', 'none');
-            }
-            else {
-                betslip_link.data(`display`, 'none').attr('data-display', 'none');
-                betslip_link.css('display', 'none');
-            }
-            // slider lurk
-            let slider = $(`[data-id=slider]`);
-            if (slider.data(`display`) === 'none') {
-                slider.css('display', 'none');
-            }
-            else {
-                slider.data(`display`, 'none').attr('data-display', 'none');
-                slider.css('display', 'none');
-            }
+            const play_big = $(`[data-id=play-big]`);
+            const coef_table = $(`[data-id=coef_table]`);
+            const play_table = $(`[data-id=play-table]`);
+            const live = $(`[data-id=live]`);
+            const video = $(`[data-id=video]`);
+            const betslip = $(`[data-id=betslip]`);
+            const betslip_link = $(`[data-id=betslip-link]`);
+            const betslip_small = $(`[data-id=betslip-small]`);
+            const lurks = [
+                mybets,
+                video,
+                betslip,
+                betslip_link,
+                betslip_small,
+                play_big,
+                coef_table,
+                play_table,
+                live,
+                slider,
+            ];
+            const unlurks = [
+                formWrapper,
+            ];
+            lurking(lurks, unlurks);
+            mybets.empty();
         },
         error => {
             console.log(`modules haven't been loaded :_( \n
@@ -449,99 +290,36 @@ function userHandler(username, nav_link, nav_link_small) {
 
     onModulesLoad.then(
         result => {
-            if (reload_status == 0) {
-                const gameWrapper = $('[data-id=game]');
-                // video lurk
-                gameWrapper.data(`display`, 'false').attr('display', 'none');
-                gameWrapper.css('display', 'none');
-                // coef_table lurk
-                let coef_table = $(`[data-id=coef_table]`);
-                coef_table.data(`display`, 'false').attr('display', 'none');
-                coef_table.css('display', 'none');
-                // live lurk
-                let live = $(`[data-id=live]`);
-                if (live.data(`display`) === 'none') {
-                    live.css('display', 'none');
-                }
-                else {
-                    live.data(`display`, 'none').attr('data-display', 'none');
-                    live.css('display', 'none');
-                }
-                // betslip lurk
-                let betslip = $(`[data-id=betslip]`);
-                if (betslip.data(`display`) === 'none') {
-                    betslip.css('display', 'none');
-                }
-                else {
-                    betslip.data(`display`, 'none').attr('data-display', 'none');
-                    betslip.css('display', 'none');
-                }
-                // betslip small lurk
-                let betslip_small = $(`[data-id=betslip-small]`);
-                if (betslip_small.data(`display`) === 'none') {
-                    betslip_small.css('display', 'none');
-                }
-                else {
-                    betslip_small.data(`display`, 'none').attr('data-display', 'none');
-                    betslip_small.css('display', 'none');
-                }
-                // play-big lurk
-                let play_big = $(`[data-id=play-big]`);
-                if (play_big.data(`display`) === 'none') {
-                    play_big.css('display', 'none');
-                }
-                else {
-                    play_big.data(`display`, 'none').attr('data-display', 'none');
-                    play_big.css('display', 'none');
-                }
-                // play-table lurk
-                let play_table = $(`[data-id=play-table]`);
-                if (play_table.data(`display`) === 'none') {
-                    play_table.css('display', 'none');
-                }
-                else {
-                    play_table.data(`display`, 'none').attr('data-display', 'none');
-                    play_table.css('display', 'none');
-                }
-                // betslip-link lurk
-                let betslip_link = $(`[data-id=betslip-link]`);
-                if (betslip_link.data(`display`) === 'none') {
-                    betslip_link.css('display', 'none');
-                }
-                else {
-                    betslip_link.data(`display`, 'none').attr('data-display', 'none');
-                    betslip_link.css('display', 'none');
-                }
-                // slider lurk
-                let slider = $(`[data-id=slider]`);
-                if (slider.data(`display`) === 'none') {
-                    slider.css('display', 'none');
-                }
-                else {
-                    slider.data(`display`, 'none').attr('data-display', 'none');
-                    slider.css('display', 'none');
-                }
-            }
-            else {
-                // slider lurk
-                let slider = $(`[data-id=slider]`);
-                if (slider.data(`display`) === 'none') {
-                    slider.css('display', 'none');
-                }
-                else {
-                    slider.data(`display`, 'none').attr('data-display', 'none');
-                    slider.css('display', 'none');
-                }
-                // betslip-link lurk
-                let betslip_link = $(`[data-id=betslip-link]`);
-                if (betslip_link.data(`display`) === 'none') {
-                    betslip_link.css('display', 'none');
-                }
-                else {
-                    betslip_link.data(`display`, 'none').attr('data-display', 'none');
-                    betslip_link.css('display', 'none');
-                }
-            }
+            const mybets = $(`[data-id=mybets]`);
+            const slider = $(`[data-id=slider]`);
+            const formWrapper = $(`[data-id=registrationWrapper]`);
+            const play_big = $(`[data-id=play-big]`);
+            const coef_table = $(`[data-id=coef_table]`);
+            const play_table = $(`[data-id=play-table]`);
+            const live = $(`[data-id=live]`);
+            const video = $(`[data-id=video]`);
+            const betslip = $(`[data-id=betslip]`);
+            const betslip_link = $(`[data-id=betslip-link]`);
+            const betslip_small = $(`[data-id=betslip-small]`);
+            const lurks = [
+                mybets,
+                video,
+                betslip,
+                betslip_link,
+                betslip_small,
+                play_big,
+                coef_table,
+                play_table,
+                live,
+                slider,
+                formWrapper,
+            ];
+            const unlurks = [
+
+            ];
+            lurking(lurks, unlurks);
+            mybets.empty();
+
         },
         error => {
             console.log(`modules haven't been loaded :_( \n
@@ -567,77 +345,34 @@ function mybetsHandler() {
         }
     });
     onModulesLoad.then(() => {
-        const gameWrapper = $('[data-id=game]');
-        // video lurk
-        gameWrapper.data(`display`, 'false').attr('display', 'none');
-        gameWrapper.css('display', 'none');
-        // coef_table lurk
-        let coef_table = $(`[data-id=coef_table]`);
-        coef_table.data(`display`, 'false').attr('display', 'none');
-        coef_table.css('display', 'none');
-        // live lurk
-        let live = $(`[data-id=live]`);
-        if (live.data(`display`) === 'none') {
-            live.css('display', 'none');
-        }
-        else {
-            live.data(`display`, 'none').attr('data-display', 'none');
-            live.css('display', 'none');
-        }
-        // betslip lurk
-        let betslip = $(`[data-id=betslip]`);
-        if (betslip.data(`display`) === 'none') {
-            betslip.css('display', 'none');
-        }
-        else {
-            betslip.data(`display`, 'none').attr('data-display', 'none');
-            betslip.css('display', 'none');
-        }
-        // betslip small lurk
-        let betslip_small = $(`[data-id=betslip-small]`);
-        if (betslip_small.data(`display`) === 'none') {
-            betslip_small.css('display', 'none');
-        }
-        else {
-            betslip_small.data(`display`, 'none').attr('data-display', 'none');
-            betslip_small.css('display', 'none');
-        }
-        // play-big lurk
-        let play_big = $(`[data-id=play-big]`);
-        if (play_big.data(`display`) === 'none') {
-            play_big.css('display', 'none');
-        }
-        else {
-            play_big.data(`display`, 'none').attr('data-display', 'none');
-            play_big.css('display', 'none');
-        }
-        // play-table lurk
-        let play_table = $(`[data-id=play-table]`);
-        if (play_table.data(`display`) === 'none') {
-            play_table.css('display', 'none');
-        }
-        else {
-            play_table.data(`display`, 'none').attr('data-display', 'none');
-            play_table.css('display', 'none');
-        }
-        // betslip-link lurk
-        let betslip_link = $(`[data-id=betslip-link]`);
-        if (betslip_link.data(`display`) === 'none') {
-            betslip_link.css('display', 'none');
-        }
-        else {
-            betslip_link.data(`display`, 'none').attr('data-display', 'none');
-            betslip_link.css('display', 'none');
-        }
-        // slider lurk
-        let slider = $(`[data-id=slider]`);
-        if (slider.data(`display`) === 'none') {
-            slider.css('display', 'none');
-        }
-        else {
-            slider.data(`display`, 'none').attr('data-display', 'none');
-            slider.css('display', 'none');
-        }
+        const mybets = $(`[data-id=mybets]`);
+        const slider = $(`[data-id=slider]`);
+        const formWrapper = $(`[data-id=registrationWrapper]`);
+        const play_big = $(`[data-id=play-big]`);
+        const coef_table = $(`[data-id=coef_table]`);
+        const play_table = $(`[data-id=play-table]`);
+        const live = $(`[data-id=live]`);
+        const video = $(`[data-id=video]`);
+        const betslip = $(`[data-id=betslip]`);
+        const betslip_link = $(`[data-id=betslip-link]`);
+        const betslip_small = $(`[data-id=betslip-small]`);
+        const lurks = [
+            video,
+            betslip,
+            betslip_link,
+            betslip_small,
+            play_big,
+            coef_table,
+            play_table,
+            live,
+            slider,
+            formWrapper,
+        ];
+        const unlurks = [
+            mybets,
+        ];
+        lurking(lurks, unlurks);
+        mybets.empty();
     });
 }
 
@@ -660,15 +395,34 @@ function emptyHandler() {
         }
     });
     onModulesLoad.then(() => {
-        // betslip-link lurk
-        let betslip_link = $(`[data-id=betslip-link]`);
-        if (betslip_link.data(`display`) === 'none') {
-            betslip_link.css('display', 'none');
-        }
-        else {
-            betslip_link.data(`display`, 'none').attr('data-display', 'none');
-            betslip_link.css('display', 'none');
-        }
+        const mybets = $(`[data-id=mybets]`);
+        const slider = $(`[data-id=slider]`);
+        const formWrapper = $(`[data-id=registrationWrapper]`);
+        const play_big = $(`[data-id=play-big]`);
+        const coef_table = $(`[data-id=coef_table]`);
+        const play_table = $(`[data-id=play-table]`);
+        const live = $(`[data-id=live]`);
+        const video = $(`[data-id=video]`);
+        const betslip = $(`[data-id=betslip]`);
+        const betslip_link = $(`[data-id=betslip-link]`);
+        const betslip_small = $(`[data-id=betslip-small]`);
+        const lurks = [
+            video,
+            betslip,
+            betslip_link,
+            betslip_small,
+            play_big,
+            coef_table,
+            play_table,
+            live,
+            slider,
+            formWrapper,
+            mybets,
+        ];
+        const unlurks = [
+        ];
+        lurking(lurks, unlurks);
+        mybets.empty();
     });
 }
 
