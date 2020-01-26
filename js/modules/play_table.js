@@ -3,15 +3,29 @@ exports('play_table', (params, done) => {
 
     let curID = params.sportId;
 
-    let urlInplay = 'http://bestline.bet/inplay/',
+    let urlInplay = 'http://bestline.bet/api/?key=inplay',
       urlGames = 'http://212.8.249.162:81/inplay.php',
       urlBets = 'http://bestline.bet/event/?FI=';
 
+    function growTree(data) {
+      const tree = {};
+      let CLcounter = 0;
+      let CTcounter = 0;
+      for (el of data) {
+        if(el.type == 'CL') {
+          tree.push(el);
+          CLcounter++;
+        } else {
+          if()
+        }
+      }
+    }
     // Fetch API request
     function httpGet(url, name) {
       fetch(url)
         .then((res) => res.json())
         .then((data) => {
+          const tree = growTree(data);
           if (name == 'inplay') {
             if (curID === undefined) {
               ID = parseInt(data.DATA[0].ID);
@@ -116,10 +130,17 @@ exports('play_table', (params, done) => {
     }
 
     httpGet(urlInplay, 'inplay');
-
     function renderTable(data, ID) {
-      //window.intervalCount = 0;
-      //window.intervals = new Array();
+      $(`[data-id="play-table"]`).empty();
+      const tableRenderer = new Promise((resolve, reject) => {
+        data.forEach()
+      });
+      tableRenderer
+      then(() => {
+
+      })
+    }
+    function renderTableOld(data, ID) {
       $(`[data-id="play-table"]`).empty();
       let promise = new Promise((resolve, reject) => {
         data.DATA.forEach(sport => {
