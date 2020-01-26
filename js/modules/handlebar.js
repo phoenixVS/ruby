@@ -8,24 +8,65 @@ exports("handlebar", () => {
 function mainHandler() {
     // loading modules for main view
     let onModulesLoad = new Promise((resolve, reject) => {
-        loadJsModules({
-            header: { loadCSS: false, loadLanguage: false },
-            aside: { loadCSS: true, loadLanguage: false },
-            slider: { loadCSS: false, loadLanguage: false },
-            play_big: { loadCSS: false, loadLanguage: false },
-            coef_table: { loadCSS: true, loadLanguage: false },
-            live: { loadCSS: false, loadLanguage: false },
-            play_table: { loadCSS: false, loadLanguage: false },
-            betslip_link: { loadCSS: false, loadLanguage: false },
-        });
-        resolve();
+        if ($('script[src="js/modules/header.js"]').length > 0) {
+            loadJsModules({
+                wsocket: { loadCSS: false, loadLanguage: false },
+                play_big: { loadCSS: false, loadLanguage: false },
+                play_table: { loadCSS: false, loadLanguage: false },
+            });
+            resolve();
+        }
+        else {
+            loadJsModules({
+                header: { loadCSS: true, loadLanguage: false },
+                aside: { loadCSS: true, loadLanguage: false },
+                slider: { loadCSS: false, loadLanguage: false },
+                betslip_link: { loadCSS: false, loadLanguage: false },
+                coef_table: { loadCSS: true, loadLanguage: false },
+                live: { loadCSS: false, loadLanguage: false },
+                wsocket: { loadCSS: false, loadLanguage: false },
+                play_big: { loadCSS: false, loadLanguage: false },
+                play_table: { loadCSS: false, loadLanguage: false },
+            });
+            resolve();
+        }
     });
-
     onModulesLoad.then(
         result => {
             const formWrapper = $(`[data-id=registrationWrapper]`);
             formWrapper.data('display', 'none').attr('data-display', 'none');
             formWrapper.css('display', 'none');
+            // play-big unlurk
+            let play_big = $(`[data-id=play-big]`);
+            if (play_big.data(`display`) === 'flex') {
+                play_big.css('display', 'flex');
+            }
+            else {
+                play_big.data(`display`, 'flex').attr('data-display', 'flex');
+                play_big.css('display', 'flex');
+            }
+            // coef_table unlurk
+            let coef_table = $(`[data-id=coef_table]`);
+            coef_table.data(`display`, 'block').attr('display', 'block');
+            coef_table.css('display', 'block');
+            // play-table unlurk
+            let play_table = $(`[data-id=play-table]`);
+            if (play_table.data(`display`) === 'block') {
+                play_table.css('display', 'block');
+            }
+            else {
+                play_table.data(`display`, 'block').attr('data-display', 'block');
+                play_table.css('display', 'block');
+            }
+            // live unlurk
+            let live = $(`[data-id=live]`);
+            if (live.data(`display`) === 'block') {
+                live.css('display', 'block');
+            }
+            else {
+                live.data(`display`, 'block').attr('data-display', 'block');
+                live.css('display', 'block');
+            }
             // video lurk
             let video = $(`[data-id=video]`);
             if (video.data(`display`) === 'none') {
@@ -80,7 +121,7 @@ function filterHandler(ID) {
             clearInterval(window.intervals[i]);
         }*/
         loadJsModules({
-            header: { loadCSS: false, loadLanguage: false },
+            header: { loadCSS: true, loadLanguage: false },
             aside: { loadCSS: false, loadLanguage: false },
             slider: { loadCSS: false, loadLanguage: false },
             live: { loadCSS: false, loadLanguage: false },
@@ -107,6 +148,37 @@ function filterHandler(ID) {
             const formWrapper = $(`[data-id=registrationWrapper]`);
             formWrapper.data('display', 'none').attr('data-display', 'none');
             formWrapper.css('display', 'none');
+            // play-big unlurk
+            let play_big = $(`[data-id=play-big]`);
+            if (play_big.data(`display`) === 'flex') {
+                play_big.css('display', 'flex');
+            }
+            else {
+                play_big.data(`display`, 'flex').attr('data-display', 'flex');
+                play_big.css('display', 'flex');
+            }
+            // coef_table unlurk
+            let coef_table = $(`[data-id=coef_table]`);
+            coef_table.data(`display`, 'block').attr('display', 'block');
+            coef_table.css('display', 'block');
+            // play-table unlurk
+            let play_table = $(`[data-id=play-table]`);
+            if (play_table.data(`display`) === 'block') {
+                play_table.css('display', 'block');
+            }
+            else {
+                play_table.data(`display`, 'block').attr('data-display', 'block');
+                play_table.css('display', 'block');
+            }
+            // live unlurk
+            let live = $(`[data-id=live]`);
+            if (live.data(`display`) === 'block') {
+                live.css('display', 'block');
+            }
+            else {
+                live.data(`display`, 'block').attr('data-display', 'block');
+                live.css('display', 'block');
+            }
             // video lurk
             let video = $(`[data-id=video]`);
             if (video.data(`display`) === 'none') {
@@ -156,7 +228,7 @@ function gameHandler(sport, ID) {
 
     if (performance.navigation.type == 1) {
         loadJsModules({
-            header: { loadCSS: false, loadLanguage: false },
+            header: { loadCSS: true, loadLanguage: false },
             aside: { loadCSS: true, loadLanguage: false },
         });
     }
@@ -258,7 +330,7 @@ function betslip_smallHandler() {
 function registrationHandler() {
     if (performance.navigation.type == 1) {
         loadJsModules({
-            header: { loadCSS: false, loadLanguage: false },
+            header: { loadCSS: true, loadLanguage: false },
             aside: { loadCSS: false, loadLanguage: false },
         });
     }
@@ -364,7 +436,7 @@ function userHandler(username, nav_link, nav_link_small) {
     if (performance.navigation.type == 1) {
         reload_status = 1;
         loadJsModules({
-            header: { loadCSS: false, loadLanguage: false },
+            header: { loadCSS: true, loadLanguage: false },
         });
     }
 
@@ -480,7 +552,7 @@ function userHandler(username, nav_link, nav_link_small) {
 // 404 Page not found
 function emptyHandler() {
     loadJsModules({
-        header: { loadCSS: false, loadLanguage: false },
+        header: { loadCSS: true, loadLanguage: false },
         aside: { loadCSS: true, loadLanguage: false },
         p404: { loadCSS: false, loadLanguage: false },
     });

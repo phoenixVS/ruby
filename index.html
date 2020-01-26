@@ -11,6 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
 <script src="js/import-export.js"></script>
 <script src="js/module-loader.js"></script>
+<script src="js/connection.js"></script>
 
 <script>
     loadJsModules({
@@ -30,13 +31,15 @@
         <!--header-->
         <header class="[ header ]">
             <div class="[ top ] container-fluid"></div>
-            <nav class="[ nav ] container-fluid">
-                <div class="container flex-container align-middle align-justify">
-                    <a class="[ show-menu ]"></a>
-                    <a href="#" class="[ logo ]"><img src="./img/logo.png" alt="Everest bet" /></a>
-                    <menu class="[ menu ] flex-container align-center-middle"></menu>
-                </div>
-            </nav>
+            <div id="navbar">
+                <nav class="[ nav ] container-fluid">
+                    <div class="container flex-container align-middle align-justify">
+                        <a class="[ show-menu ]"></a>
+                        <a href="#" class="[ logo ]"><img src="./img/logo.png" alt="Everest bet" /></a>
+                        <menu class="[ menu ] flex-container align-center-middle"></menu>
+                    </div>
+                </nav>
+            </div>
         </header>
         <!--aside-->
         <aside class="[ aside not-active ]"></aside>

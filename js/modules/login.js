@@ -5,7 +5,7 @@ exports('login', (params, done) => {
     function sendLoginData(data) {
       //TODO: sending data for validation
       return false;
-    }   
+    }
 
     function LoginHandler(login, blur, attempt_counter, data) {
       console.log(attempt_counter);
@@ -13,7 +13,7 @@ exports('login', (params, done) => {
       let password = $('#password').val();
 
       if (usr_name != '' && password != '') {
-        
+
         const loginForm = {
           DATA: {
             username: usr_name,
@@ -34,7 +34,7 @@ exports('login', (params, done) => {
             console.log(attempt_counter);
             console.log('Blocking account...');
             /*Только для теста, потом убрать*/
-            /*Вместо блокировки выполняет логин*/ 
+            /*Вместо блокировки выполняет логин*/
             /*.......................................*/
             login.fadeOut('middle').remove("active");
             blur.removeClass('block').addClass('none');
