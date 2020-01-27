@@ -17,8 +17,8 @@
 }
 .preloader .loader {
   position: absolute;
-  left: 48%;
-  top: 45%;
+  /* left: 48%; */
+  /* top: 45%; */
   width: 75px;
   height: 75px;
   background: rgba(0, 0, 0, 0.2);

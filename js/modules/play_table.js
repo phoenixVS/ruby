@@ -8,17 +8,41 @@ exports('play_table', (params, done) => {
       urlBets = 'http://bestline.bet/event/?FI=';
 
     function growTree(data) {
-      const tree = {};
+      const tree = [];
       let CLcounter = 0;
       let CTcounter = 0;
+      let EVcounter = 0;
       for (el of data) {
-        if(el.type == 'CL') {
+        if (el.type == 'CL') {
           tree.push(el);
           CLcounter++;
+          CTcounter = 0;
+          EVcounter = 0;
         } else {
-          if()
+          if (el.type == 'CT') {
+            tree.CL[CLcounter - 1].push(el);
+            CTcounter++;
+            EVcounter = 0;
+          }
+          else {
+            if (el.type == 'EV') {
+              tree.CL[CLcounter - 1].CT[CTcounter - 1].push(el);
+              EVcounter++;
+            }
+            else {
+              if (el.type == 'MA') {
+                tree.CL[CLcounter - 1].CT[CTcounter - 1].EV[EVcounter - 1].push(el);
+              }
+              else {
+                if (el.type == 'PA') {
+                  tree.CL[CLcounter - 1].CT[CTcounter - 1].EV[EVcounter - 1].MA.push(el);
+                }
+              }
+            }
+          }
         }
       }
+      console.log(tree);
     }
     // Fetch API request
     function httpGet(url, name) {
@@ -46,6 +70,8 @@ exports('play_table', (params, done) => {
           console.log(err);
         })
     }
+
+    httpGet(urlInplay, 'inplay');
 
     function createTimerInplay(tm, ts) {
       let tm_, ts_;
@@ -129,7 +155,6 @@ exports('play_table', (params, done) => {
       window.inplay_interval = interval;
     }
 
-    httpGet(urlInplay, 'inplay');
     function renderTable(data, ID) {
       $(`[data-id="play-table"]`).empty();
       const tableRenderer = new Promise((resolve, reject) => {
