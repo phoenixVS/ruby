@@ -4,17 +4,27 @@ exports('coef_table', (params, done) => {
     //   "main/coeficient-table.html"
     // ]
   }, () => {
-    let sportId = params.sportId;
-    let gameId = params.gameId;
+    const filtered = params.filtered; // is filter active
+    const expand = params.expand;     // is event expanded
+    const ID = params.gameId;         // id of sport to handle
 
-    let urlInplay = 'http://bestline.bet/inplay/',
-      urlGames = 'http://212.8.249.162:81/inplay.php',
-      urlBets = 'http://bestline.bet/event/?FI=';
+    if (typeof expand !== undefined) {
+      renderCoefTable(window.event, null, false);
+    }
+    else {
+      if (typeof filtered !== undefined) {
+        renderCoefTable(window.event, ID, true);
+      }
+      else {
+        let ID = parseInt(window.inplay[0].ID);
+        renderCoefTable(window.event, ID, true);
+      }
+    }
 
-    if (sportId === undefined && gameId === undefined) {
+    if (sportId === undefined && expand === undefined) {
       httpGet(urlInplay, 'inplay');
     }
-    else if (sportId != undefined) {
+    else if (expand != undefined) {
       httpGet(urlInplay, 'inplay');
     }
     else {
@@ -26,13 +36,16 @@ exports('coef_table', (params, done) => {
       fetch(url)
         .then((res) => res.json())
         .then((data) => {
+          const tree = growTree(data);
           if (name == 'inplay') {
             let small = true;
-            let ID = parseInt(data.DATA[0].ID);
-            if (sportId != undefined) {
-              ID = sportId;
+            if (curID === undefined) {
+              ID = parseInt(tree[0].ID);
             }
-            renderCoefTable(data, ID, small);
+            else {
+              ID = curID;
+            }
+            renderCoefTable(tree, ID);
           }
           else if (name == 'games') {
             console.log(data);

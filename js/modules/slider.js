@@ -17,35 +17,10 @@ exports('slider', (params, done) => {
     })(0);
     // Parse and set filters
     (() => {
-
-      let urlInplay = 'http://bestline.bet/inplay/',
-        urlGames = 'http://212.8.249.162:81/inplay.php',
-        urlBets = 'http://bestline.bet/event/?FI=';
-      // Fetch API request
-      function httpGet(url, name) {
-        fetch(url)
-          .then((res) => res.json())
-          .then((data) => {
-            if (name == 'inplay') {
-              renderSlider(data);
-            }
-            else if (name == 'games') {
-              console.log(data);
-            }
-            else if (name == 'bets') {
-              console.log(data);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-      }
-
-      httpGet(urlInplay, 'inplay');
-      // httpGet(urlBets, 'bets');
-      // httpGet(urlGames, 'games');
+      renderSlider(window.inplay);;
 
       function renderSlider(data) {
+        console.log(data);
         if (data) {
           data.DATA.forEach((el) => {
             sliderWrapper.append(`

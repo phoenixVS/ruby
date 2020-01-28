@@ -3,50 +3,10 @@ exports('play_table', (params, done) => {
 
     let curID = params.sportId;
 
+
     let urlInplay = 'http://bestline.bet/api/?key=inplay',
-      urlGames = 'http://212.8.249.162:81/inplay.php',
-      urlBets = 'http://bestline.bet/event/?FI=';
+      urlBets = 'http://bestline.bet/api/?key=';
 
-    function growTree(data) {
-      let currentCL = '';
-      let currentCT = '';
-      let currentEV = '';
-      let currentMA = '';
-      let currentPA = '';
-      let tree = [];
-      data.map((item, index) => {
-        if (item.type === 'CL') {
-          tree[index] = item;
-          currentCL = item;
-          currentCL.ligues = [];
-        }
-
-        if (item.type === 'CT') {
-          currentCL.ligues.push(item);
-          currentCT = item;
-          currentCT.events = [];
-        }
-
-        if (item.type === 'EV') {
-          currentCT.events.push(item);
-          currentEV = item;
-          currentEV.markets = [];
-        }
-
-        if (item.type === 'MA') {
-          currentEV.markets.push(item);
-          currentMA = item;
-          currentMA.coef = [];
-        }
-
-        if (item.type === 'PA') {
-          currentMA.coef.push(item);
-          currentPA = item;
-        }
-      });
-      console.log(tree);
-      return tree;
-    }
     // Fetch API request
     function httpGet(url, name) {
       fetch(url)
@@ -55,13 +15,11 @@ exports('play_table', (params, done) => {
           const tree = growTree(data);
           if (name == 'inplay') {
             if (curID === undefined) {
-              console.log(tree.Soccer);
-              //ID = parseInt(tree[0].ID);
+              ID = parseInt(tree[0].ID);
             }
             else {
               ID = curID;
             }
-            console.log(tree);
             renderTable(tree, ID);
           }
           else if (name == 'games') {
@@ -77,6 +35,47 @@ exports('play_table', (params, done) => {
     }
 
     httpGet(urlInplay, 'inplay');
+
+    // parse input object massive into a tree 
+    function growTree(data) {
+      let curCL = '';
+      let curCT = '';
+      let curEV = '';
+      let curMA = '';
+      let curPA = '';
+      let tree = [];
+      data.map((item, index) => {
+        if (item.type === 'CL') {
+          tree.push(item);
+          curCL = item;
+          curCL.CT = [];
+        }
+
+        if (item.type === 'CT') {
+          curCL.CT.push(item);
+          curCT = item;
+          curCT.EV = [];
+        }
+
+        if (item.type === 'EV') {
+          curCT.EV.push(item);
+          curEV = item;
+          curEV.MA = [];
+        }
+
+        if (item.type === 'MA') {
+          curEV.MA.push(item);
+          curMA = item;
+          curMA.PA = [];
+        }
+
+        if (item.type === 'PA') {
+          curMA.PA.push(item);
+          curPA = item;
+        }
+      });
+      return tree;
+    }
 
     function createTimerInplay(tm, ts) {
       let tm_, ts_;
@@ -165,124 +164,110 @@ exports('play_table', (params, done) => {
       const tableRenderer = new Promise((resolve, reject) => {
         data.forEach(sport => {
           if (parseInt(sport.ID) == ID) {
-            console.log(sport.NA);
+            for (let i = 0; i < sport.CT.length; i++) {
+              for (let j = 0; j < sport.CT[i].EV.length; j++) {
+                // Check if bets' coeficients exist
+                if (typeof sport.CT[i].EV[j].MA[0].PA === 'undefined' || sport.CT[i].EV[j].MA[0].PA == null) {
+                  throw new Error(String(sport.CT[i].EV[j].NA));
+                }
+                // Check if bets' coeficients for draw exist
+                if (typeof sport.CT[0].EV[0].MA[0].PA[2] === 'undefined' || sport.CT[0].EV[0].MA[0].PA[2] == null) {
+                  drawEvents(sport.CT[i].EV[j], false);
+                }
+                else {
+                  drawEvents(sport.CT[i].EV[j], true);
+                }
+              }
+              drawCompet(sport.CT[i].NA);
+            }
+            resolve();
           }
-        })
+        });
       });
       tableRenderer
         .then((response) => {
-
-        })
-    }
-    function renderTableOld(data, ID) {
-      $(`[data-id="play-table"]`).empty();
-      let promise = new Promise((resolve, reject) => {
-        data.DATA.forEach(sport => {
-          if (parseInt(sport.ID) == ID) {
-            if (sport.ID == 1) {
-              for (let i = 0; i < sport.CT.length; i++) {
-                for (let j = 0; j < sport.CT[i].EV.length; j++) {
-                  if (sport.CT[i].EV[j].MA[0].PA === undefined) {
-                    console.log(sport.CT[i].EV[j].NA);
-                    throw new Error(sport.CT[i].EV[j].NA);
-                  }
-                  $(`[data-id="play-table"]`).append(`
-                    <div class="row">
-                    <div class="cell" data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" data-id="event">
-                    <div data-sport-id="${sport.ID}" data-class="play-link" data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link ]">
-                      <div data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link-block ]"> 
-                        <p data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" class="font m-white ellipsis">${sport.CT[i].EV[j].NA.split('vs')[0]} vs</p>
-                        <p data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" class="font m-white ellipsis">${sport.CT[i].EV[j].NA.split('vs')[1]}</p>
-                      </div> 
-                    <div data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link-block ] text-right"> <div data-game-id="${sport.CT[i].EV[j].FI}" class="sport-icon play"></div> <p data-game-id="${sport.CT[i].EV[j].FI}" data-class="play-link" class="font m-white">${sport.CT[i].EV[j].SS}</p> 
-                      <p data-find="timer" data-timer="${sport.CT[i].EV[j].FI}" data-game-id="${sport.CT[i].EV[j].FI}" data-tu="${sport.CT[i].EV[j].TU}" data-tm="${sport.CT[i].EV[j].TM}" data-ts="${sport.CT[i].EV[j].TS}" data-dc="${sport.CT[i].EV[j].DC}" class="font m-white timer-el"></p> </div> </div> </div> 
-                      <div class="cell">
-                        <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[0].OD.F}</button> </div> 
-                      <div class="cell"> 
-                        <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[1].OD.F}</button>
-                      </div> 
-                      <div class="cell">
-                        <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[2].OD.F}</button> 
-                      </div>
-                    </div>`);
-                }
-                $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
-                <div class="cell"> <p class="font">${sport.CT[i].NA} </p> </div> 
-                <div class="cell"> <p class="font">1</p> </div> 
-                <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>`);
-              }
+          // Handle opening of game section
+          $(`[data-id=event]`).on('click', (event) => {
+            let id = $(event.target).data('gameId');
+            let curURL = window.location.href;
+            //if filter is active - remove it from hash
+            if (window.location.hash.split('/')[1] == 'filter') {
+              window.location.hash = '';
+              window.location.href += `/event/${id}`;
             }
             else {
-              for (let i = 0; i < sport.CT.length; i++) {
-                for (let j = 0; j < sport.CT[i].EV.length; j++) {
-                  $(`[data-id="play-table"]`).append(`
-                    <div class="row">
-                    <div class="cell" data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" data-id="event">
-                    <div data-class="play-link" data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link ]">
-                      <div data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link-block ]"> 
-                        <p data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" class="font m-white ellipsis">${sport.CT[i].EV[j].NA.split('vs')[0]} vs</p>
-                        <p data-sport-id="${sport.ID}" data-game-id="${sport.CT[i].EV[j].FI}" class="font m-white ellipsis">${sport.CT[i].EV[j].NA.split('vs')[1]}</p>
-                      </div> 
-                    <div data-game-id="${sport.CT[i].EV[j].FI}" class="[ play-link-block ] text-right"> <div data-game-id="${sport.CT[i].EV[j].FI}" class="sport-icon play"></div> <p data-game-id="${sport.CT[i].EV[j].FI}" data-class="play-link" class="font m-white">${sport.CT[i].EV[j].SS}</p> 
-                    <p data-find="timer" data-timer="${sport.CT[i].EV[j].FI}" data-game-id="${sport.CT[i].EV[j].FI}" data-tu="${sport.CT[i].EV[j].TU}" data-tm="${sport.CT[i].EV[j].TM}" data-ts="${sport.CT[i].EV[j].TS}" data-dc="${sport.CT[i].EV[j].DC}" class="font m-white timer-el"></p> </div> </div> </div>
-                      <div class="cell">
-                        <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[0].OD.F}</button> 
-                      </div>
-                      <div class="cell">
-                        <button class="button coefficient" data-class="play-link"></button> 
-                      </div>
-                      <div class="cell"> 
-                        <button class="button coefficient" data-class="play-link">${sport.CT[i].EV[j].MA[0].PA[1].OD.F}</button>
-                      </div> 
-                    </div>`);
-                }
-                $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
-                <div class="cell"> <p class="font">${sport.CT[i].NA} </p> </div> 
-                <div class="cell"> <p class="font">1</p> </div> 
-                <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>`);
-              }
-            }
-
-          } else {
-            return true;
-          }
-        });
-        resolve();
-      })
-        .catch((err) => { console.log(err); });
-      promise
-        .then(
-          (response) => {
-            // Handle opening of game section
-            $(`[data-id=event]`).on('click', (event) => {
-              let id = $(event.target).data('gameId');
-              let sport = $(event.target).data('sportId');
-              let curURL = window.location.href;
-              //if filter is active - remove it from hash
-              if (window.location.hash.split('/')[1] == 'filter') {
-                window.location.hash = '';
-                window.location.href += `/event/${sport}/${id}`;
+              if (curURL.includes('#')) {
+                window.location.href += `/event/${id}`;
               }
               else {
-                if (curURL.includes('#')) {
-                  window.location.href += `/event/${sport}/${id}`;
-                }
-                else {
-                  window.location.href += `#/event/${sport}/${id}`;
-                }
+                window.location.href += `#/event/${id}`;
               }
-            });
-            // Preloader finishes
-            const preloader = $('#page-preloader');
-            if (preloader.data(`status`) != 'done') {
-              preloader.addClass('done');
-              preloader.data(`status`, 'done').attr('data-status', 'done');
             }
-          },
-          (error) => {
-            console.log(`Event name: ${error}`);
           });
+          // Preloader finishes
+          const preloader = $('#page-preloader');
+          if (preloader.data(`status`) != 'done') {
+            preloader.addClass('done');
+            preloader.data(`status`, 'done').attr('data-status', 'done');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       startTimerInplay();
+    }
+
+    function drawEvents(ev, type) {
+      $(`[data-id="play-table"]`).append(`
+                    <div class="row">
+                      <div class="cell" data-game-id="${ev.ID}" data-id="event">
+                        <div data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
+                          <div data-game-id="${ev.ID}" class="[ play-link-block ]"> 
+                            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split('v')[0]} vs</p>
+                            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split('v')[1]}</p>
+                          </div> 
+                          <div data-game-id="${ev.ID}" class="[ play-link-block ] text-right">
+                            <div data-game-id="${ev.ID}" class="sport-icon play"></div>
+                            <p data-game-id="${ev.ID}" data-class="play-link" class="font m-white">${ev.SS}</p> 
+                            <p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p> 
+                          </div>
+                        </div>
+                      </div>
+                    </div>`);
+      if (type) {
+        $(`[data-id="play-table"]`).children('.row:last-child').append(`
+          <div class="cell">
+            <button class="button coefficient" data-class="play-link">${ev.MA[0].PA[0].OD}</button> 
+          </div> 
+          <div class="cell"> 
+            <button class="button coefficient" data-class="play-link">${ev.MA[0].PA[1].OD}</button>
+          </div> 
+          <div class="cell">
+            <button class="button coefficient" data-class="play-link">${ev.MA[0].PA[2].OD}</button> 
+          </div>
+        `);
+      }
+      else {
+        $(`[data-id="play-table"]`).children('.row:last-child').append(`
+          <div class="cell">
+            <button class="button coefficient" data-class="play-link">${ev.MA[0].PA[0].OD}</button> 
+          </div>
+          <div class="cell">
+            <button class="button coefficient" data-class="play-link"></button> 
+          </div>
+          <div class="cell"> 
+            <button class="button coefficient" data-class="play-link">${ev.MA[0].PA[1].OD}</button>
+          </div>
+        `);
+      }
+    }
+
+    function drawCompet(ctName) {
+      $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
+          <div class="cell"> <p class="font">${ctName} </p> </div> 
+          <div class="cell"> <p class="font">1</p> </div> 
+          <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>
+        `);
     }
   });
 });

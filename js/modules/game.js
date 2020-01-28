@@ -4,88 +4,40 @@ exports('game', (params, done) => {
     //   "game/game.html"
     // ]
   }, () => {
-    let ID = params.gameId;
-    let sport = params.sport;
-    let urlInplay = 'http://bestline.bet/inplay/',
-      urlBets = 'http://bestline.bet/event/?FI=';
-    // Fetch API request
-    function httpGet(url, name) {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          if (name == 'inplay') {
-            console.log(data);
-          }
-          else if (name == 'games') {
-            console.log(data);
-          }
-          else if (name == 'bets') {
-            renderEvent(data, ID);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          console.log(`On request: ${urlBets}`);
-        })
-    }
-
-    // httpGet(urlInplay, 'inplay');
-    httpGet((urlBets + ID.toString()), 'bets');
+    renderEvent(window.event);
     // rendering game data
-    function renderEvent(data, ID) {
-      let promise = new Promise((resolve, reject) => {
+    function renderEvent(data) {
+      console.log(data);
+      const ev = data[0];
+      const eventRenderer = new Promise((resolve, reject) => {
         if (data) {
-          let gameWrapper = $(`[data-id=game]`);
-          if (sport == 1) {
-            gameWrapper.empty().append(`
+          const gameWrapper = $(`[data-id=game]`);
+          gameWrapper.empty().append(`
             <div class="[ video-title not-active ] flex-container align-center-middle">
               <button class="button square [ video-title-button ] fa fa-angle-left"></button>
-              <p class="font [ video-title-text ]"><span>${data.RESULT.EV[0].TE[0].NA
-              + ' - ' + data.RESULT.EV[0].TE[1].NA}</span></p>
+              <p class="font [ video-title-text ]"><span>${ev.TE[0].NA
+            + ' &nbsp;&nbsp; VS &nbsp;&nbsp; ' + ev.TE[1].NA}</span></p>
             </div>
             <div class="[ video-play ] flex-container align-middle align-justify">
               <p class="flex-container align-middle">
                 <span class="[ video-play-square white ]"></span>
-                <span class="font">${data.RESULT.EV[0].TE[0].NA}</span>
+                <span class="font">${ev.TE[0].NA}</span>
               </p>
-              <p class="font title [ video-play-count ]">${data.RESULT.EV[0].SS}</p>
+              <p class="font title [ video-play-count ]">${ev.SS}</p>
               <p class="flex-container align-middle">
-                <span class="font">${data.RESULT.EV[0].TE[1].NA}</span>
+                <span class="font">${ev.TE[1].NA}</span>
                 <span class="[ video-play-square red ]"></span>
               </p>
             </div>
             <div class="[ video-body ]"></div>
             `);
-            resolve();
-          }
-          else {
-            gameWrapper.empty().append(`
-            <div class="[ video-title not-active ] flex-container align-center-middle">
-              <button class="button square [ video-title-button ] fa fa-angle-left"></button>
-              <p class="font [ video-title-text ]"><span>${data.RESULT.EV[0].TE[0].NA
-              + ' - ' + data.RESULT.EV[0].TE[1].NA}</span></p>
-            </div>
-            <div class="[ video-play ] flex-container align-middle align-justify">
-              <p class="flex-container align-middle">
-                <span class="[ video-play-square white ]"></span>
-                <span class="font">${data.RESULT.EV[0].TE[0].NA}</span>
-              </p>
-              <p class="font title [ video-play-count ]">${data.RESULT.EV[0].SS}</p>
-              <p class="flex-container align-middle">
-                <span class="font">${data.RESULT.EV[0].TE[1].NA}</span>
-                <span class="[ video-play-square red ]"></span>
-              </p>
-            </div>
-            <div class="[ video-body ]"></div>
-            `);
-            resolve();
-          }
+          resolve();
         }
         else {
-          reject(`Error: Data 404`);
+          throw new Error(`Error: Data not found`);
         }
       });
-      promise
+      eventRenderer
         .then(() => {
           // Preloader finishes
           const preloader = $('#page-preloader');
@@ -94,7 +46,7 @@ exports('game', (params, done) => {
             preloader.data(`status`, 'done').attr('data-status', 'done');
           }
         })
-        .catch((reject) => { console.log(reject); });
+        .catch((err) => { console.log(err); });
     }
 
     done();
