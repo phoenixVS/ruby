@@ -5,18 +5,11 @@ exports('fetch', (params, done) => {
       urlBets = 'http://bestline.bet/api/?key=';
 
     window.tableLoad = () => {
-      return new Promise((resolve, reject) => {
-        window.inplay = httpGet(urlInplay, 'inplay');
-        console.log(window.inplay);
-        resolve();
-      });
+      httpGet(urlInplay, 'inplay');
     };
 
     window.eventLoad = (ID) => {
-      return new Promise((resolve, reject) => {
-        window.event = httpGet(urlBets, 'bets', ID);
-        resolve();
-      });
+      httpGet(urlBets, 'bets', ID);
     };
 
     // Fetch API request
@@ -26,12 +19,12 @@ exports('fetch', (params, done) => {
         .then((data) => {
           if (name == 'inplay') {
             const tree = growTree(data, 'inplay');
+            window.inplay = tree;
             console.log(tree);
-            return tree;
           }
           else if (name == 'bets') {
             const tree = growTree(data, 'bets');
-            return tree;
+            window.event = tree;
           }
           else {
             throw new Error('Uncorrect handler name.');
@@ -41,7 +34,6 @@ exports('fetch', (params, done) => {
           console.log(err);
         })
     }
-
     // buidling tree from parsed json
     // parse input object massive into a tree 
     function growTree(data, type) {

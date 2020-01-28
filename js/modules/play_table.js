@@ -3,79 +3,13 @@ exports('play_table', (params, done) => {
 
     let curID = params.sportId;
 
-
-    let urlInplay = 'http://bestline.bet/api/?key=inplay',
-      urlBets = 'http://bestline.bet/api/?key=';
-
-    // Fetch API request
-    function httpGet(url, name) {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          const tree = growTree(data);
-          if (name == 'inplay') {
-            if (curID === undefined) {
-              ID = parseInt(tree[0].ID);
-            }
-            else {
-              ID = curID;
-            }
-            renderTable(tree, ID);
-          }
-          else if (name == 'games') {
-            console.log(data);
-          }
-          else if (name == 'bets') {
-            console.log(data);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
+    if (curID === undefined) {
+      ID = parseInt(window.inplay[0].ID);
     }
-
-    httpGet(urlInplay, 'inplay');
-
-    // parse input object massive into a tree 
-    function growTree(data) {
-      let curCL = '';
-      let curCT = '';
-      let curEV = '';
-      let curMA = '';
-      let curPA = '';
-      let tree = [];
-      data.map((item, index) => {
-        if (item.type === 'CL') {
-          tree.push(item);
-          curCL = item;
-          curCL.CT = [];
-        }
-
-        if (item.type === 'CT') {
-          curCL.CT.push(item);
-          curCT = item;
-          curCT.EV = [];
-        }
-
-        if (item.type === 'EV') {
-          curCT.EV.push(item);
-          curEV = item;
-          curEV.MA = [];
-        }
-
-        if (item.type === 'MA') {
-          curEV.MA.push(item);
-          curMA = item;
-          curMA.PA = [];
-        }
-
-        if (item.type === 'PA') {
-          curMA.PA.push(item);
-          curPA = item;
-        }
-      });
-      return tree;
+    else {
+      ID = curID;
     }
+    renderTable(window.inplay, ID);
 
     function createTimerInplay(tm, ts) {
       let tm_, ts_;
@@ -167,8 +101,9 @@ exports('play_table', (params, done) => {
             for (let i = 0; i < sport.CT.length; i++) {
               for (let j = 0; j < sport.CT[i].EV.length; j++) {
                 // Check if bets' coeficients exist
-                if (typeof sport.CT[i].EV[j].MA[0].PA === 'undefined' || sport.CT[i].EV[j].MA[0].PA == null) {
-                  throw new Error(String(sport.CT[i].EV[j].NA));
+                if (typeof (sport.CT[i].EV[j].MA) == 'undefined' || typeof (sport.CT[i].EV[j].MA[0]) == 'undefined') {
+                  // throw new Error(String(sport.CT[i].EV[j].NA));
+                  continue;
                 }
                 // Check if bets' coeficients for draw exist
                 if (typeof sport.CT[0].EV[0].MA[0].PA[2] === 'undefined' || sport.CT[0].EV[0].MA[0].PA[2] == null) {

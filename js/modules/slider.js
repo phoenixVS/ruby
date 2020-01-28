@@ -20,10 +20,10 @@ exports('slider', (params, done) => {
       renderSlider(window.inplay);;
 
       function renderSlider(data) {
-        console.log(data);
         if (data) {
-          data.DATA.forEach((el) => {
-            sliderWrapper.append(`
+          data.forEach((el) => {
+            if (el.CT) {
+              sliderWrapper.append(`
           <a data-id="${parseInt(el.ID)}"
             data-name="${el.NA}"
             data-order="${parseInt(el.OR)}"
@@ -33,6 +33,7 @@ exports('slider', (params, done) => {
             <span class="sports-${parseInt(el.ID) + 3} [ slider-icon ]"></p>
           </a>
           `);
+            }
           });
         }
         else {

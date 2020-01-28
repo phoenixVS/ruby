@@ -8,57 +8,19 @@ exports('coef_table', (params, done) => {
     const expand = params.expand;     // is event expanded
     const ID = params.gameId;         // id of sport to handle
 
-    if (typeof expand !== undefined) {
+    if (expand) {
       renderCoefTable(window.event, null, false);
     }
     else {
-      if (typeof filtered !== undefined) {
-        renderCoefTable(window.event, ID, true);
+      if (filtered) {
+        let ID = params.sportId;
+        console.log(ID);
+        renderCoefTable(window.inplay, ID, true);
       }
       else {
         let ID = parseInt(window.inplay[0].ID);
-        renderCoefTable(window.event, ID, true);
+        renderCoefTable(window.inplay, ID, true);
       }
-    }
-
-    if (sportId === undefined && expand === undefined) {
-      httpGet(urlInplay, 'inplay');
-    }
-    else if (expand != undefined) {
-      httpGet(urlInplay, 'inplay');
-    }
-    else {
-      httpGet((urlBets + gameId.toString()), 'bets');
-    }
-
-    // Fetch API request
-    function httpGet(url, name) {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          const tree = growTree(data);
-          if (name == 'inplay') {
-            let small = true;
-            if (curID === undefined) {
-              ID = parseInt(tree[0].ID);
-            }
-            else {
-              ID = curID;
-            }
-            renderCoefTable(tree, ID);
-          }
-          else if (name == 'games') {
-            console.log(data);
-          }
-          else if (name == 'bets') {
-            let small = false;
-            let ID = gameId;
-            renderCoefTable(data, ID, small);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
     }
 
     function renderCoefTable(data, ID, small) {
@@ -95,16 +57,16 @@ exports('coef_table', (params, done) => {
       promise.then(() => {
         if (small) {
           if (data != undefined) {
-            data.DATA.forEach(sport => {
+            data.forEach(sport => {
               if (parseInt(sport.ID) == ID) {
                 if (ID == 1) {
-                  $(`[data-id=coef-one]`).text(sport.CT[0].EV[0].MA[0].PA[0].OD.D);
-                  $(`[data-id=coef-two]`).text(sport.CT[0].EV[0].MA[0].PA[2].OD.D);
-                  $(`[data-id=coef-three]`).text(sport.CT[0].EV[0].MA[0].PA[1].OD.D);
+                  $(`[data-id=coef-one]`).text(sport.CT[0].EV[0].MA[0].PA[0].OD);
+                  $(`[data-id=coef-two]`).text(sport.CT[0].EV[0].MA[0].PA[1].OD);
+                  $(`[data-id=coef-three]`).text(sport.CT[0].EV[0].MA[0].PA[2].OD);
                 }
                 else {
-                  $(`[data-id=coef-one]`).text(sport.CT[0].EV[0].MA[0].PA[0].OD.D);
-                  $(`[data-id=coef-three]`).text(sport.CT[0].EV[0].MA[0].PA[1].OD.D);
+                  $(`[data-id=coef-one]`).text(sport.CT[0].EV[0].MA[0].PA[0].OD);
+                  $(`[data-id=coef-three]`).text(sport.CT[0].EV[0].MA[0].PA[1].OD);
                   $(`[data-id=coef-two]`).remove();
                 }
               }

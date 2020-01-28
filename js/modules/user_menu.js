@@ -3,7 +3,7 @@ exports('user_menu', (params, done) => {
     function renderUserMenu() {
       let renderPromise = new Promise((resolve, reject) => {
         $(`
-        <div data-id="user-menu" class="menu-wrapper">
+        
           <div class="[ user-menu ]">
           <div class="[ user-menu-wrapper ]">
             <div class="[ user-menu-img ]"></div>
@@ -40,8 +40,7 @@ exports('user_menu', (params, done) => {
               <p class="font">Exit</p>
             </a>
           </div>
-        </div>
-        </div>`).prependTo($('#content')).slideDown("fast");
+        </div>`).prependTo($('#content .menu-wrapper')).slideDown("fast");
         resolve();
       });
       renderPromise.then(() => {
