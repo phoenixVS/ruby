@@ -122,15 +122,15 @@ exports('aside', (params, done) => {
             <span style="position: absolute; left: 75%;">${ev_count} Events</span>
             </li>
             `);
-
-          $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
-            if (true) {
-              window.location = 'http://localhost/everest/#/filter/' + ID;
-
-              aside.removeClass('active');
-              aside.addClass('not-active');
-            }
-          });
+  
+            $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
+              if (true) {
+                window.location = 'http://46.101.202.52/everest/#/filter/' + ID;
+            
+                aside.removeClass('active');
+                aside.addClass('not-active');
+              }
+            });
         }
         resolve();
       });
@@ -305,8 +305,8 @@ exports('aside', (params, done) => {
 
             $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
               if (true) {
-                window.location = 'http://localhost/everest/#/filter/' + ID;
-
+                window.location = 'http://46.101.202.52/everest/#/filter/' + ID;
+            
                 aside.removeClass('active');
                 aside.addClass('not-active');
               }
@@ -365,17 +365,17 @@ exports('aside', (params, done) => {
         <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
       </div>
       `);
-            $(`[data-id=aside-link-${ID}]`).on('click', () => {
-
-              window.location = 'http://localhost/everest/#/filter/' + ID;
-
-              aside.removeClass('active');
-              aside.addClass('not-active');
-            });
-          } else {
-            continue;
-          }
-        }
+      $(`[data-id=aside-link-${ID}]`).on('click', () => {
+      
+        window.location = 'http://46.101.202.52/everest/#filter/' + ID;
+      
+        aside.removeClass('active');
+        aside.addClass('not-active');
+      });
+       } else {
+         continue;
+       }
+     }
         $(`[data-id=aside-live]`).on('click', () => {
 
           httpGet(urlInplay, 'inplay');

@@ -113,7 +113,7 @@ exports('login', (params, done) => {
         $('.register').on('click', () => {
           login.fadeOut('middle').remove("active");
           blur.removeClass('block').addClass('none');
-          window.location = 'http://localhost/everest/#/registration/';
+          window.location = 'http://46.101.202.52/everest/#/registration/';
         });
         // $(`[data-id=login]`).off('click', renderLoginPopup);
         const login = $('.loginContainer');
