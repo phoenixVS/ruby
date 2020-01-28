@@ -8,41 +8,44 @@ exports('play_table', (params, done) => {
       urlBets = 'http://bestline.bet/event/?FI=';
 
     function growTree(data) {
-      const tree = [];
-      let CLcounter = 0;
-      let CTcounter = 0;
-      let EVcounter = 0;
-      for (el of data) {
-        if (el.type == 'CL') {
-          tree.push(el);
-          CLcounter++;
-          CTcounter = 0;
-          EVcounter = 0;
-        } else {
-          if (el.type == 'CT') {
-            tree.CL[CLcounter - 1].push(el);
-            CTcounter++;
-            EVcounter = 0;
-          }
-          else {
-            if (el.type == 'EV') {
-              tree.CL[CLcounter - 1].CT[CTcounter - 1].push(el);
-              EVcounter++;
-            }
-            else {
-              if (el.type == 'MA') {
-                tree.CL[CLcounter - 1].CT[CTcounter - 1].EV[EVcounter - 1].push(el);
-              }
-              else {
-                if (el.type == 'PA') {
-                  tree.CL[CLcounter - 1].CT[CTcounter - 1].EV[EVcounter - 1].MA.push(el);
-                }
-              }
-            }
-          }
+      let currentCL = '';
+      let currentCT = '';
+      let currentEV = '';
+      let currentMA = '';
+      let currentPA = '';
+      let tree = [];
+      data.map((item, index) => {
+        if (item.type === 'CL') {
+          tree[index] = item;
+          currentCL = item;
+          currentCL.ligues = [];
         }
-      }
+
+        if (item.type === 'CT') {
+          currentCL.ligues.push(item);
+          currentCT = item;
+          currentCT.events = [];
+        }
+
+        if (item.type === 'EV') {
+          currentCT.events.push(item);
+          currentEV = item;
+          currentEV.markets = [];
+        }
+
+        if (item.type === 'MA') {
+          currentEV.markets.push(item);
+          currentMA = item;
+          currentMA.coef = [];
+        }
+
+        if (item.type === 'PA') {
+          currentMA.coef.push(item);
+          currentPA = item;
+        }
+      });
       console.log(tree);
+      return tree;
     }
     // Fetch API request
     function httpGet(url, name) {
@@ -52,12 +55,14 @@ exports('play_table', (params, done) => {
           const tree = growTree(data);
           if (name == 'inplay') {
             if (curID === undefined) {
-              ID = parseInt(data.DATA[0].ID);
+              console.log(tree.Soccer);
+              //ID = parseInt(tree[0].ID);
             }
             else {
               ID = curID;
             }
-            renderTable(data, ID);
+            console.log(tree);
+            renderTable(tree, ID);
           }
           else if (name == 'games') {
             console.log(data);
@@ -158,12 +163,16 @@ exports('play_table', (params, done) => {
     function renderTable(data, ID) {
       $(`[data-id="play-table"]`).empty();
       const tableRenderer = new Promise((resolve, reject) => {
-        data.forEach()
+        data.forEach(sport => {
+          if (parseInt(sport.ID) == ID) {
+            console.log(sport.NA);
+          }
+        })
       });
       tableRenderer
-      then(() => {
+        .then((response) => {
 
-      })
+        })
     }
     function renderTableOld(data, ID) {
       $(`[data-id="play-table"]`).empty();
