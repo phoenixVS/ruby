@@ -106,14 +106,14 @@ exports('coef_table', (params, done) => {
                     </div>`).hide();
                     cur.after(new_item);
                     if (ma.CO.length > 1) {
-                      CO.map(co => {
+                      ma.CO.map(co => {
                         const div = document.createElement('div');
                         div.className = 'bets_column';
-                        div.appendChild($(`${((co.NA) && (!co.NA.includes('Count'))) ? CO.NA : ''}`));
+                        div.appendChild(titleTemplateForBets(co));
                         co.PA.map(pa => {
-                          div.appendChild(this.forEventDataColumnTemplate(pa));
+                          div.appendChild(forEventDataColumnTemplate(pa))
                         });
-                        $(`[data-bet=${ma.ID}]`).appendChild(div);
+                        new_item.append(div)
                       });
                     }
                     else {
@@ -121,11 +121,14 @@ exports('coef_table', (params, done) => {
                         $(`[data-bet=${ma.ID}]`).append(`
                         <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
                         <button style="padding-left: 10px;" class="button coefficient">
-                          <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${pa.NA}</span>
+                          <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${pa.N2 ? pa.N2 : pa.NA}</span>
                           <span class="font">${pa.OD}</span>
                         </button>
                       </div>`);
                       });
+                      if (ma.CO[0].CN < ma.CO[0].PA.length) {
+                        $(`[data-bet=${ma.ID}]`).children('.cell').addClass('half-w');
+                      }
                     }
                     new_item.slideDown('fast');
                     //RenderRows(cur.data('coefId'), ma);
@@ -137,6 +140,7 @@ exports('coef_table', (params, done) => {
                   display: 'flex',
                   flexWrap: 'wrap',
                   justifyContent: 'space-between',
+                  alignItems: 'flex-start',
                 });
                 $('[data-id=row_info]').children().css('position', 'relative');
                 cur.data('rowStatus', 'active').attr('data-row-status', 'active');
@@ -152,6 +156,22 @@ exports('coef_table', (params, done) => {
         }
       });
     }
+    // Convert fractial to decimal
+    modifyBets = (od) => {
+      const nums = od.split('/');
+      return (nums[0] / nums[1] + 1).toFixed(2)
+    };
+    // Render title of the column
+    titleTemplateForBets = (CO) => {
+      const div = document.createElement('div');
+      div.className = 'bets_title';
+      div.innerHTML = `
+    ${CO.NA ? CO.NA : '&nbsp;'}
+  `
+      //${CO.NA && !CO.NA.includes('Count') ? CO.NA : '&nbsp;'}
+      return div
+    };
+    // Render column for bet coef_row
     forEventDataColumnTemplate = (data) => {
       const { NA, SU, IT, OD } = data;
       const SU2 = (SU == 1) ? 'disabled' : '';
@@ -161,9 +181,9 @@ exports('coef_table', (params, done) => {
       div.innerHTML = `
       <button class="button coefficient ${SU2}" data-it="${IT}">
         <p class="font ellipsis mra"> ${NA ? NA : ''}</p>
-        ${SU == 1 ? `<span class="fa fa-lock lock"></span>` : `<p class="font down blick">${this.modifyBets(OD)}</p>`}
-      </button>		
-  `
+        ${ SU == 1 ? `<span class="fa fa-lock lock"></span>` : `<p class="font down blick">${this.modifyBets(OD)}</p>`}
+      </button >
+        `
       return div
     };
     done();

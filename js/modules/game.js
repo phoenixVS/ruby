@@ -8,15 +8,15 @@ exports('game', (params, done) => {
     function shortize(name) {
       let str = name;
       if (screen.width < 400) {
-        str = str.slice(0, 9);
-        if (name.length > 9) {
+        str = str.slice(0, 10);
+        if (name.length > 10) {
           str += '...';
         }
         return str;
       }
       else {
-        str = str.slice(0, 15);
-        if (name.length > 15) {
+        str = str.slice(0, 16);
+        if (name.length > 16) {
           str += '...';
         }
         return str;
@@ -63,6 +63,8 @@ exports('game', (params, done) => {
             preloader.addClass('done');
             preloader.data(`status`, 'done').attr('data-status', 'done');
           }
+          // Move back button
+          $('.video-title-button').on('click', () => { window.location.hash = ''; });
         })
         .catch((err) => { console.log(err); });
     }
