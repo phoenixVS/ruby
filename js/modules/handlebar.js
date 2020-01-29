@@ -57,7 +57,7 @@ function mainHandler() {
                     if ($('script[src="js/modules/header.js"]').length > 0) {
                         loadJsModules({
                             wsocket: { loadCSS: false, loadLanguage: false },
-                            play_big: { loadCSS: false, loadLanguage: false },
+                            play_big: { loadCSS: true, loadLanguage: false },
                             play_table: { loadCSS: false, loadLanguage: false },
                         });
                         resolve();
@@ -71,7 +71,7 @@ function mainHandler() {
                             coef_table: { loadCSS: true, loadLanguage: false },
                             live: { loadCSS: false, loadLanguage: false },
                             wsocket: { loadCSS: false, loadLanguage: false },
-                            play_big: { loadCSS: false, loadLanguage: false },
+                            play_big: { loadCSS: true, loadLanguage: false },
                             play_table: { loadCSS: false, loadLanguage: false },
                         });
                         resolve();
@@ -179,7 +179,7 @@ function filterHandler(ID) {
                 let onModulesLoad = new Promise((resolve, reject) => {
                     loadJsModules({
                         coef_table: { filtered: true, sportId: ID, loadCSS: false, loadLanguage: false },
-                        play_big: { sportId: ID, loadCSS: false, loadLanguage: false },
+                        play_big: { sportId: ID, loadCSS: true, loadLanguage: false },
                         play_table: { sportId: ID, loadCSS: false, loadLanguage: false },
                     });
                     resolve();

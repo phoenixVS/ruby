@@ -28,7 +28,7 @@ exports('coef_table', (params, done) => {
         if (small) {
           $(`[data-id=coef_table]`).empty().append(`
               <div class="row">
-              <div class="cell w33">
+              <div class="cell w33" >
                 <button class="button coefficient">
                   <span class="font m-white">1</span>
                   <span data-id="coef-one" class="font"></span> 
