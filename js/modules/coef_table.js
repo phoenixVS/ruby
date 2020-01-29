@@ -94,29 +94,41 @@ exports('coef_table', (params, done) => {
           rowsPromise.then((resolve) => {
             $(`[data-id=row_info]`).on('click', (elem) => {
               let cur = $(elem.target);
-
               if (cur.is('p')) {
                 cur = cur.parent().parent();
               }
               if (cur.data('rowStatus') == 'not_active') {
                 cur.addClass('active');
                 cur.removeClass('not-active');
-                data.RESULT.EV[0].MA.forEach((ma) => {
+                data[0].MA.forEach((ma) => {
                   if (ma.ID == cur.data('coefId')) {
                     let new_item = $(`<div data-id="coef_row" data-bet="${ma.ID}" class="row" style="height: auto;">
                     </div>`).hide();
                     cur.after(new_item);
-                    ma.PA.forEach((pa) => {
-                      $(`[data-bet=${ma.ID}]`).append(`
-                      <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
-                      <button style="padding-left: 10px;" class="button coefficient">
-                        <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${pa.NA}</span>
-                        <span class="font">${pa.OD.D}</span>
-                      </button>
-                    </div>`);
-                    });
-                    new_item.show('normal');
-                    RenderRows(cur.data('coefId'), ma);
+                    if (ma.CO.length > 1) {
+                      CO.map(co => {
+                        const div = document.createElement('div');
+                        div.className = 'bets_column';
+                        div.appendChild($(`${((co.NA) && (!co.NA.includes('Count'))) ? CO.NA : ''}`));
+                        co.PA.map(pa => {
+                          div.appendChild(this.forEventDataColumnTemplate(pa));
+                        });
+                        $(`[data-bet=${ma.ID}]`).appendChild(div);
+                      });
+                    }
+                    else {
+                      ma.CO[0].PA.forEach((pa) => {
+                        $(`[data-bet=${ma.ID}]`).append(`
+                        <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
+                        <button style="padding-left: 10px;" class="button coefficient">
+                          <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${pa.NA}</span>
+                          <span class="font">${pa.OD}</span>
+                        </button>
+                      </div>`);
+                      });
+                    }
+                    new_item.slideDown('fast');
+                    //RenderRows(cur.data('coefId'), ma);
                   }
                 });
                 $('[data-id=row_info]').css('position', 'relative');
@@ -132,57 +144,28 @@ exports('coef_table', (params, done) => {
               else {
                 cur.removeClass('active');
                 cur.addClass('not-active');
-                $(`[data-bet=${cur.data('coefId')}]`).remove();
+                $(`[data-bet=${cur.data('coefId')}]`).slideUp('normal').remove();
                 cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
               }
             });
           });
-          function RenderRows(ID, ma) {
-            let cur = $(`[data-bet=${ID}]`);
-            let betNames = $(`[data-id=bet_name_${ID}]`);
-            console.log(ID);
-            switch (ID) {
-              case 1777:
-                betNames.eq(0).html(`1`);
-                betNames.eq(1).html(`X`);
-                betNames.eq(2).html(`2`); break;
-              case 10115:
-                betNames.eq(0).html(`1X`);
-                betNames.eq(1).html(`X2`);
-                betNames.eq(2).html(`12`); break;
-              case 10161:
-                betNames.eq(0).html(`1`);
-                betNames.eq(1).html(`X`);
-                betNames.eq(2).html(`2`); break;
-              case 1778:
-                betNames.eq(0).html(`1`);
-                betNames.eq(2).html(`2`); break;
-              case 10124: break;
-              case 10568: break;
-              case 10147:
-                betNames.eq(0).html(`1`);
-                betNames.eq(1).html(`2`); break;
-              case 50281:
-                betNames.each((elem) => {
-                  console.log(elem);
-                });
-              // betNames.forEach((elem) => {
-              //   console.log(elem);
-              // });
-              //betNames.eq(0).html(`${ma.PA[0].HA}`);
-              //betNames.eq(1).html(`${ma.PA[1].HA}`);
-              //betNames.eq(2).html(`${ma.PA[2].HA}`);
-              //betNames.eq(3).html(`${ma.PA[3].HA}`);
-              //betNames.eq(4).html(`${ma.PA[4].HA}`);
-              //betNames.eq(5).html(`${ma.PA[5].HA}`);
-              //betNames.eq(6).html(`${ma.PA[6].HA}`);
-              //betNames.eq(7).html(`${ma.PA[7].HA}`); break;
-              default: break;
-            }
-          }
         }
       });
     }
+    forEventDataColumnTemplate = (data) => {
+      const { NA, SU, IT, OD } = data;
+      const SU2 = (SU == 1) ? 'disabled' : '';
+      const div = document.createElement('div');
+
+      div.className = `maTable__cell`;
+      div.innerHTML = `
+      <button class="button coefficient ${SU2}" data-it="${IT}">
+        <p class="font ellipsis mra"> ${NA ? NA : ''}</p>
+        ${SU == 1 ? `<span class="fa fa-lock lock"></span>` : `<p class="font down blick">${this.modifyBets(OD)}</p>`}
+      </button>		
+  `
+      return div
+    };
     done();
   });
 });

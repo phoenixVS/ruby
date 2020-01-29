@@ -9,12 +9,16 @@ exports('game', (params, done) => {
       let str = name;
       if (screen.width < 400) {
         str = str.slice(0, 9);
-        str += '...';
+        if (name.length > 9) {
+          str += '...';
+        }
         return str;
       }
       else {
-        str = str.slice(0, 13);
-        str += '...';
+        str = str.slice(0, 15);
+        if (name.length > 15) {
+          str += '...';
+        }
         return str;
       }
     }
