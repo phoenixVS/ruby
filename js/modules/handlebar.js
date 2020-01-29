@@ -230,63 +230,99 @@ function filterHandler(ID) {
 // game + video player page load
 function gameHandler(ID) {
     const gameWrapper = $('[data-id=game]');
-    const fetch = window.eventLoad(ID);
-    fetch
-        .then((response) => {
-            if (performance.navigation.type == 1) {
-                loadJsModules({
-                    header: { loadCSS: true, loadLanguage: false },
-                    aside: { loadCSS: true, loadLanguage: false },
-                });
-            }
-
-            let onModulesLoad = new Promise((resolve, reject) => {
-                loadJsModules({
-                    coef_table: { expand: true, loadCSS: true, loadLanguage: false },
-                    game: { gameId: ID, loadCSS: false, loadLanguage: false },
-                });
-                resolve();
+    if (performance.navigation.type == 1) {
+        let fetchData = new Promise((resolve, reject) => {
+            loadJsModules({
+                fetch: { loadCSS: false, loadLanguage: false },
             });
-
-            onModulesLoad.then(
-                result => {
-                    const user_menu = $(`[data-id=user-menu]`);
-                    const mybets = $(`[data-id=mybets]`);
-                    const slider = $(`[data-id=slider]`);
-                    const formWrapper = $(`[data-id=registrationWrapper]`);
-                    const play_big = $(`[data-id=play-big]`);
-                    const coef_table = $(`[data-id=coef_table]`);
-                    const play_table = $(`[data-id=play-table]`);
-                    const live = $(`[data-id=live]`);
-                    const video = $(`[data-id=video]`);
-                    const betslip = $(`[data-id=betslip]`);
-                    const betslip_link = $(`[data-id=betslip-link]`);
-                    const betslip_small = $(`[data-id=betslip-small]`);
-                    const lurks = [
-                        user_menu,
-                        mybets,
-                        live,
-                        formWrapper,
-                        slider,
-                        play_big,
-                        play_table,
-                        betslip,
-                        betslip_link,
-                        betslip_small,
-                    ];
-                    const unlurks = [
-                        video,
-                        coef_table,
-                    ];
-                    lurking(lurks, unlurks);
-                    user_menu.empty();
-                    mybets.empty();
-                },
-                error => {
-                    console.log(`modules haven't been loaded :_( \n
-                and everthing because of: ${error}`);
-                });
+            // wait until there will be an tableLoad module
+            function wait() {
+                if (typeof window.eventLoad === 'undefined') {
+                    setTimeout(wait, 10);
+                    return;
+                }
+                else {
+                    resolve();
+                }
+            }
+            wait();
         });
+        fetchData.then((response) => {
+            go();
+        });
+    }
+    else {
+        go();
+    }
+
+    function go() {
+        const fetchPromise = new Promise((resolve, reject) => {
+            window.eventLoad(ID);
+            const wait = setInterval(() => {
+                if (window.event == undefined) { }
+                else {
+                    clearInterval(wait);
+                    resolve();
+                }
+            }, 10);
+        });
+        fetchPromise
+            .then((response) => {
+                if (performance.navigation.type == 1) {
+                    loadJsModules({
+                        header: { loadCSS: true, loadLanguage: false },
+                        aside: { loadCSS: true, loadLanguage: false },
+                    });
+                }
+
+                let onModulesLoad = new Promise((resolve, reject) => {
+                    loadJsModules({
+                        coef_table: { expand: true, loadCSS: true, loadLanguage: false },
+                        game: { gameId: ID, loadCSS: false, loadLanguage: false },
+                    });
+                    resolve();
+                });
+
+                onModulesLoad.then(
+                    result => {
+                        const user_menu = $(`[data-id=user-menu]`);
+                        const mybets = $(`[data-id=mybets]`);
+                        const slider = $(`[data-id=slider]`);
+                        const formWrapper = $(`[data-id=registrationWrapper]`);
+                        const play_big = $(`[data-id=play-big]`);
+                        const coef_table = $(`[data-id=coef_table]`);
+                        const play_table = $(`[data-id=play-table]`);
+                        const live = $(`[data-id=live]`);
+                        const video = $(`[data-id=video]`);
+                        const betslip = $(`[data-id=betslip]`);
+                        const betslip_link = $(`[data-id=betslip-link]`);
+                        const betslip_small = $(`[data-id=betslip-small]`);
+                        const lurks = [
+                            user_menu,
+                            mybets,
+                            live,
+                            formWrapper,
+                            slider,
+                            play_big,
+                            play_table,
+                            betslip,
+                            betslip_link,
+                            betslip_small,
+                        ];
+                        const unlurks = [
+                            video,
+                            coef_table,
+                        ];
+                        lurking(lurks, unlurks);
+                        user_menu.empty();
+                        mybets.empty();
+                    },
+                    error => {
+                        console.log(`modules haven't been loaded :_( \n
+                and everthing because of: ${error}`);
+                    });
+            });
+    }
 }
 
 function betslipHandler() {

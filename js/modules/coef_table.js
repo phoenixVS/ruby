@@ -76,10 +76,11 @@ exports('coef_table', (params, done) => {
           }
         }
         else {
-          let sport = params.sport;
+          console.log(data);
+          let sport = data[0].TG[0].CT;
           let rowsPromise = new Promise((resolve, reject) => {
             $(`[data-id=coef_table]`).empty();
-            data.RESULT.EV[0].MA.forEach((ma, i) => {
+            data[0].MA.forEach(ma => {
               $(`[data-id=coef_table]`).append(`
             <div data-id="row_info" data-row-status="not_active" data-coef-id="${ma.ID}" class="row info det" style="height: 50px; border-bottom: 0.5px solid black;">
               <div class="cell">

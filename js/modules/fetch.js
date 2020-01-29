@@ -9,7 +9,8 @@ exports('fetch', (params, done) => {
     };
 
     window.eventLoad = (ID) => {
-      httpGet(urlBets, 'bets', ID);
+      let url = urlBets + ID;
+      httpGet(url, 'bets');
     };
 
     // Fetch API request
@@ -20,7 +21,6 @@ exports('fetch', (params, done) => {
           if (name == 'inplay') {
             const tree = growTree(data, 'inplay');
             window.inplay = tree;
-            console.log(tree);
           }
           else if (name == 'bets') {
             const tree = growTree(data, 'bets');
@@ -128,9 +128,9 @@ exports('fetch', (params, done) => {
             if (item.type === 'PA') {
               curCO.PA.push(item);
             }
-            return tree;
           }
         });
+        return tree;
       }
     }
 

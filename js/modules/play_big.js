@@ -119,7 +119,20 @@ exports('play_big', (params, done) => {
     }
     /*End of Timer*/
 
-
+    // Shortening club name
+    function shortize(name) {
+      let str = name;
+      if (screen.width < 400) {
+        str = str.slice(0, 9);
+        str += '...';
+        return str;
+      }
+      else {
+        str = str.slice(0, 13);
+        str += '...';
+        return str;
+      }
+    }
 
     function fillPlayBig(data, ID) {
       let promise = new Promise((resolve, reject) => {
@@ -127,14 +140,14 @@ exports('play_big', (params, done) => {
           let id = parseInt(ID);
           data.forEach(sport => {
             if (parseInt(sport.ID) == ID) {
-              playBig.data(`[gameId]`, `${sport.CT[0].EV[0].FI}`).attr('data-game-id', `${sport.CT[0].EV[0].FI}`);
+              playBig.data(`[gameId]`, `${sport.CT[0].EV[0].ID}`).attr('data-game-id', `${sport.CT[0].EV[0].ID}`);
               playBig.empty().append(`<div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
-                <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white ellipsis">${sport.CT[0].NA}</p>
-                <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis">${sport.CT[0].EV[0].NA}</p>
+                <p data-game-id="${sport.CT[0].EV[0].ID}" class="font m-white ellipsis">${sport.CT[0].NA}</p>
+                <p data-game-id="${sport.CT[0].EV[0].ID}" class="font white title ellipsis">${shortize(sport.CT[0].EV[0].NA.split(' v ')[0]) + ' vs ' + shortize(sport.CT[0].EV[0].NA.split(' v ')[1])}</p>
                 </div>
-                <div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
-                <p data-game-id="${sport.CT[0].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[0].EV[0].TU}" data-tm="${sport.CT[0].EV[0].TM}" data-ts="${sport.CT[0].EV[0].TS}" class="font m-white ellipsis text-right"></p>
-                <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white title ellipsis text-right">${sport.CT[0].EV[0].SS}</p>
+                <div data-game-id="${sport.CT[0].EV[0].ID}" class="block">
+                <p data-game-id="${sport.CT[0].EV[0].ID}" data-id="timer-big" data-tu="${sport.CT[0].EV[0].TU}" data-tm="${sport.CT[0].EV[0].TM}" data-ts="${sport.CT[0].EV[0].TS}" class="font m-white ellipsis text-right"></p>
+                <p data-game-id="${sport.CT[0].EV[0].ID}" class="font white title ellipsis text-right">${sport.CT[0].EV[0].SS}</p>
                 </div>`);
               startTimerBig(sport.CT[0].EV[0]);
             }
