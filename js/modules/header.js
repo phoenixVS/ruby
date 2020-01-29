@@ -12,7 +12,7 @@ exports('header', (params, done) => {
     }, () => {
         // Login and user menu handlers
         Cookies.set('logon', 'false');
-        $(`[data-id=login]`).on('click', () => {
+        $(`[data-id=login-button]`).on('click', () => {
             if (Cookies.get('logon') == 'true') {
                 loadJsModules({
                     user_menu: { loadCSS: true, loadLanguage: false },
@@ -122,8 +122,8 @@ exports('header', (params, done) => {
 
         // Account profile redirect
         let username = 'vasya1999';
-        $(`[data-id=user]`).prop('href', `#/user/${username}/balance/casier`);
-        $(`[data-id=registration]`).prop('href', `#/registration`);
+        $(`[data-id=mybets-button]`).prop('href', `#/mybets`);
+        $(`[data-id=registration-button]`).prop('href', `#/registration`);
         done();
     });
 });

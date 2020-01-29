@@ -8,37 +8,14 @@ exports('play_big', (params, done) => {
 
 
     let curID = params.sportId;
-
-    let urlInplay = 'http://bestline.bet/inplay/',
-      urlGames = 'http://212.8.249.162:81/inplay.php',
-      urlBets = 'http://bestline.bet/event/?FI=';
-    // Fetch API request
-    function httpGet(url, name) {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          if (name == 'inplay') {
-            if (curID === undefined) {
-              ID = parseInt(data.DATA[0].ID);
-            }
-            else {
-              ID = curID;
-            }
-            fillPlayBig(data, ID);
-          }
-          else if (name == 'games') {
-            console.log(data);
-          }
-          else if (name == 'bets') {
-            console.log(data);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
+    let ID;
+    if (curID === undefined) {
+      ID = parseInt(window.inplay[0].ID);
     }
-
-    httpGet(urlInplay, 'inplay');
+    else {
+      ID = curID;
+    }
+    fillPlayBig(window.inplay, ID);
 
     /*Timer for Play Big starts here*/
     function createTimer(tm, ts) {
@@ -148,7 +125,7 @@ exports('play_big', (params, done) => {
       let promise = new Promise((resolve, reject) => {
         if (data != undefined) {
           let id = parseInt(ID);
-          data.DATA.forEach(sport => {
+          data.forEach(sport => {
             if (parseInt(sport.ID) == ID) {
               playBig.data(`[gameId]`, `${sport.CT[0].EV[0].FI}`).attr('data-game-id', `${sport.CT[0].EV[0].FI}`);
               playBig.empty().append(`<div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
@@ -172,19 +149,18 @@ exports('play_big', (params, done) => {
           // Handle opening of game section
           $(`[data-id=play-big]`).on('click', (event) => {
             let id = $(event.target).data('gameId');
-            let sport = ID;
             let curURL = window.location.href;
             //if filter is active - remove it from hash
             if (window.location.hash.split('/')[1] == 'filter') {
               window.location.hash = '';
-              window.location.href += `/event/${sport}/${id}`;
+              window.location.href += `/event/${id}`;
             }
             else {
               if (curURL.includes('#')) {
-                window.location.href += `/event/${sport}/${id}`;
+                window.location.href += `/event/${id}`;
               }
               else {
-                window.location.href += `#/event/${sport}/${id}`;
+                window.location.href += `#/event/${id}`;
               }
             }
           });

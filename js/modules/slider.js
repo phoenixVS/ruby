@@ -17,38 +17,13 @@ exports('slider', (params, done) => {
     })(0);
     // Parse and set filters
     (() => {
-
-      let urlInplay = 'http://bestline.bet/inplay/',
-        urlGames = 'http://212.8.249.162:81/inplay.php',
-        urlBets = 'http://bestline.bet/event/?FI=';
-      // Fetch API request
-      function httpGet(url, name) {
-        fetch(url)
-          .then((res) => res.json())
-          .then((data) => {
-            if (name == 'inplay') {
-              renderSlider(data);
-            }
-            else if (name == 'games') {
-              console.log(data);
-            }
-            else if (name == 'bets') {
-              console.log(data);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-      }
-
-      httpGet(urlInplay, 'inplay');
-      // httpGet(urlBets, 'bets');
-      // httpGet(urlGames, 'games');
+      renderSlider(window.inplay);;
 
       function renderSlider(data) {
         if (data) {
-          data.DATA.forEach((el) => {
-            sliderWrapper.append(`
+          data.forEach((el) => {
+            if (el.CT) {
+              sliderWrapper.append(`
           <a data-id="${parseInt(el.ID)}"
             data-name="${el.NA}"
             data-order="${parseInt(el.OR)}"
@@ -58,6 +33,7 @@ exports('slider', (params, done) => {
             <span class="sports-${parseInt(el.ID) + 3} [ slider-icon ]"></p>
           </a>
           `);
+            }
           });
         }
         else {
