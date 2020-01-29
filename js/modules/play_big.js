@@ -4,7 +4,10 @@ exports('play_big', (params, done) => {
     //   "main/play-big.html"
     // ]
   }, () => {
-    const playBig = $(`[data-id=play-big]`);
+    const playBigOne = $(`[data-id=play-big-1]`),
+      playBigTwo = $(`[data-id=play-big-2]`),
+      playBigThree = $(`[data-id=play-big-3]`),
+      playBigFour = $(`[data-id=play-big-4]`);
 
 
     let curID = params.sportId;
@@ -141,19 +144,58 @@ exports('play_big', (params, done) => {
     function fillPlayBig(data, ID) {
       let promise = new Promise((resolve, reject) => {
         if (data != undefined) {
+
           let id = parseInt(ID);
           data.forEach(sport => {
             if (parseInt(sport.ID) == ID) {
-              playBig.data(`[gameId]`, `${sport.CT[0].EV[0].ID}`).attr('data-game-id', `${sport.CT[0].EV[0].ID}`);
-              playBig.empty().append(`<div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
-                <p data-game-id="${sport.CT[0].EV[0].ID}" class="font m-white ellipsis">${sport.CT[0].NA}</p>
-                <p data-game-id="${sport.CT[0].EV[0].ID}" class="font white title ellipsis">${shortize(sport.CT[0].EV[0].NA.split(' v ')[0]) + ' vs ' + shortize(sport.CT[0].EV[0].NA.split(' v ')[1])}</p>
+              playBigOne.data(`[gameId]`, `${sport.CT[0].EV[0].FI}`).attr('data-game-id', `${sport.CT[0].EV[0].FI}`);
+              playBigOne.empty().append(`<div data-game-id="${sport.CT[0].EV[0].FI}" class="block" style="margin-bottom: 5px;">
+                <p data-game-id="${sport.CT[0].EV[0].FI}" class="font white ">${sport.CT[0].NA}</p>
+                <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white ellipsis">${sport.CT[0].EV[0].NA.split('v')[0]}</p>
+                <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white ellipsis">${sport.CT[0].EV[0].NA.split('v')[1]}</p>
                 </div>
-                <div data-game-id="${sport.CT[0].EV[0].ID}" class="block">
-                <p data-game-id="${sport.CT[0].EV[0].ID}" data-id="timer-big" data-tu="${sport.CT[0].EV[0].TU}" data-tm="${sport.CT[0].EV[0].TM}" data-ts="${sport.CT[0].EV[0].TS}" class="font m-white ellipsis text-right"></p>
-                <p data-game-id="${sport.CT[0].EV[0].ID}" class="font white title ellipsis text-right">${sport.CT[0].EV[0].SS}</p>
+                <div data-game-id="${sport.CT[0].EV[0].FI}" class="sport-icon play" style="margin-top: 7%; margin-right: 0;"></div>
+                <div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
+                <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white text-right">${sport.CT[0].EV[0].SS}</p>
+                <p data-game-id="${sport.CT[0].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[0].EV[0].TU}" data-tm="${sport.CT[0].EV[0].TM}" data-ts="${sport.CT[0].EV[0].TS}" class="font m-white ellipsis text-right"></p>
                 </div>`);
               startTimerBig(sport.CT[0].EV[0]);
+              playBigTwo.data(`[gameId]`, `${sport.CT[1].EV[0].FI}`).attr('data-game-id', `${sport.CT[1].EV[0].FI}`);
+              playBigTwo.empty().append(`<div data-game-id="${sport.CT[1].EV[0].FI}" class="block" style="margin-bottom: 5px;">
+                <p data-game-id="${sport.CT[1].EV[0].FI}" class="font white ">${sport.CT[1].NA}</p>
+                <p data-game-id="${sport.CT[1].EV[0].FI}" class="font m-white ellipsis">${sport.CT[1].EV[0].NA.split('v')[0]}</p>
+                <p data-game-id="${sport.CT[1].EV[0].FI}" class="font m-white ellipsis">${sport.CT[1].EV[0].NA.split('v')[1]}</p>
+                </div>
+                <div data-game-id="${sport.CT[0].EV[0].FI}" class="sport-icon play" style="margin-top: 7%; margin-right: 0;"></div>
+                <div data-game-id="${sport.CT[1].EV[0].FI}" class="block" style="margin-top: 7%">
+                <p data-game-id="${sport.CT[1].EV[0].FI}" class="font m-white text-right">${sport.CT[1].EV[0].SS}</p>
+                <p data-game-id="${sport.CT[1].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[1].EV[0].TU}" data-tm="${sport.CT[1].EV[0].TM}" data-ts="${sport.CT[1].EV[0].TS}" class="font m-white ellipsis text-right"></p>
+                </div>`);
+              startTimerBig(sport.CT[1].EV[0]);
+              playBigThree.data(`[gameId]`, `${sport.CT[2].EV[0].FI}`).attr('data-game-id', `${sport.CT[2].EV[0].FI}`);
+              playBigThree.empty().append(`<div data-game-id="${sport.CT[2].EV[0].FI}" class="block" style="margin-bottom: 5px;">
+                <p data-game-id="${sport.CT[2].EV[0].FI}" class="font white ">${sport.CT[2].NA}</p>
+                <p data-game-id="${sport.CT[2].EV[0].FI}" class="font m-white ellipsis">${sport.CT[2].EV[0].NA.split('v')[0]}</p>
+                <p data-game-id="${sport.CT[2].EV[0].FI}" class="font m-white ellipsis">${sport.CT[2].EV[0].NA.split('v')[1]}</p>
+                </div>
+                <div data-game-id="${sport.CT[0].EV[0].FI}" class="sport-icon play" style="margin-top: 7%; margin-right: 0;"></div>
+                <div data-game-id="${sport.CT[2].EV[0].FI}" class="block" style="margin-top: 7%">
+                <p data-game-id="${sport.CT[2].EV[0].FI}" class="font m-white text-right">${sport.CT[2].EV[0].SS}</p>
+                <p data-game-id="${sport.CT[2].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[2].EV[0].TU}" data-tm="${sport.CT[2].EV[0].TM}" data-ts="${sport.CT[2].EV[0].TS}" class="font m-white ellipsis text-right"></p>
+                </div>`);
+              startTimerBig(sport.CT[2].EV[0]);
+              playBigFour.data(`[gameId]`, `${sport.CT[3].EV[0].FI}`).attr('data-game-id', `${sport.CT[3].EV[0].FI}`);
+              playBigFour.empty().append(`<div data-game-id="${sport.CT[3].EV[0].FI}" class="block" style="margin-bottom: 5px;">
+                <p data-game-id="${sport.CT[3].EV[0].FI}" class="font white ">${sport.CT[3].NA}</p>
+                <p data-game-id="${sport.CT[3].EV[0].FI}" class="font m-white ellipsis">${sport.CT[3].EV[0].NA.split('v')[0]}</p>
+                <p data-game-id="${sport.CT[3].EV[0].FI}" class="font m-white ellipsis">${sport.CT[3].EV[0].NA.split('v')[1]}</p>
+                </div>
+                <div data-game-id="${sport.CT[0].EV[0].FI}" class="sport-icon play" style="margin-top: 7%; margin-right: 0;"></div>
+                <div data-game-id="${sport.CT[3].EV[0].FI}" class="block" style="margin-top: 7%">
+                <p data-game-id="${sport.CT[3].EV[0].FI}" class="font m-white text-right">${sport.CT[3].EV[0].SS}</p>
+                <p data-game-id="${sport.CT[3].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[3].EV[0].TU}" data-tm="${sport.CT[3].EV[0].TM}" data-ts="${sport.CT[3].EV[0].TS}" class="font m-white ellipsis text-right"></p>
+                </div>`);
+              startTimerBig(sport.CT[3].EV[0]);
             }
             resolve();
           });
@@ -164,7 +206,58 @@ exports('play_big', (params, done) => {
       promise
         .then(() => {
           // Handle opening of game section
-          $(`[data-id=play-big]`).on('click', (event) => {
+          playBigOne.on('click', (event) => {
+            let id = $(event.target).data('gameId');
+            let curURL = window.location.href;
+            //if filter is active - remove it from hash
+            if (window.location.hash.split('/')[1] == 'filter') {
+              window.location.hash = '';
+              window.location.href += `/event/${id}`;
+            }
+            else {
+              if (curURL.includes('#')) {
+                window.location.href += `/event/${id}`;
+              }
+              else {
+                window.location.href += `#/event/${id}`;
+              }
+            }
+          });
+          playBigTwo.on('click', (event) => {
+            let id = $(event.target).data('gameId');
+            let curURL = window.location.href;
+            //if filter is active - remove it from hash
+            if (window.location.hash.split('/')[1] == 'filter') {
+              window.location.hash = '';
+              window.location.href += `/event/${id}`;
+            }
+            else {
+              if (curURL.includes('#')) {
+                window.location.href += `/event/${id}`;
+              }
+              else {
+                window.location.href += `#/event/${id}`;
+              }
+            }
+          });
+          playBigThree.on('click', (event) => {
+            let id = $(event.target).data('gameId');
+            let curURL = window.location.href;
+            //if filter is active - remove it from hash
+            if (window.location.hash.split('/')[1] == 'filter') {
+              window.location.hash = '';
+              window.location.href += `/event/${id}`;
+            }
+            else {
+              if (curURL.includes('#')) {
+                window.location.href += `/event/${id}`;
+              }
+              else {
+                window.location.href += `#/event/${id}`;
+              }
+            }
+          });
+          playBigFour.on('click', (event) => {
             let id = $(event.target).data('gameId');
             let curURL = window.location.href;
             //if filter is active - remove it from hash
@@ -183,7 +276,6 @@ exports('play_big', (params, done) => {
           });
         });
     }
-    playBig.css('overflow', 'scroll');
     done();
   });
 });

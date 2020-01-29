@@ -1,0 +1,27 @@
+.slider-big {
+    overflow: auto;
+    white-space: nowrap;
+    padding-top: 5px;
+}
+
+.slider-big a {
+    display: inline-block;
+    width: 52%;
+    margin-right: 0;
+}
+
+@media screen and  (min-width: 450px) {
+    .slider-big a {
+        display: inline-block;
+        width: 42%;
+        margin-right: 0;
+    }
+}
+
+@media screen and  (min-width: 550px) {
+    .slider-big a {
+        display: inline-block;
+        width: 32%;
+        margin-right: 0;
+    }
+}
