@@ -137,7 +137,8 @@ exports('play_big', (params, done) => {
                 <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white ellipsis">${sport.CT[0].EV[0].NA.split('v')[0]}</p>
                 <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white ellipsis">${sport.CT[0].EV[0].NA.split('v')[1]}</p>
                 </div>
-                <div data-game-id="${sport.CT[0].EV[0].FI}" class="block" style="margin-top: 7%">
+                <div data-game-id="${sport.CT[0].EV[0].FI}" class="sport-icon play" style="margin-top: 7%; margin-right: 0;"></div>
+                <div data-game-id="${sport.CT[0].EV[0].FI}" class="block">
                 <p data-game-id="${sport.CT[0].EV[0].FI}" class="font m-white text-right">${sport.CT[0].EV[0].SS}</p>
                 <p data-game-id="${sport.CT[0].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[0].EV[0].TU}" data-tm="${sport.CT[0].EV[0].TM}" data-ts="${sport.CT[0].EV[0].TS}" class="font m-white ellipsis text-right"></p>
                 </div>`);
@@ -148,6 +149,7 @@ exports('play_big', (params, done) => {
                 <p data-game-id="${sport.CT[1].EV[0].FI}" class="font m-white ellipsis">${sport.CT[1].EV[0].NA.split('v')[0]}</p>
                 <p data-game-id="${sport.CT[1].EV[0].FI}" class="font m-white ellipsis">${sport.CT[1].EV[0].NA.split('v')[1]}</p>
                 </div>
+                <div data-game-id="${sport.CT[0].EV[0].FI}" class="sport-icon play" style="margin-top: 7%; margin-right: 0;"></div>
                 <div data-game-id="${sport.CT[1].EV[0].FI}" class="block" style="margin-top: 7%">
                 <p data-game-id="${sport.CT[1].EV[0].FI}" class="font m-white text-right">${sport.CT[1].EV[0].SS}</p>
                 <p data-game-id="${sport.CT[1].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[1].EV[0].TU}" data-tm="${sport.CT[1].EV[0].TM}" data-ts="${sport.CT[1].EV[0].TS}" class="font m-white ellipsis text-right"></p>
@@ -159,6 +161,7 @@ exports('play_big', (params, done) => {
                 <p data-game-id="${sport.CT[2].EV[0].FI}" class="font m-white ellipsis">${sport.CT[2].EV[0].NA.split('v')[0]}</p>
                 <p data-game-id="${sport.CT[2].EV[0].FI}" class="font m-white ellipsis">${sport.CT[2].EV[0].NA.split('v')[1]}</p>
                 </div>
+                <div data-game-id="${sport.CT[0].EV[0].FI}" class="sport-icon play" style="margin-top: 7%; margin-right: 0;"></div>
                 <div data-game-id="${sport.CT[2].EV[0].FI}" class="block" style="margin-top: 7%">
                 <p data-game-id="${sport.CT[2].EV[0].FI}" class="font m-white text-right">${sport.CT[2].EV[0].SS}</p>
                 <p data-game-id="${sport.CT[2].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[2].EV[0].TU}" data-tm="${sport.CT[2].EV[0].TM}" data-ts="${sport.CT[2].EV[0].TS}" class="font m-white ellipsis text-right"></p>
@@ -170,6 +173,7 @@ exports('play_big', (params, done) => {
                 <p data-game-id="${sport.CT[3].EV[0].FI}" class="font m-white ellipsis">${sport.CT[3].EV[0].NA.split('v')[0]}</p>
                 <p data-game-id="${sport.CT[3].EV[0].FI}" class="font m-white ellipsis">${sport.CT[3].EV[0].NA.split('v')[1]}</p>
                 </div>
+                <div data-game-id="${sport.CT[0].EV[0].FI}" class="sport-icon play" style="margin-top: 7%; margin-right: 0;"></div>
                 <div data-game-id="${sport.CT[3].EV[0].FI}" class="block" style="margin-top: 7%">
                 <p data-game-id="${sport.CT[3].EV[0].FI}" class="font m-white text-right">${sport.CT[3].EV[0].SS}</p>
                 <p data-game-id="${sport.CT[3].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[3].EV[0].TU}" data-tm="${sport.CT[3].EV[0].TM}" data-ts="${sport.CT[3].EV[0].TS}" class="font m-white ellipsis text-right"></p>
@@ -185,7 +189,58 @@ exports('play_big', (params, done) => {
       promise
         .then(() => {
           // Handle opening of game section
-          $(`[data-id=play-big]`).on('click', (event) => {
+          playBigOne.on('click', (event) => {
+            let id = $(event.target).data('gameId');
+            let curURL = window.location.href;
+            //if filter is active - remove it from hash
+            if (window.location.hash.split('/')[1] == 'filter') {
+              window.location.hash = '';
+              window.location.href += `/event/${id}`;
+            }
+            else {
+              if (curURL.includes('#')) {
+                window.location.href += `/event/${id}`;
+              }
+              else {
+                window.location.href += `#/event/${id}`;
+              }
+            }
+          });
+          playBigTwo.on('click', (event) => {
+            let id = $(event.target).data('gameId');
+            let curURL = window.location.href;
+            //if filter is active - remove it from hash
+            if (window.location.hash.split('/')[1] == 'filter') {
+              window.location.hash = '';
+              window.location.href += `/event/${id}`;
+            }
+            else {
+              if (curURL.includes('#')) {
+                window.location.href += `/event/${id}`;
+              }
+              else {
+                window.location.href += `#/event/${id}`;
+              }
+            }
+          });
+          playBigThree.on('click', (event) => {
+            let id = $(event.target).data('gameId');
+            let curURL = window.location.href;
+            //if filter is active - remove it from hash
+            if (window.location.hash.split('/')[1] == 'filter') {
+              window.location.hash = '';
+              window.location.href += `/event/${id}`;
+            }
+            else {
+              if (curURL.includes('#')) {
+                window.location.href += `/event/${id}`;
+              }
+              else {
+                window.location.href += `#/event/${id}`;
+              }
+            }
+          });
+          playBigFour.on('click', (event) => {
             let id = $(event.target).data('gameId');
             let curURL = window.location.href;
             //if filter is active - remove it from hash
