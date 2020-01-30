@@ -5,6 +5,15 @@ exports("handlebar", () => {
     });
 });
 
+function unloadCSS(moduleName) {
+    let styles = document.querySelectorAll("link");
+    styles.map((el) => {
+        if (el && el.getAttribute('href') != null && el.getAttribute('href').indexOf(moduleName) != -1) {
+            el.parentNode.removeChild(el);
+        }
+    });
+}
+
 function lurking(lurks, unlurks) {
     for (const element of lurks) {
         element.data('display', 'none').attr('data-display', 'none');
@@ -112,6 +121,7 @@ function mainHandler() {
                         mybets.empty();
                         user_menu.empty();
                         game.empty();
+                        unloadCSS('regist');
                     },
                     error => {
                         console.log(`modules haven't been loaded :_( \n
