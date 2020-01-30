@@ -79,7 +79,6 @@ function mainHandler() {
                             header: { loadCSS: true, loadLanguage: false },
                             aside: { loadCSS: true, loadLanguage: false },
                             slider: { loadCSS: false, loadLanguage: false },
-                            betslip_link: { loadCSS: false, loadLanguage: false },
                             coef_table: { loadCSS: true, loadLanguage: false },
                             live: { loadCSS: false, loadLanguage: false },
                             wsocket: { loadCSS: false, loadLanguage: false },
@@ -124,6 +123,8 @@ function mainHandler() {
                         user_menu.empty();
                         game.empty();
                         unloadCSS('regist');
+                        unloadCSS('mybets');
+                        unloadCSS('user');
                     },
                     error => {
                         console.log(`modules haven't been loaded :_( \n
