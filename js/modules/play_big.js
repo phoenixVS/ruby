@@ -126,8 +126,8 @@ exports('play_big', (params, done) => {
     function shortize(name) {
       let str = name;
       if (screen.width < 400) {
-        str = str.slice(0, 9);
-        if (name.length > 9) {
+        str = str.slice(0, 11);
+        if (name.length > 11) {
           str += '...';
         }
         return str;
@@ -157,9 +157,9 @@ exports('play_big', (params, done) => {
                  <a data-id="play-big-wrapper" data-play-big="${sport.CT[i].EV[0].ID}" class="cell">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" class="flex-container align-justify [ play-big ]">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="block" style="margin-bottom: 5px;">
-                        <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font white ">${sport.CT[i].NA}</p>
-                        <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font m-white ellipsis">${sport.CT[i].EV[0].NA.split('v')[0]}</p>
-                        <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font m-white ellipsis">${sport.CT[i].EV[0].NA.split('v')[1]}</p>
+                        <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font white ">${shortize(sport.CT[i].NA)}</p>
+                        <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font m-white ellipsis">${shortize(sport.CT[i].EV[0].NA.split('v')[0])}</p>
+                        <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font m-white ellipsis">${shortize(sport.CT[i].EV[0].NA.split('v')[1])}</p>
                         </div>
                         <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="sport-icon play" style="margin-top: 7%; margin-right: 0;"></div>
                 <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="block">
