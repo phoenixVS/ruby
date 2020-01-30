@@ -114,9 +114,15 @@ exports('header', (params, done) => {
             if (window.pageYOffset >= sticky) {
                 navbar.classList.add("sticky")
                 document.querySelector('.slider').style.marginTop = '64px';
+                if ($('.video-title').length) {
+                    document.querySelector('.video-title').style.marginTop = '64px';
+                }
             } else {
                 navbar.classList.remove("sticky");
                 document.querySelector('.slider').style.marginTop = '0';
+                if ($('.video-title').length) {
+                    document.querySelector('.video-title').style.marginTop = '0';
+                }
             }
         }
 

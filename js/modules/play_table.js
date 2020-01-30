@@ -158,7 +158,7 @@ exports('play_table', (params, done) => {
                       <div class="cell" data-game-id="${ev.ID}" data-id="event">
                         <div data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
                           <div data-game-id="${ev.ID}" class="[ play-link-block ]"> 
-                            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[0]} vs</p>
+                            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[0]}</p>
                             <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[1]}</p>
                           </div> 
                           <div data-game-id="${ev.ID}" class="[ play-link-block ] text-right">
