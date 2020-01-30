@@ -6,8 +6,9 @@ exports("handlebar", () => {
 });
 
 function unloadCSS(moduleName) {
+    moduleName = './css/modules/' + moduleName + '.css';
     let styles = document.querySelectorAll("link");
-    styles.map((el) => {
+    styles.forEach((el) => {
         if (el && el.getAttribute('href') != null && el.getAttribute('href').indexOf(moduleName) != -1) {
             el.parentNode.removeChild(el);
         }
@@ -69,6 +70,7 @@ function mainHandler() {
                             wsocket: { loadCSS: false, loadLanguage: false },
                             play_big: { loadCSS: false, loadLanguage: false },
                             play_table: { loadCSS: false, loadLanguage: false },
+                            coef_table: { loadCSS: true, loadLanguage: false },
                         });
                         resolve();
                     }

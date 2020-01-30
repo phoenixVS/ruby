@@ -60,13 +60,13 @@ exports('coef_table', (params, done) => {
             data.forEach(sport => {
               if (parseInt(sport.ID) == ID) {
                 if (ID == 1) {
-                  $(`[data-id=coef-one]`).text(sport.CT[0].EV[0].MA[0].PA[0].OD);
-                  $(`[data-id=coef-two]`).text(sport.CT[0].EV[0].MA[0].PA[1].OD);
-                  $(`[data-id=coef-three]`).text(sport.CT[0].EV[0].MA[0].PA[2].OD);
+                  $(`[data-id=coef-one]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[0].OD));
+                  $(`[data-id=coef-two]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[1].OD));
+                  $(`[data-id=coef-three]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[2].OD));
                 }
                 else {
-                  $(`[data-id=coef-one]`).text(sport.CT[0].EV[0].MA[0].PA[0].OD);
-                  $(`[data-id=coef-three]`).text(sport.CT[0].EV[0].MA[0].PA[1].OD);
+                  $(`[data-id=coef-one]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[0].OD));
+                  $(`[data-id=coef-three]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[1].OD));
                   $(`[data-id=coef-two]`).remove();
                 }
               }
@@ -181,7 +181,7 @@ exports('coef_table', (params, done) => {
       div.innerHTML = `
       <button class="button coefficient ${SU2}" data-it="${IT}">
         <p class="font ellipsis mra"> ${NA ? NA : ''}</p>
-        ${ SU == 1 ? `<span class="fa fa-lock lock"></span>` : `<p class="font down blick">${this.modifyBets(OD)}</p>`}
+        ${ SU == 1 ? `<span class="fa fa-lock lock"></span>` : `<p class="font down blick">${modifyBets(OD)}</p>`}
       </button >
         `
       return div
