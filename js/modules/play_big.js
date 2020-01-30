@@ -125,18 +125,19 @@ exports('play_big', (params, done) => {
     // Shortening club name
     function shortize(name) {
       let str = name;
-      if (screen.width < 400) {
+      if (screen.width < 350) {
         str = str.slice(0, 11);
         if (name.length > 11) {
           str += '...';
         }
         return str;
-      }
-      else {
+      } else if(screen.width > 350 && screen.width < 400) {
         str = str.slice(0, 16);
         if (name.length > 16) {
           str += '...';
         }
+        return str;
+      } else {
         return str;
       }
     }

@@ -8,6 +8,9 @@ exports('login', (params, done) => {
     }
 
     function LoginHandler(login, blur, attempt_counter, data) {
+
+      loginValidation();
+
       console.log(attempt_counter);
       let usr_name = $('#username').val();
       let password = $('#password').val();
@@ -66,6 +69,19 @@ exports('login', (params, done) => {
       }
     }
 
+    function loginValidation() {
+      let input = $(`[data-req=1]`);
+      let regExp = input.data('reg-exp');
+      console.log(regExp);
+      console.log(input.val());
+
+      if (input.val().match(regExp)) {
+        console.log("OK")
+      } else {
+        console.log("Not valid");
+      }
+    }
+
     function renderLoginPopup() {
       let renderPromise = new Promise((resolve, reject) => {
         $('.blur').removeClass('none').addClass('block');
@@ -74,7 +90,7 @@ exports('login', (params, done) => {
             <div class="loginHeader">Login</div>
             <!--User Name-->
             <div class="inputLogin">
-              <input data-req="1" id="username" type="text" placeholder="User name" name="username" autocapitalize="off" autocomplete="off" autocorrect="off">
+              <input data-req="1" data-reg-exp="/^([A-Za-z0-9]{8,})$/" id="username" type="text" placeholder="User name" name="username" autocapitalize="off" autocomplete="off" autocorrect="off">
               <div class="clearButton"></div>
             </div>
             <!--Password-->
