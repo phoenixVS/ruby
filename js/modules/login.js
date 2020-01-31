@@ -8,12 +8,14 @@ exports('login', (params, done) => {
     }
 
     function LoginHandler(login, blur, attempt_counter, data) {
+
+      loginValidation();
+
       console.log(attempt_counter);
       let usr_name = $('#username').val();
       let password = $('#password').val();
 
-      if (usr_name != '' && password != '') {
-
+      if (usr_name.length >= 8 && password.length >= 8) {
         const loginForm = {
           DATA: {
             username: usr_name,
@@ -43,7 +45,7 @@ exports('login', (params, done) => {
             /*.........................................*/
           } else if (attempt_counter == 1 || attempt_counter == 2) {
             console.log(attempt_counter);
-            $('.failedLogPass').css('display', 'none');
+            $('.failedLogChar').css('display', 'none');
             $('.failedLoginAccountLock').show();
             $('.failedLoginHeader').show();
             $('.loginButton').prop("onclick", null).off("click");
@@ -58,12 +60,25 @@ exports('login', (params, done) => {
           console.log('Blocking account...');
         } else {
           console.log('Unsuccess');
-          $('.failedLogPass').show();
+          $('.failedLogChar').show();
           $('.loginButton').prop("onclick", null).off("click");
           $('.loginButton').on('click', () => {
             LoginHandler(login, blur, attempt_counter);
           });
         }
+      }
+    }
+
+    function loginValidation() {
+      let input = $(`[data-req=1]`);
+      let regExp = input.data('reg-exp');
+      console.log(regExp);
+      console.log(input.val());
+
+      if (input.val().match(regExp)) {
+        console.log("OK")
+      } else {
+        console.log("Not valid");
       }
     }
 
@@ -75,12 +90,12 @@ exports('login', (params, done) => {
             <div class="loginHeader">Login</div>
             <!--User Name-->
             <div class="inputLogin">
-              <input id="username" type="text" placeholder="User name" name="username" autocapitalize="off" autocomplete="off" autocorrect="off">
+              <input data-req="1" data-reg-exp="/^([A-Za-z0-9]{8,})$/" id="username" type="text" placeholder="User name" name="username" autocapitalize="off" autocomplete="off" autocorrect="off">
               <div class="clearButton"></div>
             </div>
             <!--Password-->
             <div class="inputPassword">
-              <input id="password" type="password" placeholder="Password" name="password" autocapitalize="off" autocomplete="off" autocorrect="off">
+              <input data-req="1" id="password" type="password" placeholder="Password" name="password" autocapitalize="off" autocomplete="off" autocorrect="off">
               <div class="showPassword"></div>
             </div>
             <div class="failedLogin">
@@ -88,6 +103,7 @@ exports('login', (params, done) => {
               <div class="failedLoginCaseSensitive">The password recognition system is case sensitive.</div>
               <div class="failedLoginAccountLock ">Your account will be blocked after three unsuccessful login attempts.</div>
               <div class="failedLogPass">Enter login and password</div>
+              <div class="failedLogChar">Login and password must be at least 8 characters length.</div>
             </div>
             <div class="stayInContainer">
               <div class="checkboxContainer">
@@ -113,7 +129,7 @@ exports('login', (params, done) => {
         $('.register').on('click', () => {
           login.fadeOut('middle').remove("active");
           blur.removeClass('block').addClass('none');
-          window.location = 'http://46.101.202.52/everest/#/registration/';
+          window.location = 'http://localhost/everest/#/registration/';
         });
         // $(`[data-id=login]`).off('click', renderLoginPopup);
         const login = $('.loginContainer');

@@ -26,7 +26,8 @@ exports('coef_table', (params, done) => {
     function renderCoefTable(data, ID, small) {
       let promise = new Promise((resolve, reject) => {
         if (small) {
-          $(`[data-id=coef_table]`).empty().append(`
+          /*
+          $(`[data-id=coef_table]`).append(`
               <div class="row">
               <div class="cell w33" >
                 <button class="button coefficient" style="padding-left: 10px;">
@@ -49,7 +50,7 @@ exports('coef_table', (params, done) => {
             </div>
             `);
           resolve();
-        }
+        */}
         else {
           resolve();
         }
