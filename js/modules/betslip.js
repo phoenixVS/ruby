@@ -6,16 +6,55 @@ exports('betslip', (params, done) => {
   }, () => {
     const betslip = $('.betslipWrapper');
     const bsLink = $('.betslip-link');
+    const blur = $(`[data-id=blur]`);
     const content = $('li.single-section.standardBet');
     const count = $('span.betSlipyCountText');
 
+    blur.removeClass('none');
+    blur.addClass('block');
     betslip.slideDown('middle');
 
     ((bets) => {
-      count.text(bets.length);
-      content.append(`<ul>`);
-      bets.map((item, index) => {
-        content.children('ul').append(`
+      const betsRenderer = new Promise((resolve, reject) => {
+        count.text(bets.length);
+        content.append(`<ul>`);
+        bets.map((item, index) => {
+          appendBet(item);
+        });
+      });
+      betsRenderer
+        .then((response) => {
+          const item = $('li.single-section.standardBet>ul>li');
+          const input = $('input.stk');
+          input.on('click', (event) => {
+            const cur = $(event.target);
+            console.log(`clicked`);
+            if (cur.is('.focus')) {
+              input.removeClass('focus');
+              item.remove('.stakepad');
+            }
+            else {
+              input.removeClass('focus');
+              cur.addClass('focus');
+              item.append($('<div class="stakepad">').load(`./html/modules/betslip/betSlipStakePadKeys.html`, () => {
+                // $('.stakepad').hide();
+                $('.stakepad').slideDown('slow');
+                console.log(`loaded`);
+              }));
+            }
+          });
+        });
+    })(window.BetslipList);
+
+    $('.betSlipyCloseIcon').on('click', () => {
+      blur.removeClass('block');
+      blur.addClass('none');
+      betslip.slideUp('fast');
+      bsLink.slideDown('middle');
+    });
+
+    function appendBet(item) {
+      content.children('ul').append(`
           <li data-item-id="0" data-item-type="single" class="restrictedCong  oddsChange hasodds " data-item-plbtid="1778" data-item-leaguecode="GUATRL" data-item-fpid="567803582" data-fixtureid="86071151" data-item-push="0">
             <div class="bs-ItemOverlay"></div> <div class="selectionRow">
               <div class="restrictedMultiple"></div>
@@ -36,16 +75,6 @@ exports('betslip', (params, done) => {
               </div>
             <div class="deleteItem">Delete</div>
           </li>`);
-      });
-    })(window.BetslipList);
-
-    $('.betSlipyCloseIcon').on('click', () => {
-      betslip.slideUp('fast');
-      bsLink.slideDown('middle');
-    });
-
-    function appendBet() {
-
     }
 
     done();

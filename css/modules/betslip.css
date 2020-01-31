@@ -602,3 +602,156 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
   -webkit-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
   transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
 }
+
+/* Stakepad*/
+
+.betslipWrapper .errStk.keypad .stake .stk.focus, .betslipWrapper .keypad .stk.focus {
+  color: #14805e;
+  border-bottom: 2px solid #888;
+}
+.stakePadToolTips {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display: block;
+  height: 0;
+  position: relative;
+  top: -28px;
+  width: 100%;
+}
+.stakePadToolTip {
+  color: #545454;
+  font-size: 26px;
+  background-color: #fff;
+  -webkit-border-radius: 2px 2px 0 0;
+  border-radius: 2px 2px 0 0;
+  height: 51px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 28px;
+  position: relative;
+  top: -16px;
+  display: table-cell;
+  overflow: hidden;
+  z-index: 97;
+  opacity: 0;
+  visibility: hidden;
+  border: 1px solid rgba(0,0,0,.1);
+  border-bottom: none;
+}
+#stakePad, #stakePadOld {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display: block;
+  min-height: 0;
+  width: 100%;
+  position: relative;
+  top: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  z-index: 51;
+  white-space: initial;
+  overflow: hidden;
+}
+.betSlipStakePadArrow {
+  display: block;
+  height: 7px;
+  margin: 0 0 0 85.15%;
+}
+.betSlipStakePadArrow::after {
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  border-style: solid;
+  border-width: 0 8.5px 7px 8.5px;
+  border-color: transparent transparent #6e6e6e transparent;
+  margin-left: 2px;
+}
+.betSlipStakePadKeys {
+  background-color: #757575;
+  display: block;
+}
+.betSlipStakePadFirstCol {
+  display: inline-block;
+  vertical-align: top;
+  width: 30%;
+}
+.colContainer {
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+}
+.betSlipStakePadFirstCol .itemKey, .betSlipStakePadSecondCol .itemKey {
+  width: 33.33333333333333%;
+}
+.colContainer button {
+  display: inline-block;
+  height: 55px;
+  background-color: #6e6e6e;
+  text-align: center;
+  color: #f0f0f0;
+  font-size: 18px;
+  border: none;
+  border-right: 1px solid gray;
+  padding: 0;
+}
+.colContainer button span {
+    display: block;
+    width: 100%;
+    line-height: 55px;
+}
+.colContainer .itemKeyDeci, .colContainer .itemKeyDel, .colContainer .itemKeyOk {
+  width: 100%;
+  border-top: 1px solid gray;
+  height: 56px;
+  font-size: 31px;
+}
+.betSlipStakePadSecondCol {
+  display: inline-block;
+  vertical-align: top;
+  width: 30%;
+}
+.colContainer .itemKeyDeci, .colContainer .itemKeyDel, .colContainer .itemKeyOk {
+  width: 100%;
+  border-top: 1px solid gray;
+  height: 56px;
+  font-size: 31px;
+}
+.colContainer .itemKeyDel span {
+  background-image: url(../../img/Keypad_Back_Default.svg);
+  background-repeat: no-repeat;
+  -webkit-background-size: 38px auto;
+  background-size: 38px auto;
+  background-position: center;
+  width: 100%;
+  display: block;
+  height: 55px;
+  line-height: 55px;
+  text-indent: 200%;
+}
+.betSlipStakePadThirdCol {
+  display: inline-block;
+  vertical-align: top;
+  width: 40%;
+}
+.betSlipStakePadThirdCol .itemKey {
+  width: 25%;
+}
+.colContainer button#betSlipStakePadOkWrapper {
+  color: #9c2c2c;;
+  font-size: 15px;
+}
+.colContainer button {
+  display: inline-block;
+  height: 55px;
+  background-color: #6e6e6e;
+  text-align: center;
+  color: #f0f0f0;
+  font-size: 18px;
+  border: none;
+  border-right: 1px solid gray;
+  padding: 0;
+}

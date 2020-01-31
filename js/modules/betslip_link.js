@@ -33,7 +33,7 @@ exports('betslip_link', (params, done) => {
         BetslipItem.type = cur.data('type');
         BetslipList.push(BetslipItem);
         cur.addClass('selected');
-        bsLink.slideDown('fast');//css('display', 'block');
+        bsLink.slideDown('middle');
       }
       rerenderLink();
     });
