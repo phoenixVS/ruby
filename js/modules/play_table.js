@@ -99,30 +99,6 @@ exports('play_table', (params, done) => {
         data.forEach(sport => {
           let type = false;
           if (parseInt(sport.ID) == ID) {
-            if (ID == 18) {
-              for (let i = 0; i < sport.CT.length; i++) {
-                for (let j = 0; j < sport.CT[i].EV.length; j++) {
-                  // Check if bets' coeficients exist
-                  console.log(sport.CT[i].EV[j].DC);
-                  if (sport.CT[i].EV[j].DC == "0") {continue;}
-                  if (typeof (sport.CT[i].EV[j].MA) == 'undefined' || typeof (sport.CT[i].EV[j].MA[0]) == 'undefined') {
-                    // throw new Error(String(sport.CT[i].EV[j].NA));
-                    continue;
-                  }
-                  // Check if bets' coeficients for draw exist
-                  if (typeof sport.CT[0].EV[0].MA[0].PA[2] === 'undefined' || sport.CT[0].EV[0].MA[0].PA[2] == null) {
-                    type = false;
-                    drawEvents(sport.CT[i].EV[j], type);
-                  }
-                  else {
-                    type = true;
-                    drawEvents(sport.CT[i].EV[j], type);
-                  }
-                }
-                drawCompet(sport.CT[i].NA, type);
-              }
-              resolve();
-            } else {
               for (let i = 0; i < sport.CT.length; i++) {
                 for (let j = 0; j < sport.CT[i].EV.length; j++) {
                   // Check if bets' coeficients exist
@@ -144,7 +120,6 @@ exports('play_table', (params, done) => {
               }
               resolve();
             }
-          }
         });
       });
       tableRenderer
