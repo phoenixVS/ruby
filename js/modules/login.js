@@ -86,7 +86,7 @@ exports('login', (params, done) => {
       let renderPromise = new Promise((resolve, reject) => {
         $('.blur').removeClass('none').addClass('block');
         $(`<div style="display: none;" data-id="loginContainer" class="loginContainer">
-          <div class="loginContent">
+          <div class="loginContent" style="display: inline-table">
             <div class="loginHeader">Login</div>
             <!--User Name-->
             <div class="inputLogin">
