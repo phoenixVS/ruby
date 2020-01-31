@@ -176,7 +176,7 @@
   margin: 11px 11px;
 }
 #BetSlipTitle .betSlipEditButton {
-  color: #000;
+  color: #9f263d;
   font-size: 13px;
   line-height: 16px;
   display: block;
@@ -741,7 +741,7 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
   width: 25%;
 }
 .colContainer button#betSlipStakePadOkWrapper {
-  color: #9c2c2c;;
+  color: #9c2c2c;
   font-size: 15px;
 }
 .colContainer button {
@@ -754,4 +754,24 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
   border: none;
   border-right: 1px solid gray;
   padding: 0;
+}
+.colContainer button {
+  display: inline-block;
+  height: 55px;
+  background-color: #6e6e6e;
+  text-align: center;
+  color: #f0f0f0;
+  font-size: 18px;
+  border: none;
+  border-right: 1px solid gray;
+  padding: 0;
+}
+.stk.focus {
+  color: #9c2c2c;
+  border-bottom: 2px solid #888;
+}
+.colContainer {
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
 }

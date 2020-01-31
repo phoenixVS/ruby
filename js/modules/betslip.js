@@ -21,11 +21,12 @@ exports('betslip', (params, done) => {
         bets.map((item, index) => {
           appendBet(item);
         });
+        resolve();
       });
       betsRenderer
         .then((response) => {
-          const item = $('li.single-section.standardBet>ul>li');
-          const input = $('input.stk');
+          let item = $('li.single-section.standardBet>ul>li');
+          let input = $('input.stk');
           input.on('click', (event) => {
             const cur = $(event.target);
             console.log(`clicked`);
