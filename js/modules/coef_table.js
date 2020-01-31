@@ -23,6 +23,26 @@ exports('coef_table', (params, done) => {
       }
     }
 
+    // Shortening club name
+    function shortize(name) {
+      let str = name;
+      if (screen.width < 350) {
+        str = str.slice(0, 10);
+        if (name.length > 10) {
+          str += '...';
+        }
+        return str;
+      } else if(screen.width > 350 && screen.width < 400) {
+        str = str.slice(0, 14);
+        if (name.length > 14) {
+          str += '...';
+        }
+        return str;
+      } else {
+        return str;
+      }
+    }
+
     function renderCoefTable(data, ID, small) {
       let promise = new Promise((resolve, reject) => {
         if (small) {
