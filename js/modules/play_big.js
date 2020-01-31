@@ -54,6 +54,7 @@ exports('play_big', (params, done) => {
     }
 
     function startTimerBig(data) {
+      clearInterval(window.t_interval);
       if (data.DC == 1) {
         if (data.TT == 0) {
           $(`[data-id=timer-big]`).text("Break");
@@ -126,7 +127,7 @@ exports('play_big', (params, done) => {
           str += '...';
         }
         return str;
-      } else if(screen.width > 350 && screen.width < 400) {
+      } else if(screen.width > 350 && screen.width < 420) {
         str = str.slice(0, 16);
         if (name.length > 16) {
           str += '...';

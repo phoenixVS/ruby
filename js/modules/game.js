@@ -31,9 +31,9 @@ exports('game', (params, done) => {
         if (data) {
           const gameWrapper = $(`[data-id=game]`);
           gameWrapper.empty().append(`
-            <div class="[ video-title not-active ] flex-container align-center-middle">
+            <div class="[ video-title not-active ] flex-container align-center-middle" >
               <button class="button square [ video-title-button ] fa fa-angle-left"></button>
-              <p class="font [ video-title-text ]"><span>${shortize(ev.TE[0].NA)
+              <p class="font [ video-title-text ] bet-title"><span>${shortize(ev.TE[0].NA)
             + ' &nbsp;&nbsp; VS &nbsp;&nbsp; ' + shortize(ev.TE[1].NA)}</span></p>
             </div>
             <div class="[ video-play ] flex-container align-middle align-justify">

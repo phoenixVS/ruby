@@ -297,7 +297,7 @@ function gameHandler(ID) {
                 let onModulesLoad = new Promise((resolve, reject) => {
                     loadJsModules({
                         coef_table: { expand: true, loadCSS: true, loadLanguage: false },
-                        game: { gameId: ID, loadCSS: false, loadLanguage: false },
+                        game: { gameId: ID, loadCSS: true, loadLanguage: false },
                     });
                     resolve();
                 });

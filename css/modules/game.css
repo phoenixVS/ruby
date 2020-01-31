@@ -1,0 +1,29 @@
+.bet-title {
+    padding-left: 50%;
+}
+
+@media screen and  (max-width: 350px) {
+    .bet-title {
+        padding-left: 16%;
+    }
+}
+
+@media screen and (min-width: 350px) and (max-width: 400px) {
+    .bet-title {
+        padding-left: 17%;
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width: 550px) {
+    .bet-title {
+        
+        padding-left: 19%;
+    }
+}
+
+@media screen and (min-width: 551px) {
+    .bet-title {
+        
+        padding-left: 13%;
+    }
+}
