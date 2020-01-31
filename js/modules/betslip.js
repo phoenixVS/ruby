@@ -5,10 +5,11 @@ exports('betslip', (params, done) => {
     ]
   }, () => {
     const betslip = $('.betslipWrapper');
+    const bsLink = $('.betslip-link');
     const content = $('li.single-section.standardBet');
     const count = $('span.betSlipyCountText');
 
-    betslip.slideDown('fast');
+    betslip.slideDown('middle');
 
     ((bets) => {
       count.text(bets.length);
@@ -37,6 +38,11 @@ exports('betslip', (params, done) => {
           </li>`);
       });
     })(window.BetslipList);
+
+    $('.betSlipyCloseIcon').on('click', () => {
+      betslip.slideUp('fast');
+      bsLink.slideDown('middle');
+    });
 
     function appendBet() {
 

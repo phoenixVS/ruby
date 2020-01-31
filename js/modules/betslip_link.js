@@ -5,6 +5,7 @@ exports('betslip_link', (params, done) => {
     ]
   }, () => {
     const bsLink = $('.betslip-link');
+    const betslip = $('.betslipWrapper');
     const coefBtn = $('button.button.coefficient');
 
     window.BetslipList = [];   // array of selected odds
@@ -46,6 +47,7 @@ exports('betslip_link', (params, done) => {
 
     bsLink.on('click', (event) => {
       bsLink.slideUp('fast');
+      betslip.empty();
       loadJsModules({
         betslip: { loadCSS: true, loadLanguage: false },
       });
