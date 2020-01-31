@@ -4,11 +4,6 @@ exports('play_big', (params, done) => {
     //   "main/play-big.html"
     // ]
   }, () => {
-    const playBigOne = $(`[data-id=play-big-1]`),
-      playBigTwo = $(`[data-id=play-big-2]`),
-      playBigThree = $(`[data-id=play-big-3]`),
-      playBigFour = $(`[data-id=play-big-4]`);
-
 
     let curID = params.sportId;
     let ID;
@@ -168,29 +163,29 @@ exports('play_big', (params, done) => {
                 <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[i].EV[0].TU}" data-tm="${sport.CT[i].EV[0].TM}" data-ts="${sport.CT[i].EV[0].TS}" class="font m-white ellipsis text-right"></p>
                 </div>
                 </div>
-                        <div data-id="coef_table" class="table [ coeficient-table ]">
-                        <div class="row">
-              <div class="cell w33" >
-                <button class="button coefficient" style="padding-left: 10px;">
-                  <span class="font m-white">1</span>
-                  <span data-id="coef-one" class="font">${sport.CT[i].EV[0].MA[0].PA[0].OD}</span> 
+                <div data-coef="1" data-id="coef_table" class="table [ coeficient-table ]">
+                        <div data-coef="1" class="row">
+              <div data-coef="1" class="cell w33" >
+                <button data-coef="1" class="button coefficient" style="padding-left: 10px;">
+                  <span data-coef="1" class="font m-white">1</span>
+                  <span data-coef="1" data-id="coef-one" class="font">${sport.CT[i].EV[0].MA[0].PA[0].OD}</span> 
                 </button>
               </div>
-              <div class="cell w33">
-                <button class="button coefficient" style="padding-left: 10px;">
-                  <span class="font m-white">x</span>
-                  <span data-id="coef-two" class="font">${sport.CT[i].EV[0].MA[0].PA[1].OD}</span>
+              <div data-coef="1" class="cell w33">
+                <button data-coef="1" class="button coefficient" style="padding-left: 10px;">
+                  <span data-coef="1" class="font m-white">x</span>
+                  <span data-coef="1" data-id="coef-two" class="font">${sport.CT[i].EV[0].MA[0].PA[1].OD}</span>
                 </button>
               </div>
-              <div class="cell w33">
-                <button class="button coefficient" style="padding-left: 10px;">
-                  <span class="font m-white">2</span>
-                  <span data-id="coef-three" class="font">${sport.CT[0].EV[0].MA[0].PA[2].OD}</span>
+              <div data-coef="1" class="cell w33">
+                <button data-coef="1" class="button coefficient" style="padding-left: 10px;">
+                  <span data-coef="1" class="font m-white">2</span>
+                  <span data-coef="1" data-id="coef-three" class="font">${sport.CT[0].EV[0].MA[0].PA[2].OD}</span>
                 </button>
               </div>
             </div>
               </div>
-            </a>
+              </a>
                  `);
 
               }
@@ -206,22 +201,27 @@ exports('play_big', (params, done) => {
         .then(() => {
           // Handle opening of game section
           $(`[data-id=play-big-wrapper]`).on('click', (event) => {
-            let id = $(event.target).data('play-big');
-            console.log(id);
-            console.log($(`[data-id=play-big-wrapper]`).data('play-big'));
-            let curURL = window.location.href;
-            //if filter is active - remove it from hash
-            if (window.location.hash.split('/')[1] == 'filter') {
-              window.location.hash = '';
-              window.location.href += `/event/${id}`;
-            }
-            else {
-              if (curURL.includes('#')) {
+
+            if ( $(event.target).data('coef') != '1' ) {
+              let id = $(event.target).data('play-big');
+              console.log(id);
+              console.log($(`[data-id=play-big-wrapper]`).data('play-big'));
+              let curURL = window.location.href;
+              //if filter is active - remove it from hash
+              if (window.location.hash.split('/')[1] == 'filter') {
+                window.location.hash = '';
                 window.location.href += `/event/${id}`;
               }
               else {
-                window.location.href += `#/event/${id}`;
+                if (curURL.includes('#')) {
+                  window.location.href += `/event/${id}`;
+                }
+                else {
+                  window.location.href += `#/event/${id}`;
+                }
               }
+            } else {
+              console.log('Epic fail!');
             }
           });
         });
