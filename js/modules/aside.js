@@ -11,51 +11,8 @@ exports('aside', (params, done) => {
       aside.removeClass('not-active');
       aside.addClass('active');
       aside.attr('data-id', 'aside-active');
-      httpGet(urlInplay, 'inplay');
+      RenderAside(window.inplay);
     });
-
-    let urlInplay = 'http://bestline.bet/inplay/',
-      urlGames = 'http://212.8.249.162:81/inplay.php',
-      urlBets = 'http://bestline.bet/event/?FI=';
-
-    function httpGet(url, name) {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          if (name == 'inplay') {
-            RenderAside(data);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    }
-
-    function httpGetAll(url, name) {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          if (name == 'inplay') {
-            RenderAsideAll(data);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    }
-
-    function httpGetFav(url, name) {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          if (name == 'inplay') {
-            RenderAsideFav(data);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    }
 
     function AddFav(NAME, ID) {
       Cookies.set(NAME, ID);
@@ -106,13 +63,13 @@ exports('aside', (params, done) => {
             continue;
           }
         }*/
-        for (let i = 0; i < data.DATA.length; i++) {
+        for (let i = 0; i < data.length; i++) {
 
-          let ID = data.DATA[i].ID;
-          let name = data.DATA[i].NA;
+          let ID = data[i].ID;
+          let name = data[i].NA;
           let ev_count = 0;
 
-          for (let n = 0; n < data.DATA[i].CT.length; n++) {
+          for (let n = 0; n < data[i].CT.length; n++) {
             ev_count++;
           }
           $(`[data-id=aside-ul]`).append(`
@@ -122,15 +79,15 @@ exports('aside', (params, done) => {
             <span style="position: absolute; left: 75%;">${ev_count} Events</span>
             </li>
             `);
-  
-            $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
-              if (true) {
-                window.location = 'http://46.101.202.52/everest/#/filter/' + ID;
-            
-                aside.removeClass('active');
-                aside.addClass('not-active');
-              }
-            });
+
+          $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
+            if (true) {
+              window.location.hash = '/filter/' + ID;
+
+              aside.removeClass('active');
+              aside.addClass('not-active');
+            }
+          });
         }
         resolve();
       });
@@ -140,14 +97,14 @@ exports('aside', (params, done) => {
           console.log('Promise done');
           $(`[data-id=aside-all]`).on('click', () => {
 
-            httpGetAll(urlInplay, 'inplay');
+            RenderAsideAll(window.inplay);
           });
           $(`[data-id=main-fav-star]`).click((el) => {
             //console.log("Just click");
             $(el.target).slideUp();
           });
           $(`[data-id=main-fav-star]`).click(() => {
-            httpGetFav(urlInplay, 'inplay');
+            RenderAsideFav(window.inplay);
           });
 
           $(`[data-id=fav-star]`).on('click', (el) => {
@@ -269,8 +226,8 @@ exports('aside', (params, done) => {
           let id_;
 
           if (name_ != 'logon') {
-            for (let j = 0; j < data.DATA.length; j++) {
-              if (name_ == data.DATA[j].NA) {
+            for (let j = 0; j < data.length; j++) {
+              if (name_ == data[j].NA) {
                 id_ = j;
               }
             }
@@ -287,10 +244,10 @@ exports('aside', (params, done) => {
             continue;
           }
         }
-        for (let i = 0; i < data.DATA.length; i++) {
+        for (let i = 0; i < data.length; i++) {
 
-          let ID = data.DATA[i].ID;
-          let name = data.DATA[i].NA;
+          let ID = data[i].ID;
+          let name = data[i].NA;
 
           if (fav_arr.includes(name)) {
             continue;
@@ -305,8 +262,8 @@ exports('aside', (params, done) => {
 
             $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
               if (true) {
-                window.location = 'http://46.101.202.52/everest/#/filter/' + ID;
-            
+                window.location.hash = '/filter/' + ID;
+
                 aside.removeClass('active');
                 aside.addClass('not-active');
               }
@@ -321,7 +278,7 @@ exports('aside', (params, done) => {
           console.log('Promise done');
           $(`[data-id=aside-live]`).on('click', () => {
 
-            httpGet(urlInplay, 'inplay');
+            RenderAside(window.inplay);
           });
 
           $(`[data-id=main-fav-star]`).click((el) => {
@@ -329,7 +286,7 @@ exports('aside', (params, done) => {
             $(el.target).slideUp();
           });
           $(`[data-id=main-fav-star]`).click((el) => {
-            httpGetFav(urlInplay, 'inplay');
+            RenderAsideFav(window.inplay);
             //console.log("FadeIn");
           });
           $(`[data-id=fav-star]`).click((elem) => {
@@ -365,24 +322,24 @@ exports('aside', (params, done) => {
         <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
       </div>
       `);
-      $(`[data-id=aside-link-${ID}]`).on('click', () => {
-      
-        window.location = 'http://46.101.202.52/everest/#filter/' + ID;
-      
-        aside.removeClass('active');
-        aside.addClass('not-active');
-      });
-       } else {
-         continue;
-       }
-     }
+            $(`[data-id=aside-link-${ID}]`).on('click', () => {
+
+              window.location.hash = '/filter/' + ID;
+
+              aside.removeClass('active');
+              aside.addClass('not-active');
+            });
+          } else {
+            continue;
+          }
+        }
         $(`[data-id=aside-live]`).on('click', () => {
 
-          httpGet(urlInplay, 'inplay');
+          RenderAside(window.inplay);
         });
         $(`[data-id=aside-all]`).on('click', () => {
 
-          httpGetAll(urlInplay, 'inplay');
+          RenderAsideAll(window.inplay);
         });
       });
 

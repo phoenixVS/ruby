@@ -1,5 +1,11 @@
 .button.coefficient.selected {
   background-color:#fff;
   color: #c8304d;
+  font-weight: bold;
   border: 1px solid black;
+}
+.betslip, .betslip-link {
+  position: fixed;
+  left: 50%;
+  border-radius: 0 0 0 0;
 }

@@ -14,12 +14,35 @@ exports('coef_table', (params, done) => {
     else {
       if (filtered) {
         let ID = params.sportId;
-        console.log(ID);
         renderCoefTable(window.inplay, ID, true);
       }
       else {
         let ID = parseInt(window.inplay[0].ID);
         renderCoefTable(window.inplay, ID, true);
+      }
+    }
+
+    // Shortening club name
+    function shortize(name) {
+      let str = name;
+      if (screen.width < 350) {
+        str = str.slice(0, 7);
+        if (name.length > 7) {
+          str += '...';
+        }
+        return str;
+      } else if (screen.width > 350 && screen.width < 450) {
+        str = str.slice(0, 10);
+        if (name.length > 10) {
+          str += '...';
+        }
+        return str;
+      } else {
+        str = str.slice(0, 13);
+        if (name.length > 13) {
+          str += '...';
+        }
+        return str;
       }
     }
 
@@ -77,7 +100,7 @@ exports('coef_table', (params, done) => {
           }
         }
         else {
-          console.log(data);
+          //console.log(data);
           let sport = data[0].TG[0].CT;
           let rowsPromise = new Promise((resolve, reject) => {
             $(`[data-id=coef_table]`).empty();
@@ -112,7 +135,7 @@ exports('coef_table', (params, done) => {
                         div.className = 'bets_column';
                         div.appendChild(titleTemplateForBets(co));
                         co.PA.map(pa => {
-                          div.appendChild(forEventDataColumnTemplate(pa))
+                          div.appendChild(forEventDataColumnTemplate(pa, co.SY))
                         });
                         new_item.append(div)
                       });
@@ -122,8 +145,8 @@ exports('coef_table', (params, done) => {
                         $(`[data-bet=${ma.ID}]`).append(`
                         <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
                         <button style="padding-left: 10px;" class="button coefficient">
-                          <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${pa.N2 ? pa.N2 : pa.NA}</span>
-                          <span class="font">${pa.OD}</span>
+                          <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${shortize(pa.N2 ? pa.N2 : pa.NA)}</span>
+                          <span class="font">${modifyBets(pa.OD)}</span>
                         </button>
                       </div>`);
                       });
@@ -167,13 +190,13 @@ exports('coef_table', (params, done) => {
       const div = document.createElement('div');
       div.className = 'bets_title';
       div.innerHTML = `
-    ${CO.NA ? CO.NA : '&nbsp;'}
+    ${shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;')}
   `
       //${CO.NA && !CO.NA.includes('Count') ? CO.NA : '&nbsp;'}
       return div
     };
     // Render column for bet coef_row
-    forEventDataColumnTemplate = (data) => {
+    forEventDataColumnTemplate = (data, SY) => {
       const { NA, SU, IT, OD } = data;
       const SU2 = (SU == 1) ? 'disabled' : '';
       const div = document.createElement('div');
@@ -181,8 +204,8 @@ exports('coef_table', (params, done) => {
       div.className = `maTable__cell`;
       div.innerHTML = `
       <button class="button coefficient ${SU2}" data-it="${IT}">
-        <p class="font ellipsis mra"> ${NA ? NA : ''}</p>
-        ${ SU == 1 ? `<span class="fa fa-lock lock"></span>` : `<p class="font down blick">${modifyBets(OD)}</p>`}
+        <p class="font ellipsis mra"> ${shortize(NA ? NA : '')}</p>
+        ${ SY == 9 ? ' ' : SU == 1 ? `<span class="fa fa-lock lock"></span>` : `<p class="font down blick">${modifyBets(OD)}</p>`}
       </button >
         `
       return div
