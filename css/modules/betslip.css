@@ -91,7 +91,7 @@
 #BetSlipTitle {
     text-align: left;
     display: table-cell;
-    width: 40%;
+    width: 65%;
 }
 #BetSlipTitle .text {
   color: #444;
@@ -672,16 +672,19 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
 }
 .betSlipStakePadKeys {
   background-color: #757575;
-  display: block;
+  display: flex;
+  flex-wrap: nowrap;
 }
 .betSlipStakePadFirstCol {
-  display: inline-block;
+  display: flex;
+  flex-wrap: nowrap;
   vertical-align: top;
   width: 30%;
 }
 .colContainer {
   width: 100%;
-  display: inline-block;
+  display: flex;
+  flex-wrap: nowrap;
   vertical-align: top;
 }
 .betSlipStakePadFirstCol .itemKey, .betSlipStakePadSecondCol .itemKey {
@@ -708,17 +711,13 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
   border-top: 1px solid gray;
   height: 56px;
   font-size: 31px;
+  text-transform: uppercase;
 }
 .betSlipStakePadSecondCol {
-  display: inline-block;
+  display: flex;
+  flex-wrap: nowrap;
   vertical-align: top;
-  width: 30%;
-}
-.colContainer .itemKeyDeci, .colContainer .itemKeyDel, .colContainer .itemKeyOk {
-  width: 100%;
-  border-top: 1px solid gray;
-  height: 56px;
-  font-size: 31px;
+  width: 28.5%;
 }
 .colContainer .itemKeyDel span {
   background-image: url(../../img/Keypad_Back_Default.svg);
@@ -730,12 +729,13 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
   display: block;
   height: 55px;
   line-height: 55px;
-  text-indent: 200%;
+  text-indent: 400%;
 }
 .betSlipStakePadThirdCol {
-  display: inline-block;
+  display: flex;
+  flex-wrap: nowrap;
   vertical-align: top;
-  width: 40%;
+  width: 38.5%;
 }
 .betSlipStakePadThirdCol .itemKey {
   width: 25%;
@@ -774,4 +774,77 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
   width: 100%;
   display: inline-block;
   vertical-align: top;
+}
+.betSlipStakePadArrow {
+  display: block;
+  height: 7px;
+  margin: 0 0 0 85.15%;
+}
+.betSlipStakePadArrow::after {
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  border-style: solid;
+  border-width: 0 8.5px 7px 8.5px;
+  border-color: transparent transparent #6e6e6e transparent;
+  margin-left: 2px;
+}
+.betSlipStakePadFirstCol {
+  display: inline-block;
+  vertical-align: top;
+  width: 28.5%;
+}
+.colContainer {
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+}
+.colContainer button {
+  display: inline-block;
+  height: 55px;
+  background-color: #6e6e6e;
+  text-align: center;
+  color: #f0f0f0;
+  font-size: 18px;
+  border: none;
+  border-right: 1px solid gray;
+  padding: 0;
+}
+.colContainer button span {
+  display: block;
+  width: 100%;
+  line-height: 55px;
+}
+.colContainer button {
+  display: inline-block;
+  height: 55px;
+  background-color: #6e6e6e;
+  text-align: center;
+  color: #f0f0f0;
+  font-size: 18px;
+  border: none;
+  border-right: 1px solid gray;
+  padding: 0;
+}
+.colContainer button#betSlipStakePadOkWrapper {
+  color: #9c2c2c;
+  font-size: 15px;
+}
+.colContainer button.nrb {
+  border-right: none;
+}
+.stakePadKeyDown {
+  background-color: #fff!important;
+  color: #666!important;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+}
+.stakePadToolTipShow {
+  opacity: 1!important;
+  visibility: visible;
+}
+.colContainer .itemKeyDel.stakePadBackSpaceKeyDown span {
+  background-image: url(../../img/Keypad_Back_Selected.svg);
+  background-color: #fff;
 }

@@ -14,6 +14,20 @@ exports('betslip', (params, done) => {
     blur.addClass('block');
     betslip.slideDown('middle');
 
+
+    if (Cookies.get('logon') == 'true') {
+      // TODO: clear LOGIN button
+    }
+    else {
+      $('.betSlipyLogin').on('click', () => {
+        blur.removeClass('block');
+        blur.addClass('none');
+        betslip.slideUp('fast');
+        loadJsModules({
+          login: { loadCSS: true, loadLanguage: false },
+        });
+      });
+    }
     ((bets) => {
       const betsRenderer = new Promise((resolve, reject) => {
         count.text(bets.length);
@@ -25,23 +39,34 @@ exports('betslip', (params, done) => {
       });
       betsRenderer
         .then((response) => {
-          let item = $('li.single-section.standardBet>ul>li');
+          let item = $('.single-section.standardBet > ul > li');
           let input = $('input.stk');
+          blur.on('click', () => {
+            blur.removeClass('block');
+            blur.addClass('none');
+            betslip.slideUp('fast');
+            if (window.BetslipList.length > 0) {
+              bsLink.slideDown('fast');
+            }
+          });
           input.on('click', (event) => {
             const cur = $(event.target);
-            console.log(`clicked`);
             if (cur.is('.focus')) {
               input.removeClass('focus');
-              item.remove('.stakepad');
+              item.children('.stakepad').slideUp('middle');
             }
             else {
               input.removeClass('focus');
               cur.addClass('focus');
-              item.append($('<div class="stakepad">').load(`./html/modules/betslip/betSlipStakePadKeys.html`, () => {
-                // $('.stakepad').hide();
-                $('.stakepad').slideDown('slow');
-                console.log(`loaded`);
-              }));
+              if ($('.stakepad').length == 0) {
+                item.append($('<div class="stakepad">').load(`./html/modules/betslip/keyboard.html`, () => {
+                  $('.stakepad').hide();
+                  $('.stakepad').slideDown('middle');
+                }));
+              }
+              else {
+                $('.stakepad').slideDown('middle');
+              }
             }
           });
         });
@@ -51,7 +76,9 @@ exports('betslip', (params, done) => {
       blur.removeClass('block');
       blur.addClass('none');
       betslip.slideUp('fast');
-      bsLink.slideDown('middle');
+      if (window.BetslipList.length > 0) {
+        bsLink.slideDown('fast');
+      }
     });
 
     function appendBet(item) {
