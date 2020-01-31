@@ -97,6 +97,7 @@ exports('play_table', (params, done) => {
       $(`[data-id="play-table"]`).empty();
       const tableRenderer = new Promise((resolve, reject) => {
         data.forEach(sport => {
+          let type = false;
           if (parseInt(sport.ID) == ID) {
             for (let i = 0; i < sport.CT.length; i++) {
               for (let j = 0; j < sport.CT[i].EV.length; j++) {
@@ -107,13 +108,15 @@ exports('play_table', (params, done) => {
                 }
                 // Check if bets' coeficients for draw exist
                 if (typeof sport.CT[0].EV[0].MA[0].PA[2] === 'undefined' || sport.CT[0].EV[0].MA[0].PA[2] == null) {
-                  drawEvents(sport.CT[i].EV[j], false);
+                  type = false;
+                  drawEvents(sport.CT[i].EV[j], type);
                 }
                 else {
-                  drawEvents(sport.CT[i].EV[j], true);
+                  type = true;
+                  drawEvents(sport.CT[i].EV[j], type);
                 }
               }
-              drawCompet(sport.CT[i].NA);
+              drawCompet(sport.CT[i].NA, type);
             }
             resolve();
           }
@@ -145,6 +148,9 @@ exports('play_table', (params, done) => {
             preloader.addClass('done');
             preloader.data(`status`, 'done').attr('data-status', 'done');
           }
+          loadJsModules({
+            betslip_link: { loadCSS: true, loadLanguage: false }
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -172,37 +178,45 @@ exports('play_table', (params, done) => {
       if (type) {
         $(`[data-id="play-table"]`).children('.row:last-child').append(`
           <div class="cell">
-            <button class="button coefficient" data-class="play-link">${ev.MA[0].PA[0].OD}</button> 
+            <button data-type="${ev.MA[0].PA[0].NA}" class="button coefficient" >${ev.MA[0].PA[0].OD}</button> 
           </div> 
           <div class="cell"> 
-            <button class="button coefficient" data-class="play-link">${ev.MA[0].PA[1].OD}</button>
+            <button data-type="${ev.MA[0].PA[1].NA}" class="button coefficient" >${ev.MA[0].PA[1].OD}</button>
           </div> 
           <div class="cell">
-            <button class="button coefficient" data-class="play-link">${ev.MA[0].PA[2].OD}</button> 
+            <button data-type="${ev.MA[0].PA[2].NA}" class="button coefficient" >${ev.MA[0].PA[2].OD}</button> 
           </div>
         `);
       }
       else {
         $(`[data-id="play-table"]`).children('.row:last-child').append(`
-          <div class="cell">
-            <button class="button coefficient" data-class="play-link">${ev.MA[0].PA[0].OD}</button> 
+          <div class="cell" style="min-width: 24%; max-width: 24%;">
+            <button data-type="${ev.MA[0].PA[0].NA}" class="button coefficient" >${ev.MA[0].PA[0].OD}</button> 
           </div>
-          <div class="cell">
-            <button class="button coefficient" data-class="play-link"></button> 
-          </div>
-          <div class="cell"> 
-            <button class="button coefficient" data-class="play-link">${ev.MA[0].PA[1].OD}</button>
+          
+          <div class="cell" style="min-width: 24%; max-width: 24%;"> 
+            <button data-type="${ev.MA[0].PA[1].NA}" class="button coefficient">${ev.MA[0].PA[1].OD}</button>
           </div>
         `);
       }
     }
 
-    function drawCompet(ctName) {
-      $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
+    function drawCompet(ctName, type) {
+      if (type) {
+        $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
           <div class="cell"> <p class="font">${ctName} </p> </div> 
           <div class="cell"> <p class="font">1</p> </div> 
-          <div class="cell"> <p class="font">X</p> </div> <div class="cell"> <p class="font">2</p> </div></div>
+          <div class="cell"> <p class="font">X</p> </div>
+          <div class="cell"> <p class="font">2</p> </div></div>
         `);
+      }
+      else {
+        $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
+          <div class="cell"> <p class="font">${ctName} </p> </div> 
+          <div class="cell" style="min-width: 24%; max-width: 24%;"> <p class="font">1</p> </div>
+          <div class="cell" style="min-width: 24%; max-width: 24%;"><p class="font">2</p> </div></div>
+        `);
+      }
     }
   });
 });

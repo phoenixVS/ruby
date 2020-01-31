@@ -1,123 +1,87 @@
-<div class="[ betslip-header ] flex-container align-middle align-justify">
-		<div class="block text-left">
-			<p class="font lg text-uppercase [ betslip-link-count ]" data="2">Bet slip</p>
-		</div>
-		<div class="flex-container align-middle">
-			<button class="button square fa fa-user [ betslip-header-button ]"></button>
-			<button class="button square [ betslip-header-button ]"><span class="close"></span></button>
-		</div>
-	</div>
-	<div class="[ betslip-remove ] flex-container align-middle align-justify">
-		<a class="font nowrap [ betslip-remove-link ]">Remove all</a>
-		<select class="select [ betslip-remove-select ]">
-			<option value="1">Selected</option>
-			<option value="2">2</option>
-		</select>
-	</div>
-
-	<div class="block">
-	
-		<div class="[ betslip-main ] flex-container align-top align-justify">
-			<button class="button square primary close [ betslip-main-close ]"></button>
-			<div class="block ellipsis [ betslip-main-block ]">
-				<p class="font md ellipsis [ betslip-main-team ]">Real Sociedad Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque assumenda veritatis harum qui ullam ea, quae totam modi, rem minus cumque. Hic sit quas ipsum asperiores possimus recusandae eum omnis.</p>
-				<p class="font sm">Fulltime Result</p>
-				<p class="font sm ellipsis">Real Sociedad v Espanyol</p>
-			</div>
-			<p class="font md [ betslip-main-text ]">3/1</p>
-			<div class="block [ betslip-main-block ]">
-				<input type="text" class="[ betslip-main-field ]" placeholder="Column(s)">
-				<a class="font sm [ betslip-main-return ]">To Return 0.00</a>
-			</div>
-		</div>
-		<div class="[ betslip-main ] flex-container align-top align-justify">
-			<button class="button square primary close [ betslip-main-close ]"></button>
-			<div class="block ellipsis [ betslip-main-block ]">
-				<p class="font md ellipsis [ betslip-main-team ]">Real Sociedad Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque assumenda veritatis harum qui ullam ea, quae totam modi, rem minus cumque. Hic sit quas ipsum asperiores possimus recusandae eum omnis.</p>
-				<p class="font sm">Fulltime Result</p>
-				<p class="font sm ellipsis">Real Sociedad v Espanyol</p>
-			</div>
-			<p class="font md [ betslip-main-text ]">3/1</p>
-			<div class="block [ betslip-main-block ]">
-				<input type="text" class="[ betslip-main-field ]" placeholder="Column(s)">
-				<a class="font sm [ betslip-main-return ]">To Return 0.00</a>
-			</div>
-		</div>
-		<div class="[ betslip-main ] flex-container align-top align-justify">
-			<button class="button square primary close [ betslip-main-close ]"></button>
-			<div class="block ellipsis [ betslip-main-block ]">
-				<p class="font md ellipsis [ betslip-main-team ]">Real Sociedad Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque assumenda veritatis harum qui ullam ea, quae totam modi, rem minus cumque. Hic sit quas ipsum asperiores possimus recusandae eum omnis.</p>
-				<p class="font sm">Fulltime Result</p>
-				<p class="font sm ellipsis">Real Sociedad v Espanyol</p>
-			</div>
-			<p class="font md [ betslip-main-text ]">3/1</p>
-			<div class="block [ betslip-main-block ]">
-				<input type="text" class="[ betslip-main-field ]" placeholder="Column(s)">
-				<a class="font sm [ betslip-main-return ]">To Return 0.00</a>
-			</div>
-		</div>
-	</div>
-	<div class="[ keyboard active  ]">
-		<div class="[ keyboard-wrapper left ] flex-container align-middle">
-			<div class="block w33">
-				<div class="flex-container align-middle">
-					<button class="button [ keyboard-button ]">1</button>
-					<button class="button [ keyboard-button ]">2</button>
-					<button class="button [ keyboard-button ]">3</button>
+<form id="BetSlipForm">
+	<div id="bsDiv" class="betslipWrapper overlay">
+		<ul class="betSlipy full-text  bs-BetSlip_Empty bs-BetSlip" data-ub="0,00" data-txr="0,-1,0,1,1#" data-tcm="0"
+			data-bsuis="0" data-xrte="1" data-xrte-us="1"
+			data-stk-inc="0-0.2*0.2#0.2-250*1#250-500*5#500-1000*10#1000-2500*50#2500-5000*100#5000-10000*100#10000-25000*100#25000-50000*100#50000-99999999*100"
+			data-stk-mlt-inc="0-0.1*0.1#0.1-250*1#250-500*5#500-1000*10#1000-2500*50#2500-5000*100#5000-10000*100#10000-25000*100#25000-50000*100#50000-99999999*100"
+			data-isocode="USD" data-betguid="" data-cus="N" data-equally-divided="False" data-abb="" data-abc="">
+			<li class="bs-ContentOverlay"></li>
+			<li class="betslipHeader">
+				<div id="BetSlipDialogueHeader">
+					<div id="BetSlipHeaderContent">
+						<div id="BetSlipCount"><span class="betSlipyCountText"></span></div>
+						<div id="BetSlipTitle">
+							<div class="text">Betslip</div>
+							<div id="BetSlipEditButton" class="betSlipEditButton">Edit</div>
+						</div>
+						<div class="betSlipyLogin">Login In</div>
+						<div class="betSlipyCloseIcon">
+							<span class="close"></span>
+						</div>
+					</div>
+				</div> <a href="javascript:void(0);" class="removeAll">Clear all</a>
+				<div class="betslip-select" data-text="Default">
+					<div id="BetSlipTypeSelectorWrapper">
+						<div id="BetSlipTypeSelector">Default</div>
+					</div>
+					<div id="BetSlipTypesWrapper" class="betslipTypeSelector">
+						<ul id="BetSlipTypes">
+							<li class="BetSlipType-selected" data-item="1">Default<span class="selected"></span>
+							</li>
+							<li class="BetSlipType" data-item="2">Banker</li>
+						</ul>
+					</div>
+					<select class="bet-slip-type" disabled="disabled">
+						<option selected="selected" value="1">Default</option>
+						<option value="2">Banker</option>
+					</select>
 				</div>
-				<button class="button [ keyboard-button ]">.</button>
-			</div>
-			<div class="block w33">
-				<div class="flex-container align-middle">
-					<button class="button [ keyboard-button ]">4</button>
-					<button class="button [ keyboard-button ]">5</button>
-					<button class="button [ keyboard-button ]">6</button>
-				</div>
-				<button class="button [ keyboard-button reset ]"></button>
-			</div>
-			<div class="block w33">
-				<div class="flex-container align-middle">
-					<button class="button [ keyboard-button ]">8</button>
-					<button class="button [ keyboard-button ]">9</button>
-					<button class="button [ keyboard-button ]">0</button>
-				</div>
-				<button class="button [ keyboard-button primary ]">Done</button>
-			</div>
-		</div>
+			</li>
+			<li id="betslipContent" class="betslipContent">
+				<ul id="betslipContentContainer">
+					<li class="bs-useFreeBet hidden">
+						<div class="bs-useFreeBetInfo">
+							<div class="bs-CheckBoxFreeBetWrapper"><span class="bs-CheckBoxFreeBet"></span></div>
+							<span class="bs-useFreeBetAmount">Use bonuses({0} avaliable)</span>
+						</div>
+					</li>
+					<li class="emptyBetslip hidden">
+						<span>Bet coupon is empty. Please add the outcomes.</span>
+					</li>
+					<li class="single-section standardBet"></li>
+				</ul>
+			</li>
+			<li id="betslipFooter" class="betslipFooter">
+				<ul id="betslipFooterContainer">
+					<li class="bsError feedBack hidden " data-usnjminstake="">
+						<div class="content">
+							<div class="text"> </div>
+						</div>
+					</li>
+					<li id="pro" class="feedBack hidden ">
+						<a href="javascript:void(0);" class="placeBetProgress abetslipBtn" data-atype="plc">
+							<button><span class="buttonTextNoMessage">Processing</span></button>
+						</a>
+					</li>
+					<li class="footer" id="betslipFooter">
+						<span id="totalStake"></span>
+						<a href="javascript:void(0);" class="acceptChanges abetslipBtn hidden">
+							<button>Accept</button>
+						</a>
+						<a href="javascript:void(0);" class="placeBet abetslipBtn failed-min-odds" data-placebet="1"
+							data-atype="plc">
+							<button> <span class="buttonTxt">Place a bet</span> <span class="totalStake"
+									id="bstsx">$0.00</span> <span class="freeStake"></span> </button>
+						</a>
+						<a href="javascript:void(0);" class="abetslipBtn  updatingOdds hidden">
+							<button>Coefficients refresh<span class="buttonSmallSpinner"></span></button>
+						</a>
+						<a href="javascript:void(0);" class="gotomybets abetslipBtn hidden" data-atype="gmb">
+							<button> <span class="buttonTxt">Go to My Bets</span> </button>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
 	</div>
-
-	<div class="[ betslip-multiples active ] flex-container align-middle">
-		<span class="font">Multiply options</span>
-	</div>
-
-	<div class="block">
-		
-		<div class="[ betslip-multiples-single ] flex-container align-middle"> 
-			<p class="font ellipsis [ betslip-multiples-text ]">Singles</p>
-			<div class="flex-container align-middle">
-				<p class="font mlr text-nowrap">4 x</p> 
-				<input type="text" class="field [ betslip-multiples-field ]" value="Stake">
-			</div>
-		</div>
-		<div class="[ betslip-multiples-single ] flex-container align-middle"> 
-			<p class="font ellipsis [ betslip-multiples-text ]">Singles</p>
-			<div class="flex-container align-middle">
-				<p class="font mlr text-nowrap">4 x</p> 
-				<input type="text" class="field [ betslip-multiples-field ]" value="Stake">
-			</div>
-		</div>
-		<div class="[ betslip-multiples-single ] flex-container align-middle"> 
-			<p class="font ellipsis [ betslip-multiples-text ]">Singles</p>
-			<div class="flex-container align-middle">
-				<p class="font mlr text-nowrap">4 x</p> 
-				<input type="text" class="field [ betslip-multiples-field ]" value="Stake">
-			</div>
-		</div>
-	</div>
-
-	<div class="[ betslip-footer ]">
-		<button class="button primary">
-			<p class="font md text-uppercase mr">0.00 eur</p>
-			<p class="font md bold">Place bet</p>
-		</button>
-	</div>
+</form>
