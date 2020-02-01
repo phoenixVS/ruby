@@ -131,7 +131,7 @@ exports('login', (params, done) => {
           blur.removeClass('block').addClass('none');
           window.location = 'http://localhost/everest/#/registration/';
         });
-        // $(`[data-id=login]`).off('click', renderLoginPopup);
+        //$(`[data-id=login]`).off('click', renderLoginPopup);
         const login = $('.loginContainer');
         const blur = $(`[data-id=blur]`);
         var attempt_counter = 0;

@@ -487,6 +487,7 @@ function mybetsHandler() {
         const mybets = $(`[data-id=mybets]`);
         const slider = $(`[data-id=slider]`);
         const formWrapper = $(`[data-id=registrationWrapper]`);
+        const user_menu = $(`[data-id=user_menu]`);
         const play_big = $(`[data-id=play-big]`);
         const coef_table = $(`[data-id=coef_table]`);
         const play_table = $(`[data-id=play-table]`);

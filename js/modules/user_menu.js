@@ -41,6 +41,7 @@ exports('user_menu', (params, done) => {
             </a>
           </div>
         </div>`).prependTo($('#content .menu-wrapper')).slideDown("fast");
+        console.log('Rendering');
         resolve();
       });
       renderPromise.then(() => {
@@ -87,6 +88,7 @@ exports('user_menu', (params, done) => {
     }
 
     renderUserMenu();
+    console.log('Rendered user menu');
   });
   done();
 });

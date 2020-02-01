@@ -13,6 +13,7 @@ exports('header', (params, done) => {
         // Login and user menu handlers
         Cookies.set('logon', 'false');
         $(`[data-id=login-button]`).on('click', () => {
+            console.log(Cookies.get('logon'));
             if (Cookies.get('logon') == 'true') {
                 loadJsModules({
                     user_menu: { loadCSS: true, loadLanguage: false },
