@@ -14,7 +14,6 @@ exports('betslip', (params, done) => {
     blur.addClass('block');
     betslip.slideDown('middle');
 
-
     if (Cookies.get('logon') == 'true') {
       // TODO: clear LOGIN button
     }
@@ -49,25 +48,67 @@ exports('betslip', (params, done) => {
               bsLink.slideDown('fast');
             }
           });
+          $('#BetSlipEditButton').on('click', (event) => {
+            $('#bsDiv').addClass('editMode').trigger('editMode');
+            $(event.target).text('Done');
+          });
+          item.hammer().on('swipeleft', function (ev) {
+            if (ev.gesture.distance > 100) {
+              console.log(ev.gesture.distance);
+              ev.target.style.transform = 'translateX(-100px)';
+            }
+          });
           input.on('click', (event) => {
             const cur = $(event.target);
             if (cur.is('.focus')) {
               input.removeClass('focus');
-              item.children('.stakepad').slideUp('middle');
+              cur.siblings('.stakeToReturn').addClass('hidden');
+              item.children('.stakepad').slideUp(250, function () {
+                $(this).remove();
+              });
             }
             else {
+              $('.stakepad').slideUp(250, function () {
+                $(this).remove();
+              });
               input.removeClass('focus');
               cur.addClass('focus');
-              if ($('.stakepad').length == 0) {
-                item.append($('<div class="stakepad">').load(`./html/modules/betslip/keyboard.html`, () => {
-                  $('.stakepad').hide();
-                  $('.stakepad').slideDown('middle');
-                }));
-              }
-              else {
-                $('.stakepad').slideDown('middle');
-              }
+              $('.stakeToReturn').addClass('hidden');
+              cur.siblings('.stakeToReturn').removeClass('hidden');
+              cur.closest('.restrictedCong').append($('<div class="stakepad">').load(`./html/modules/betslip/keyboard.html`, () => {
+                $('.stakepad').hide();
+                $('.stakepad').slideDown('fast');
+                $('.keyboard-button').on('mousedown', (event) => {
+                  let cur = $(event.target);
+                  let n = cur.html();
+                  cur.addClass('stakePadKeyDown');
+                  $('#stakePadToolTip').text(n);
+                });
+                $('.keyboard-button').on('mouseup', (event) => {
+                  let cur = $(event.target);
+                  let n = cur.html();
+                  cur.removeClass('stakePadKeyDown');
+                  $('#stakePadToolTip').empty();
+                });
+                $('.keyboard-button').on('click', (event) => {
+                  event.preventDefault();
+                  let cur = $(event.target);
+                  let n = cur.html();
+
+                });
+              }));
             }
+          });
+          $('#bsDiv').on('editMode', function () {
+            $('#BetSlipEditButton').off();
+            $('#BetSlipEditButton').on('click', (event) => {
+              $('#bsDiv').removeClass('editMode');
+              $(event.target).text('Edit');
+              $('#BetSlipEditButton').on('click', (event) => {
+                $('#bsDiv').addClass('editMode').trigger('editMode');
+                $(event.target).text('Done');
+              });
+            });
           });
         });
     })(window.BetslipList);
@@ -96,7 +137,7 @@ exports('betslip', (params, done) => {
               <div class="stake">
                 <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Ставка" readonly="readonly">
                 <div class="stakeToReturn hidden  ">
-                  К выплате
+                  To return
                   <span class="stakeToReturn_Value">&nbsp;0,00</span>
                 </div>
                 </div>

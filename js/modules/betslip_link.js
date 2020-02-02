@@ -8,7 +8,38 @@ exports('betslip_link', (params, done) => {
     const betslip = $('.betslipWrapper');
     const coefBtn = $('button.button.coefficient');
 
+    function uniq(a) {
+      return a.sort().filter(function (item, pos, ary) {
+        return !pos || item != ary[pos - 1];
+      })
+    }
+
     window.BetslipList = [];   // array of selected odds
+    BetslipList.uniquenes = (betsList) => {
+      let ids = [];
+      betsList.map((item) => {
+        ids.push(item.eventID);
+      });
+      if (window.BetslipList.length > uniq(ids).length) {
+        return false;
+      }
+      return true;
+    }
+    function multiOdds() {
+      if (BetslipList.uniquenes(window.BetslipList)) {
+        let m = 1;
+        window.BetslipList.map((item) => {
+          m *= item.coef;
+        });
+        m = Math.round((m + Number.EPSILON) * 100) / 100;
+        bsLink.children().children('.text-right').children('p.font').text('Multiply Odds');
+        bsLink.children().children('.text-right').children('p.title').text(m);
+      }
+      else {
+        bsLink.children().children('.text-right').children('p.font').text(' ');
+        bsLink.children().children('.text-right').children('p.title').text(' ');
+      }
+    }
 
     (() => {
       bsLink.css({
@@ -31,19 +62,26 @@ exports('betslip_link', (params, done) => {
         const BetslipItem = {};
         BetslipItem.eventID = cur.parent().siblings(`[data-id=event]`).data('gameId');
         BetslipItem.type = cur.data('type');
+        BetslipItem.coef = cur.html().includes('/') ? modifyBets(cur.html()) : cur.html();
         BetslipList.push(BetslipItem);
         cur.addClass('selected');
         bsLink.slideDown('fast');
-        console.log(`render`);
       }
       rerenderLink();
     });
+
+    // Convert fractial to decimal
+    modifyBets = (od) => {
+      const nums = od.split('/');
+      return (nums[0] / nums[1] + 1).toFixed(2)
+    };
 
     function rerenderLink() {
       $('.betslip-link p.betslip-link-count').attr('data', BetslipList.length);
       if ($('.betslip-link p.betslip-link-count').attr('data') == 0) {
         bsLink.slideUp('fast');
       }
+      multiOdds();
     }
 
     bsLink.on('click', (event) => {

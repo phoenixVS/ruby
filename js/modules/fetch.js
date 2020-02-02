@@ -46,7 +46,7 @@ exports('fetch', (params, done) => {
         let tree = [];
         data.map((item, index) => {
           if (item.type === 'CL') {
-            if (data[index+1].type != 'CT') {
+            if (data[index + 1].type != 'CT') {
               /*Put empty*/
             } else {
               tree.push(item);
@@ -78,7 +78,6 @@ exports('fetch', (params, done) => {
             curPA = item;
           }
         });
-        console.log(JSON.stringify(tree));
         return tree;
       }
       else {
@@ -135,6 +134,7 @@ exports('fetch', (params, done) => {
             }
           }
         });
+        console.log(tree);
         return tree;
       }
     }

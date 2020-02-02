@@ -172,7 +172,8 @@ exports('coef_table', (params, done) => {
               else {
                 cur.removeClass('active');
                 cur.addClass('not-active');
-                $(`[data-bet=${cur.data('coefId')}]`).slideUp('normal').remove();
+                coID = cur.data('coefId');
+                $(`[data-bet=${coID}]`).slideUp(250, () => { $(`[data-bet=${coID}]`).remove(); });//slideUp('normal', () => { $(this).remove(); });
                 cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
               }
             });
@@ -201,11 +202,29 @@ exports('coef_table', (params, done) => {
       const SU2 = (SU == 1) ? 'disabled' : '';
       const div = document.createElement('div');
 
+      let bet = () => {
+        if (SU == 9) {
+          return ' ';
+        }
+        else {
+          if (SU == 1) {
+            if (OD) {
+              return `<span class="fa fa-lock lock"></span>`;
+            }
+            else {
+              return ' ';
+            }
+          }
+          else {
+            return `<p class="font down blick">${modifyBets(OD)}</p>`;
+          }
+        }
+      };
       div.className = `maTable__cell`;
       div.innerHTML = `
       <button class="button coefficient ${SU2}" data-it="${IT}">
         <p class="font ellipsis mra"> ${shortize(NA ? NA : '')}</p>
-        ${ SY == 9 ? ' ' : SU == 1 ? `<span class="fa fa-lock lock"></span>` : `<p class="font down blick">${modifyBets(OD)}</p>`}
+        ${bet()}
       </button >
         `
       return div

@@ -9,3 +9,12 @@
   left: 50%;
   border-radius: 0 0 0 0;
 }
+.betslip-link.active div.flex-container {
+  height: 51px;
+}
+
+.betslip-link-count:after {
+  width: 20px;
+  height: 20px;
+  font-size: 13px;
+}

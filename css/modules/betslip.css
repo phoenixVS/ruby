@@ -424,6 +424,7 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
   border: 0 none;
 }
 #totalStake {
+  color: #545454;
   display: none!important;
   width: 0;
   height: 0;
@@ -606,8 +607,8 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
 /* Stakepad*/
 
 .betslipWrapper .errStk.keypad .stake .stk.focus, .betslipWrapper .keypad .stk.focus {
-  color: #14805e;
-  border-bottom: 2px solid #888;
+  color: #fff;
+  border-bottom: 4px solid #888;
 }
 .stakePadToolTips {
   box-sizing: border-box;
@@ -835,10 +836,10 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
   border-right: none;
 }
 .stakePadKeyDown {
-  background-color: #fff!important;
-  color: #666!important;
-  border-right: 1px solid #fff;
-  border-bottom: 1px solid #fff;
+  background-color:  ‎#F9CCCA!important;
+  color: #fff!important;
+  border-right: 1px solid red;
+  border-bottom: 1px solid red;
 }
 .stakePadToolTipShow {
   opacity: 1!important;
