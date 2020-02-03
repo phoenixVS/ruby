@@ -12,9 +12,16 @@
 .betslip-link.active div.flex-container {
   height: 51px;
 }
-
+.betslipWrapper.overlay.editMode .betslipHeader {
+  height: 99px;
+  border-bottom: 1px solid #c7c7c7;
+}
 .betslip-link-count:after {
   width: 20px;
   height: 20px;
   font-size: 13px;
+}
+
+.betslipWrapper.editMode #BetSlipDialogueHeader {
+  border-bottom: 1px solid #c7c7c7;
 }

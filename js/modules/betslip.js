@@ -94,15 +94,53 @@ exports('betslip', (params, done) => {
                   event.preventDefault();
                   let cur = $(event.target);
                   let n = cur.html();
-
                 });
               }));
             }
           });
           $('#bsDiv').on('editMode', function () {
             $('#BetSlipEditButton').off();
+            $('.removeAll').on('click', (event) => {
+              $('.button.coefficient.selected').removeClass('selected');
+              window.BetslipList.splice(0, BetslipList.length);
+              blur.removeClass('block');
+              blur.addClass('none');
+              betslip.slideUp('fast');
+              if (window.BetslipList.length > 0) {
+                bsLink.slideDown('fast');
+              }
+            });
+            $('#BetSlipTypeSelectorWrapper').on('click', (event) => {
+              const cur = $(event.target);
+              if ($('.betslipTypeSelector.showing').length > 0) {
+                cur.parent().removeClass('active');
+                $('#BetSlipTypeSelectorWrapper').after($('.betslipTypeSelector.showing').removeClass('showing'));
+                $('.BetSlipType').off();
+              }
+              else {
+                cur.parent().addClass('active');
+                $('ul.bs-BetSlip').after($('#BetSlipTypesWrapper'));
+                $('#bsDiv > .betslipTypeSelector').addClass('showing').hide().slideDown('fast');
+                $('.BetSlipType').on('click', (event) => {
+                  $('.bet-slip-type option').attr('selected', '');
+                  $(`.bet-slip-type option:contains("${$('.BetSlipType').text()}")`).attr('selected', 'selected');
+                  $('.BetSlipType-selected').removeClass('BetSlipType-selected').addClass('BetSlipType');
+                  $(event.target).removeClass('BetSlipType').addClass('BetSlipType-selected');
+                  $('#BetSlipTypeSelector').text($('.BetSlipType-selected').text());
+                  $('#BetSlipTypeSelectorWrapper').after($('.betslipTypeSelector.showing').removeClass('showing'));
+                });
+                $('.BetSlipType-selected').on('click', (event) => {
+                  $('#BetSlipTypeSelectorWrapper').after($('.betslipTypeSelector.showing').removeClass('showing'));
+                });
+              }
+            });
             $('#BetSlipEditButton').on('click', (event) => {
               $('#bsDiv').removeClass('editMode');
+              $('.remove-bet').on('click', (event) => {
+                const cur = $(event.tartget);
+                let eventID = cur.parent().parent().attr('data-event');
+                // TODO: remove element
+              });
               $(event.target).text('Edit');
               $('#BetSlipEditButton').on('click', (event) => {
                 $('#bsDiv').addClass('editMode').trigger('editMode');
@@ -123,17 +161,18 @@ exports('betslip', (params, done) => {
     });
 
     function appendBet(item) {
+      let { eventID, type, coef } = item;
       content.children('ul').append(`
-          <li data-item-id="0" data-item-type="single" class="restrictedCong  oddsChange hasodds " data-item-plbtid="1778" data-item-leaguecode="GUATRL" data-item-fpid="567803582" data-fixtureid="86071151" data-item-push="0">
+          <li data-event="${eventID} data-coef="${coef}" data-type="${type}">
             <div class="bs-ItemOverlay"></div> <div class="selectionRow">
               <div class="restrictedMultiple"></div>
-              <div class="removeColumn"><a href="javascript:void(0);" class="remove"></a></div>
+              <div class="removeColumn"><span class="close remove-bet"></span></div>
               <div class="selection">
                 <div class="selectionDescription">Не забьет 1-й Гол</div>
                 <div class="fullSlipMode">Следующий гол</div>
                 <div class="fullSlipMode">Кобан Империал - Резерв v Депортиво Истапа - Резерв</div>
               </div>
-              <div class="odds">11.00</div>
+              <div class="odds">${coef}</div>
               <div class="stake">
                 <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Ставка" readonly="readonly">
                 <div class="stakeToReturn hidden  ">
