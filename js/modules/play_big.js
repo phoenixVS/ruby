@@ -78,18 +78,25 @@ exports('play_big', (params, done) => {
 
               let tm = parseInt($(`[data-id=timer-big]`).data("tm"));
               let ts = parseInt($(`[data-id=timer-big]`).data("ts"));
+              let tt = parseInt($(`[data-id=timer-big]`).data("tt"));
 
-              if (ts == 59) {
-                tm = tm + 1;
-                ts = 0;
+              /*Some function to check TT by socket*/
+
+              if (tt != 0) {
+                if (ts == 59) {
+                  tm = tm + 1;
+                  ts = 0;
+                } else {
+                  ts = ts + 1;
+                }
+  
+                $(`[data-id=timer-big]`).text(createTimer(tm, ts));
+  
+                $(`[data-id=timer-big]`).data("tm", tm);
+                $(`[data-id=timer-big]`).data("ts", ts);
               } else {
-                ts = ts + 1;
+                $(`[data-id=timer-big]`).text("Break");
               }
-
-              $(`[data-id=timer-big]`).text(createTimer(tm, ts));
-
-              $(`[data-id=timer-big]`).data("tm", tm);
-              $(`[data-id=timer-big]`).data("ts", ts);
             }, 1000);
             window.t_interval = interval;
           } else {
