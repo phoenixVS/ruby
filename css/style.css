@@ -3,3 +3,10 @@
     margin-left: 0;
     padding-left: 0;
 }
+
+.calendar-ico {
+    background-image: url(/everest/img/calendar.png);
+    width: 24px;
+    height: 22px;
+    color: hsla(0,0%,100%,.6);
+}

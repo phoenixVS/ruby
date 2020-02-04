@@ -159,7 +159,7 @@ exports('play_big', (params, done) => {
 
                 if (sport.CT[i] != undefined) {
                   $(`[data-id=play-big]`).append(`
-                 <a data-id="play-big-wrapper" data-play-big="${sport.CT[i].EV[0].ID}" class="cell">
+                 <a data-id="play-big-wrapper" data-play-big="${sport.CT[i].EV[0].ID}" class="cell" style="margin-right: 0;">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" class="flex-container align-justify [ play-big ]">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="block" style="margin-bottom: 5px;">
                         <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font white ">${shortize(sport.CT[i].NA)}</p>
