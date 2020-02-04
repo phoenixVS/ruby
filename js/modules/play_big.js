@@ -34,6 +34,12 @@ exports('play_big', (params, done) => {
       return tm_ + ':' + ts_;
     }
 
+    // Convert fractial to decimal
+    modifyBets = (od) => {
+      const nums = od.split('/');
+      return (nums[0] / nums[1] + 1).toFixed(2)
+    };
+
     function calculateDiffMinutes(data, c_years, c_mounth, c_days, c_hr, c_tm, c_ts) {
       let now = new Date();
       let c_tu = new Date(c_years, c_mounth, c_days, c_hr, c_tm, c_ts);
@@ -127,7 +133,7 @@ exports('play_big', (params, done) => {
           str += '...';
         }
         return str;
-      } else if(screen.width > 350 && screen.width < 420) {
+      } else if (screen.width > 350 && screen.width < 420) {
         str = str.slice(0, 16);
         if (name.length > 16) {
           str += '...';
@@ -147,10 +153,10 @@ exports('play_big', (params, done) => {
             if (parseInt(sport.ID) == ID) {
               $(`[data-id=play-big]`).empty();
               let max_m = sport.CT.length;
-              
+
               for (let i = 0; i < max_m; i++) {
 
-                 $(`[data-id=play-big]`).append(`
+                $(`[data-id=play-big]`).append(`
                  <a data-id="play-big-wrapper" data-play-big="${sport.CT[i].EV[0].ID}" class="cell">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" class="flex-container align-justify [ play-big ]">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="block" style="margin-bottom: 5px;">
@@ -169,19 +175,19 @@ exports('play_big', (params, done) => {
               <div data-coef="1" class="cell w33" >
                 <button data-coef="1" class="button coefficient" style="padding-left: 10px;">
                   <span data-coef="1" class="font m-white">1</span>
-                  <span data-coef="1" data-id="coef-one" class="font">${sport.CT[i].EV[0].MA[0].PA[0].OD}</span> 
+                  <span data-coef="1" data-id="coef-one" class="font">${modifyBets(sport.CT[i].EV[0].MA[0].PA[0].OD)}</span> 
                 </button>
               </div>
               <div data-coef="1" class="cell w33">
                 <button data-coef="1" class="button coefficient" style="padding-left: 10px;">
                   <span data-coef="1" class="font m-white">x</span>
-                  <span data-coef="1" data-id="coef-two" class="font">${sport.CT[i].EV[0].MA[0].PA[1].OD}</span>
+                  <span data-coef="1" data-id="coef-two" class="font">${modifyBets(sport.CT[i].EV[0].MA[0].PA[1].OD)}</span>
                 </button>
               </div>
               <div data-coef="1" class="cell w33">
                 <button data-coef="1" class="button coefficient" style="padding-left: 10px;">
                   <span data-coef="1" class="font m-white">2</span>
-                  <span data-coef="1" data-id="coef-three" class="font">${sport.CT[0].EV[0].MA[0].PA[2].OD}</span>
+                  <span data-coef="1" data-id="coef-three" class="font">${modifyBets(sport.CT[0].EV[0].MA[0].PA[2].OD)}</span>
                 </button>
               </div>
             </div>
@@ -203,7 +209,7 @@ exports('play_big', (params, done) => {
           // Handle opening of game section
           $(`[data-id=play-big-wrapper]`).on('click', (event) => {
 
-            if ( $(event.target).data('coef') != '1' ) {
+            if ($(event.target).data('coef') != '1') {
               let id = $(event.target).data('play-big');
               console.log(id);
               console.log($(`[data-id=play-big-wrapper]`).data('play-big'));

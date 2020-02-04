@@ -63,6 +63,7 @@ exports('betslip', (params, done) => {
             if (cur.is('.focus')) {
               input.removeClass('focus');
               cur.siblings('.stakeToReturn').addClass('hidden');
+              cur.closest('.hasodds').removeClass('keypad');
               item.children('.stakepad').slideUp(250, function () {
                 $(this).remove();
               });
@@ -75,7 +76,8 @@ exports('betslip', (params, done) => {
               cur.addClass('focus');
               $('.stakeToReturn').addClass('hidden');
               cur.siblings('.stakeToReturn').removeClass('hidden');
-              cur.closest('.restrictedCong').append($('<div class="stakepad">').load(`./html/modules/betslip/keyboard.html`, () => {
+              cur.closest('.hasodds').append($('<div class="stakepad">').load(`./html/modules/betslip/keyboard.html`, () => {
+                cur.closest('.hasodds').addClass('keypad');
                 $('.stakepad').hide();
                 $('.stakepad').slideDown('fast');
                 $('.keyboard-button').on('mousedown', (event) => {
@@ -100,8 +102,10 @@ exports('betslip', (params, done) => {
           });
           $('#bsDiv').on('editMode', function () {
             $('#BetSlipEditButton').off();
+            // remove all bets
             $('.removeAll').on('click', (event) => {
               $('.button.coefficient.selected').removeClass('selected');
+              item.animate({ width: 'toggle' }, 250);
               window.BetslipList.splice(0, BetslipList.length);
               blur.removeClass('block');
               blur.addClass('none');
@@ -110,22 +114,46 @@ exports('betslip', (params, done) => {
                 bsLink.slideDown('fast');
               }
             });
-            $('#BetSlipTypeSelectorWrapper').on('click', (event) => {
+            // Remove bet
+            $('.removeColumn').on('click', (event) => {
+              const cur = $(event.target);
+              let eventID = cur.closest('li.hasodds').data('event');
+              window.BetslipList.map((item, index) => {
+                if (item.eventID == eventID) {
+                  window.BetslipList.splice(index, 1);
+                }
+              });
+              console.log(eventID);
+              console.log(window.BetslipList);
+              cur.parent().parent().animate({ width: 'toggle' }, 250);;
+            });
+            $('.betslip-select').on('click', (event) => {
               const cur = $(event.target);
               if ($('.betslipTypeSelector.showing').length > 0) {
-                cur.parent().removeClass('active');
+                $('#BetSlipTypeSelectorWrapper').removeClass('active');
                 $('#BetSlipTypeSelectorWrapper').after($('.betslipTypeSelector.showing').removeClass('showing'));
                 $('.BetSlipType').off();
               }
               else {
-                cur.parent().addClass('active');
+                $('#BetSlipTypeSelectorWrapper').addClass('active');
                 $('ul.bs-BetSlip').after($('#BetSlipTypesWrapper'));
                 $('#bsDiv > .betslipTypeSelector').addClass('showing').hide().slideDown('fast');
                 $('.BetSlipType').on('click', (event) => {
-                  $('.bet-slip-type option').attr('selected', '');
-                  $(`.bet-slip-type option:contains("${$('.BetSlipType').text()}")`).attr('selected', 'selected');
+                  const cur = $(event.target);
+                  let type = cur.text();
+                  $('.betslip-select').data('text', type).attr('data-text', type);
+                  $('#BetSlipTypeSelectorWrapper').removeClass('active');
+                  $('.bet-slip-type option').each((index, item) => {
+                    if ($(item).text() == type) {
+                      $(item).attr('selected', 'selected');
+                    }
+                    else {
+                      $(item).removeAttr('selected');
+                    }
+                  });
+                  $('.BetSlipType').off();
                   $('.BetSlipType-selected').removeClass('BetSlipType-selected').addClass('BetSlipType');
-                  $(event.target).removeClass('BetSlipType').addClass('BetSlipType-selected');
+                  cur.removeClass('BetSlipType').addClass('BetSlipType-selected');
                   $('#BetSlipTypeSelector').text($('.BetSlipType-selected').text());
                   $('#BetSlipTypeSelectorWrapper').after($('.betslipTypeSelector.showing').removeClass('showing'));
                 });
@@ -136,11 +164,6 @@ exports('betslip', (params, done) => {
             });
             $('#BetSlipEditButton').on('click', (event) => {
               $('#bsDiv').removeClass('editMode');
-              $('.remove-bet').on('click', (event) => {
-                const cur = $(event.tartget);
-                let eventID = cur.parent().parent().attr('data-event');
-                // TODO: remove element
-              });
               $(event.target).text('Edit');
               $('#BetSlipEditButton').on('click', (event) => {
                 $('#bsDiv').addClass('editMode').trigger('editMode');
@@ -150,7 +173,10 @@ exports('betslip', (params, done) => {
           });
         });
     })(window.BetslipList);
-
+    $('#betslipFooter').on('click', (event) => {
+      const cur = $(event.target);
+      event.preventDefault();
+    });
     $('.betSlipyCloseIcon').on('click', () => {
       blur.removeClass('block');
       blur.addClass('none');
@@ -163,25 +189,25 @@ exports('betslip', (params, done) => {
     function appendBet(item) {
       let { eventID, type, coef } = item;
       content.children('ul').append(`
-          <li data-event="${eventID} data-coef="${coef}" data-type="${type}">
-            <div class="bs-ItemOverlay"></div> <div class="selectionRow">
-              <div class="restrictedMultiple"></div>
-              <div class="removeColumn"><span class="close remove-bet"></span></div>
-              <div class="selection">
-                <div class="selectionDescription">Не забьет 1-й Гол</div>
-                <div class="fullSlipMode">Следующий гол</div>
-                <div class="fullSlipMode">Кобан Империал - Резерв v Депортиво Истапа - Резерв</div>
-              </div>
-              <div class="odds">${coef}</div>
-              <div class="stake">
-                <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Ставка" readonly="readonly">
-                <div class="stakeToReturn hidden  ">
-                  To return
+                    <li class="hasodds oddsChange" data-event="${eventID}" data-coef="${coef}" data-type="${type}">
+                      <div class="bs-ItemOverlay" ></div > <div class="selectionRow">
+                        <div class="restrictedMultiple"></div>
+                        <div class="removeColumn"><span class="close remove-bet"></span></div>
+                        <div class="selection">
+                          <div class="selectionDescription">Не забьет 1-й Гол</div>
+                          <div class="fullSlipMode">Следующий гол</div>
+                          <div class="fullSlipMode">Кобан Империал - Резерв v Депортиво Истапа - Резерв</div>
+                        </div>
+                        <div class="odds">${coef}</div>
+                        <div class="stake">
+                          <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Ставка" readonly="readonly">
+                            <div class="stakeToReturn hidden  ">
+                              To return
                   <span class="stakeToReturn_Value">&nbsp;0,00</span>
+                            </div>
                 </div>
-                </div>
-              </div>
-            <div class="deleteItem">Delete</div>
+                        </div>
+                        <div class="deleteItem">Delete</div>
           </li>`);
     }
 
