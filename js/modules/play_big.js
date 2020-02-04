@@ -150,7 +150,8 @@ exports('play_big', (params, done) => {
               
               for (let i = 0; i < max_m; i++) {
 
-                 $(`[data-id=play-big]`).append(`
+                if (sport.CT[i] != undefined) {
+                  $(`[data-id=play-big]`).append(`
                  <a data-id="play-big-wrapper" data-play-big="${sport.CT[i].EV[0].ID}" class="cell">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" class="flex-container align-justify [ play-big ]">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="block" style="margin-bottom: 5px;">
@@ -188,9 +189,12 @@ exports('play_big', (params, done) => {
               </div>
               </a>
                  `);
+                } else {
+                  continue;
+                }
 
               }
-              startTimerBig(sport.CT[3].EV[0]);
+              startTimerBig(sport.CT[0].EV[0]);
             }
             resolve();
           });
