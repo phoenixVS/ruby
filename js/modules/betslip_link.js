@@ -49,7 +49,7 @@ exports('betslip_link', (params, done) => {
     })(0);
 
     coefBtn.on('click', (event) => {
-      const cur = $(event.target);
+      const cur = $(event.target).closest('.button.coefficient');
       if (cur.hasClass('selected')) {
         cur.removeClass('selected');
         BetslipList.map((item, index) => {

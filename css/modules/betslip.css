@@ -973,3 +973,33 @@ div.removeColumn span {
   background-image: url(../../img/Keypad_Back_Selected.svg);
   background-color: #fff;
 }
+.betslipWrapper.overlay .oddsChange .odds, .betslipWrapper.overlay .oddsChange .betslip-select {
+  background-color: hsla(0,100%,50%,1.0);
+  color: #f0f0f0;
+  padding: 1px 5px 1px 5px;
+  margin: 0 6px;
+}
+.betslipWrapper li.single-section ul li.moving .deleteItem, .betslipWrapper li.cast-section ul li.moving .deleteItem, .betslipWrapper li.tote-pot-section ul li.moving .deleteItem, .betslipWrapper li.bs-BetBuilderGroupSection.moving .deleteItem {
+  -moz-transition: none;
+  -webkit-transition: none;
+  transition: none;
+}
+.betslipWrapper>ul>li>ul>li>ul>li.suspended {
+  position: relative;
+}
+.betslipWrapper .suspended .bs-ItemOverlay {
+  display: block;
+}
+.betslipWrapper .bs-ItemOverlay {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: #d8d8d8;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  opacity: .5;
+  -webkit-transition: -webkit-transform .2s;
+  transition: transform .2s,-webkit-transform .2s;
+}

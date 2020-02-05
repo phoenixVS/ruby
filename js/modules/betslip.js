@@ -19,6 +19,22 @@ exports('betslip', (params, done) => {
       const nums = od.split('/');
       return (nums[0] / nums[1] + 1).toFixed(2)
     };
+    // Count multiplyer if avaliable
+    function multiOdds() {
+      if (BetslipList.uniquenes(window.BetslipList)) {
+        let m = 1;
+        window.BetslipList.map((item) => {
+          m *= modifyBets(item.OD);
+        });
+        m = Math.round((m + Number.EPSILON) * 100) / 100;
+        bsLink.children().children('.text-right').children('p.font').text('Multiply Odds');
+        bsLink.children().children('.text-right').children('p.title').text(m);
+      }
+      else {
+        bsLink.children().children('.text-right').children('p.font').text(' ');
+        bsLink.children().children('.text-right').children('p.title').text(' ');
+      }
+    }
 
     if (Cookies.get('logon') == 'true') {
       // TODO: clear LOGIN button
@@ -58,15 +74,119 @@ exports('betslip', (params, done) => {
             $('#bsDiv').addClass('editMode').trigger('editMode');
             $(event.target).text('Done');
           });
-          item.hammer().on('swipeleft', function (ev) {
-            ev.target.style.transform = `translateX(${ev.gesture.distance})`;
-            if (ev.gesture.distance > 100) {
-              console.log(ev.gesture.distance);
-              ev.target.style.transform = 'translateX(-100px)';
-            }
-          });
-          input.on('click', (event) => {
+          // Moving
+          // const lis = document.querySelectorAll('.single-section.standardBet > ul > li');
+          // for (let i = 0; i < lis.length; li++) {
+          //   lis[i].addEventListener('mousedown', (event) => {
+          //     // event.preventDefault();
+          //     console.log(`down`);
+          //   });
+          // }
+          item.on('touchstart', (event) => {
             const cur = $(event.target);
+            const li = cur.closest('li.hasodds')[0];
+            const transformStyle = li.style.transform;
+            const startTranslated = transformStyle.replace(/[^\d.]/g, '');
+            const startX = event.originalEvent.touches[0].pageX;
+            console.log('startX:', startX);
+            let distance = 0;
+            item.on('touchmove', (event) => {
+              cur.parent('.single-section.standardBet > ul > li').addClass('mov');
+              const curX = event.originalEvent.touches[0].pageX;
+              console.log('curX:', curX);
+              distance = curX - startX;
+              let drugEl = $(event.target).closest('li.hasodds');
+              if (startTranslated == '') {
+                if (distance < 0) {
+                  drugEl.css('transform', `translateX(${distance}px)`);
+                }
+                if (distance < -100) {
+                  // console.log(distance);
+                  cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance}`);
+                }
+              }
+              else {
+                if (distance < 0) {
+                  drugEl.css('transform', `translateX(${distance - 100}px)`);
+                }
+                if (distance < -100) {
+                  // console.log(distance);
+                  cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance + 100}`);
+                }
+              }
+            });
+            cur.on('touchend', (event) => {
+              const transformStyleEnd = li.style.transform;
+              let endTranslated = transformStyleEnd.replace(/[^\d.]/g, '');
+              if (endTranslated > 200) {
+                let eventID = cur.closest('li.hasodds').data('event');
+                let ID = cur.closest('li.hasodds').data(`id`);
+                window.BetslipList.map((item, index) => {
+                  if (item.eventID == eventID) {
+                    window.BetslipList.splice(index, 1);
+                  }
+                });
+                $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
+                $('.betSlipyCountText').text(parseInt($('.betSlipyCountText').text()) - 1);
+                cur.closest('li.hasodds').animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
+                  cur.closest('li.hasodds').remove();
+                  if ($('.betSlipyCountText').text() == 0) {
+                    blur.removeClass('block');
+                    blur.addClass('none');
+                    betslip.slideUp('fast');
+                    if (window.BetslipList.length > 0) {
+                      bsLink.slideDown('fast');
+                    }
+                  }
+                });
+              }
+              if (distance < -100) {
+                cur.closest('li.hasodds').css('transform', `translateX(-100px)`);
+                cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${100}`);
+                $('.deleteItem').on('click', (event) => {
+                  const cur = $(event.target).closest('li.hasodds');
+                  let eventID = cur.closest('li.hasodds').data('event');
+                  let ID = cur.closest('li.hasodds').data(`id`);
+                  window.BetslipList.map((item, index) => {
+                    if (item.eventID == eventID) {
+                      window.BetslipList.splice(index, 1);
+                    }
+                  });
+                  $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
+                  $('.betSlipyCountText').text(BetslipList.length);
+                  cur.animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
+                    cur.remove();
+                    $('.betslip-link p.betslip-link-count').attr('data', BetslipList.length);
+                    if ($('.betslip-link p.betslip-link-count').attr('data') == 0) {
+                      bsLink.slideUp('fast');
+                    }
+                    multiOdds();
+                    if ($('.betSlipyCountText').text() == 0) {
+                      blur.removeClass('block');
+                      blur.addClass('none');
+                      betslip.slideUp('fast');
+                      if (window.BetslipList.length > 0) {
+                        bsLink.slideDown('fast');
+                      }
+                    }
+                  });
+                });
+              }
+              else {
+                $('.deleteItem').off();
+                cur.closest('li.hasodds').css('transform', ``);
+                cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${100}`);
+              }
+              cur.parent('.single-section.standardBet > ul > li').removeClass('mov');
+              event.stopPropagation();
+            });
+          });
+          // stakepad
+          const onStake = (event) => {
+            let cur = $(event.target);
+            if (cur.is('.stake')) {
+              cur = cur.children('input.stk');
+            }
             if (cur.is('.focus')) {
               input.removeClass('focus');
               cur.siblings('.stakeToReturn').addClass('hidden');
@@ -106,8 +226,22 @@ exports('betslip', (params, done) => {
                 });
               }));
             }
-          });
+          };
+          $('.stake').on('click', onStake);
+
+          // Edit mode
           $('#bsDiv').on('editMode', function () {
+            // Remove stakepad if is
+            if ($('input.stk.focus').length > 0) {
+              let cur = $('input.stk.focus');
+              cur.removeClass('focus');
+              cur.siblings('.stakeToReturn').addClass('hidden');
+              cur.closest('.hasodds').removeClass('keypad');
+              item.children('.stakepad').slideUp(250, function () {
+                $(this).remove();
+              });
+            }
+
             $('#BetSlipEditButton').off();
             // remove all bets
             $('.removeAll').on('click', (event) => {
@@ -203,11 +337,11 @@ exports('betslip', (params, done) => {
         bsLink.slideDown('fast');
       }
     });
-
+    // oddsChange class
     function appendBet(item) {
       let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU } = item;
       content.children('ul').append(`
-                <li class= "hasodds oddsChange" data-event="${eventID}" data-BS="${BS}" data-FI="${FI}" data-HA="${HA}" data-HD="${HD}" data-ID="${ID}" data-IT="${IT}" data-NA="${NA}" data-OD="${OD}" data-OR="${OR}" data-SU="${SU}" >
+                <li class= "hasodds" data-event="${eventID}" data-BS="${BS}" data-FI="${FI}" data-HA="${HA}" data-HD="${HD}" data-ID="${ID}" data-IT="${IT}" data-NA="${NA}" data-OD="${OD}" data-OR="${OR}" data-SU="${SU}" >
               <div class="bs-ItemOverlay" ></div > <div class="selectionRow">
                 <div class="restrictedMultiple"></div>
                 <div class="removeColumn"><span class="close remove-bet"></span></div>
