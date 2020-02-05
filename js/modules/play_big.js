@@ -84,18 +84,25 @@ exports('play_big', (params, done) => {
 
               let tm = parseInt($(`[data-id=timer-big]`).data("tm"));
               let ts = parseInt($(`[data-id=timer-big]`).data("ts"));
+              let tt = parseInt($(`[data-id=timer-big]`).data("tt"));
 
-              if (ts == 59) {
-                tm = tm + 1;
-                ts = 0;
+              /*Some function to check TT by socket*/
+
+              if (tt != 0) {
+                if (ts == 59) {
+                  tm = tm + 1;
+                  ts = 0;
+                } else {
+                  ts = ts + 1;
+                }
+  
+                $(`[data-id=timer-big]`).text(createTimer(tm, ts));
+  
+                $(`[data-id=timer-big]`).data("tm", tm);
+                $(`[data-id=timer-big]`).data("ts", ts);
               } else {
-                ts = ts + 1;
+                $(`[data-id=timer-big]`).text("Break");
               }
-
-              $(`[data-id=timer-big]`).text(createTimer(tm, ts));
-
-              $(`[data-id=timer-big]`).data("tm", tm);
-              $(`[data-id=timer-big]`).data("ts", ts);
             }, 1000);
             window.t_interval = interval;
           } else {
@@ -156,8 +163,9 @@ exports('play_big', (params, done) => {
 
               for (let i = 0; i < max_m; i++) {
 
-                $(`[data-id=play-big]`).append(`
-                 <a data-id="play-big-wrapper" data-play-big="${sport.CT[i].EV[0].ID}" class="cell">
+                if (sport.CT[i] != undefined) {
+                  $(`[data-id=play-big]`).append(`
+                 <a data-id="play-big-wrapper" data-play-big="${sport.CT[i].EV[0].ID}" class="cell" style="margin-right: 0;">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" class="flex-container align-justify [ play-big ]">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="block" style="margin-bottom: 5px;">
                         <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font white ">${shortize(sport.CT[i].NA)}</p>
@@ -194,9 +202,12 @@ exports('play_big', (params, done) => {
               </div>
               </a>
                  `);
+                } else {
+                  continue;
+                }
 
               }
-              startTimerBig(sport.CT[3].EV[0]);
+              startTimerBig(sport.CT[0].EV[0]);
             }
             resolve();
           });
