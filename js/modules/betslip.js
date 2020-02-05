@@ -59,6 +59,7 @@ exports('betslip', (params, done) => {
             $(event.target).text('Done');
           });
           item.hammer().on('swipeleft', function (ev) {
+            ev.target.style.transform = `translateX(${ev.gesture.distance})`;
             if (ev.gesture.distance > 100) {
               console.log(ev.gesture.distance);
               ev.target.style.transform = 'translateX(-100px)';
@@ -111,7 +112,7 @@ exports('betslip', (params, done) => {
             // remove all bets
             $('.removeAll').on('click', (event) => {
               $('.button.coefficient.selected').removeClass('selected');
-              item.animate({ translateX: 'toggle' }, 1000);
+              item.animate({ "margin-right": '+=200' }, 150);
               window.BetslipList.splice(0, BetslipList.length);
               blur.removeClass('block');
               blur.addClass('none');
@@ -130,10 +131,21 @@ exports('betslip', (params, done) => {
                   window.BetslipList.splice(index, 1);
                 }
               });
-              $(.button.coefficient[data-id=]`)
+              $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
+              $('.betSlipyCountText').text(parseInt($('.betSlipyCountText').text()) - 1);
               console.log(eventID);
               console.log(window.BetslipList);
-              cur.parent().parent().animate({ translateX: 'toggle' }, 1000);;
+              cur.parent().parent().animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
+                cur.parent().parent().remove();
+              });
+              if($('.betSlipyCountText').text() == 0) {
+                blur.removeClass('block');
+                blur.addClass('none');
+                betslip.slideUp('fast');
+                if (window.BetslipList.length > 0) {
+                  bsLink.slideDown('fast');
+                }
+              }
             });
             $('.betslip-select').on('click', (event) => {
               const cur = $(event.target);
@@ -197,25 +209,25 @@ exports('betslip', (params, done) => {
     function appendBet(item) {
       let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU } = item;
       content.children('ul').append(`
-                    <li class="hasodds oddsChange" data-event="${eventID}" data-BS="${BS}" data-FI="${FI}" data-HA="${HA}" data-HD="${HD}" data-ID="${ID}" data-IT="${IT}" data-NA="${NA}" data-OD="${OD}" data-OR="${OR}" data-SU="${SU}">
-                      <div class="bs-ItemOverlay" ></div > <div class="selectionRow">
-                        <div class="restrictedMultiple"></div>
-                        <div class="removeColumn"><span class="close remove-bet"></span></div>
-                        <div class="selection">
-                          <div class="selectionDescription">${NA}</div>
-                          <div class="fullSlipMode">${marketNA}</div>
-                          <div class="fullSlipMode">${eventNA}</div>
-                        </div>
-                        <div class="odds">${modifyBets(OD)}</div>
-                        <div class="stake">
-                          <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Stake" readonly="readonly">
-                            <div class="stakeToReturn hidden  ">
-                              To return
-                  <span class="stakeToReturn_Value">&nbsp;0,00</span>
-                            </div>
+                <li class= "hasodds oddsChange" data-event="${eventID}" data-BS="${BS}" data-FI="${FI}" data-HA="${HA}" data-HD="${HD}" data-ID="${ID}" data-IT="${IT}" data-NA="${NA}" data-OD="${OD}" data-OR="${OR}" data-SU="${SU}" >
+              <div class="bs-ItemOverlay" ></div > <div class="selectionRow">
+                <div class="restrictedMultiple"></div>
+                <div class="removeColumn"><span class="close remove-bet"></span></div>
+                <div class="selection">
+                  <div class="selectionDescription">${NA}</div>
+                  <div class="fullSlipMode">${marketNA}</div>
+                  <div class="fullSlipMode">${eventNA}</div>
                 </div>
-                        </div>
-                        <div class="deleteItem">Delete</div>
+                <div class="odds">${modifyBets(OD)}</div>
+                <div class="stake">
+                  <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Stake" readonly="readonly">
+                    <div class="stakeToReturn hidden  ">
+                      To return
+                  <span class="stakeToReturn_Value">&nbsp;0,00</span>
+                    </div>
+                </div>
+                </div>
+                <div class="deleteItem">Delete</div>
           </li>`);
     }
 
