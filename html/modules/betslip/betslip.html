@@ -19,21 +19,20 @@
 							<span class="close"></span>
 						</div>
 					</div>
-				</div> <a href="javascript:void(0);" class="removeAll">Clear all</a>
+				</div> <a class="removeAll">Clear all</a>
 				<div class="betslip-select" data-text="Default">
-					<div id="BetSlipTypeSelectorWrapper">
+					<div id="BetSlipTypeSelectorWrapper" class="selWrap">
 						<div id="BetSlipTypeSelector">Default</div>
 					</div>
 					<div id="BetSlipTypesWrapper" class="betslipTypeSelector">
 						<ul id="BetSlipTypes">
-							<li class="BetSlipType-selected" data-item="1">Default<span class="selected"></span>
-							</li>
+							<li class="BetSlipType-selected" data-item="1">Default<span class="selected"></span></li>
 							<li class="BetSlipType" data-item="2">Banker</li>
 						</ul>
 					</div>
 					<select class="bet-slip-type" disabled="disabled">
 						<option selected="selected" value="1">Default</option>
-						<option value="2">Banker</option>
+						<option selected="" value="2">Banker</option>
 					</select>
 				</div>
 			</li>
@@ -42,7 +41,7 @@
 					<li class="bs-useFreeBet hidden">
 						<div class="bs-useFreeBetInfo">
 							<div class="bs-CheckBoxFreeBetWrapper"><span class="bs-CheckBoxFreeBet"></span></div>
-							<span class="bs-useFreeBetAmount">Use bonuses({0} avaliable)</span>
+							<span class="bs-useFreeBetAmount">Use bonuses(0 avaliable)</span>
 						</div>
 					</li>
 					<li class="emptyBetslip hidden">
@@ -59,24 +58,23 @@
 						</div>
 					</li>
 					<li id="pro" class="feedBack hidden ">
-						<a href="javascript:void(0);" class="placeBetProgress abetslipBtn" data-atype="plc">
+						<a class="placeBetProgress abetslipBtn" data-atype="plc">
 							<button><span class="buttonTextNoMessage">Processing</span></button>
 						</a>
 					</li>
 					<li class="footer" id="betslipFooter">
 						<span id="totalStake"></span>
-						<a href="javascript:void(0);" class="acceptChanges abetslipBtn hidden">
+						<a class="acceptChanges abetslipBtn hidden">
 							<button>Accept</button>
 						</a>
-						<a href="javascript:void(0);" class="placeBet abetslipBtn failed-min-odds" data-placebet="1"
-							data-atype="plc">
+						<a class="placeBet abetslipBtn failed-min-odds" data-placebet="1" data-atype="plc">
 							<button> <span class="buttonTxt">Place a bet</span> <span class="totalStake"
 									id="bstsx">$0.00</span> <span class="freeStake"></span> </button>
 						</a>
-						<a href="javascript:void(0);" class="abetslipBtn  updatingOdds hidden">
+						<a class="abetslipBtn  updatingOdds hidden">
 							<button>Coefficients refresh<span class="buttonSmallSpinner"></span></button>
 						</a>
-						<a href="javascript:void(0);" class="gotomybets abetslipBtn hidden" data-atype="gmb">
+						<a class="gotomybets abetslipBtn hidden" data-atype="gmb">
 							<button> <span class="buttonTxt">Go to My Bets</span> </button>
 						</a>
 					</li>

@@ -99,7 +99,7 @@
   line-height: 22px;
 }
 #BetSlipTitle .betSlipyEditButton {
-  color: #14805e;
+  color: #9f263d;
   font-size: 13px;
   line-height: 16px;
   display: block;
@@ -119,6 +119,11 @@
   border-left: 1px solid gray;
   width: 100%;
   padding-right: 66px;
+}
+@media (max-width: 450px) {
+  .betSlipyLogin {
+    font-size: 14px;
+  }
 }
 .betSlipyCloseIcon {
   display: flex;
@@ -145,7 +150,7 @@
   padding: 20px;
 } */
 .betslipWrapper.overlay .betslipHeader .removeAll {
-  color: #14805e;
+  color: #9f263d;
   font-size: 13px;
   display: inline-block;
   padding: 0 11px;
@@ -162,7 +167,7 @@
 }
 .betslipHeader .removeAll {
   line-height: 41px;
-  color: #14805e;
+  color: #9f263d;
   text-decoration: none;
   font-size: 13px;
   font-weight: normal;
@@ -172,7 +177,7 @@
   content: "";
   display: inline-block;
   font-size: 12px;
-  color: #168c67;
+  color: #9f263d;
   margin: 11px 11px;
 }
 #BetSlipTitle .betSlipEditButton {
@@ -203,19 +208,115 @@
 .betSlipCloseIcon {
   background-color: #9f263d;
 }
-/* .close:after, .close:before {
+.betslipWrapper .betslipHeader .betslip-select {
+  float: right;
+  position: relative;
+  display: inline-block;
+  height: 44px;
+  vertical-align: top;
+  text-align: right;
+}
+.remove-bet:after, .remove-bet:before {
   content: "";
   width: 100%;
   height: 1px;
   top: 50%;
   position: absolute;
-  background-color: hsla(0,0%,100%,.8);
-} */
+  background-color: hsla(0,100%,50%,1.0);
+}
+.betslipWrapper #BetSlipTypeSelectorWrapper {
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  min-width: 100px;
+  padding: 0 11px 0 6px;
+  display: inline-block;
+  color: #9f263d;
+  text-align: right;
+  font-size: 13px;
+  font-weight: normal;
+  overflow: hidden;
+  height: 100%;
+  -o-transition: opacity .2s;
+  -moz-transition: opacity .2s;
+  -webkit-transition: opacity .2s;
+  transition: opacity .2s;
+}
+.selWrap.active::after {
+  transition-duration: 500ms;
+  transform: translate(4px, 4px) rotate(90deg);
+}
+.betslipWrapper #BetSlipTypeSelector {
+  display: block;
+  padding-right: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis!important;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 10px;
+  line-height: 44px;
+}
+.betslipWrapper #BetSlipTypeSelectorWrapper::after {
+  position: absolute;
+  font-family: FontAwesome;
+  content: "\f107";
+  top: 12px;
+  width: 11px;
+  height: 11px;
+  display: inline-block;
+  margin-left: -10px;
+  font-size: 16px;
+}
+.betslipWrapper #BetSlipTypesWrapper {
+  display: none;
+  position: absolute;
+  z-index: 100;
+  right: 0;
+  min-width: 200px;
+  border-radius: 2px;
+  text-align: left;
+}
+.betslipWrapper .EnhancedPitcherWrapper.showing, .betslipWrapper .EnhancedIfBetWrapper.showing, .betslipWrapper .EnhancedTeaserWrapper.showing, .betslipWrapper .EnhancedOddsWrapper.showing, .bs-EachWayExtraBetType_Wrapper.showing, .betslipTypeSelector.showing, .bs-AusRaceBetType_Wrapper.showing, .betslipWrapper .EnhancedToteWrapper.showing {
+  display: block!important;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  top: 94px;
+}
+.betslipWrapper #BetSlipTypes .BetSlipType-selected {
+  background-color: #fff;
+  color: #9f263d;
+}
+.betslipHeader select {
+  display: none;
+}
+.betslipWrapper select {
+  display: none;
+}
+.betslipWrapper #BetSlipTypes li {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-bottom: 1px solid #ccc;
+  background-color: #f0f0f0;
+  font-family: 'Helvetica Neue',Helvetica,'Segoe UI',Roboto,'Droid Sans',Arial,sans-serif;
+  font-size: 14px;
+  color: #333;
+  padding: 0 11px;
+  height: 43px;
+  line-height: 44px;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
 .betslipWrapper div.selectionRow>div.selection {
   display: table-cell;
   padding: 8px 0 10px 0;
   overflow: hidden;
   width: 100%;
+  max-height: 69px;
   -moz-transform: translateX(-23px);
   -ms-transform: translateX(-23px);
   -o-transform: translateX(-23px);
@@ -225,6 +326,21 @@
   -moz-transition: transform .2s,-webkit-transform .2s;
   -webkit-transition: transform .2s,-webkit-transform .2s;
   transition: transform .2s,-webkit-transform .2s;
+}
+.betslipWrapper.editMode div.selectionRow>div.selection {
+  -moz-transform: translateX(2px);
+  -ms-transform: translateX(2px);
+  -o-transform: translateX(2px);
+  -webkit-transform: translateX(2px);
+  transform: translateX(2px);
+}
+.betslipWrapper.editMode div.selectionRow div.removeColumn {
+  -moz-transform: translateX(2px);
+  -ms-transform: translateX(2px);
+  -o-transform: translateX(2px);
+  -webkit-transform: translateX(2px);
+  transform: translateX(2px);
+  pointer-events: auto;
 }
 .betslipWrapper div.selectionRow div.selection div.selectionDescription {
   color: #404040;
@@ -332,6 +448,9 @@ input[type="text"], input[type="password"], input[type="number"], input[type="te
   -webkit-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
   transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
 }
+/* .hasodds {
+  max-height: 69px;
+} */
 ul#betslipFooterContainer {
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -424,6 +543,7 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
   border: 0 none;
 }
 #totalStake {
+  color: #545454;
   display: none!important;
   width: 0;
   height: 0;
@@ -481,17 +601,22 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
 .betslipWrapper div.selectionRow div.removeColumn {
   display: table-cell;
   position: relative;
+  /* background-color: #fff; */
   min-width: 30px;
-  -moz-transform: translateX(-23px);
-  -ms-transform: translateX(-23px);
-  -o-transform: translateX(-23px);
-  -webkit-transform: translateX(-23px);
-  transform: translateX(-23px);
+  -moz-transform: translateX(-29px);
+  -ms-transform: translateX(-29px);
+  -o-transform: translateX(-29px);
+  -webkit-transform: translateX(-29px);
+  transform: translateX(-29px);
   -o-transition: transform .2s,-webkit-transform .2s;
   -moz-transition: transform .2s,-webkit-transform .2s;
   -webkit-transition: transform .2s,-webkit-transform .2s;
   transition: transform .2s,-webkit-transform .2s;
   pointer-events: none;
+}
+div.removeColumn span {
+  top: 25px;
+  color: red;
 }
 .betslipWrapper div.selectionRow>div.selection {
   display: table-cell;
@@ -606,8 +731,8 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
 /* Stakepad*/
 
 .betslipWrapper .errStk.keypad .stake .stk.focus, .betslipWrapper .keypad .stk.focus {
-  color: #14805e;
-  border-bottom: 2px solid #888;
+  color: #fff;
+  border-bottom: 2px solid #333;
 }
 .stakePadToolTips {
   box-sizing: border-box;
@@ -835,10 +960,10 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
   border-right: none;
 }
 .stakePadKeyDown {
-  background-color: #fff!important;
-  color: #666!important;
-  border-right: 1px solid #fff;
-  border-bottom: 1px solid #fff;
+  background-color:  ‎#F9CCCA!important;
+  color: #fff!important;
+  border-right: 1px solid red;
+  border-bottom: 1px solid red;
 }
 .stakePadToolTipShow {
   opacity: 1!important;
@@ -847,4 +972,34 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
 .colContainer .itemKeyDel.stakePadBackSpaceKeyDown span {
   background-image: url(../../img/Keypad_Back_Selected.svg);
   background-color: #fff;
+}
+.betslipWrapper.overlay .oddsChange .odds, .betslipWrapper.overlay .oddsChange .betslip-select {
+  background-color: hsla(0,100%,50%,1.0);
+  color: #f0f0f0;
+  padding: 1px 5px 1px 5px;
+  margin: 0 6px;
+}
+.betslipWrapper li.single-section ul li.moving .deleteItem, .betslipWrapper li.cast-section ul li.moving .deleteItem, .betslipWrapper li.tote-pot-section ul li.moving .deleteItem, .betslipWrapper li.bs-BetBuilderGroupSection.moving .deleteItem {
+  -moz-transition: none;
+  -webkit-transition: none;
+  transition: none;
+}
+.betslipWrapper>ul>li>ul>li>ul>li.suspended {
+  position: relative;
+}
+.betslipWrapper .suspended .bs-ItemOverlay {
+  display: block;
+}
+.betslipWrapper .bs-ItemOverlay {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: #d8d8d8;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  opacity: .5;
+  -webkit-transition: -webkit-transform .2s;
+  transition: transform .2s,-webkit-transform .2s;
 }

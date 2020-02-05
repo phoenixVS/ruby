@@ -139,6 +139,7 @@ exports('fetch', (params, done) => {
             }
           }
         });
+        console.log(tree);
         return tree;
       }
     }

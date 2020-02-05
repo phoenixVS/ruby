@@ -55,3 +55,18 @@ function loadJsModules(config) {
         })(0);
     });
 }
+
+function loadJsLibs(config) {
+    $(() => {
+        const keys = Object.keys(config);
+
+        (function processKey(index) {
+            if (index === keys.length) return;
+
+            const moduleName = keys[index];
+            const moduleParams = config[keys[index]];
+
+            imports("js/libs/" + moduleName + ".js", () => { });
+        })(0);
+    });
+}

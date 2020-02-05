@@ -133,9 +133,13 @@ function mainHandler() {
             });
     });
 }
+
+
+// on filter active
 function filterHandler(ID) {
     $(`[data-id="play-table"]`).empty();
     $(`[data-id="play-big"]`).empty();
+
     if (performance.navigation.type == 1) {
         let fetchData = new Promise((resolve, reject) => {
             loadJsModules({
@@ -174,74 +178,87 @@ function filterHandler(ID) {
         });
         fetchPromise
             .then((response) => {
-                if (performance.navigation.type == 1) {
-                    clearInterval(window.t_interval);
-                    clearInterval(window.inplay_interval);
-                    /*for (let i = 0; i < window.intervals.length; i++) {
-                        clearInterval(window.intervals[i]);
-                    }*/
-                    loadJsModules({
-                        header: { loadCSS: true, loadLanguage: false },
-                        aside: { loadCSS: false, loadLanguage: false },
-                        slider: { loadCSS: false, loadLanguage: false },
-                        live: { loadCSS: false, loadLanguage: false },
-                        betslip_link: { loadCSS: false, loadLanguage: false },
-                    });
-                } else {
-                    clearInterval(window.t_interval);
-                    clearInterval(window.inplay_interval);
-                    /*for (let i = 0; i < window.intervals.length; i++) {
-                        clearInterval(window.intervals[i]);
-                    }*/
+                // if fileter valid
+                let valid = false;
+                for (let item of window.inplay) {
+                    if (item.ID == ID) {
+                        valid = true;
+                        break;
+                    }
                 }
-                let onModulesLoad = new Promise((resolve, reject) => {
-                    loadJsModules({
-                        coef_table: { filtered: true, sportId: ID, loadCSS: false, loadLanguage: false },
-                        play_big: { sportId: ID, loadCSS: true, loadLanguage: false },
-                        play_table: { sportId: ID, loadCSS: false, loadLanguage: false },
+                if (valid) {
+                    if (performance.navigation.type == 1) {
+                        clearInterval(window.t_interval);
+                        clearInterval(window.inplay_interval);
+                        /*for (let i = 0; i < window.intervals.length; i++) {
+                            clearInterval(window.intervals[i]);
+                        }*/
+                        loadJsModules({
+                            header: { loadCSS: true, loadLanguage: false },
+                            aside: { loadCSS: false, loadLanguage: false },
+                            slider: { loadCSS: false, loadLanguage: false },
+                            live: { loadCSS: false, loadLanguage: false },
+                            betslip_link: { loadCSS: false, loadLanguage: false },
+                        });
+                    } else {
+                        clearInterval(window.t_interval);
+                        clearInterval(window.inplay_interval);
+                        /*for (let i = 0; i < window.intervals.length; i++) {
+                            clearInterval(window.intervals[i]);
+                        }*/
+                    }
+                    let onModulesLoad = new Promise((resolve, reject) => {
+                        loadJsModules({
+                            coef_table: { filtered: true, sportId: ID, loadCSS: false, loadLanguage: false },
+                            play_big: { sportId: ID, loadCSS: true, loadLanguage: false },
+                            play_table: { sportId: ID, loadCSS: false, loadLanguage: false },
+                        });
+                        resolve();
                     });
-                    resolve();
-                });
 
-                onModulesLoad.then(
-                    result => {
-                        const user_menu = $(`[data-id=user-menu]`);
-                        const mybets = $(`[data-id=mybets]`);
-                        const slider = $(`[data-id=slider]`);
-                        const formWrapper = $(`[data-id=registrationWrapper]`);
-                        const play_big = $(`[data-id=play-big]`);
-                        const coef_table = $(`[data-id=coef_table]`);
-                        const play_table = $(`[data-id=play-table]`);
-                        const live = $(`[data-id=live]`);
-                        const game = $(`[data-id=game]`);
-                        const betslip = $(`[data-id=betslip]`);
-                        const betslip_link = $(`[data-id=betslip-link]`);
-                        const betslip_small = $(`[data-id=betslip-small]`);
-                        const lurks = [
-                            user_menu,
-                            mybets,
-                            formWrapper,
-                            game,
-                            betslip,
-                            betslip_link,
-                            betslip_small,
-                        ];
-                        const unlurks = [
-                            play_big,
-                            coef_table,
-                            play_table,
-                            live,
-                            slider,
-                        ];
-                        lurking(lurks, unlurks);
-                        user_menu.empty();
-                        mybets.empty();
-                        game.empty();
-                    },
-                    error => {
-                        console.log(`modules haven't been loaded :_( \n
-                and everthing because of: ${error}`);
-                    });
+                    onModulesLoad.then(
+                        result => {
+                            const user_menu = $(`[data-id=user-menu]`);
+                            const mybets = $(`[data-id=mybets]`);
+                            const slider = $(`[data-id=slider]`);
+                            const formWrapper = $(`[data-id=registrationWrapper]`);
+                            const play_big = $(`[data-id=play-big]`);
+                            const coef_table = $(`[data-id=coef_table]`);
+                            const play_table = $(`[data-id=play-table]`);
+                            const live = $(`[data-id=live]`);
+                            const game = $(`[data-id=game]`);
+                            const betslip = $(`[data-id=betslip]`);
+                            const betslip_link = $(`[data-id=betslip-link]`);
+                            const betslip_small = $(`[data-id=betslip-small]`);
+                            const lurks = [
+                                user_menu,
+                                mybets,
+                                formWrapper,
+                                game,
+                                betslip,
+                                betslip_link,
+                                betslip_small,
+                            ];
+                            const unlurks = [
+                                play_big,
+                                coef_table,
+                                play_table,
+                                live,
+                                slider,
+                            ];
+                            lurking(lurks, unlurks);
+                            user_menu.empty();
+                            mybets.empty();
+                            game.empty();
+                        },
+                        error => {
+                            console.log(`modules haven't been loaded :_( \n
+                    and everthing because of: ${error}`);
+                        });
+                }
+                else {
+                    emptyHandler();
+                }
             });
     }
 }
