@@ -29,7 +29,7 @@ exports('betslip_link', (params, done) => {
       if (BetslipList.uniquenes(window.BetslipList)) {
         let m = 1;
         window.BetslipList.map((item) => {
-          m *= item.coef;
+          m *= modifyBets(item.OD);
         });
         m = Math.round((m + Number.EPSILON) * 100) / 100;
         bsLink.children().children('.text-right').children('p.font').text('Multiply Odds');
@@ -61,9 +61,20 @@ exports('betslip_link', (params, done) => {
       else {
         const BetslipItem = {};
         BetslipItem.eventID = cur.parent().siblings(`[data-id=event]`).data('gameId');
-        BetslipItem.type = cur.data('type');
-        BetslipItem.coef = cur.html().includes('/') ? modifyBets(cur.html()) : cur.html();
+        BetslipItem.eventNA = cur.data(`eventna`);
+        BetslipItem.marketNA = cur.data(`marketna`);
+        BetslipItem.BS = cur.data(`bs`);
+        BetslipItem.FI = cur.data(`fi`);
+        BetslipItem.HA = cur.data(`ha`);
+        BetslipItem.HD = cur.data(`hd`);
+        BetslipItem.ID = cur.data(`id`);
+        BetslipItem.IT = cur.data(`it`);
+        BetslipItem.NA = cur.data(`na`);
+        BetslipItem.OD = cur.data(`od`);
+        BetslipItem.OR = cur.data(`or`);
+        BetslipItem.SU = cur.data(`su`);
         BetslipList.push(BetslipItem);
+        console.log(BetslipList);
         cur.addClass('selected');
         bsLink.slideDown('fast');
       }

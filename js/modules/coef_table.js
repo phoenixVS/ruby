@@ -84,13 +84,18 @@ exports('coef_table', (params, done) => {
             data.forEach(sport => {
               if (parseInt(sport.ID) == ID) {
                 if (ID == 1) {
-                  $(`[data-id=coef-one]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[0].OD));
-                  $(`[data-id=coef-two]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[1].OD));
-                  $(`[data-id=coef-three]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[2].OD));
+                  $(`[data-id=coef-one]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[0].OD))
+                    .data('BS', `${CT[0].EV[0].MA[0].PA[0].BS}`).attr('data-BS', `${CT[0].EV[0].MA[0].PA[0].BS}`);
+                  $(`[data-id=coef-two]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[1].OD))
+                    .data('BS', `${CT[0].EV[0].MA[0].PA[1].BS}`).attr('data-BS', `${CT[0].EV[0].MA[0].PA[1].BS}`);
+                  $(`[data-id=coef-three]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[2].OD))
+                    .data('BS', `${CT[0].EV[0].MA[0].PA[2].BS}`).attr('data-BS', `${CT[0].EV[0].MA[0].PA[2].BS}`);
                 }
                 else {
-                  $(`[data-id=coef-one]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[0].OD));
-                  $(`[data-id=coef-three]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[1].OD));
+                  $(`[data-id=coef-one]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[0].OD))
+                    .data('BS', `${CT[0].EV[0].MA[0].PA[0].BS}`).attr('data-BS', `${CT[0].EV[0].MA[0].PA[0].BS}`);;
+                  $(`[data-id=coef-three]`).text(modifyBets(sport.CT[0].EV[0].MA[0].PA[1].OD))
+                    .data('BS', `${CT[0].EV[0].MA[0].PA[1].BS}`).attr('data-BS', `${CT[0].EV[0].MA[0].PA[1].BS}`);;
                   $(`[data-id=coef-two]`).remove();
                 }
               }
@@ -100,7 +105,6 @@ exports('coef_table', (params, done) => {
           }
         }
         else {
-          //console.log(data);
           let sport = data[0].TG[0].CT;
           let rowsPromise = new Promise((resolve, reject) => {
             $(`[data-id=coef_table]`).empty();
@@ -173,7 +177,7 @@ exports('coef_table', (params, done) => {
                 cur.removeClass('active');
                 cur.addClass('not-active');
                 coID = cur.data('coefId');
-                $(`[data-bet=${coID}]`).slideUp(250, () => { $(`[data-bet=${coID}]`).remove(); });//slideUp('normal', () => { $(this).remove(); });
+                $(`[data-bet=${coID}]`).slideUp(250, () => { $(`[data-bet=${coID}]`).remove(); });
                 cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
               }
             });

@@ -14,6 +14,12 @@ exports('betslip', (params, done) => {
     blur.addClass('block');
     betslip.slideDown('middle');
 
+    // Convert fractial to decimal
+    modifyBets = (od) => {
+      const nums = od.split('/');
+      return (nums[0] / nums[1] + 1).toFixed(2)
+    };
+
     if (Cookies.get('logon') == 'true') {
       // TODO: clear LOGIN button
     }
@@ -105,7 +111,7 @@ exports('betslip', (params, done) => {
             // remove all bets
             $('.removeAll').on('click', (event) => {
               $('.button.coefficient.selected').removeClass('selected');
-              item.animate({ width: 'toggle' }, 250);
+              item.animate({ translateX: 'toggle' }, 1000);
               window.BetslipList.splice(0, BetslipList.length);
               blur.removeClass('block');
               blur.addClass('none');
@@ -118,14 +124,16 @@ exports('betslip', (params, done) => {
             $('.removeColumn').on('click', (event) => {
               const cur = $(event.target);
               let eventID = cur.closest('li.hasodds').data('event');
+              let ID = cur.closest('li.hasodds').data(`id`);
               window.BetslipList.map((item, index) => {
                 if (item.eventID == eventID) {
                   window.BetslipList.splice(index, 1);
                 }
               });
+              $(.button.coefficient[data-id=]`)
               console.log(eventID);
               console.log(window.BetslipList);
-              cur.parent().parent().animate({ width: 'toggle' }, 250);;
+              cur.parent().parent().animate({ translateX: 'toggle' }, 1000);;
             });
             $('.betslip-select').on('click', (event) => {
               const cur = $(event.target);
@@ -187,20 +195,20 @@ exports('betslip', (params, done) => {
     });
 
     function appendBet(item) {
-      let { eventID, type, coef } = item;
+      let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU } = item;
       content.children('ul').append(`
-                    <li class="hasodds oddsChange" data-event="${eventID}" data-coef="${coef}" data-type="${type}">
+                    <li class="hasodds oddsChange" data-event="${eventID}" data-BS="${BS}" data-FI="${FI}" data-HA="${HA}" data-HD="${HD}" data-ID="${ID}" data-IT="${IT}" data-NA="${NA}" data-OD="${OD}" data-OR="${OR}" data-SU="${SU}">
                       <div class="bs-ItemOverlay" ></div > <div class="selectionRow">
                         <div class="restrictedMultiple"></div>
                         <div class="removeColumn"><span class="close remove-bet"></span></div>
                         <div class="selection">
-                          <div class="selectionDescription">Не забьет 1-й Гол</div>
-                          <div class="fullSlipMode">Следующий гол</div>
-                          <div class="fullSlipMode">Кобан Империал - Резерв v Депортиво Истапа - Резерв</div>
+                          <div class="selectionDescription">${NA}</div>
+                          <div class="fullSlipMode">${marketNA}</div>
+                          <div class="fullSlipMode">${eventNA}</div>
                         </div>
-                        <div class="odds">${coef}</div>
+                        <div class="odds">${modifyBets(OD)}</div>
                         <div class="stake">
-                          <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Ставка" readonly="readonly">
+                          <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Stake" readonly="readonly">
                             <div class="stakeToReturn hidden  ">
                               To return
                   <span class="stakeToReturn_Value">&nbsp;0,00</span>
