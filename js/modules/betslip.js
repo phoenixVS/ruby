@@ -133,19 +133,17 @@ exports('betslip', (params, done) => {
               });
               $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
               $('.betSlipyCountText').text(parseInt($('.betSlipyCountText').text()) - 1);
-              console.log(eventID);
-              console.log(window.BetslipList);
               cur.parent().parent().animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
                 cur.parent().parent().remove();
-              });
-              if($('.betSlipyCountText').text() == 0) {
-                blur.removeClass('block');
-                blur.addClass('none');
-                betslip.slideUp('fast');
-                if (window.BetslipList.length > 0) {
-                  bsLink.slideDown('fast');
+                if ($('.betSlipyCountText').text() == 0) {
+                  blur.removeClass('block');
+                  blur.addClass('none');
+                  betslip.slideUp('fast');
+                  if (window.BetslipList.length > 0) {
+                    bsLink.slideDown('fast');
+                  }
                 }
-              }
+              });
             });
             $('.betslip-select').on('click', (event) => {
               const cur = $(event.target);
