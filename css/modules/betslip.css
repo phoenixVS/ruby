@@ -444,9 +444,9 @@ input[type="text"], input[type="password"], input[type="number"], input[type="te
   justify-content: center;
   color: #fff;
   font-size: 13px;
-  -moz-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
+  /* -moz-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
   -webkit-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
-  transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
+  transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s; */
 }
 /* .hasodds {
   max-height: 69px;
@@ -959,10 +959,15 @@ div.removeColumn span {
 .colContainer button.nrb {
   border-right: none;
 }
-.stakePadKeyDown {
-  background-color:‎#23161e;
+.keyboard-button.stakePadKeyDown {
+  opacity: 0.85;
+	-webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+	box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+  -webkit-tap-highlight-color: transparent;
+  background-color: rgba(67, 42, 56, 1);
+  transition: none;
   color: #fff!important;
-  border: 2px solid red;
+  border: 2px solid grey;
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -970,6 +975,11 @@ div.removeColumn span {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Opera and Firefox */
+}
+.keyboard-button.reset.stakePadKeyDown {
+  background-image: url(../../img/Keypad_Back_Selected.svg);
+  background-color: rgba(51, 32, 43, 1);
+  transition: none;
 }
 button {
   -webkit-touch-callout: none; /* iOS Safari */

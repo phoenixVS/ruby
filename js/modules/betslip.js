@@ -128,7 +128,6 @@ exports('betslip', (params, done) => {
             //   }
             // }, 150);
             //console.log('startX:', startX);
-
             let distance = 0;
             item.on('touchmove', (event) => {
               cur.parent('.single-section.standardBet > ul > li').addClass('mov');
@@ -147,10 +146,12 @@ exports('betslip', (params, done) => {
               }
               else {
                 if (distance < 0) {
-                  drugEl.css('transform', `translateX(${distance - 100}px)`);
+                  // d - 100
+                  drugEl.css('transform', `translateX(${distance}px)`);
                 }
                 if (distance < -100) {
-                  cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance + 100}`);
+                  // -d + 100
+                  cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance}`);
                 }
               }
             });
@@ -198,8 +199,8 @@ exports('betslip', (params, done) => {
               cur = cur.children('input.stk');
             }
             if (cur.is('.focus')) {
-              input.removeClass('focus');
-              cur.siblings('.stakeToReturn').addClass('hidden');
+              cur.closest('.stk').removeClass('focus');
+              cur.closest('.stakeToReturn').addClass('hidden');
               cur.closest('.hasodds').removeClass('keypad');
               item.children('.stakepad').slideUp(250, function () {
                 $(this).remove();
@@ -220,6 +221,23 @@ exports('betslip', (params, done) => {
                 $('.keyboard-button').on('touchstart', (event) => {
                   let cur = $(event.target);
                   let n = cur.html();
+                  console.log(n);
+                  if (n == 'Done') {
+                    cur.parent().parent().closest('.stk').removeClass('focus');
+                    $('.stakeToReturn').addClass('hidden');
+                    cur.closest('.hasodds').removeClass('keypad');
+                    item.children('.stakepad').slideUp(250, function () {
+                      $(this).remove();
+                    });
+                  }
+                  else {
+                    if (n == '') {
+                      console.log(cur.closest('.single-section.standardBet > ul > li').val());
+                    }
+                    else {
+                      cur.closest
+                    }
+                  }
                   cur.addClass('stakePadKeyDown');
                   $('#stakePadToolTip').text(n);
                 });
