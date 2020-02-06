@@ -960,16 +960,31 @@ div.removeColumn span {
   border-right: none;
 }
 .stakePadKeyDown {
-  background-color:  ‎#F9CCCA!important;
+  background-color:‎#23161e;
   color: #fff!important;
-  border-right: 1px solid red;
-  border-bottom: 1px solid red;
+  border: 2px solid red;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+button {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
 }
 .stakePadToolTipShow {
   opacity: 1!important;
   visibility: visible;
 }
-.colContainer .itemKeyDel.stakePadBackSpaceKeyDown span {
+.flex-container .keyboard-button.stakePadBackSpaceKeyDown span {
   background-image: url(../../img/Keypad_Back_Selected.svg);
   background-color: #fff;
 }

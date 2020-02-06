@@ -128,7 +128,7 @@ exports('betslip', (params, done) => {
             //   }
             // }, 150);
             //console.log('startX:', startX);
-            
+
             let distance = 0;
             item.on('touchmove', (event) => {
               cur.parent('.single-section.standardBet > ul > li').addClass('mov');
@@ -217,13 +217,13 @@ exports('betslip', (params, done) => {
                 cur.closest('.hasodds').addClass('keypad');
                 $('.stakepad').hide();
                 $('.stakepad').slideDown('fast');
-                $('.keyboard-button').on('mousedown', (event) => {
+                $('.keyboard-button').on('touchstart', (event) => {
                   let cur = $(event.target);
                   let n = cur.html();
                   cur.addClass('stakePadKeyDown');
                   $('#stakePadToolTip').text(n);
                 });
-                $('.keyboard-button').on('mouseup', (event) => {
+                $('.keyboard-button').on('touchend', (event) => {
                   let cur = $(event.target);
                   let n = cur.html();
                   cur.removeClass('stakePadKeyDown');
