@@ -197,7 +197,7 @@ function filterHandler(ID) {
                             header: { loadCSS: true, loadLanguage: false },
                             aside: { loadCSS: false, loadLanguage: false },
                             slider: { loadCSS: false, loadLanguage: false },
-                            live: { loadCSS: false, loadLanguage: false },
+                            live: { sportId: ID, loadCSS: false, loadLanguage: false },
                             betslip_link: { loadCSS: false, loadLanguage: false },
                         });
                     } else {
@@ -209,6 +209,7 @@ function filterHandler(ID) {
                     }
                     let onModulesLoad = new Promise((resolve, reject) => {
                         loadJsModules({
+                            live: { sportId: ID, loadCSS: false, loadLanguage: false },
                             coef_table: { filtered: true, sportId: ID, loadCSS: false, loadLanguage: false },
                             play_big: { sportId: ID, loadCSS: true, loadLanguage: false },
                             play_table: { sportId: ID, loadCSS: false, loadLanguage: false },
@@ -308,6 +309,7 @@ function gameHandler(ID) {
                     loadJsModules({
                         header: { loadCSS: true, loadLanguage: false },
                         aside: { loadCSS: true, loadLanguage: false },
+                        betslip_link: { loadCSS: true, loadLanguage: false },
                     });
                 }
 
@@ -315,6 +317,7 @@ function gameHandler(ID) {
                     loadJsModules({
                         coef_table: { expand: true, loadCSS: true, loadLanguage: false },
                         game: { gameId: ID, loadCSS: true, loadLanguage: false },
+                        betslip_link: { loadCSS: true, loadLanguage: false },
                     });
                     resolve();
                 });

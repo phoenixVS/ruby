@@ -1,4 +1,7 @@
 exports('betslip', (params, done) => {
+  if ($('.betslipWrapper').length > 0) {
+    $('.betslipWrapper').empty();
+  }
   insertHtmlModules({
     ".betslipWrapper": [
       "betslip/betslip.html"
@@ -13,6 +16,36 @@ exports('betslip', (params, done) => {
     blur.removeClass('none');
     blur.addClass('block');
     betslip.slideDown('middle');
+
+    // get request body from cookies
+    const data = {
+      bt: '1||',
+      mo: 0,
+      fs: 0,
+      ns: '',
+      ms: '',
+      cs: '',
+    }
+    const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+    const keys = Object.keys(parsedCookies);
+    for (name of keys) {
+      if (name.substring(0, 3) == 'pa_') {
+        data.ns += 'pt=N#';
+        data.ns += parsedCookies[name];
+      }
+    }
+    const xhr = new XMLHttpRequest();
+    const url = 'https://www.bestline.bet/betslip/?op=1';
+    xhr.open("POST", url);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    console.log(data);
+    xhr.send(data);
+
+    xhr.onreadystatechange = (e) => {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(xhr.responseText);
+      }
+    }
 
     // Convert fractial to decimal
     modifyBets = (od) => {
@@ -82,36 +115,76 @@ exports('betslip', (params, done) => {
           //     console.log(`down`);
           //   });
           // }
+          $('.deleteItem').on('click', (event) => {
+            const cur = $(event.target).closest('li.hasodds');
+            console.log(cur);
+            let eventID = cur.closest('li.hasodds').data('event');
+            let ID = cur.closest('li.hasodds').data(`id`);
+            window.BetslipList.map((item, index) => {
+              if (item.eventID == eventID) {
+                window.BetslipList.splice(index, 1);
+              }
+            });
+            $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
+            $('.betSlipyCountText').text(BetslipList.length);
+            cur.animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
+              cur.remove();
+              $('.betslip-link p.betslip-link-count').attr('data', BetslipList.length);
+              if ($('.betslip-link p.betslip-link-count').attr('data') == 0) {
+                bsLink.slideUp('fast');
+              }
+              multiOdds();
+              if ($('.betSlipyCountText').text() == 0) {
+                blur.removeClass('block');
+                blur.addClass('none');
+                betslip.slideUp('fast');
+                if (window.BetslipList.length > 0) {
+                  bsLink.slideDown('fast');
+                }
+              }
+            });
+          });
           item.on('touchstart', (event) => {
             const cur = $(event.target);
             const li = cur.closest('li.hasodds')[0];
             const transformStyle = li.style.transform;
             const startTranslated = transformStyle.replace(/[^\d.]/g, '');
             const startX = event.originalEvent.touches[0].pageX;
-            console.log('startX:', startX);
+            // const width = setInterval(() => {
+            //   if (distance < -100) {
+            //     console.log('not +100');
+            //     cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance}`);
+            //   }
+            //   else {
+            //     console.log('+100');
+            //     cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance + 100}`);
+            //   }
+            // }, 150);
+            //console.log('startX:', startX);
             let distance = 0;
             item.on('touchmove', (event) => {
               cur.parent('.single-section.standardBet > ul > li').addClass('mov');
               const curX = event.originalEvent.touches[0].pageX;
-              console.log('curX:', curX);
+              //console.log('curX:', curX);
               distance = curX - startX;
+              console.log(distance);
               let drugEl = $(event.target).closest('li.hasodds');
               if (startTranslated == '') {
                 if (distance < 0) {
                   drugEl.css('transform', `translateX(${distance}px)`);
                 }
                 if (distance < -100) {
-                  // console.log(distance);
                   cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance}`);
                 }
               }
               else {
                 if (distance < 0) {
-                  drugEl.css('transform', `translateX(${distance - 100}px)`);
+                  // d - 100
+                  drugEl.css('transform', `translateX(${distance}px)`);
                 }
                 if (distance < -100) {
-                  // console.log(distance);
-                  cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance + 100}`);
+                  // -d + 100
+                  cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance}`);
                 }
               }
             });
@@ -140,40 +213,11 @@ exports('betslip', (params, done) => {
                   }
                 });
               }
-              if (distance < -100) {
+              if (distance < -70) {
                 cur.closest('li.hasodds').css('transform', `translateX(-100px)`);
                 cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${100}`);
-                $('.deleteItem').on('click', (event) => {
-                  const cur = $(event.target).closest('li.hasodds');
-                  let eventID = cur.closest('li.hasodds').data('event');
-                  let ID = cur.closest('li.hasodds').data(`id`);
-                  window.BetslipList.map((item, index) => {
-                    if (item.eventID == eventID) {
-                      window.BetslipList.splice(index, 1);
-                    }
-                  });
-                  $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
-                  $('.betSlipyCountText').text(BetslipList.length);
-                  cur.animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
-                    cur.remove();
-                    $('.betslip-link p.betslip-link-count').attr('data', BetslipList.length);
-                    if ($('.betslip-link p.betslip-link-count').attr('data') == 0) {
-                      bsLink.slideUp('fast');
-                    }
-                    multiOdds();
-                    if ($('.betSlipyCountText').text() == 0) {
-                      blur.removeClass('block');
-                      blur.addClass('none');
-                      betslip.slideUp('fast');
-                      if (window.BetslipList.length > 0) {
-                        bsLink.slideDown('fast');
-                      }
-                    }
-                  });
-                });
               }
               else {
-                $('.deleteItem').off();
                 cur.closest('li.hasodds').css('transform', ``);
                 cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${100}`);
               }
@@ -181,15 +225,25 @@ exports('betslip', (params, done) => {
               event.stopPropagation();
             });
           });
+          let nptChng = new Event('inputChange');
           // stakepad
           const onStake = (event) => {
             let cur = $(event.target);
             if (cur.is('.stake')) {
               cur = cur.children('input.stk');
             }
+            if (cur.is('.stakeToReturn')) {
+              cur = cur.parent('.stake').children('input.stk');
+            }
             if (cur.is('.focus')) {
-              input.removeClass('focus');
-              cur.siblings('.stakeToReturn').addClass('hidden');
+              $('.stk.focus').removeClass('focus');
+              $.each($('.stk'), (i, el) => {
+                console.log($(el));
+                console.log($(el).siblings('.stakeToReturn').children('.stakeToReturn_Value').text());
+                if ($(el).siblings('.stakeToReturn').children('.stakeToReturn_Value').text() == '0.00') {
+                  $(el).addClass('hidden');
+                }
+              });
               cur.closest('.hasodds').removeClass('keypad');
               item.children('.stakepad').slideUp(250, function () {
                 $(this).remove();
@@ -201,19 +255,50 @@ exports('betslip', (params, done) => {
               });
               input.removeClass('focus');
               cur.addClass('focus');
-              $('.stakeToReturn').addClass('hidden');
               cur.siblings('.stakeToReturn').removeClass('hidden');
               cur.closest('.hasodds').append($('<div class="stakepad">').load(`./html/modules/betslip/keyboard.html`, () => {
                 cur.closest('.hasodds').addClass('keypad');
                 $('.stakepad').hide();
                 $('.stakepad').slideDown('fast');
-                $('.keyboard-button').on('mousedown', (event) => {
+                $('.keyboard-button').on('touchstart', (event) => {
                   let cur = $(event.target);
                   let n = cur.html();
+                  if (n == 'Done') {
+                    cur.css('border-radius', '0');
+                    if ($('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text() == '0.00') {
+                      $('.stakeToReturn').addClass('hidden');
+                    }
+                    $('.stk.focus').removeClass('focus');
+                    cur.closest('.hasodds').removeClass('keypad');
+                    item.children('.stakepad').slideUp(250, function () {
+                      $(this).remove();
+                    });
+                  }
+                  else {
+                    if (n == '') {
+                      cur.css('border-radius', '0');
+                      $('.stk.focus').val($('.stk.focus').val().slice(0, -1));
+                      document.querySelector('.stk.focus').dispatchEvent(nptChng);
+                    }
+                    else {
+                      if (n == '.') {
+                        cur.css('border-radius', '0');
+                        if ($('.stk.focus').val().includes('.')) { }
+                        else {
+                          $('.stk.focus').val($('.stk.focus').val() + n);
+                          document.querySelector('.stk.focus').dispatchEvent(nptChng);
+                        }
+                      }
+                      else {
+                        $('.stk.focus').val($('.stk.focus').val() + n);
+                        document.querySelector('.stk.focus').dispatchEvent(nptChng);
+                      }
+                    }
+                  }
                   cur.addClass('stakePadKeyDown');
                   $('#stakePadToolTip').text(n);
                 });
-                $('.keyboard-button').on('mouseup', (event) => {
+                $('.keyboard-button').on('touchend', (event) => {
                   let cur = $(event.target);
                   let n = cur.html();
                   cur.removeClass('stakePadKeyDown');
@@ -228,7 +313,21 @@ exports('betslip', (params, done) => {
             }
           };
           $('.stake').on('click', onStake);
-
+          // on input change
+          const inputs = document.querySelectorAll('.stk');
+          for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('inputChange', (event) => {
+              const cur = $(event.target);
+              let multiplyer = parseFloat(cur.parent().siblings('.odds').text());
+              let tr = parseFloat($('.stk.focus').val()) * multiplyer;
+              if (!isNaN(tr)) {
+                $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text(Math.round((tr + Number.EPSILON) * 100) / 100);
+              }
+              else {
+                $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text('0.00');
+              }
+            });
+          }
           // Edit mode
           $('#bsDiv').on('editMode', function () {
             // Remove stakepad if is
@@ -257,7 +356,7 @@ exports('betslip', (params, done) => {
             });
             // Remove bet
             $('.removeColumn').on('click', (event) => {
-              const cur = $(event.target);
+              let cur = $(event.target);
               let eventID = cur.closest('li.hasodds').data('event');
               let ID = cur.closest('li.hasodds').data(`id`);
               window.BetslipList.map((item, index) => {
@@ -267,6 +366,9 @@ exports('betslip', (params, done) => {
               });
               $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
               $('.betSlipyCountText').text(parseInt($('.betSlipyCountText').text()) - 1);
+              if (cur.is('span')) {
+                cur = cur.parent();
+              }
               cur.parent().parent().animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
                 cur.parent().parent().remove();
                 if ($('.betSlipyCountText').text() == 0) {
@@ -352,10 +454,10 @@ exports('betslip', (params, done) => {
                 </div>
                 <div class="odds">${modifyBets(OD)}</div>
                 <div class="stake">
-                  <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Stake" readonly="readonly">
+                  <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Stake" readonly="readonly" maxlength="9">
                     <div class="stakeToReturn hidden  ">
-                      To return
-                  <span class="stakeToReturn_Value">&nbsp;0,00</span>
+                      To return&nbsp;
+                  <span class="stakeToReturn_Value">0.00</span>
                     </div>
                 </div>
                 </div>
