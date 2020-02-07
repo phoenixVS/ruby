@@ -1,4 +1,7 @@
 exports('betslip', (params, done) => {
+  if ($('.betslipWrapper').length > 0) {
+    $('.betslipWrapper').empty();
+  }
   insertHtmlModules({
     ".betslipWrapper": [
       "betslip/betslip.html"
@@ -199,8 +202,8 @@ exports('betslip', (params, done) => {
               cur = cur.children('input.stk');
             }
             if (cur.is('.focus')) {
-              cur.closest('.stk').removeClass('focus');
-              cur.closest('.stakeToReturn').addClass('hidden');
+              $('.stk.focus').removeClass('focus');
+              $('.stakeToReturn').addClass('hidden');
               cur.closest('.hasodds').removeClass('keypad');
               item.children('.stakepad').slideUp(250, function () {
                 $(this).remove();
@@ -213,7 +216,7 @@ exports('betslip', (params, done) => {
               input.removeClass('focus');
               cur.addClass('focus');
               $('.stakeToReturn').addClass('hidden');
-              cur.siblings('.stakeToReturn').removeClass('hidden');
+              $('.stakeToReturn').removeClass('hidden');
               cur.closest('.hasodds').append($('<div class="stakepad">').load(`./html/modules/betslip/keyboard.html`, () => {
                 cur.closest('.hasodds').addClass('keypad');
                 $('.stakepad').hide();
@@ -223,7 +226,8 @@ exports('betslip', (params, done) => {
                   let n = cur.html();
                   console.log(n);
                   if (n == 'Done') {
-                    cur.parent().parent().closest('.stk').removeClass('focus');
+                    cur.css('border-radius', '0');
+                    $('.stk.focus').removeClass('focus');
                     $('.stakeToReturn').addClass('hidden');
                     cur.closest('.hasodds').removeClass('keypad');
                     item.children('.stakepad').slideUp(250, function () {
@@ -232,10 +236,22 @@ exports('betslip', (params, done) => {
                   }
                   else {
                     if (n == '') {
-                      console.log(cur.closest('.single-section.standardBet > ul > li').val());
+                      cur.css('border-radius', '0');
+                      $('.stk.focus').val($('.stk.focus').val().slice(0, -1));
                     }
                     else {
-                      cur.closest
+                      if (n == '.') {
+                        cur.css('border-radius', '0');
+                        if ($('.stk.focus').val().includes('.')) {
+
+                        }
+                        else {
+                          $('.stk.focus').val($('.stk.focus').val() + n);
+                        }
+                      }
+                      else {
+                        $('.stk.focus').val($('.stk.focus').val() + n);
+                      }
                     }
                   }
                   cur.addClass('stakePadKeyDown');
@@ -256,7 +272,10 @@ exports('betslip', (params, done) => {
             }
           };
           $('.stake').on('click', onStake);
+          // on input change
+          $('.stk.focus').on('input', (event) => {
 
+          });
           // Edit mode
           $('#bsDiv').on('editMode', function () {
             // Remove stakepad if is
@@ -285,7 +304,7 @@ exports('betslip', (params, done) => {
             });
             // Remove bet
             $('.removeColumn').on('click', (event) => {
-              const cur = $(event.target);
+              let cur = $(event.target);
               let eventID = cur.closest('li.hasodds').data('event');
               let ID = cur.closest('li.hasodds').data(`id`);
               window.BetslipList.map((item, index) => {
@@ -295,6 +314,9 @@ exports('betslip', (params, done) => {
               });
               $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
               $('.betSlipyCountText').text(parseInt($('.betSlipyCountText').text()) - 1);
+              if (cur.is('span')) {
+                cur = cur.parent();
+              }
               cur.parent().parent().animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
                 cur.parent().parent().remove();
                 if ($('.betSlipyCountText').text() == 0) {

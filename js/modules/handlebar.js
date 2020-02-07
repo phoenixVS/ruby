@@ -308,6 +308,7 @@ function gameHandler(ID) {
                     loadJsModules({
                         header: { loadCSS: true, loadLanguage: false },
                         aside: { loadCSS: true, loadLanguage: false },
+                        betslip_link: { loadCSS: false, loadLanguage: false },
                     });
                 }
 
@@ -315,6 +316,7 @@ function gameHandler(ID) {
                     loadJsModules({
                         coef_table: { expand: true, loadCSS: true, loadLanguage: false },
                         game: { gameId: ID, loadCSS: true, loadLanguage: false },
+                        betslip_link: { loadCSS: false, loadLanguage: false },
                     });
                     resolve();
                 });

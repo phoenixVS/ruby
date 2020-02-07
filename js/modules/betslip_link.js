@@ -1,4 +1,7 @@
 exports('betslip_link', (params, done) => {
+  if ($('.betslip-link').length > 0) {
+    $('.betslip-link').empty();
+  }
   insertHtmlModules({
     ".betslip-link": [
       "betslip/betslip-link.html"
@@ -7,6 +10,8 @@ exports('betslip_link', (params, done) => {
     const bsLink = $('.betslip-link');
     const betslip = $('.betslipWrapper');
     const coefBtn = $('button.button.coefficient');
+    bsLink.off();
+    coefBtn.off();
 
     function uniq(a) {
       return a.sort().filter(function (item, pos, ary) {

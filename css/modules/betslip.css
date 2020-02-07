@@ -120,9 +120,14 @@
   width: 100%;
   padding-right: 66px;
 }
-@media (max-width: 450px) {
+@media (max-width: 455px) {
   .betSlipyLogin {
     font-size: 14px;
+  }
+}
+@media (max-width: 405px) {
+  .betSlipyLogin {
+    font-size: 12px;
   }
 }
 .betSlipyCloseIcon {
@@ -731,8 +736,9 @@ div.removeColumn span {
 /* Stakepad*/
 
 .betslipWrapper .errStk.keypad .stake .stk.focus, .betslipWrapper .keypad .stk.focus {
-  color: #fff;
+  color: rgba(67, 42, 56, 1);
   border-bottom: 2px solid #333;
+  font-weight: bold;
 }
 .stakePadToolTips {
   box-sizing: border-box;
@@ -967,7 +973,8 @@ div.removeColumn span {
   background-color: rgba(67, 42, 56, 1);
   transition: none;
   color: #fff!important;
-  border: 2px solid grey;
+  border: 2px solid #fff;
+  border-radius: 20%;
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -1057,4 +1064,9 @@ button {
   -moz-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
   -webkit-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
   transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
+}
+.single-section.standardBet {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 50%;
 }
