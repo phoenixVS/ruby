@@ -17,6 +17,36 @@ exports('betslip', (params, done) => {
     blur.addClass('block');
     betslip.slideDown('middle');
 
+    // get request body from cookies
+    const data = {
+      bt: '1||',
+      mo: 0,
+      fs: 0,
+      ns: '',
+      ms: '',
+      cs: '',
+    }
+    const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+    const keys = Object.keys(parsedCookies);
+    for (name of keys) {
+      if (name.substring(0, 3) == 'pa_') {
+        data.ns += 'pt=N#';
+        data.ns += parsedCookies[name];
+      }
+    }
+    const xhr = new XMLHttpRequest();
+    const url = 'https://www.bestline.bet/betslip/?op=1';
+    xhr.open("POST", url);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    console.log(data);
+    xhr.send(data);
+
+    xhr.onreadystatechange = (e) => {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(xhr.responseText);
+      }
+    }
+
     // Convert fractial to decimal
     modifyBets = (od) => {
       const nums = od.split('/');
@@ -195,15 +225,25 @@ exports('betslip', (params, done) => {
               event.stopPropagation();
             });
           });
+          let nptChng = new Event('inputChange');
           // stakepad
           const onStake = (event) => {
             let cur = $(event.target);
             if (cur.is('.stake')) {
               cur = cur.children('input.stk');
             }
+            if (cur.is('.stakeToReturn')) {
+              cur = cur.parent('.stake').children('input.stk');
+            }
             if (cur.is('.focus')) {
               $('.stk.focus').removeClass('focus');
-              $('.stakeToReturn').addClass('hidden');
+              $.each($('.stk'), (i, el) => {
+                console.log($(el));
+                console.log($(el).siblings('.stakeToReturn').children('.stakeToReturn_Value').text());
+                if ($(el).siblings('.stakeToReturn').children('.stakeToReturn_Value').text() == '0.00') {
+                  $(el).addClass('hidden');
+                }
+              });
               cur.closest('.hasodds').removeClass('keypad');
               item.children('.stakepad').slideUp(250, function () {
                 $(this).remove();
@@ -215,8 +255,7 @@ exports('betslip', (params, done) => {
               });
               input.removeClass('focus');
               cur.addClass('focus');
-              $('.stakeToReturn').addClass('hidden');
-              $('.stakeToReturn').removeClass('hidden');
+              cur.siblings('.stakeToReturn').removeClass('hidden');
               cur.closest('.hasodds').append($('<div class="stakepad">').load(`./html/modules/betslip/keyboard.html`, () => {
                 cur.closest('.hasodds').addClass('keypad');
                 $('.stakepad').hide();
@@ -224,11 +263,12 @@ exports('betslip', (params, done) => {
                 $('.keyboard-button').on('touchstart', (event) => {
                   let cur = $(event.target);
                   let n = cur.html();
-                  console.log(n);
                   if (n == 'Done') {
                     cur.css('border-radius', '0');
+                    if ($('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text() == '0.00') {
+                      $('.stakeToReturn').addClass('hidden');
+                    }
                     $('.stk.focus').removeClass('focus');
-                    $('.stakeToReturn').addClass('hidden');
                     cur.closest('.hasodds').removeClass('keypad');
                     item.children('.stakepad').slideUp(250, function () {
                       $(this).remove();
@@ -238,19 +278,20 @@ exports('betslip', (params, done) => {
                     if (n == '') {
                       cur.css('border-radius', '0');
                       $('.stk.focus').val($('.stk.focus').val().slice(0, -1));
+                      document.querySelector('.stk.focus').dispatchEvent(nptChng);
                     }
                     else {
                       if (n == '.') {
                         cur.css('border-radius', '0');
-                        if ($('.stk.focus').val().includes('.')) {
-
-                        }
+                        if ($('.stk.focus').val().includes('.')) { }
                         else {
                           $('.stk.focus').val($('.stk.focus').val() + n);
+                          document.querySelector('.stk.focus').dispatchEvent(nptChng);
                         }
                       }
                       else {
                         $('.stk.focus').val($('.stk.focus').val() + n);
+                        document.querySelector('.stk.focus').dispatchEvent(nptChng);
                       }
                     }
                   }
@@ -273,9 +314,20 @@ exports('betslip', (params, done) => {
           };
           $('.stake').on('click', onStake);
           // on input change
-          $('.stk.focus').on('input', (event) => {
-
-          });
+          const inputs = document.querySelectorAll('.stk');
+          for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('inputChange', (event) => {
+              const cur = $(event.target);
+              let multiplyer = parseFloat(cur.parent().siblings('.odds').text());
+              let tr = parseFloat($('.stk.focus').val()) * multiplyer;
+              if (!isNaN(tr)) {
+                $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text(Math.round((tr + Number.EPSILON) * 100) / 100);
+              }
+              else {
+                $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text('0.00');
+              }
+            });
+          }
           // Edit mode
           $('#bsDiv').on('editMode', function () {
             // Remove stakepad if is
@@ -402,10 +454,10 @@ exports('betslip', (params, done) => {
                 </div>
                 <div class="odds">${modifyBets(OD)}</div>
                 <div class="stake">
-                  <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Stake" readonly="readonly">
+                  <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Stake" readonly="readonly" maxlength="9">
                     <div class="stakeToReturn hidden  ">
-                      To return
-                  <span class="stakeToReturn_Value">&nbsp;0,00</span>
+                      To return&nbsp;
+                  <span class="stakeToReturn_Value">0.00</span>
                     </div>
                 </div>
                 </div>

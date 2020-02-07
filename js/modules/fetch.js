@@ -46,7 +46,7 @@ exports('fetch', (params, done) => {
         let tree = [];
         data.map((item, index) => {
           if (item.type === 'CL') {
-            if (data[index+1].type != 'CT') {
+            if (data[index + 1].type != 'CT') {
               tree.push(item);
               curCL = item;
               curCL.CT = [];

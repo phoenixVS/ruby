@@ -57,6 +57,7 @@ exports('betslip_link', (params, done) => {
       const cur = $(event.target).closest('.button.coefficient');
       if (cur.hasClass('selected')) {
         cur.removeClass('selected');
+        Cookies.remove('pa_' + cur[0].dataset.id);
         BetslipList.map((item, index) => {
           if (item.eventID == cur.parent().siblings(`[data-id=event]`).data('gameId') && item.type == cur.data('type')) {
             BetslipList.splice(index, 1);
@@ -79,13 +80,21 @@ exports('betslip_link', (params, done) => {
         BetslipItem.OR = cur.data(`or`);
         BetslipItem.SU = cur.data(`su`);
         BetslipList.push(BetslipItem);
-        console.log(BetslipList);
+        const date = new Date();
+        const timestamp = date.getTime();
+        let tsToHex = timestamp.toString(16);
+        Cookies.set('pa_' + cur[0].dataset.id, 'o=' + BetslipItem.OD + '#'
+          + 'f=' + BetslipItem.FI + '#'
+          + 'fp=' + BetslipItem.ID + '#'
+          + 'id=' + BetslipItem.FI + '-' + BetslipItem.ID + 'Y' + '#'
+          + 'sa=' + tsToHex + '||');
+        // console.log(Cookies.get('pa_' + cur[0].dataset.id));
         cur.addClass('selected');
         bsLink.slideDown('fast');
       }
       rerenderLink();
     });
-
+    $('.button.coefficient.disabled').off('click');
     // Convert fractial to decimal
     modifyBets = (od) => {
       const nums = od.split('/');

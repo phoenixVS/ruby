@@ -25,3 +25,11 @@
         margin-right: 0;
     }
 }
+
+.fa-lock {
+    color: gray;
+}
+
+.button.coefficient.disabled {
+    background-color: rgba(52, 51, 65, 0.5);
+}
