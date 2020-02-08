@@ -333,6 +333,7 @@ function gameHandler(ID) {
                         const betslip = $(`[data-id=betslip]`);
                         const betslip_link = $(`[data-id=betslip-link]`);
                         const betslip_small = $(`[data-id=betslip-small]`);
+                        const calendar = $('[data-id=calendarContainer]');
                         const lurks = [
                             user_menu,
                             mybets,
@@ -369,6 +370,66 @@ function betslip_smallHandler() {
 
 }
 
+function calendarHandler() {
+    $(`[data-id=calendarContainer]`).empty();
+    if (performance.navigation.type == 1) {
+        loadJsModules({
+            header: { loadCSS: true, loadLanguage: false },
+            aside: { loadCSS: false, loadLanguage: false },
+        });
+    }
+
+    let onModulesLoad = new Promise((resolve, reject) => {
+        loadJsModules({
+            calendar: { loadCSS: true, loadLanguage: false },
+        });
+        resolve();
+    });
+
+    onModulesLoad.then(
+        result => {
+            const mybets = $(`[data-id=mybets]`);
+            const user_menu = $(`[data-id=user-menu]`);
+            const slider = $(`[data-id=slider]`);
+            const formWrapper = $(`[data-id=registrationWrapper]`);
+            const play_big = $(`[data-id=play-big]`);
+            const coef_table = $(`[data-id=coef_table]`);
+            const play_table = $(`[data-id=play-table]`);
+            const live = $(`[data-id=live]`);
+            const game = $(`[data-id=game]`);
+            const betslip = $(`[data-id=betslip]`);
+            const betslip_link = $(`[data-id=betslip-link]`);
+            const betslip_small = $(`[data-id=betslip-small]`);
+            const regist = $('[data-id=regist]');
+            const lurks = [
+                mybets,
+                game,
+                betslip,
+                betslip_link,
+                betslip_small,
+                play_big,
+                coef_table,
+                play_table,
+                live,
+                slider,
+                user_menu,
+                regist,
+            ];
+            const unlurks = [
+                formWrapper,
+            ];
+            lurking(lurks, unlurks);
+            mybets.empty();
+            user_menu.empty();
+            game.empty();
+            regist.empty();
+        },
+        error => {
+            console.log(`modules haven't been loaded :_( \n
+        and everthing because of: ${error}`);
+        });
+}
+
 // registration page load
 function registrationHandler() {
     $(`[data-id=registrationWrapper]`).empty();
@@ -400,6 +461,7 @@ function registrationHandler() {
             const betslip = $(`[data-id=betslip]`);
             const betslip_link = $(`[data-id=betslip-link]`);
             const betslip_small = $(`[data-id=betslip-small]`);
+            const calendar = $('[data-id=calendarContainer]');
             const lurks = [
                 mybets,
                 game,
@@ -412,6 +474,7 @@ function registrationHandler() {
                 live,
                 slider,
                 user_menu,
+                calendar,
             ];
             const unlurks = [
                 formWrapper,
@@ -420,6 +483,7 @@ function registrationHandler() {
             mybets.empty();
             user_menu.empty();
             game.empty();
+            calendar.empty();
         },
         error => {
             console.log(`modules haven't been loaded :_( \n
@@ -513,6 +577,7 @@ function mybetsHandler() {
         const betslip = $(`[data-id=betslip]`);
         const betslip_link = $(`[data-id=betslip-link]`);
         const betslip_small = $(`[data-id=betslip-small]`);
+        const calendar = $('[data-id=calendarContainer]');
 
         const lurks = [
             game,
@@ -525,6 +590,7 @@ function mybetsHandler() {
             live,
             slider,
             formWrapper,
+            calendar,
         ];
         const unlurks = [
             mybets,
@@ -532,6 +598,7 @@ function mybetsHandler() {
         lurking(lurks, unlurks);
         user_menu.empty();
         mybets.empty();
+        calendar.empty();
     });
 }
 
@@ -565,6 +632,7 @@ function emptyHandler() {
         const betslip = $(`[data-id=betslip]`);
         const betslip_link = $(`[data-id=betslip-link]`);
         const betslip_small = $(`[data-id=betslip-small]`);
+        const calendar = $('[data-id=calendarContainer]');
         const lurks = [
             game,
             betslip,
@@ -577,6 +645,7 @@ function emptyHandler() {
             slider,
             formWrapper,
             mybets,
+            calendar,
         ];
         const unlurks = [
         ];
@@ -601,6 +670,7 @@ function locationHashChanged() {
             case 'registration': registrationHandler(); break;
             case 'user': userHandler(window.location.href.split('/')[6], window.location.href.split('/')[7], window.location.href.split('/')[8]); break;
             case 'mybets': mybetsHandler(); break;
+            case 'calendar': calendarHandler(); break;
             default: emptyHandler();
         }
     }

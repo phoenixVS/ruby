@@ -1,7 +1,6 @@
 .slider-big {
     overflow: auto;
     white-space: nowrap;
-    padding-top: 5px;
 }
 
 .slider-big a {
@@ -14,7 +13,6 @@
     .slider-big a {
         display: inline-block;
         width: 42%;
-        margin-right: 0;
     }
 }
 
@@ -22,6 +20,5 @@
     .slider-big a {
         display: inline-block;
         width: 32%;
-        margin-right: 0;
     }
 }

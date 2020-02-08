@@ -28,9 +28,7 @@ exports('header', (params, done) => {
 
         $(`[data-id=calendar]`).on('click', () => {
             console.log("Calendar");
-            loadJsModules({
-                calendar: {loadCSS: true, loadLanguage: false},
-            });
+            window.location.hash = "/calendar/";
         });
         // clocks
         const time = $('#time');

@@ -3,8 +3,9 @@ exports('calendar', (params, done) => {
       function showCalendar() {
 
         let renderPromise = new Promise((resolve, reject) => {
-            $('.blur').removeClass('none').addClass('block');
-            $(`<div style="display: none;" data-id="calendarContainer" class="calendarContainer">
+            $('[data-id=slider]').show();
+            $('[data-id=calendarContainer]').show();
+            $(`
               <div class="calendarContent" style="display: inline-table">
                 <div class="selectors">
 
@@ -16,11 +17,20 @@ exports('calendar', (params, done) => {
                 </select>
 
                 <dl class="dropdown">
-	              <dt><a><span>All sports</span></a></dt>
+                <dt><a><span>All sports</span></a></dt>
 		            <dd>
 			          <ul>
 				        <li><a class="default">Soccer</a></li>
 				        <li><a>Basketball</a></li>
+				        <li><a>Tennis</a></li>
+                <li><a>Ice Hockey</a></li>
+                <li><a>Basketball</a></li>
+				        <li><a>Tennis</a></li>
+                <li><a>Ice Hockey</a></li>
+                <li><a>Basketball</a></li>
+				        <li><a>Tennis</a></li>
+                <li><a>Ice Hockey</a></li>
+                <li><a>Basketball</a></li>
 				        <li><a>Tennis</a></li>
                 <li><a>Ice Hockey</a></li>
                 <li><a>All sports</a></li>
@@ -29,10 +39,33 @@ exports('calendar', (params, done) => {
                 </dl>
                 </div>
                 <div class="game-list">
+                <ul class="game-list-ul">
+                  <li><a class="calendar-list-time">12:30</a><a class="calendar-list-font">Carlisle vs Swindon</a></li>
+                  <li><a class="calendar-list-time">12:45</a><a class="calendar-list-font">Swindon vs Carliste</a></li>
+                  <li><a class="calendar-list-time">13:05</a><a class="calendar-list-font">Fulham vs Blackburn</a></li>
+                  <li><a class="calendar-list-time">12:30</a><a class="calendar-list-font">Carlisle vs Swindon</a></li>
+                  <li><a class="calendar-list-time">12:45</a><a class="calendar-list-font">Swindon vs Carliste</a></li>
+                  <li><a class="calendar-list-time">13:05</a><a class="calendar-list-font">Fulham vs Blackburn</a></li>
+                  <li><a class="calendar-list-time">12:30</a><a class="calendar-list-font">Carlisle vs Swindon</a></li>
+                  <li><a class="calendar-list-time">12:45</a><a class="calendar-list-font">Swindon vs Carliste</a></li>
+                  <li><a class="calendar-list-time">13:05</a><a class="calendar-list-font">Fulham vs Blackburn</a></li>
+                  <li><a class="calendar-list-time">12:30</a><a class="calendar-list-font">Carlisle vs Swindon</a></li>
+                  <li><a class="calendar-list-time">12:45</a><a class="calendar-list-font">Swindon vs Carliste</a></li>
+                  <li><a class="calendar-list-time">13:05</a><a class="calendar-list-font">Fulham vs Blackburn</a></li>
+                  <li><a class="calendar-list-time">12:30</a><a class="calendar-list-font">Carlisle vs Swindon</a></li>
+                  <li><a class="calendar-list-time">12:45</a><a class="calendar-list-font">Swindon vs Carliste</a></li>
+                  <li><a class="calendar-list-time">13:05</a><a class="calendar-list-font">Fulham vs Blackburn</a></li>
+                  <li><a class="calendar-list-time">12:30</a><a class="calendar-list-font">Carlisle vs Swindon</a></li>
+                  <li><a class="calendar-list-time">12:45</a><a class="calendar-list-font">Swindon vs Carliste</a></li>
+                  <li><a class="calendar-list-time">13:05</a><a class="calendar-list-font">Fulham vs Blackburn</a></li>
+                  <li><a class="calendar-list-time">12:30</a><a class="calendar-list-font">Carlisle vs Swindon</a></li>
+                  <li><a class="calendar-list-time">12:45</a><a class="calendar-list-font">Swindon vs Carliste</a></li>
+                  <li><a class="calendar-list-time">13:05</a><a class="calendar-list-font">Fulham vs Blackburn</a></li>
+                </ul>
                 </div>
               </div>
             </div>
-          `).prependTo('#content').fadeIn('middle');
+          `).prependTo('[data-id="calendarContainer"]').fadeIn('middle');
             resolve();
           });
           renderPromise.then(() => {

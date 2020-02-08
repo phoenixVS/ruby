@@ -165,12 +165,12 @@ exports('play_big', (params, done) => {
 
                 if (sport.CT[i] != undefined) {
                   $(`[data-id=play-big]`).append(`
-                 <a data-id="play-big-wrapper" data-play-big="${sport.CT[i].EV[0].ID}" class="cell" style="margin-right: 0;">
+                 <a data-id="play-big-wrapper" data-play-big="${sport.CT[i].EV[0].ID}" class="cell" style="margin-right: -2px;">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" class="flex-container align-justify [ play-big ]">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="block" style="margin-bottom: 5px;">
-                        <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font white ">${shortize(sport.CT[i].NA)}</p>
-                        <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font m-white ellipsis">${shortize(sport.CT[i].EV[0].NA.split('v')[0])}</p>
-                        <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font m-white ellipsis">${shortize(sport.CT[i].EV[0].NA.split('v')[1])}</p>
+                        <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font m-white ellipsis">${shortize(sport.CT[i].NA)}</p>
+                        <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font white">${shortize(sport.CT[i].EV[0].NA.split('v')[0])}</p>
+                        <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font white">${shortize(sport.CT[i].EV[0].NA.split('v')[1])}</p>
                         </div>
                         <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="sport-icon play" style="margin-top: 7%; margin-right: 0;"></div>
                 <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="block">
