@@ -69,10 +69,27 @@ exports('regist', (params, done) => {
         });
         $('#Password').on('input', (event) => {
           $(`[data-id=nextButton]`).addClass('disable');
+          const complex = $('.password-check');
           let cur = $(event.target);
-          if (cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
+          complex.removeClass('medium').removeClass('hight').addClass('low');
+          if (cur.val().length >= 10 && cur.val().match(/[0-9]/g) !== null) {
+            complex.removeClass('low').removeClass('hight').addClass('medium');
+          }
+          if (cur.val().length >= 14 && cur.val().match(/[A-Z]/g) !== null && cur.val().match(/[0-9]/g).length !== null) {
+            complex.removeClass('low').removeClass('medium').addClass('hight');
+          }
+          if ((cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected'))) {
             if (/^([A-Za-z0-9]{8,})$/.test(cur.val())) {
               onCheckmark(cur);
+              console.log(complex.is('.medium'));
+              console.log(complex.is('.hight'));
+              if (complex.is('.medium') || complex.is('.hight')) {
+                onCheckmark(cur);
+              }
+              else {
+                offCheckmark(cur);
+                $(`[data-id=nextButton]`).addClass('disable');
+              }
               // Additional check for  secondary password
               if ($('#PasswordSecondary').val() != cur.val() && $('#PasswordSecondary').val().length > 1) {
                 $('#PasswordSecondary').parent().addClass('uncorrected').removeClass('corrected');
@@ -88,6 +105,7 @@ exports('regist', (params, done) => {
               }
             }
             else {
+              complex.removeClass('medium').removeClass('hight').addClass('low');
               offCheckmark(cur);
               $(`[data-id=nextButton]`).addClass('disable');
             }

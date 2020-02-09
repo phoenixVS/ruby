@@ -458,3 +458,25 @@ input[type="checkbox" i] {
     color: #03c503;
     margin-right: 10px;
 }
+/* Password complexity checking */
+.sign-up .password-check-item {
+    height: 3px;
+    width: 24px;
+    display: block;
+    margin: 1.5px 0;
+    background-color: #281420;
+}
+.password-check {
+    position: absolute;
+    right: 7px;
+    top: 47%;
+}
+.sign-up .password-check.low .password-check-item:nth-child(n+5) {
+    background-color: #c8304d;
+}
+.sign-up .password-check.medium .password-check-item:nth-child(n+3) {
+    background-color: orange;
+}
+.sign-up .password-check.hight .password-check-item {
+    background-color: #03c503;
+}

@@ -1,0 +1,64 @@
+<div data-id="details" class="[ popup not-active details ]">
+  <div class="[ sign-up ] scroll">
+    <div class="[ sign-up-nav ] flex-container align-middle">
+      <a class="[ sign-up-nav-item active ]">
+        <p class="font title">1</p>
+        <p class="font">USER DETAILS</p>
+      </a>
+      <a class="[ sign-up-nav-item ]">
+        <p class="font title">2</p>
+        <p class="font">PERSONAL<br>INFORMATION</p>
+      </a>
+      <a class="[ sign-up-nav-item ]">
+        <p class="font title">3</p>
+        <p class="font">CONFIRMATION</p>
+      </a>
+    </div>
+    <div class="[ sign-up-body ]">
+      <div class="[ sign-up-body-item ]">
+        <p class="[ sign-up-body-title ] font text-uppercase">
+          <span>Username:</span>
+          <sup>⚹</sup>
+        </p>
+        <div class="wrapper a-center">
+          <input id="Login" type="text" class="field [ sign-up-body-field ]" value="" maxlength="50" data-req="1"
+            data-regexp="/^[0-9]$/">
+        </div>
+      </div>
+      <div class="[ sign-up-body-item ]">
+        <p class="[ sign-up-body-title ] font text-uppercase">
+          <span>Password:</span>
+          <sup>⚹</sup>
+        </p>
+        <div class="wrapper a-center">
+          <input id="Password" type="password" class="field [ sign-up-body-field ]" value="" maxlength="36">
+          <div class="[ password-check ]">
+            <!-- low, medium, hight -->
+            <span class="[ password-check-item ]"></span>
+            <span class="[ password-check-item ]"></span>
+            <span class="[ password-check-item ]"></span>
+            <span class="[ password-check-item ]"></span>
+            <span class="[ password-check-item ]"></span>
+            <span class="[ password-check-item ]"></span>
+          </div>
+        </div>
+      </div>
+      <div class="[ sign-up-body-item ]">
+        <p class="[ sign-up-body-title ] font text-uppercase">
+          <span>Please, confirm password:</span>
+          <sup>⚹</sup>
+        </p>
+        <input id="PasswordSecondary" type="password" class="field [ sign-up-body-field ]" value="" maxlength="36">
+      </div>
+      <div class="block">
+        <hr class="[ sign-up-body-separate ]">
+        <p class="font text-center [ sign-up-body-inform ]">All the fields, marked by (<sup class="font">⚹</sup>),
+          are required</p>
+      </div>
+    </div>
+    <div class="[ sign-up-footer ]">
+      <button data-id="nextButton" class="button primary [ sign-up-footer-button ]">Next <p class="fa fa-angle-right">
+        </p></button>
+    </div>
+  </div>
+</div>
