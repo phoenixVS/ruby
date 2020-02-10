@@ -30,15 +30,15 @@
   }
   .select-menu select,
   .select-menu button {
-    font-weight: 500;
-    font-size: 14px;
     line-height: 21px;
     margin: 0;
     border: 0;
     outline: 0;
+    font-size: 15px;
+    font-family: Roboto Condensed,sans-serif;
+    font-weight: 500;
     text-align: left;
     text-transform: none;
-    -webkit-appearance: none;
   }
   .select-menu select {
     pointer-events: none;
@@ -393,6 +393,11 @@
     display: block;
     height: 2.5em;
     width: 100%;
+    font-size: 15px;
+    font-family: Roboto Condensed,sans-serif;
+    font-weight: 500;
+    text-align: left;
+    text-transform: none;
   }
   .dropdown dt span {
     display: block;
@@ -468,6 +473,17 @@
     background: #33202b;
     padding: 10px 20px;
     margin-bottom: 1px;
+  }
+
+  .game-list-ul li::after {
+    cursor: pointer;
+    content: '\f105';
+    font-family: FontAwesome;
+    font-size: 20px;
+    color: #fff;
+    position: absolute;
+    right: 21px;
+    
   }
 
   .game-list-ul li:last-child {
