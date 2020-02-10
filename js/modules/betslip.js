@@ -19,11 +19,10 @@ exports('betslip', (params, done) => {
 
     // get request body from cookies
     let formData = new FormData();
-    formData.append('bt', '1||');
-    formData.append('mo', '0');
-    formData.append('fs', '0');
-    formData.append('ns', '');
-    formData.append('ms', '');
+    formData.append('bt', 1);
+    formData.append('ns', 'pt=N#o=10/3#f=86389659#fp=593681927#so=0#c=1#id=86389659-593681927Y#sa=5e413d68-60D0DCE9#|FO=False#mt=11#st=2#tr=8.66#es=1#ust=2#TP=BS86389659-593681927#pbc=0#||pt=N#o=14/1#f=86368563#fp=592214180#so=0#c=1#id=86368563-592214180Y#|TP=BS86368563-592214180#||');
+    formData.append('mo', 1);
+    formData.append('ms', 'id=2#bc=6#|pbc=0#es=1#FO=False#||id=3#bc=4#|st=12#ust=12#pbc=0#es=1#FO=False#||');
     formData.append('cs', '');
     const data = {
       bt: '1||',
@@ -41,7 +40,7 @@ exports('betslip', (params, done) => {
         data.ns += parsedCookies[name];
       }
     }
-    formData.set('ns', String(data.ns));
+    // formData.set('ns', String(data.ns));
     const xhr = new XMLHttpRequest();
     const url = 'https://www.bestline.bet/betslip/?op=1';
     xhr.open("POST", url, false);
