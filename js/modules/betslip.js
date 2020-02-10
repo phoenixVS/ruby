@@ -18,6 +18,13 @@ exports('betslip', (params, done) => {
     betslip.slideDown('middle');
 
     // get request body from cookies
+    let formData = new FormData();
+    formData.append('bt', '1||');
+    formData.append('mo', '0');
+    formData.append('fs', '0');
+    formData.append('ns', '');
+    formData.append('ms', '');
+    formData.append('cs', '');
     const data = {
       bt: '1||',
       mo: 0,
@@ -34,12 +41,13 @@ exports('betslip', (params, done) => {
         data.ns += parsedCookies[name];
       }
     }
+    formData.set('ns', String(data.ns));
     const xhr = new XMLHttpRequest();
     const url = 'https://www.bestline.bet/betslip/?op=1';
-    xhr.open("POST", url);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.open("POST", url, false);
+    // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     console.log(data);
-    xhr.send(data);
+    xhr.send(formData);
 
     xhr.onreadystatechange = (e) => {
       if (this.readyState == 4 && this.status == 200) {

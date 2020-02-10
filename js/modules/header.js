@@ -29,7 +29,7 @@ exports('header', (params, done) => {
         $(`[data-id=calendar]`).on('click', () => {
             console.log("Calendar");
             loadJsModules({
-                calendar: {loadCSS: true, loadLanguage: false},
+                calendar: { loadCSS: true, loadLanguage: false },
             });
         });
         // clocks
