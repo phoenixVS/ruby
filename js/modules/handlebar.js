@@ -85,6 +85,11 @@ function mainHandler() {
                             play_big: { loadCSS: true, loadLanguage: false },
                             play_table: { loadCSS: false, loadLanguage: false },
                         });
+                        // if ($('script[src="js/modules/betslip_link.js"]').length == 0) {
+                        //     loadJsModules({
+                        //         betslip_link: { loadCSS: false, loadLanguage: false },
+                        //     });
+                        // }
                         resolve();
                     }
                 });
@@ -198,8 +203,12 @@ function filterHandler(ID) {
                             aside: { loadCSS: false, loadLanguage: false },
                             slider: { loadCSS: false, loadLanguage: false },
                             live: { sportId: ID, loadCSS: false, loadLanguage: false },
-                            betslip_link: { loadCSS: false, loadLanguage: false },
                         });
+                        if ($('script[src="js/modules/betslip_link.js"]').length == 0) {
+                            loadJsModules({
+                                betslip_link: { loadCSS: false, loadLanguage: false },
+                            });
+                        }
                     } else {
                         clearInterval(window.t_interval);
                         clearInterval(window.inplay_interval);
@@ -317,7 +326,7 @@ function gameHandler(ID) {
                     loadJsModules({
                         coef_table: { expand: true, loadCSS: true, loadLanguage: false },
                         game: { gameId: ID, loadCSS: true, loadLanguage: false },
-                        betslip_link: { loadCSS: true, loadLanguage: false },
+                        // betslip_link: { loadCSS: true, loadLanguage: false },
                     });
                     resolve();
                 });
@@ -373,7 +382,7 @@ function betslip_smallHandler() {
 }
 
 // registration page load
-function registrationHandler() {
+function registrationHandler(fast) {
     $(`[data-id=registrationWrapper]`).empty();
     if (performance.navigation.type == 1) {
         loadJsModules({
@@ -384,7 +393,7 @@ function registrationHandler() {
 
     let onModulesLoad = new Promise((resolve, reject) => {
         loadJsModules({
-            regist: { loadCSS: true, loadLanguage: false },
+            regist: { fast: fast, loadCSS: true, loadLanguage: false },
         });
         resolve();
     });
@@ -601,7 +610,7 @@ function locationHashChanged() {
             case 'event': gameHandler(window.location.href.split('/')[6]); break;
             case 'betslip': betslipHandler(); break;
             case 'betslip-small': betslip_smallHandler(); break;
-            case 'registration': registrationHandler(); break;
+            case 'registration': registrationHandler(typeof window.location.href.split('/')[6] !== 'undefined' ? window.location.href.split('/')[6] : null); break;
             case 'user': userHandler(window.location.href.split('/')[6], window.location.href.split('/')[7], window.location.href.split('/')[8]); break;
             case 'mybets': mybetsHandler(); break;
             default: emptyHandler();

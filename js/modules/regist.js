@@ -1,12 +1,21 @@
 exports('regist', (params, done) => {
-  if (typeof params.fast !== 'undefined') {
+  if (params.fast == 'fast') {
     insertHtmlModules({
       ".registrationWrapper": [
         "registration/fast.html",
       ],
     }, () => {
-      
-      // TODO: fast registration logic
+      // Preloader finishes
+      // Preloader finishes
+      if ($('#page-preloader').data(`status`) != 'done') {
+        $('#page-preloader').addClass('done');
+        $('#page-preloader').data(`status`, 'done').attr('data-status', 'done');
+      }
+      // Preliminary handle
+      $(`[data-id=details]`).removeClass('not-active');
+      $(`[data-id=details]`).addClass('active');
+      $('.button.primary.disable').removeClass('disable');
+      $('.button.primary.disable').addClass('backward');
     });
     done();
   }
@@ -18,6 +27,11 @@ exports('regist', (params, done) => {
         "registration/confirmation.html",
       ],
     }, () => {
+      // Preloader finishes
+      if ($('#page-preloader').data(`status`) != 'done') {
+        $('#page-preloader').addClass('done');
+        $('#page-preloader').data(`status`, 'done').attr('data-status', 'done');
+      }
       // Preliminary handle
       $(`[data-id=details]`).removeClass('not-active');
       $(`[data-id=details]`).addClass('active');

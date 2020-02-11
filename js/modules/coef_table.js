@@ -120,8 +120,8 @@ exports('coef_table', (params, done) => {
             resolve();
           });
           rowsPromise.then((resolve) => {
-            $(`[data-id=row_info]`).on('click', (elem) => {
-              const slideBetsRenderer = new Promise((resolve, reject) => {
+            const slideBetsRenderer = new Promise((resolve, reject) => {
+              $(`[data-id=row_info]`).on('click', (elem) => {
                 let cur = $(elem.target);
                 if (cur.is('p')) {
                   cur = cur.parent().parent();
@@ -173,7 +173,6 @@ exports('coef_table', (params, done) => {
                   });
                   $('[data-id=row_info]').children().css('position', 'relative');
                   cur.data('rowStatus', 'active').attr('data-row-status', 'active');
-                  resolve();
                 }
                 else {
                   cur.removeClass('active');
@@ -181,13 +180,19 @@ exports('coef_table', (params, done) => {
                   coID = cur.data('coefId');
                   $(`[data-bet=${coID}]`).slideUp(250, () => { $(`[data-bet=${coID}]`).remove(); });
                   cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
-                  resolve();
                 }
               });
-              slideBetsRenderer.then((response) => {
-                loadJsModules({
-                  betslip_link: { loadCSS: true, loadLanguage: false }
-                });
+              data[0].MA.map((ma) => {
+                if (ma.DO == 1) {
+                  console.log(ma.ID);
+                  $(`div[data-coef-id="${ma.ID}"`).trigger('click');
+                }
+              });
+              resolve();
+            });
+            slideBetsRenderer.then((response) => {
+              loadJsModules({
+                betslip_link: { loadCSS: true, loadLanguage: false }
               });
             });
           });
@@ -204,8 +209,8 @@ exports('coef_table', (params, done) => {
       const div = document.createElement('div');
       div.className = 'bets_title';
       div.innerHTML = `
-    ${shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;')}
-  `
+        ${shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;')}
+      `
       //${CO.NA && !CO.NA.includes('Count') ? CO.NA : '&nbsp;'}
       return div
     };
