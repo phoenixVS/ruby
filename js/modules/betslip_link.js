@@ -30,6 +30,50 @@ exports('betslip_link', (params, done) => {
       }
       return true;
     }
+
+    let counter = 0;
+    const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+    const keys = Object.keys(parsedCookies);
+    for (name of keys) {
+      if (name.substring(0, 3) == 'pa_') {
+        console.log(name.slice(3));
+        $(`[data-id=${name.slice(3)}]`).addClass('selected');
+        counter++;
+      }
+    }
+
+    PAs = {
+      activeInternal: 10,
+      activeListener: function (val) { },
+      set active(val) {
+        this.activeInternal = val;
+        this.activeListener(val);
+      },
+      get active() {
+        return this.activeInternal;
+      },
+      changeListener: function (listener) {
+        this.activeListener = listener;
+      }
+    }
+
+    PAs.changeListener((val) => {
+      if (val == 0) {
+        bsLink.slideUp('fast');
+      }
+      else {
+        rerenderLink(val);
+      }
+    });
+
+    PAs.active = 0;
+    if (counter) {
+      PAs.active += counter;
+      console.log(PAs.active);
+      rerenderLink(PAs.active);
+      bsLink.slideDown('fast');
+    }
+
     function multiOdds() {
       if (BetslipList.uniquenes(window.BetslipList)) {
         let m = 1;
@@ -56,6 +100,7 @@ exports('betslip_link', (params, done) => {
     coefBtn.on('click', (event) => {
       const cur = $(event.target).closest('.button.coefficient');
       if (cur.hasClass('selected')) {
+        PAs.active -= 1;
         cur.removeClass('selected');
         Cookies.remove('pa_' + cur[0].dataset.id);
         BetslipList.map((item, index) => {
@@ -68,6 +113,7 @@ exports('betslip_link', (params, done) => {
         const BetslipItem = {};
         BetslipItem.eventID = cur.parent().siblings(`[data-id=event]`).data('gameId');
         BetslipItem.eventNA = cur.data(`eventna`);
+        BetslipItem.CL = cur.data(`cl`);
         BetslipItem.marketNA = cur.data(`marketna`);
         BetslipItem.BS = cur.data(`bs`);
         BetslipItem.FI = cur.data(`fi`);
@@ -83,16 +129,29 @@ exports('betslip_link', (params, done) => {
         const date = new Date();
         const timestamp = date.getTime();
         let tsToHex = timestamp.toString(16);
-        Cookies.set('pa_' + cur[0].dataset.id, 'o=' + BetslipItem.OD + '#'
+        Cookies.set('pa_' + cur[0].dataset.id,
+          'pt=N#'
+          + 'o=' + BetslipItem.OD + '#'
           + 'f=' + BetslipItem.FI + '#'
           + 'fp=' + BetslipItem.ID + '#'
+          + 'so=' + '#'
+          + 'c=' + BetslipItem.CL + '#'
           + 'id=' + BetslipItem.FI + '-' + BetslipItem.ID + 'Y' + '#'
-          + 'sa=' + tsToHex + '||');
+          + 'sa=' + tsToHex + '-' + '60D0DCE9' + '#'
+          + '|FO=' + 'False' + '#'
+          + 'mt=' + '2' + '#'
+          + 'st=' + '#'
+          + 'tr=' + '#'
+          + 'es=' + '1' + '#'
+          + 'ust=' + '#'
+          + 'TP=' + 'BS' + BetslipItem.FI + '-' + BetslipItem.ID + '#'
+          // + 'pbc=' + '0' + '#'
+          + '||');
         // console.log(Cookies.get('pa_' + cur[0].dataset.id));
         cur.addClass('selected');
         bsLink.slideDown('fast');
+        PAs.active += 1;
       }
-      rerenderLink();
     });
     $('.button.coefficient.disabled').off('click');
     // Convert fractial to decimal
@@ -101,11 +160,12 @@ exports('betslip_link', (params, done) => {
       return (nums[0] / nums[1] + 1).toFixed(2)
     };
 
-    function rerenderLink() {
-      $('.betslip-link p.betslip-link-count').attr('data', BetslipList.length);
-      if ($('.betslip-link p.betslip-link-count').attr('data') == 0) {
+    // rerenderLink(PAs.active);
+    function rerenderLink(val) {
+      if (val == 0) {
         bsLink.slideUp('fast');
       }
+      $('.betslip-link p.betslip-link-count').attr('data', val);
       multiOdds();
     }
 

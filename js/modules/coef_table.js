@@ -120,8 +120,8 @@ exports('coef_table', (params, done) => {
             resolve();
           });
           rowsPromise.then((resolve) => {
-            $(`[data-id=row_info]`).on('click', (elem) => {
-              const slideBetsRenderer = new Promise((resolve, reject) => {
+            const slideBetsRenderer = new Promise((resolve, reject) => {
+              $(`[data-id=row_info]`).on('click', (elem) => {
                 let cur = $(elem.target);
                 if (cur.is('p')) {
                   cur = cur.parent().parent();
@@ -140,7 +140,7 @@ exports('coef_table', (params, done) => {
                           div.className = 'bets_column';
                           div.appendChild(titleTemplateForBets(co));
                           co.PA.map(pa => {
-                            div.appendChild(forEventDataColumnTemplate(pa, co.SY))
+                            div.appendChild(forEventDataColumnTemplate(pa, co.SY, data[0].NA, ma.NA, data[0].CL));
                           });
                           new_item.append(div)
                         });
@@ -149,7 +149,7 @@ exports('coef_table', (params, done) => {
                         ma.CO[0].PA.forEach((pa) => {
                           $(`[data-bet=${ma.ID}]`).append(`
                           <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
-                          <button style="padding-left: 10px;" class="button coefficient" data-eventNA="${data[0].NA}" data-marketNA="${ma.NA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}" class="button coefficient" >
+                          <button style="padding-left: 10px;" class="button coefficient" data-eventNA="${data[0].NA}" data-cl="${data[0].CL}" data-marketNA="${ma.NA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}" class="button coefficient" >
                             <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${shortize(pa.N2 ? pa.N2 : pa.NA)}</span>
                             <span class="font">${pa.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : pa.OD}</span>
                           </button>
@@ -173,7 +173,6 @@ exports('coef_table', (params, done) => {
                   });
                   $('[data-id=row_info]').children().css('position', 'relative');
                   cur.data('rowStatus', 'active').attr('data-row-status', 'active');
-                  resolve();
                 }
                 else {
                   cur.removeClass('active');
@@ -181,13 +180,19 @@ exports('coef_table', (params, done) => {
                   coID = cur.data('coefId');
                   $(`[data-bet=${coID}]`).slideUp(250, () => { $(`[data-bet=${coID}]`).remove(); });
                   cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
-                  resolve();
                 }
               });
-              slideBetsRenderer.then((response) => {
-                loadJsModules({
-                  betslip_link: { loadCSS: true, loadLanguage: false }
-                });
+              data[0].MA.map((ma) => {
+                if (ma.DO == 1) {
+                  console.log(ma.ID);
+                  $(`div[data-coef-id="${ma.ID}"`).trigger('click');
+                }
+              });
+              resolve();
+            });
+            slideBetsRenderer.then((response) => {
+              loadJsModules({
+                betslip_link: { loadCSS: true, loadLanguage: false }
               });
             });
           });
@@ -204,14 +209,14 @@ exports('coef_table', (params, done) => {
       const div = document.createElement('div');
       div.className = 'bets_title';
       div.innerHTML = `
-    ${shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;')}
-  `
+        ${shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;')}
+      `
       //${CO.NA && !CO.NA.includes('Count') ? CO.NA : '&nbsp;'}
       return div
     };
     // Render column for bet coef_row
-    forEventDataColumnTemplate = (data, SY) => {
-      const { NA, SU, IT, OD } = data;
+    forEventDataColumnTemplate = (pa, SY, eventNA, marketNA, sport) => {
+      const { NA, SU, IT, OD } = pa;
       const SU2 = (SU == 1) ? 'disabled' : '';
       const div = document.createElement('div');
 
@@ -235,7 +240,7 @@ exports('coef_table', (params, done) => {
       };
       div.className = `maTable__cell`;
       div.innerHTML = `
-      <button class="button coefficient ${SU2}" data-it="${IT}">
+      <button class="button coefficient ${SU2}" data-it="${IT}" data-eventNA="${eventNA}" data-cl="${sport}" data-marketNA="${marketNA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}">
         <p class="font ellipsis mra"> ${shortize(NA ? NA : '')}</p>
         ${bet()}
       </button >
