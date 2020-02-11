@@ -1,0 +1,124 @@
+.team {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-align: baseline;
+  -webkit-align-items: baseline;
+  -ms-flex-align: baseline;
+  align-items: baseline;
+  width: 100%;
+  box-sizing: border-box;
+}
+.play-link {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 50%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  position: relative;
+  min-height: 48px;
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 6px 11px 8px;
+}
+.play-table .row {
+  height: 65px;
+}
+.team p:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  left: -7px;
+  bottom: 5px;
+  width: 2px;
+  height: 6px;
+  background-color: #432a38;
+}
+.team p.bowler:before {
+  background-color: #fff;
+}
+.team-score {
+  color: rgba(255,255,255,0.6);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  font-size: 12px;
+  line-height: 15px;
+  margin-left: auto;
+}
+span.point {
+  min-width: 17px;
+  text-align: center;
+  margin-right: -2px;
+  color: #bbb;
+}
+span.point:first-child{
+  color: #fff;
+}
+.metadata-wrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-top: 4px;
+  box-sizing: border-box;
+  width: 100%;
+}
+p.timer-el {
+  min-width: 38px;
+  margin-right: 8px;
+}
+.marketCount {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  color: #bbb;
+  font-size: .9rem;
+  line-height: 12px;
+  margin-right: 20px;
+  position: relative;
+}
+.marketCount:after {
+  font-family: FontAwesome;
+  speak: none;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: absolute;
+  top: 2px;
+  right: -13px;
+  content: "\f107";
+  color: #aaa;
+  font-size: .9rem;
+  transform: translateY(-3px) rotate(-90deg);
+}

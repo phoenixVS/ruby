@@ -159,22 +159,49 @@ exports('play_table', (params, done) => {
     }
 
     function drawEvents(ev, type, ID) {
+      let XP = ev.XP;
       $(`[data-id="play-table"]`).append(`
                     <div class="row">
-                      <div class="cell" data-game-id="${ev.ID}" data-id="event">
-                        <div data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
-                          <div data-game-id="${ev.ID}" class="[ play-link-block ]"> 
+                    <div class="cell" data-game-id="${ev.ID}" data-id="event">
+                      <div data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
+                          <div class="team home">
                             <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[0]}</p>
+                            <div class="team-score"></div>
+                          </div>
+                          <div class="team away">
                             <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[1]}</p>
-                          </div> 
-                          <div data-game-id="${ev.ID}" class="[ play-link-block ] text-right">
+                            <div class="team-score"></div>
+                          </div>
+                          <div data-game-id="${ev.ID}" class="[ metadata-wrapper ] text-right">
+                            <p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p>
+                            <div class="marketCount ">${ev.LM}</div>
                             <div data-game-id="${ev.ID}" class="sport-icon play"></div>
-                            <p data-game-id="${ev.ID}" data-class="play-link" class="font m-white">${ev.SS}</p> 
-                            <p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p> 
                           </div>
                         </div>
                       </div>
                     </div>`);
+      let counter = 0;
+      ev.SS.split(',').map((item) => {
+        counter++;
+        $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+          <span class="point">${item.split('-')[0]}
+        `);
+        $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+          <span class="point">${item.split('-')[1]}
+        `);
+      });
+
+      if (typeof XP !== 'undefined') {
+        $(`div[data-game-id="${ev.ID}"] .timer-el`).remove();
+        $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+          <span class="point">${XP.split('-')[0]}
+        `);
+        $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+          <span class="point">${XP.split('-')[1]}
+        `);
+      }
+
+      console.log(ev.NA, ':', counter);
       if (type) {
         $(`[data-id="play-table"]`).children('.row:last-child').append(`
           <div class="cell">
