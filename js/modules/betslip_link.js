@@ -68,6 +68,7 @@ exports('betslip_link', (params, done) => {
         const BetslipItem = {};
         BetslipItem.eventID = cur.parent().siblings(`[data-id=event]`).data('gameId');
         BetslipItem.eventNA = cur.data(`eventna`);
+        BetslipItem.CL = cur.data(`cl`);
         BetslipItem.marketNA = cur.data(`marketna`);
         BetslipItem.BS = cur.data(`bs`);
         BetslipItem.FI = cur.data(`fi`);
@@ -86,8 +87,19 @@ exports('betslip_link', (params, done) => {
         Cookies.set('pa_' + cur[0].dataset.id, 'o=' + BetslipItem.OD + '#'
           + 'f=' + BetslipItem.FI + '#'
           + 'fp=' + BetslipItem.ID + '#'
+          + 'so=' + '0' + '#'
+          + 'c=' + BetslipItem.CL + '#'
           + 'id=' + BetslipItem.FI + '-' + BetslipItem.ID + 'Y' + '#'
-          + 'sa=' + tsToHex + '||');
+          + 'sa=' + tsToHex + '#'
+          + '|FO='+ 'False' + '#'
+          + 'mt=' + '11' + '#'
+          + 'st=' +'2' + '#'
+          + 'tr=' +'8.66' + '#'
+          + 'es=' + '1' + '#'
+          + 'ust=' + '2' + '#'
+          + 'TP=' + 'BS' + BetslipItem.FI + '-' + BetslipItem.ID + '#'
+          + 'pbc=' + '0' + '#'
+          + '||');
         // console.log(Cookies.get('pa_' + cur[0].dataset.id));
         cur.addClass('selected');
         bsLink.slideDown('fast');
