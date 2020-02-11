@@ -19,6 +19,15 @@ exports('slider', (params, done) => {
     (() => {
       renderSlider(window.inplay);;
 
+      function shortize(name) {
+        let str = name;
+          str = str.slice(0, 7);
+          if (name.length > 7) {
+            str += '..';
+          }
+          return str;
+      }
+
       function renderSlider(data) {
         if (data) {
           data.forEach((el) => {
@@ -30,7 +39,8 @@ exports('slider', (params, done) => {
             data-topic-id="${el.IT}"
             class="[ slider-link ]"
             href="#/filter/${el.ID}">
-            <span class="sports-${parseInt(el.ID) + 3} [ slider-icon ]"></p>
+            <span class="sports-${parseInt(el.ID) + 3} [ slider-icon ]">
+            <p class="slider-text">${shortize(el.NA)}</p><span>
           </a>
           `);
             }

@@ -59,7 +59,7 @@ exports('play_big', (params, done) => {
       return parseInt(delta.getSeconds()) + data.TS;
     }
 
-    function startTimerBig(data) {
+    /*function startTimerBig(data) {
       clearInterval(window.t_interval);
       if (data.DC == 1) {
         if (data.TT == 0) {
@@ -86,7 +86,7 @@ exports('play_big', (params, done) => {
               let ts = parseInt($(`[data-id=timer-big]`).data("ts"));
               let tt = parseInt($(`[data-id=timer-big]`).data("tt"));
 
-              /*Some function to check TT by socket*/
+              //Some function to check TT by socket
 
               if (tt != 0) {
                 if (ts == 59) {
@@ -128,6 +128,71 @@ exports('play_big', (params, done) => {
       } else {
         $(`[data-id=timer-big]`).text(" ");
       }
+    }
+    */
+
+    function startTimerBig() {
+      let timers = $(`[data-id=timer-big]`);
+      let interval = setInterval(function () {
+        for (let i = 0; i < timers.length; i++) {
+
+          if ($(timers[i]).data("dc") == 1) {
+
+            if ($(timers[i]).data("tt") == 0) {
+              $(timers[i]).text("Break");
+            } else {
+              if ($(timers[i]).data("tm") == 0) {
+
+                let tu = $(timers[i]).data("tu");
+                let etu = tu.toString();
+
+                let years = etu.substring(0, 4),
+                  month = etu.substring(4, 6),
+                  day = etu.substring(6, 8),
+                  hours = etu.substring(8, 10),
+                  minute = etu.substring(10, 12),
+                  second = etu.substring(12, 14);
+
+                $(timers[i]).data("tm", minute);
+                $(timers[i]).data("ts", second);
+
+                let tm = parseInt($(timers[i]).data("tm"));
+                let ts = parseInt($(timers[i]).data("ts"));
+
+                if (ts == 59) {
+                  tm = tm + 1;
+                  ts = 0;
+                } else {
+                  ts = ts + 1;
+                }
+
+                $(timers[i]).text(createTimer(tm, ts));
+
+                $(timers[i]).data("tm", tm);
+                $(timers[i]).data("ts", ts);
+              } else {
+                let tm = parseInt($(timers[i]).data("tm"));
+                let ts = parseInt($(timers[i]).data("ts"));
+
+                if (ts == 59) {
+                  tm = tm + 1;
+                  ts = 0;
+                } else {
+                  ts = ts + 1;
+                }
+
+                $(timers[i]).text(createTimer(tm, ts));
+
+                $(timers[i]).data("tm", tm);
+                $(timers[i]).data("ts", ts);
+              }
+            }
+          } else {
+            $(timers[i]).text(" ");
+          }
+        }
+      }, 1000);
+      window.t_interval = interval;
     }
     /*End of Timer*/
 
@@ -175,7 +240,7 @@ exports('play_big', (params, done) => {
                         <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="sport-icon play" style="margin-top: 7%; margin-right: 0;"></div>
                 <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="block">
                 <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font m-white text-right">${sport.CT[i].EV[0].SS}</p>
-                <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" data-id="timer-big" data-tu="${sport.CT[i].EV[0].TU}" data-tm="${sport.CT[i].EV[0].TM}" data-ts="${sport.CT[i].EV[0].TS}" class="font m-white ellipsis text-right"></p>
+                <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" data-id="timer-big" data-dc="${sport.CT[i].EV[0].DC}" data-tu="${sport.CT[i].EV[0].TU}" data-tm="${sport.CT[i].EV[0].TM}" data-ts="${sport.CT[i].EV[0].TS}" class="font m-white ellipsis text-right"></p>
                 </div>
                 </div>
                 <div data-coef="1" data-id="coef_table" class="table [ coeficient-table ]">

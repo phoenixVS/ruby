@@ -78,7 +78,7 @@ function mainHandler() {
                         loadJsModules({
                             header: { loadCSS: true, loadLanguage: false },
                             aside: { loadCSS: true, loadLanguage: false },
-                            slider: { loadCSS: false, loadLanguage: false },
+                            slider: { loadCSS: true, loadLanguage: false },
                             coef_table: { loadCSS: true, loadLanguage: false },
                             live: { loadCSS: false, loadLanguage: false },
                             wsocket: { loadCSS: false, loadLanguage: false },
@@ -201,7 +201,7 @@ function filterHandler(ID) {
                         loadJsModules({
                             header: { loadCSS: true, loadLanguage: false },
                             aside: { loadCSS: false, loadLanguage: false },
-                            slider: { loadCSS: false, loadLanguage: false },
+                            slider: { loadCSS: true, loadLanguage: false },
                             live: { sportId: ID, loadCSS: false, loadLanguage: false },
                         });
                         if ($('script[src="js/modules/betslip_link.js"]').length == 0) {
