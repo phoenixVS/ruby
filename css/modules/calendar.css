@@ -1,79 +1,24 @@
-.dropdown {
-  width: 100%;
-  margin-top: 5px;
-  margin-bottom: 1em;
-}
-.dropdown dt a {
-  display: block;
-  height: 2.5em;
-  width: 100%;
-  border: 1px solid #fff;
-  border-radius: 6px;
-  font-weight: 500;
-    font-size: 14px;
-    --background: #fff;
-    --text: #171C28;
-    --icon: #3F4656;
-    --shadow: rgba(18, 22, 33, .2);
-    position: relative;
-}
-.dropdown dt span {
-  display: block;
-  padding: 0 1em;
-  line-height: 2.5em;
-  background: #fff no-repeat scroll right center;
-  border-right: 1em solid transparent;
-  cursor: pointer;
-}
-.dropdown dd {
-  position: relative;
-}
-.dropdown dd ul {
-  display: none;
-  position: absolute;
-  left: 0;
-  top: -2.5em;
-  width: 100%;
-  list-style: none;
-  background: #fff none repeat scroll 0 0;
-  border: 1px solid #bdc3c7;
-  border-radius: 3px;
-}
-.dropdown dd li a {
-  display: block;
-  padding: 0 1em;
-  line-height: 2.5em;
-  text-decoration: none;
-}
-
 .calendarContainer {
-  display: flex;
   align-items: center;
   justify-content: center;
-  position: fixed;
-  z-index: 11;
-  left: 50%;
-  top: 240px;
-  width: 70%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  height: 450px;
-  width: 310px;
-  overflow-y: auto;
+  width: 100%;
+  overflow: hidden;
   background-color: #33202b;
-  border: 2px solid #33202b;
-  border-radius: 5px;
-  padding: 15px;
 }
 
 .calendarContent {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .selectors {
   width: 100%;
-  height: 50px;
+  height: 120px;
+  padding-top: 20px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-bottom: 1px;
 }
 
 .select-menu {
@@ -85,15 +30,15 @@
   }
   .select-menu select,
   .select-menu button {
-    font-weight: 500;
-    font-size: 14px;
     line-height: 21px;
     margin: 0;
     border: 0;
     outline: 0;
+    font-size: 15px;
+    font-family: Roboto Condensed,sans-serif;
+    font-weight: 500;
     text-align: left;
     text-transform: none;
-    -webkit-appearance: none;
   }
   .select-menu select {
     pointer-events: none;
@@ -431,4 +376,125 @@
       -webkit-transform: translateX(0);
               transform: translateX(0);
     }
+  }
+
+  .dropdown {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 1em;
+  
+    --background: #9f263d;
+      --text: #fff;
+      --icon: #3F4656;
+      --shadow: rgba(18, 22, 33, .2);
+  }
+  
+  .dropdown dt a {
+    display: block;
+    height: 2.5em;
+    width: 100%;
+    font-size: 15px;
+    font-family: Roboto Condensed,sans-serif;
+    font-weight: 500;
+    text-align: left;
+    text-transform: none;
+  }
+  .dropdown dt span {
+    display: block;
+    padding: 0 1em;
+    line-height: 2.5em;
+    background: #fff no-repeat scroll right center;
+    cursor: pointer;
+    border: 1px solid #fff;
+    border-radius: 6px;
+  }
+  .dropdown dd {
+    position: relative;
+  }
+  .dropdown dd ul {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: -2.5em;
+    width: 100%;
+    max-height: 280px;
+    overflow: scroll;
+    list-style: none;
+    background: #fff;
+    border-bottom: 4px solid #ecf0f1;
+    
+    border-left: 2px solid #ecf0f1;
+    border-right: 2px solid #ecf0f1;
+
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+  .dropdown dd li a {
+    display: block;
+    padding: 0 1em;
+    line-height: 2.5em;
+    font-size: 15px;
+    font-family: Roboto Condensed,sans-serif;
+    font-weight: 500;
+    text-align: left;
+    text-transform: none;
+    text-decoration: none;
+    border-bottom: 0.7px solid #ecf0f1
+  }
+
+  .game-list {
+    width: 100%;
+    height: auto;
+    border-top: 2px solid #c8304d;
+    overflow: auto;
+    border-bottom: 1px solid #ccc;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+
+  .calendar-list-font {
+    margin-left: 5px;
+    font-size: 15px;
+    font-family: Roboto Condensed,sans-serif;
+    font-weight: 400;
+    line-height: 1.3;
+    color: #fff;
+  }
+
+  .calendar-list-time {
+    font-size: 14px;
+    font-family: Roboto Condensed,sans-serif;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #c8304d;
+  }
+
+  .game-list-ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .game-list-ul li {
+    background: #33202b;
+    padding: 10px 20px;
+    margin-bottom: 1px;
+  }
+
+  .game-list-ul li::after {
+    cursor: pointer;
+    content: '\f105';
+    font-family: FontAwesome;
+    font-size: 20px;
+    color: #fff;
+    position: absolute;
+    right: 21px;
+    
+  }
+
+  .game-list-ul li:last-child {
+    border-bottom: none;
+  }
+
+  .game-list-ul li:nth-child(even) {
+    background: #432a38;
   }
