@@ -433,6 +433,11 @@
     display: block;
     padding: 0 1em;
     line-height: 2.5em;
+    font-size: 15px;
+    font-family: Roboto Condensed,sans-serif;
+    font-weight: 500;
+    text-align: left;
+    text-transform: none;
     text-decoration: none;
     border-bottom: 0.7px solid #ecf0f1
   }
