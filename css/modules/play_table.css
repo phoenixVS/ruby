@@ -40,6 +40,10 @@
 .play-table .row {
   height: 65px;
 }
+.team p {
+  font-size: 1rem;
+  font-weight: 500;
+}
 .team p:before {
   content: " ";
   display: block;
@@ -63,7 +67,7 @@
   -webkit-justify-content: flex-end;
   -ms-flex-pack: end;
   justify-content: flex-end;
-  font-size: 12px;
+  font-size: .9rem;
   line-height: 15px;
   margin-left: auto;
 }
@@ -88,10 +92,15 @@ span.point:first-child{
   margin-top: 4px;
   box-sizing: border-box;
   width: 100%;
+  margin-left: 0;
+  padding-left: 0;
 }
 p.timer-el {
   min-width: 38px;
   margin-right: 8px;
+  margin-left: 0;
+  font-weight: 600;
+  text-align: left;
 }
 .marketCount {
   display: -webkit-inline-box;

@@ -675,7 +675,7 @@ function locationHashChanged() {
     else {
         switch (window.location.href.split('/')[5]) {
             case '': case undefined: mainHandler(); break;
-            case 'filter': filterHandler(window.location.href.split('/')[6]); break;
+            case 'sport': filterHandler(window.location.href.split('/')[6]); break;
             case 'event': gameHandler(window.location.href.split('/')[6]); break;
             case 'betslip': betslipHandler(); break;
             case 'betslip-small': betslip_smallHandler(); break;
