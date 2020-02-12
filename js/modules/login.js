@@ -87,7 +87,7 @@ exports('login', (params, done) => {
         $('.blur').removeClass('none').addClass('block');
         $(`<div style="display: none;" data-id="loginContainer" class="loginContainer">
           <div class="loginContent" style="display: inline-table">
-            <div class="loginHeader">Login</div>
+            <div class="loginHeader" data-lang="login">Login</div>
             <!--User Name-->
             <div class="inputLogin">
               <input data-req="1" data-reg-exp="/^([A-Za-z0-9]{8,})$/" id="username" type="text" placeholder="User name" name="username" autocapitalize="off" autocomplete="off" autocorrect="off">
@@ -107,17 +107,17 @@ exports('login', (params, done) => {
             </div>
             <div class="stayInContainer">
               <div class="checkboxContainer">
-                <label class="checkboxText">
+                <label class="checkboxText" data-lang="remain">
                 Remain in the system
                   <input id="checkbox" type="checkbox">
                   <span class="checkmark"></span>
                 </label>
               </div>
             </div>
-            <div class="loginButton">Submit</div>
+            <div class="loginButton" data-lang="submit">Submit</div>
             <div class="inscriptions">
-              <span class="lostLogin">Forgot the password?</span>
-              <span class="register">Registration</span>
+              <span class="lostLogin" data-lang="password">Forgot the password?</span>
+              <span class="register" data-lang="register">Registration</span>
             </div>
           </div>
         </div>
@@ -129,7 +129,7 @@ exports('login', (params, done) => {
         $('.register').on('click', () => {
           login.fadeOut('middle').remove("active");
           blur.removeClass('block').addClass('none');
-          window.location = 'http://localhost/everest/#/registration/';
+          window.location = window.location.hash + "/registration/";
         });
         //$(`[data-id=login]`).off('click', renderLoginPopup);
         const login = $('.loginContainer');
@@ -160,6 +160,8 @@ exports('login', (params, done) => {
             console.log('Checked');
           }
         }
+
+        window.translate();
       });
     }
     renderLoginPopup();
