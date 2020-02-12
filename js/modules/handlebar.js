@@ -37,6 +37,7 @@ function mainHandler() {
     let fetchData = new Promise((resolve, reject) => {
         loadJsModules({
             fetch: { loadCSS: false, loadLanguage: false },
+            langs: { loadCSS: false, loadLanguage: false },
         });
         // wait until there will be an tableLoad module
         function wait() {
@@ -149,6 +150,7 @@ function filterHandler(ID) {
         let fetchData = new Promise((resolve, reject) => {
             loadJsModules({
                 fetch: { loadCSS: false, loadLanguage: false },
+                langs: { loadCSS: false, loadLanguage: false },
             });
             // wait until there will be an tableLoad module
             function wait() {
@@ -280,6 +282,7 @@ function gameHandler(ID) {
         let fetchData = new Promise((resolve, reject) => {
             loadJsModules({
                 fetch: { loadCSS: false, loadLanguage: false },
+                langs: { loadCSS: false, loadLanguage: false },
             });
             // wait until there will be an tableLoad module
             function wait() {
@@ -388,6 +391,7 @@ function calendarHandler() {
         loadJsModules({
             header: { loadCSS: true, loadLanguage: false },
             aside: { loadCSS: false, loadLanguage: false },
+            langs: { loadCSS: false, loadLanguage: false },
         });
     }
 
@@ -449,6 +453,7 @@ function registrationHandler(fast) {
         loadJsModules({
             header: { loadCSS: true, loadLanguage: false },
             aside: { loadCSS: false, loadLanguage: false },
+            langs: { loadCSS: false, loadLanguage: false },
         });
     }
 
@@ -510,6 +515,8 @@ function userHandler(username, nav_link, nav_link_small) {
         reload_status = 1;
         loadJsModules({
             header: { loadCSS: true, loadLanguage: false },
+            aside: { loadCSS: true, loadLanguage: false },
+            langs: { loadCSS: false, loadLanguage: false },
         });
     }
 
@@ -570,6 +577,7 @@ function mybetsHandler() {
         else {
             loadJsModules({
                 header: { loadCSS: true, loadLanguage: false },
+                langs: { loadCSS: false, loadLanguage: false },
                 aside: { loadCSS: true, loadLanguage: false },
                 mybets: { loadCSS: true, loadLanguage: false },
             });
@@ -625,6 +633,7 @@ function emptyHandler() {
         }
         else {
             loadJsModules({
+                langs: { loadCSS: false, loadLanguage: false },
                 header: { loadCSS: true, loadLanguage: false },
                 aside: { loadCSS: true, loadLanguage: false },
                 p404: { loadCSS: false, loadLanguage: false },

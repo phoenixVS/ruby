@@ -50,6 +50,28 @@ exports('header', (params, done) => {
         })(0); // end of time :_(
 
         // languages handler
+        function navEncode(nav) {
+            const la = nav.slice(0, 2);
+            let lang;
+            const dict = {
+                'en': 'English',
+                'ru': 'Russian',
+            }
+            for (key in Object.keys(dict)) {
+                if (key == la) {
+                    lang = dict.key;
+                    return lang;
+                }
+            }
+            if (typeof lang == 'undefined') {
+                return 'English';
+            }
+        }
+
+        if (typeof Cookies.get('lang') === 'undefined') {
+            let lang = navEncode(navigator.language);
+            Cookies.set('lang', lang);
+        }
         const langsBtn = $(`[data-id=lang-scroll]`);
         const dropdown = $('a.top-menu-dropdown');
         // Converting camel case to snake case
@@ -74,6 +96,7 @@ exports('header', (params, done) => {
         // Langs changer
         (function languageSwitcher() {
             dropdown.on('click', () => {
+                $(`[data-class=lang]`).off();
                 dropdown.toggleClass('not-active');
                 dropdown.toggleClass('active');
                 dropdown.toggleData(`status`, 'active', 'not-active');
@@ -89,6 +112,9 @@ exports('header', (params, done) => {
                 // Language click landler
                 $(`[data-class=lang]`).on('click', (event) => {
                     let cur = $(event.target);
+                    console.log(cur.data(`langName`));
+                    Cookies.set('lang', cur.data(`langName`));
+                    window.translate();
                     if (cur.data('langStatus') != 'active') {
                         $(`[data-lang-status=active]`)
                             .removeClass('active')
