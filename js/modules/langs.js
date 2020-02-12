@@ -11,7 +11,10 @@ exports('langs', (params, done) => {
     return;
   };
 
+  loadLanguage();
+
   window.translate = () => {
+    console.log(translate);
     const language = Cookies.get('lang');
     if ($(`script#lang[data-langname=${language}]`).length == 0) {
       loadLanguage().then(() => {
@@ -24,6 +27,14 @@ exports('langs', (params, done) => {
           }
         }, 100);
       });
+    }
+    else {
+      if (typeof window.dict !== 'undefined') {
+        $(`[data-lang]`).each((i, el) => {
+          console.log(window.dict[$(el).data(`lang`)]);
+          $(el).text(window.dict[$(el).data(`lang`)]);
+        });
+      }
     }
   }
 });
