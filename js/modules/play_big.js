@@ -228,10 +228,10 @@ exports('play_big', (params, done) => {
 
               for (let i = 0; i < max_m; i++) {
 
-                if (sport.CT[i] != undefined) {
+                if (typeof sport.CT[i] !== "undefined") {
                   $(`[data-id=play-big]`).append(`
-                  <div class="ex-a">
-                 <a data-id="play-big-wrapper" data-play-big="${sport.CT[i].EV[0].ID}" class="cell" style="margin-right: -3px; border-right: 1px solid #c8304d;">
+                  <div class="ex-a" style="margin-right: -3px; border-right: 1px solid #c8304d;">
+                 <a data-id="play-big-wrapper" data-play-big="${sport.CT[i].EV[0].ID}" class="cell">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" class="flex-container align-justify [ play-big ]">
                         <div data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="block" style="margin-bottom: 5px;">
                         <p data-play-big="${sport.CT[i].EV[0].ID}" data-game-id="${sport.CT[i].EV[0].FI}" class="font m-white ellipsis">${shortize(sport.CT[i].NA)}</p>
@@ -270,6 +270,7 @@ exports('play_big', (params, done) => {
               </div>
                  `);
                 } else {
+                  console.log("Undefined CT");
                   continue;
                 }
 
