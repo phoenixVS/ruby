@@ -116,15 +116,11 @@ exports('header', (params, done) => {
                 // Language click landler
                 $(`[data-class=lang]`).on('click', (event) => {
                     let cur = $(event.target);
-                    console.log(cur.data(`langName`));
                     Cookies.set('lang', cur.data(`langName`));
                     window.translate();
-                    if (cur.data('langStatus') != 'active') {
-                        $(`[data-lang-status=active]`)
-                            .removeClass('active')
-                            .data('langStatus', 'not-active')
-                            .attr('lang-status', 'not-active');
-                        cur.data('langStatus', 'active').attr('data-lang-status', 'active');
+                    if (!cur.is('.active')) {
+                        $('.languages-link')
+                            .removeClass('active');
                         cur.addClass('active');
                         dropdown.text(cur.text());
                         dropdown.removeClass('active').addClass('not-active');
@@ -148,7 +144,7 @@ exports('header', (params, done) => {
         // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
         function stick() {
             if (window.pageYOffset >= sticky) {
-                navbar.classList.add("sticky")
+                navbar.classList.add("sticky");
                 document.querySelector('.slider').style.marginTop = '64px';
                 if ($('.video-title').length) {
                     document.querySelector('.video-title').style.marginTop = '64px';
