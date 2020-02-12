@@ -69,7 +69,7 @@ function mainHandler() {
                         loadJsModules({
                             wsocket: { loadCSS: false, loadLanguage: false },
                             play_big: { loadCSS: true, loadLanguage: false },
-                            play_table: { loadCSS: false, loadLanguage: false },
+                            play_table: { loadCSS: true, loadLanguage: false },
                             coef_table: { loadCSS: true, loadLanguage: false },
                         });
                         resolve();
@@ -83,7 +83,7 @@ function mainHandler() {
                             live: { loadCSS: false, loadLanguage: false },
                             wsocket: { loadCSS: false, loadLanguage: false },
                             play_big: { loadCSS: true, loadLanguage: false },
-                            play_table: { loadCSS: false, loadLanguage: false },
+                            play_table: { loadCSS: true, loadLanguage: false },
                         });
                         // if ($('script[src="js/modules/betslip_link.js"]').length == 0) {
                         //     loadJsModules({
@@ -221,7 +221,7 @@ function filterHandler(ID) {
                             live: { sportId: ID, loadCSS: false, loadLanguage: false },
                             coef_table: { filtered: true, sportId: ID, loadCSS: false, loadLanguage: false },
                             play_big: { sportId: ID, loadCSS: true, loadLanguage: false },
-                            play_table: { sportId: ID, loadCSS: false, loadLanguage: false },
+                            play_table: { sportId: ID, loadCSS: true, loadLanguage: false },
                         });
                         resolve();
                     });
@@ -675,7 +675,7 @@ function locationHashChanged() {
     else {
         switch (window.location.href.split('/')[5]) {
             case '': case undefined: mainHandler(); break;
-            case 'filter': filterHandler(window.location.href.split('/')[6]); break;
+            case 'sport': filterHandler(window.location.href.split('/')[6]); break;
             case 'event': gameHandler(window.location.href.split('/')[6]); break;
             case 'betslip': betslipHandler(); break;
             case 'betslip-small': betslip_smallHandler(); break;

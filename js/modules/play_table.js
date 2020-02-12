@@ -159,45 +159,141 @@ exports('play_table', (params, done) => {
     }
 
     function drawEvents(ev, type, ID) {
+      let XP = ev.XP;
       $(`[data-id="play-table"]`).append(`
                     <div class="row">
-                      <div class="cell" data-game-id="${ev.ID}" data-id="event">
-                        <div data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
-                          <div data-game-id="${ev.ID}" class="[ play-link-block ]"> 
-                            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[0]}</p>
-                            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[1]}</p>
-                          </div> 
-                          <div data-game-id="${ev.ID}" class="[ play-link-block ] text-right">
+                    <div class="cell" data-game-id="${ev.ID}" data-id="event">
+                      <div data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
+                          <div class="team home">
+                            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${typeof ev.NA.split(' v ')[1] !== 'undefined' ? ev.NA.split(' v ')[0] : ev.NA.split(' vs ')[0]}</p>
+                            <div class="team-score"></div>
+                          </div>
+                          <div class="team away">
+                            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${typeof ev.NA.split(' v ')[1] !== 'undefined' ? ev.NA.split(' v ')[1] : ev.NA.split(' vs ')[1]}</p>
+                            <div class="team-score"></div>
+                          </div>
+                          <div data-game-id="${ev.ID}" class="[ metadata-wrapper ] text-right">
+                            <p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p>
+                            <div class="marketCount ">${ev.LM}</div>
                             <div data-game-id="${ev.ID}" class="sport-icon play"></div>
-                            <p data-game-id="${ev.ID}" data-class="play-link" class="font m-white">${ev.SS}</p> 
-                            <p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p> 
                           </div>
                         </div>
                       </div>
                     </div>`);
-      if (type) {
-        $(`[data-id="play-table"]`).children('.row:last-child').append(`
-          <div class="cell">
-            <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[0].BS}" data-FI="${ev.MA[0].PA[0].FI}" data-HA="${ev.MA[0].PA[0].HA}" data-HD="${ev.MA[0].PA[0].HD}" data-ID="${ev.MA[0].PA[0].ID}" data-IT="${ev.MA[0].PA[0].IT}" data-NA="${ev.MA[0].PA[0].NA}" data-OD="${ev.MA[0].PA[0].OD}" data-OR="${ev.MA[0].PA[0].OR}" data-SU="${ev.MA[0].PA[0].SU}" class="button coefficient ${ev.MA[0].PA[0].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[0].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[0].OD}</button> 
-          </div> 
-          <div class="cell"> 
-            <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[1].BS}" data-FI="${ev.MA[0].PA[1].FI}" data-HA="${ev.MA[0].PA[1].HA}" data-HD="${ev.MA[0].PA[1].HD}" data-ID="${ev.MA[0].PA[1].ID}" data-IT="${ev.MA[0].PA[1].IT}" data-NA="${ev.MA[0].PA[1].NA}" data-OD="${ev.MA[0].PA[1].OD}" data-OR="${ev.MA[0].PA[1].OR}" data-SU="${ev.MA[0].PA[1].SU}" class="button coefficient ${ev.MA[0].PA[1].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[1].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[1].OD}</button>
-          </div> 
-          <div class="cell">
-            <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[2].BS}" data-FI="${ev.MA[0].PA[2].FI}" data-HA="${ev.MA[0].PA[2].HA}" data-HD="${ev.MA[0].PA[2].HD}" data-ID="${ev.MA[0].PA[2].ID}" data-IT="${ev.MA[0].PA[2].IT}" data-NA="${ev.MA[0].PA[2].NA}" data-OD="${ev.MA[0].PA[2].OD}" data-OR="${ev.MA[0].PA[2].OR}" data-SU="${ev.MA[0].PA[2].SU}" class="button coefficient ${ev.MA[0].PA[2].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[2].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[2].OD}</button> 
-          </div>
-        `);
+      if (typeof XP !== 'undefined') {
+        if (typeof XP.split(',')[1] !== 'undefined') {
+          let counter = 0;
+          ev.XP.split(',').map((item) => {
+            counter++;
+            $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+              <span class="point">${item.split('-')[0]}
+            `);
+            $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+              <span class="point">${item.split('-')[1]}
+            `);
+          });
+        }
+        else {
+          let counter = 0;
+          ev.SS.split(',').map((item) => {
+            counter++;
+            $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+              <span class="point">${item.split('-')[0]}
+            `);
+            $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+              <span class="point">${item.split('-')[1]}
+            `);
+          });
+        }
       }
       else {
-        $(`[data-id="play-table"]`).children('.row:last-child').append(`
-          <div class="cell" style="min-width: 24%; max-width: 24%;">
-            <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[0].BS}" data-FI="${ev.MA[0].PA[0].FI}" data-HA="${ev.MA[0].PA[0].HA}" data-HD="${ev.MA[0].PA[0].HD}" data-ID="${ev.MA[0].PA[0].ID}" data-IT="${ev.MA[0].PA[0].IT}" data-NA="${ev.MA[0].PA[0].NA}" data-OD="${ev.MA[0].PA[0].OD}" data-OR="${ev.MA[0].PA[0].OR}" data-SU="${ev.MA[0].PA[0].SU}" class="button coefficient ${ev.MA[0].PA[0].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[0].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[0].OD}</button> 
-          </div>
-          
-          <div class="cell" style="min-width: 24%; max-width: 24%;"> 
-            <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[1].BS}" data-FI="${ev.MA[0].PA[1].FI}" data-HA="${ev.MA[0].PA[1].HA}" data-HD="${ev.MA[0].PA[1].HD}" data-ID="${ev.MA[0].PA[1].ID}" data-IT="${ev.MA[0].PA[1].IT}" data-NA="${ev.MA[0].PA[1].NA}" data-OD="${ev.MA[0].PA[1].OD}" data-OR="${ev.MA[0].PA[1].OR}" data-SU="${ev.MA[0].PA[1].SU}" class="button coefficient ${ev.MA[0].PA[1].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[1].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[1].OD}</button>
-          </div>
+        let counter = 0;
+        ev.SS.split(',').map((item) => {
+          counter++;
+          $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+            <span class="point">${item.split('-')[0]}
+          `);
+          $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+          <span class="point">${item.split('-')[1]}
         `);
+        });
+      }
+      if (typeof XP !== 'undefined') {
+        if (ev.PI.split(',')[0] == '1')
+          $(`div[data-game-id="${ev.ID}"] .team.home p`).addClass('bowler');
+        if (ev.PI.split(',')[1] == '1')
+          $(`div[data-game-id="${ev.ID}"] .team.away p`).addClass('bowler');
+        $(`div[data-game-id="${ev.ID}"] .timer-el`).remove();
+        if (typeof XP.split(',')[1] !== 'undefined') {
+          $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+            <span class="point">${ev.SS.split('-')[0]}
+          `);
+          $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+            <span class="point">${ev.SS.split('-')[1]}
+          `);
+        }
+        else {
+          if (XP !== '') {
+            $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+            <span class="point">${XP.split('-')[0]}
+          `);
+            $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+            <span class="point">${XP.split('-')[1]}
+          `);
+          }
+        }
+      }
+      if (typeof ev.MA[0].PA !== 'undefined') {
+        if (type) {
+          $(`[data-id="play-table"]`).children('.row:last-child').append(`
+            <div class="cell">
+              <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[0].BS}" data-FI="${ev.MA[0].PA[0].FI}" data-HA="${ev.MA[0].PA[0].HA}" data-HD="${ev.MA[0].PA[0].HD}" data-ID="${ev.MA[0].PA[0].ID}" data-IT="${ev.MA[0].PA[0].IT}" data-NA="${ev.MA[0].PA[0].NA}" data-OD="${ev.MA[0].PA[0].OD}" data-OR="${ev.MA[0].PA[0].OR}" data-SU="${ev.MA[0].PA[0].SU}" class="button coefficient ${ev.MA[0].PA[0].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[0].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[0].OD}</button> 
+            </div> 
+            <div class="cell"> 
+              <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[1].BS}" data-FI="${ev.MA[0].PA[1].FI}" data-HA="${ev.MA[0].PA[1].HA}" data-HD="${ev.MA[0].PA[1].HD}" data-ID="${ev.MA[0].PA[1].ID}" data-IT="${ev.MA[0].PA[1].IT}" data-NA="${ev.MA[0].PA[1].NA}" data-OD="${ev.MA[0].PA[1].OD}" data-OR="${ev.MA[0].PA[1].OR}" data-SU="${ev.MA[0].PA[1].SU}" class="button coefficient ${ev.MA[0].PA[1].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[1].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[1].OD}</button>
+            </div> 
+            <div class="cell">
+              <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[2].BS}" data-FI="${ev.MA[0].PA[2].FI}" data-HA="${ev.MA[0].PA[2].HA}" data-HD="${ev.MA[0].PA[2].HD}" data-ID="${ev.MA[0].PA[2].ID}" data-IT="${ev.MA[0].PA[2].IT}" data-NA="${ev.MA[0].PA[2].NA}" data-OD="${ev.MA[0].PA[2].OD}" data-OR="${ev.MA[0].PA[2].OR}" data-SU="${ev.MA[0].PA[2].SU}" class="button coefficient ${ev.MA[0].PA[2].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[2].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[2].OD}</button> 
+            </div>
+          `);
+        }
+        else {
+          $(`[data-id="play-table"]`).children('.row:last-child').append(`
+            <div class="cell" style="min-width: 24%; max-width: 24%;">
+              <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[0].BS}" data-FI="${ev.MA[0].PA[0].FI}" data-HA="${ev.MA[0].PA[0].HA}" data-HD="${ev.MA[0].PA[0].HD}" data-ID="${ev.MA[0].PA[0].ID}" data-IT="${ev.MA[0].PA[0].IT}" data-NA="${ev.MA[0].PA[0].NA}" data-OD="${ev.MA[0].PA[0].OD}" data-OR="${ev.MA[0].PA[0].OR}" data-SU="${ev.MA[0].PA[0].SU}" class="button coefficient ${ev.MA[0].PA[0].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[0].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[0].OD}</button> 
+            </div>
+            
+            <div class="cell" style="min-width: 24%; max-width: 24%;"> 
+              <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[1].BS}" data-FI="${ev.MA[0].PA[1].FI}" data-HA="${ev.MA[0].PA[1].HA}" data-HD="${ev.MA[0].PA[1].HD}" data-ID="${ev.MA[0].PA[1].ID}" data-IT="${ev.MA[0].PA[1].IT}" data-NA="${ev.MA[0].PA[1].NA}" data-OD="${ev.MA[0].PA[1].OD}" data-OR="${ev.MA[0].PA[1].OR}" data-SU="${ev.MA[0].PA[1].SU}" class="button coefficient ${ev.MA[0].PA[1].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[1].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[1].OD}</button>
+            </div>
+          `);
+        }
+      }
+      else {
+        if (type) {
+          $(`[data-id="play-table"]`).children('.row:last-child').append(`
+            <div class="cell">
+              <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient"><span class="fa fa-lock lock"></span></button> 
+            </div> 
+            <div class="cell"> 
+            <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient"><span class="fa fa-lock lock"></span></button> 
+            </div> 
+            <div class="cell">
+            <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient"><span class="fa fa-lock lock"></span></button> 
+            </div>
+          `);
+        }
+        else {
+          $(`[data-id="play-table"]`).children('.row:last-child').append(`
+            <div class="cell" style="min-width: 24%; max-width: 24%;">
+            <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient"><span class="fa fa-lock lock"></span></button> 
+            </div>
+            
+            <div class="cell" style="min-width: 24%; max-width: 24%;"> 
+            <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient"><span class="fa fa-lock lock"></span></button>
+            </div>
+          `);
+        }
       }
     }
 

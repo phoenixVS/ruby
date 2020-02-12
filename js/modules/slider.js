@@ -21,11 +21,11 @@ exports('slider', (params, done) => {
 
       function shortize(name) {
         let str = name;
-          str = str.slice(0, 7);
-          if (name.length > 7) {
-            str += '..';
-          }
-          return str;
+        str = str.slice(0, 7);
+        if (name.length > 7) {
+          str += '..';
+        }
+        return str;
       }
 
       function renderSlider(data) {
@@ -38,7 +38,7 @@ exports('slider', (params, done) => {
             data-order="${parseInt(el.OR)}"
             data-topic-id="${el.IT}"
             class="[ slider-link ]"
-            href="#/filter/${el.ID}">
+            href="#/sport/${el.ID}">
             <span class="sports-${parseInt(el.ID) + 3} [ slider-icon ]">
             <p class="slider-text">${shortize(el.NA)}</p><span>
           </a>

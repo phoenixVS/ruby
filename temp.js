@@ -63,18 +63,57 @@ ns: pt = N#o = 6 / 5#f = 86423099#fp = 595950360#so =#c = 1#mt = 2#id = 86423099
   ns: pt = N#o = 6 / 5#f = 86423099#fp = 595950360#so = 0#c = 1#id = 86423099 - 595950360#sa = 5e42b487 - AAAB0BC8#| FO=False#mt = 2#es = 1#TP = BS86423099 - 595950360#pbc = 0#tr = 0#|| pt=N#o = 8 / 13#f = 86425236#fp = 596163323#so = 0#c = 1#id = 86425236 - 596163323#sa = 5e42b4ba - 7633174#| FO=False#mt = 2#es = 1#TP = BS86425236 - 596163323#pbc = 0#tr = 0#||
 
 
-
+    <div class="row">
+      <div class="cell" data-game-id="${ev.ID}" data-id="event">
+        <div data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
+          <div data-game-id="${ev.ID}" class="[ play-link-block ]">
+            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[0]}</p>
+            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[1]}</p>
+          </div>
+          <div data-game-id="${ev.ID}" class="[ play-link-block ] text-right">
+            <div data-game-id="${ev.ID}" class="sport-icon play"></div>
+            <p data-game-id="${ev.ID}" data-class="play-link" class="font m-white">${ev.SS}</p>
+            <p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="cell" data-game-id="${ev.ID}" data-id="event">
       <div data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
-        <div data-game-id="${ev.ID}" class="[ play-link-block ]">
-          <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[0]}</p>
-          <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[1]}</p>
-        </div>
-        <div data-game-id="${ev.ID}" class="[ play-link-block ] text-right">
-          <div data-game-id="${ev.ID}" class="sport-icon play"></div>
-          <p data-game-id="${ev.ID}" data-class="play-link" class="font m-white">${ev.SS}</p>
-          <p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p>
+        <div data-game-id="${ev.ID}" class="[ play-block ]">
+          <div class="team home">
+            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[0]}</p>
+            <div class="team-score">${ev.SS}</div>
+          </div>
+          <div class="team away">
+            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[1]}</p>
+            <div class="team-score">${ev.SS}</div>
+          </div>
+          <div data-game-id="${ev.ID}" class="[ play-link-block ] text-right">
+            <div data-game-id="${ev.ID}" class="sport-icon play"></div>
+            <p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p>
+          </div>
         </div>
       </div>
+    </div>
+
+    <div class="ipo-Fixture_GameDetail ">
+      <div class="ipo-Fixture_GameItem ">
+        <div class="ipo-Fixture_CompetitorName ">
+          <div class="ipo-Fixture_Truncator ">КД Такон - Женщины</div>
+        </div>
+        <div class="ipo-Fixture_CompetitorScores ">
+          <span class="ipo-Fixture_PointField ">0</span>
+        </div>
+      </div>
+      <div class="ipo-Fixture_GameItem ">
+        <div class="ipo-Fixture_CompetitorName ">
+          <div class="ipo-Fixture_Truncator ">Райо Вальекано - Женщины</div>
+        </div>
+        <div class="ipo-Fixture_CompetitorScores ">
+          <span class="ipo-Fixture_PointField ">0</span>
+        </div>
+      </div>
+      <div class="ipo-Fixture_MetaContainer "><div class="ipo-Fixture_GameInfo ipo-Fixture_GameInfo-2 "></div><div class="ipo-Fixture_GameInfo ipo-Fixture_Time "><div>33:34</div></div><div class="ipo-Fixture_MarketCount ">22</div></div>
     </div>
