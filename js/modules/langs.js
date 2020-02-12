@@ -20,7 +20,6 @@ exports('langs', (params, done) => {
         setTimeout(() => {
           if (typeof window.dict !== 'undefined') {
             $(`[data-lang]`).each((i, el) => {
-              console.log(window.dict[$(el).data(`lang`)]);
               $(el).text(window.dict[$(el).data(`lang`)]);
             });
           }
@@ -30,7 +29,6 @@ exports('langs', (params, done) => {
     else {
       if (typeof window.dict !== 'undefined') {
         $(`[data-lang]`).each((i, el) => {
-          console.log(window.dict[$(el).data(`lang`)]);
           $(el).text(window.dict[$(el).data(`lang`)]);
         });
       }
