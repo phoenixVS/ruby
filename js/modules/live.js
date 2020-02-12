@@ -11,10 +11,10 @@ exports('live', (params, done) => {
       if (typeof ID !== 'undefined') {
         let index = 0;
         for (sport of window.inplay) {
-          index++;
           if (sport.ID == ID) {
             break;
           }
+          index++;
         }
         window.inplay[index].CT.reduce((counter, currentValue) => {
           currentValue.EV.reduce((counter, currentValue) => {

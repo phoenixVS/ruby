@@ -3,21 +3,21 @@
     white-space: nowrap;
 }
 
-.slider-big a {
+.slider-big div.ex-a {
     display: inline-block;
     width: 52%;
     margin-right: 0;
 }
 
 @media screen and  (min-width: 450px) {
-    .slider-big a {
+    .slider-big div.ex-a {
         display: inline-block;
         width: 42%;
     }
 }
 
 @media screen and  (min-width: 550px) {
-    .slider-big a {
+    .slider-big div.ex-a {
         display: inline-block;
         width: 32%;
     }

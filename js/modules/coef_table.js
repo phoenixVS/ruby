@@ -108,6 +108,7 @@ exports('coef_table', (params, done) => {
           let sport = data[0].TG[0].CT;
           let rowsPromise = new Promise((resolve, reject) => {
             $(`[data-id=coef_table]`).empty();
+            $(`[data-id=coef_table]`).addClass('event');
             data[0].MA.forEach(ma => {
               $(`[data-id=coef_table]`).append(`
             <div data-id="row_info" data-row-status="not_active" data-coef-id="${ma.ID}" class="row info det" style="height: 50px; border-bottom: 0.5px solid black;">
@@ -185,7 +186,7 @@ exports('coef_table', (params, done) => {
               data[0].MA.map((ma) => {
                 if (ma.DO == 1) {
                   console.log(ma.ID);
-                  $(`div[data-coef-id="${ma.ID}"`).trigger('click');
+                  $(`div.coeficient-table.event div[data-coef-id="${ma.ID}"`).trigger('click');
                 }
               });
               resolve();

@@ -100,6 +100,12 @@ exports('play_table', (params, done) => {
           let type = false;
           if (parseInt(sport.ID) == ID) {
             for (let i = 0; i < sport.CT.length; i++) {
+              if (typeof sport.CT[0].EV[0].MA[0].PA[2] === 'undefined' || sport.CT[0].EV[0].MA[0].PA[2] == null) {
+                drawCompet(sport.CT[i].NA, false);
+              }
+              else {
+                drawCompet(sport.CT[i].NA, true);
+              }
               for (let j = 0; j < sport.CT[i].EV.length; j++) {
                 // Check if bets' coeficients exist
                 if (typeof (sport.CT[i].EV[j].MA) == 'undefined' || typeof (sport.CT[i].EV[j].MA[0]) == 'undefined') {
@@ -116,7 +122,6 @@ exports('play_table', (params, done) => {
                   drawEvents(sport.CT[i].EV[j], type, ID);
                 }
               }
-              drawCompet(sport.CT[i].NA, type);
             }
             resolve();
           }
@@ -163,19 +168,19 @@ exports('play_table', (params, done) => {
       $(`[data-id="play-table"]`).append(`
                     <div class="row">
                     <div class="cell" data-game-id="${ev.ID}" data-id="event">
-                      <div data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
+                      <div data-game-id="${ev.ID}" data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
                           <div class="team home">
-                            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${typeof ev.NA.split(' v ')[1] !== 'undefined' ? ev.NA.split(' v ')[0] : ev.NA.split(' vs ')[0]}</p>
+                            <p class="font m-white ellipsis">${typeof ev.NA.split(' v ')[1] !== 'undefined' ? ev.NA.split(' v ')[0] : ev.NA.split(' vs ')[0]}</p>
                             <div class="team-score"></div>
                           </div>
-                          <div class="team away">
+                          <div data-game-id="${ev.ID}" class="team away">
                             <p data-game-id="${ev.ID}" class="font m-white ellipsis">${typeof ev.NA.split(' v ')[1] !== 'undefined' ? ev.NA.split(' v ')[1] : ev.NA.split(' vs ')[1]}</p>
                             <div class="team-score"></div>
                           </div>
                           <div data-game-id="${ev.ID}" class="[ metadata-wrapper ] text-right">
                             <p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p>
                             <div class="marketCount ">${ev.LM}</div>
-                            <div data-game-id="${ev.ID}" class="sport-icon play"></div>
+                            <div class="sport-icon play"></div>
                           </div>
                         </div>
                       </div>
@@ -243,7 +248,7 @@ exports('play_table', (params, done) => {
           }
         }
       }
-      if (typeof ev.MA[0].PA !== 'undefined') {
+      if (typeof ev.MA[0].PA !== 'undefined' && ev.MA[0].SU != '1') {
         if (type) {
           $(`[data-id="play-table"]`).children('.row:last-child').append(`
             <div class="cell">
@@ -273,13 +278,13 @@ exports('play_table', (params, done) => {
         if (type) {
           $(`[data-id="play-table"]`).children('.row:last-child').append(`
             <div class="cell">
-              <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient"><span class="fa fa-lock lock"></span></button> 
+              <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient disabled"><span class="fa fa-lock lock"></span></button> 
             </div> 
             <div class="cell"> 
-            <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient"><span class="fa fa-lock lock"></span></button> 
+            <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient disabled"><span class="fa fa-lock lock"></span></button> 
             </div> 
             <div class="cell">
-            <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient"><span class="fa fa-lock lock"></span></button> 
+            <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient disabled"><span class="fa fa-lock lock"></span></button> 
             </div>
           `);
         }
@@ -300,7 +305,7 @@ exports('play_table', (params, done) => {
     function drawCompet(ctName, type) {
       if (type) {
         $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
-          <div class="cell"> <p class="font">${ctName} </p> </div> 
+          <div class="cell"> <p class="font">${typeof ctName !== 'undefined' ? ctName : ''} </p> </div> 
           <div class="cell"> <p class="font">1</p> </div> 
           <div class="cell"> <p class="font">X</p> </div>
           <div class="cell"> <p class="font">2</p> </div></div>
@@ -308,7 +313,7 @@ exports('play_table', (params, done) => {
       }
       else {
         $(`[data-id="play-table"]`).append(`<div class="row [ info ]"> 
-          <div class="cell"> <p class="font">${ctName} </p> </div> 
+          <div class="cell"> <p class="font">${typeof ctName !== 'undefined' ? ctName : ''} </p> </div> 
           <div class="cell" style="min-width: 24%; max-width: 24%;"> <p class="font">1</p> </div>
           <div class="cell" style="min-width: 24%; max-width: 24%;"><p class="font">2</p> </div></div>
         `);
