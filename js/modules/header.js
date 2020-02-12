@@ -73,6 +73,9 @@ exports('header', (params, done) => {
             Cookies.set('lang', lang);
         }
         $(`[data-id=dropdown-langs]`).text(Cookies.get('lang'));
+        $(`[data-lang-name]`).removeClass('active');
+        $(`[data-lang-name=${Cookies.get('lang')}]`).addClass('active');
+
         const langsBtn = $(`[data-id=lang-scroll]`);
         const dropdown = $('a.top-menu-dropdown');
         // Converting camel case to snake case

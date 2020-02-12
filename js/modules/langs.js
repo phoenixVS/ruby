@@ -14,7 +14,6 @@ exports('langs', (params, done) => {
   loadLanguage();
 
   window.translate = () => {
-    console.log(translate);
     const language = Cookies.get('lang');
     if ($(`script#lang[data-langname=${language}]`).length == 0) {
       loadLanguage().then(() => {
