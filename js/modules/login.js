@@ -129,7 +129,7 @@ exports('login', (params, done) => {
         $('.register').on('click', () => {
           login.fadeOut('middle').remove("active");
           blur.removeClass('block').addClass('none');
-          window.location = window.location.hash + "/registration/";
+          window.location.hash = "/registration/";
         });
         //$(`[data-id=login]`).off('click', renderLoginPopup);
         const login = $('.loginContainer');

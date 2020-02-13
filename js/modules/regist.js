@@ -1,11 +1,52 @@
 exports('regist', (params, done) => {
+  $('.registrationWrapper').empty();
+  // Switching checkmark
+  function onCheckmark(input) {
+    input.parent().parent()
+      .addClass('corrected')
+      .removeClass('uncorrected');
+  }
+  function offCheckmark(input) {
+    input.parent().parent()
+      .addClass('uncorrected')
+      .removeClass('corrected');
+  }
+  const RegistrationForm = {
+    Details: {
+      Login: '',
+      Password: '',
+    },
+    Information: {
+      Country: '',
+      Currency: '',
+      FirstName: '',
+      SecondName: '',
+      Phone: {
+        Operator: '',
+        Number: '',
+      },
+      Email: '',
+      BirthDate: {
+        Day: '',
+        Month: '',
+        Year: '',
+      },
+      Adress: '',
+      Gender: '',
+    },
+    Confirmation: {
+      InfoProcessed: true,
+      LegalAge: true,
+      LegalAgeCasino: true,
+      Rules: true,
+    },
+  };
   if (params.fast == 'fast') {
     insertHtmlModules({
       ".registrationWrapper": [
         "registration/fast.html",
       ],
     }, () => {
-      // Preloader finishes
       // Preloader finishes
       if ($('#page-preloader').data(`status`) != 'done') {
         $('#page-preloader').addClass('done');
@@ -16,6 +57,131 @@ exports('regist', (params, done) => {
       $(`[data-id=details]`).addClass('active');
       $('.button.primary.disable').removeClass('disable');
       $('.button.primary.disable').addClass('backward');
+
+      if ($('.details .sign-up-body-item').filter('.corrected').length != 4) {
+        $(`[data-id=nextButton]`).addClass('disable');
+      }
+      else {
+        $(`[data-id=nextButton]`).removeClass('disable');
+      }
+      $('#Login').on('input', (event) => {
+        let cur = $(event.target);
+        if (cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
+          if (/^([A-Za-z0-9_-]{8,})$/.test(cur.val())) {
+            onCheckmark(cur);
+            if ($('.details .sign-up-body-item').filter('.corrected').length == 4) {
+              $(`[data-id=nextButton]`).removeClass('disable');
+            } else {
+              $(`[data-id=nextButton]`).addClass('disable');
+            }
+          }
+          else {
+            offCheckmark(cur);
+            $(`[data-id=nextButton]`).addClass('disable');
+          }
+        }
+      });
+      $('#Login').on('blur', (event) => {
+        let cur = $(event.target);
+        if (cur.val().length < 8) offCheckmark(cur);
+      });
+      $('#Password').on('input', (event) => {
+        $(`[data-id=nextButton]`).addClass('disable');
+        const complex = $('.password-check');
+        let cur = $(event.target);
+        complex.removeClass('medium').removeClass('hight').addClass('low');
+        if (cur.val().length >= 10 && cur.val().match(/[0-9]/g) !== null) {
+          complex.removeClass('low').removeClass('hight').addClass('medium');
+        }
+        if (cur.val().length >= 14 && cur.val().match(/[A-Z]/g) !== null && cur.val().match(/[0-9]/g).length !== null) {
+          complex.removeClass('low').removeClass('medium').addClass('hight');
+        }
+        if ((cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected'))) {
+          if (/^([A-Za-z0-9]{8,})$/.test(cur.val())) {
+            onCheckmark(cur);
+            if (complex.is('.medium') || complex.is('.hight')) {
+              onCheckmark(cur);
+            }
+            else {
+              offCheckmark(cur);
+              $(`[data-id=nextButton]`).addClass('disable');
+            }
+            // Additional check for  secondary password
+            if ($('#PasswordSecondary').val() != cur.val() && $('#PasswordSecondary').val().length > 1) {
+              $('#PasswordSecondary').parent().addClass('uncorrected').removeClass('corrected');
+            }
+            else {
+              if ($('#PasswordSecondary').val() == cur.val())
+                $('#PasswordSecondary').parent().addClass('corrected').removeClass('uncorrected');
+            }
+            if ($('.sign-up-body-item').filter('.corrected').length == 4) {
+              $(`[data-id=nextButton]`).removeClass('disable');
+            } else {
+              $(`[data-id=nextButton]`).addClass('disable');
+            }
+          }
+          else {
+            complex.removeClass('medium').removeClass('hight').addClass('low');
+            offCheckmark(cur);
+            $(`[data-id=nextButton]`).addClass('disable');
+          }
+        }
+      });
+      $('#Password').on('blur', (event) => {
+        let cur = $(event.target);
+        if (cur.val().length < 8) offCheckmark(cur);
+      });
+      $('#PasswordSecondary').on('input', (event) => {
+        $(`[data-id=nextButton]`).addClass('disable');
+        let cur = $(event.target);
+        if (cur.val().length >= 8 || cur.parent().parent().is('.corrected') || cur.parent().parent().is('.uncorrected')) {
+          if (cur.val() == $('#Password').val()) {
+            cur.parent()
+              .addClass('corrected')
+              .removeClass('uncorrected');
+            if ($('.details .sign-up-body-item').filter('.corrected').length == 4) {
+              $(`[data-id=nextButton]`).removeClass('disable');
+            } else {
+              $(`[data-id=nextButton]`).addClass('disable');
+            }
+          }
+          else {
+            cur.parent()
+              .removeClass('corrected')
+              .addClass('uncorrected');
+            $(`[data-id=nextButton]`).addClass('disable');
+          }
+        }
+      });
+      $('#PasswordSecondary').on('blur', (event) => {
+        let cur = $(event.target);
+        if (cur.val().length < 8) offCheckmark(cur);
+      });
+      // Email
+      $('#Email').on('input', (event) => {
+        let cur = $(event.target);
+        if (cur.val().length >= 6 || cur.parent().is('.corrected') || cur.parent().is('.uncorrected')) {
+          if (/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(cur.val().toLowerCase())) {
+            cur.parent().removeClass('uncorrected')
+              .addClass('corrected');
+            if ($('.information .sign-up-body-item').filter('.corrected').length == 4) {
+              $(`[data-id=nextButton]`).removeClass('disable');
+            } else {
+              $(`[data-id=nextButton]`).addClass('disable');
+            }
+          }
+          else {
+            cur.parent().removeClass('corrected')
+              .addClass('uncorrected');
+            $(`[data-id=nextButton]`).addClass('disable');
+          }
+        }
+      });
+      $(`[data-id=nextButton]`).on('click', () => {
+        RegistrationForm.Details.Login = $('#Login').val();
+        RegistrationForm.Details.Password = $('#Password').val();
+        RegistrationForm.Information.Email = $('#Email').val();
+      });
     });
     done();
   }
@@ -51,17 +217,6 @@ exports('regist', (params, done) => {
         registerListener: function (listener) {
           this.activeListener = listener;
         }
-      }
-      // Switching checkmark
-      function onCheckmark(input) {
-        input.parent().parent()
-          .addClass('corrected')
-          .removeClass('uncorrected');
-      }
-      function offCheckmark(input) {
-        input.parent().parent()
-          .addClass('uncorrected')
-          .removeClass('corrected');
       }
       // Form validation
       Popup.registerListener((val) => {
@@ -408,10 +563,12 @@ exports('regist', (params, done) => {
                 const cur = $(event.target);
                 if (!confs.personalInfo) {
                   confs.personalInfo = true;
+                  RegistrationForm.Confirmation.InfoProcessed = true;
                   checkButton();
                 }
                 else {
                   confs.personalInfo = false;
+                  RegistrationForm.Confirmation.LegalAge = false;
                   checkButton();
                 }
               });
@@ -419,10 +576,12 @@ exports('regist', (params, done) => {
                 const cur = $(event.target);
                 if (!confs.totalAge) {
                   confs.totalAge = true;
+                  RegistrationForm.Confirmation.LegalAge = true;
                   checkButton();
                 }
                 else {
                   confs.totalAge = false;
+                  RegistrationForm.Confirmation.LegalAge = false;
                   checkButton();
                 }
               });
@@ -430,10 +589,12 @@ exports('regist', (params, done) => {
                 const cur = $(event.target);
                 if (!confs.casinoAge) {
                   confs.casinoAge = true;
+                  RegistrationForm.Confirmation.LegalAgeCasino = true;
                   checkButton();
                 }
                 else {
                   confs.casinoAge = false;
+                  RegistrationForm.Confirmation.LegalAgeCasino = false;
                   checkButton();
                 }
               });
@@ -441,10 +602,12 @@ exports('regist', (params, done) => {
                 const cur = $(event.target);
                 if (!confs.termsCond) {
                   confs.termsCond = true;
+                  RegistrationForm.Confirmation.Rules = true;
                   checkButton();
                 }
                 else {
                   confs.termsCond = false;
+                  RegistrationForm.Confirmation.Rules = false;
                   checkButton();
                 }
               });
@@ -469,6 +632,8 @@ exports('regist', (params, done) => {
           $(`[data-id=details]`).addClass('not-active');
           $(`[data-id=information]`).removeClass('not-active');
           $(`[data-id=information]`).addClass('active');
+          RegistrationForm.Details.Login = $('#Login').val();
+          RegistrationForm.Details.Password = $('#Password').val();
           Popup.active = 'information';
         }
         else {
@@ -477,10 +642,48 @@ exports('regist', (params, done) => {
             $(`[data-id=information]`).addClass('not-active');
             $(`[data-id=confirmation]`).removeClass('not-active')
             $('.button.primary.disabled').removeClass('disabled');
+            RegistrationForm.Information.Country = $('#Country').val();
+            RegistrationForm.Information.Currency = $('#Currency').val();
+            RegistrationForm.Information.FirstName = $('#FirstName').val();
+            RegistrationForm.Information.SecondName = $('#SecondName').val();
+            RegistrationForm.Information.Phone.Operator = $('#Operator').val();
+            RegistrationForm.Information.Phone.Number = $('#Number').val();
+            RegistrationForm.Information.Email = $('#Email').val();
+            RegistrationForm.Information.BirthDate.Day = $('#Day').val();
+            RegistrationForm.Information.BirthDate.Month = $('#Month').val();
+            RegistrationForm.Information.BirthDate.Year = $('#Year').val();
+            RegistrationForm.Information.Adress = $('#Adress').val();
+            if (!($(`[data-class=gender]`).eq(0).is('checked'))) {
+              RegistrationForm.Information.Gender = 'male';
+            }
+            else {
+              RegistrationForm.Information.Gender = 'female';
+            }
             Popup.active = 'confirmation';
           }
           else {
-            // TODO: registration confirmed
+            const url = 'http://bestline.bet/api/?key=inplay';
+            const data = JSON.stringify(RegistrationForm);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+            xhr.onload = function (e) {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  console.log(xhr.responseText);
+                  loadJsModules({
+                    popup: { popup: 'regist-popup.html', loadCSS: true, loadLanguage: false },
+                  });
+                  window.location.hash = '';
+                } else {
+                  console.error(xhr.statusText);
+                }
+              }
+            };
+            xhr.onerror = function (e) {
+              console.error(xhr.statusText);
+            };
+            xhr.send(data);
+            console.log(data);
           }
         }
       });
@@ -503,36 +706,6 @@ exports('regist', (params, done) => {
           }
         }
       });
-      // const RegistrationForm = {
-      //   Details: {
-      //     Login: '',
-      //     Password: '',
-      //   },
-      //   Information: {
-      //     Country: 1,
-      //     Currency: 1,
-      //     FirstName: '',
-      //     SecondName: '',
-      //     Phone: {
-      //       Operator: 1,
-      //       Number: 1234567,
-      //     },
-      //     Email: '',
-      //     BirthDate: {
-      //       Day: 1,
-      //       Month: 1,
-      //       Year: 1,
-      //     },
-      //     Adress: '',
-      //     Gender: 'woman',
-      //   },
-      //   Confirmation: {
-      //     InfoProcessed: true,
-      //     LegalAge: true,
-      //     LegalAgeCasino: true,
-      //     Rules: true,
-      //   },
-      // };
       done();
     });
   }

@@ -46,14 +46,13 @@ exports('betslip', (params, done) => {
 
     function loadBetslip(url, callback) {
       const xhr = new XMLHttpRequest();
-
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           callback(xhr.responseText);
         }
       }
 
-      xhr.open("POST", url, false);
+      xhr.open("POST", url, true);
       xhr.send(JSON.stringify(JSON.parse(data)));
     }
 

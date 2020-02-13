@@ -23,7 +23,7 @@ exports('langs', (params, done) => {
               $(el).text(window.dict[$(el).data(`lang`)]);
             });
           }
-        }, 100);
+        }, 500);
       });
     }
     else {
