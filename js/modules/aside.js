@@ -15,7 +15,7 @@ exports('aside', (params, done) => {
     });
 
     function AddFav(NAME, ID) {
-      Cookies.set(NAME, ID);
+      localStorage.setItem(NAME, ID);
     }
 
     jQuery.fn.outerHTML = function () {
@@ -82,7 +82,7 @@ exports('aside', (params, done) => {
 
           $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
             if (true) {
-              window.location.hash = '/filter/' + ID;
+              window.location.hash = '/sport/' + ID;
 
               aside.removeClass('active');
               aside.addClass('not-active');
@@ -218,11 +218,11 @@ exports('aside', (params, done) => {
     <a data-id="aside-live" class="[ tab-link ]">In-play</a>
     <a data-id="aside-all" class="[ tab-link active ]">All</a>
   </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
-        let cks = JSON.parse(JSON.stringify(Cookies.get()));
+        let cks = getAllStorage();
         let fav_arr = [];
-        for (let i in cks) {
-          let name_ = i;
-          let ID_ = Cookies.get(name_);
+        for (let i = 0; i < cks.length; i++) {
+          let name_ = cks[i];
+          let ID_ = localStorage.getItem(name_);
           let id_;
 
           if (name_ != 'logon') {
@@ -262,7 +262,7 @@ exports('aside', (params, done) => {
 
             $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
               if (true) {
-                window.location.hash = '/filter/' + ID;
+                window.location.hash = '/sport/' + ID;
 
                 aside.removeClass('active');
                 aside.addClass('not-active');
@@ -296,6 +296,19 @@ exports('aside', (params, done) => {
         });
     }
 
+    function getAllStorage() {
+
+      let archive = [],
+          keys = Object.keys(localStorage),
+          i = 0, key;
+  
+      for (; key = keys[i]; i++) {
+        archive.push(key);
+      }
+  
+      return archive;
+  }
+
     function RenderAsideFav(data) {
 
       let promise = new Promise((resolve, reject) => {
@@ -308,11 +321,13 @@ exports('aside', (params, done) => {
     <a data-id="aside-live" class="[ tab-link ]">In-play</a>
     <a data-id="aside-all" class="[ tab-link ]">All</a>
   </div>`);
-        let cookies = JSON.parse(JSON.stringify(Cookies.get()));
-        for (let i in cookies) {
-          console.log(i);
-          let name = i;
-          let ID = Cookies.get(name);
+        let cookies = getAllStorage();
+        for (let f = 0; f < cookies.length; f++) {
+          let name = cookies[f];
+          let ID = localStorage.getItem(name);
+
+          console.log("Name: " + name);
+          console.log("Value: " + ID);
 
           if (name != 'logon' && name != 'username' && name != 'password') {
             $(`[data-id=aside]`).append(`
@@ -324,7 +339,7 @@ exports('aside', (params, done) => {
       `);
             $(`[data-id=aside-link-${ID}]`).on('click', () => {
 
-              window.location.hash = '/filter/' + ID;
+              window.location.hash = '/sport/' + ID;
 
               aside.removeClass('active');
               aside.addClass('not-active');

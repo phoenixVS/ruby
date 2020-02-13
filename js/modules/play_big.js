@@ -228,7 +228,7 @@ exports('play_big', (params, done) => {
 
               for (let i = 0; i < max_m; i++) {
 
-                if (typeof sport.CT[i] !== "undefined") {
+                if (typeof sport.CT[i] !== "undefined" && typeof sport.CT[i].EV[0] !== "undefined" && typeof sport.CT[i].EV[0].MA[0] !== "undefined") {
                   $(`[data-id=play-big]`).append(`
                   <div class="ex-a" style="margin-right: -3px; border-right: 1px solid #c8304d;">
                  <a data-id="play-big-wrapper" data-play-big="${sport.CT[i].EV[0].ID}" class="cell">
