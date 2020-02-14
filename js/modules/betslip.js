@@ -17,6 +17,17 @@ exports('betslip', (params, done) => {
     blur.addClass('block');
     betslip.slideDown('middle');
 
+    function betsCounter() {
+      let counter = 0;
+      const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+      const keys = Object.keys(parsedCookies);
+      for (name of keys) {
+        if (name.substring(0, 3) == 'pa_') {
+          counter++;
+        }
+      }
+      return counter;
+    }
     // get request body from cookies
     // let formData = new FormData();
     // formData.append('bt', 1);
@@ -79,7 +90,7 @@ exports('betslip', (params, done) => {
         newBetslipContent.find('.single-section.standardBet ul li').each((i, el) => {
           el.classList.add('hasodds');
         });
-
+        $('.betSlipyCountText').text(betsCounter());
         $('#betslipContent')
           .empty()
           .append(newBetslipContent);
@@ -95,48 +106,77 @@ exports('betslip', (params, done) => {
           blur.removeClass('block');
           blur.addClass('none');
           betslip.slideUp('fast');
-          if (window.BetslipList.length > 0) {
+          if (betsCounter() > 0) {
             bsLink.slideDown('fast');
           }
         });
+
+        // Accept changes
+        $('.acceptChanges').on('click', (event) => {
+          // TODO: accept changes functionality
+        });
+
         $('#BetSlipEditButton').on('click', (event) => {
           $('#bsDiv').addClass('editMode').trigger('editMode');
           $(event.target).text('Done');
         });
-        // Moving
-        // const lis = document.querySelectorAll('.single-section.standardBet > ul > li');
-        // for (let i = 0; i < lis.length; li++) {
-        //   lis[i].addEventListener('mousedown', (event) => {
-        //     // event.preventDefault();
-        //     console.log(`down`);
-        //   });
-        // }
+        // Show / hide multiples
+        $('.multiplesLabel').eq(0).on('click', (event) => {
+
+          $('.multiplesWrapper').toggleClass('open');
+          $('.multiplesWrapper').toggleClass('closed');
+          if ($('.multiplesWrapper').is('.closed')) {
+            $('.mbHeader .mlthd').text('Show multiples');
+            $('.multiplesLabel').eq(0).slideUp('fast', () => {
+              $('.multiplesLabel').eq(0).slideDown('fast');
+            });
+            $('.multiplesLabel').not(':eq(0)').slideUp('fast');
+          } else {
+            $('.multiplesLabel').not(':eq(0)').slideDown('fast');
+            $('.multiplesLabel').eq(0).slideUp('fast', () => {
+              $('.multiplesLabel').eq(0).slideDown('fast');
+            });
+            $('.mbHeader .mlthd').text('Hide multiples');
+          }
+        });
+
         $('.deleteItem').on('click', (event) => {
           const cur = $(event.target).closest('li.hasodds');
           console.log(cur);
           let eventID = cur.closest('li.hasodds').data('event');
           let ID = cur.closest('li.hasodds').data(`id`);
+          let counter = 0;
+          const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+          const keys = Object.keys(parsedCookies);
+          for (name of keys) {
+            if (name.substring(0, 3) == 'pa_') {
+              if (name.slice(3, -1) == modifyBets(/fp=(.*)#so=/i.exec(parsedCookies[name])[1])) {
+                console.log(`match!!!`);
+                counter--;
+              }
+              counter++;
+            }
+          }
           window.BetslipList.map((item, index) => {
             if (item.eventID == eventID) {
               window.BetslipList.splice(index, 1);
             }
           });
           $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
-          $('.betSlipyCountText').text(BetslipList.length);
-          $('.betslip-link p.betslip-link-count').attr('data', BetslipList.length);
-          $('.')
+          $('.betSlipyCountText').text(betsCounter());
+          $('.betslip-link p.betslip-link-count').attr('data', betsCounter());
           cur.animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
             cur.remove();
-            $('.betslip-link p.betslip-link-count').attr('data', BetslipList.length);
+            $('.betslip-link p.betslip-link-count').attr('data', betsCounter());
             if ($('.betslip-link p.betslip-link-count').attr('data') == 0) {
               bsLink.slideUp('fast');
             }
             multiOdds();
-            if ($('.betSlipyCountText').text() == 0) {
+            if (betsCounter() == 0) {
               blur.removeClass('block');
               blur.addClass('none');
               betslip.slideUp('fast');
-              if (window.BetslipList.length > 0) {
+              if (betsCounter() > 0) {
                 bsLink.slideDown('fast');
               }
             }
@@ -198,15 +238,15 @@ exports('betslip', (params, done) => {
                 }
               });
               $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
-              $('.betSlipyCountText').text(parseInt($('.betSlipyCountText').text()) - 1);
-              $('.betslip-link p.betslip-link-count').attr('data', parseInt($('.betslip-link p.betslip-link-count').attr('data') - 1));
+              $('.betSlipyCountText').text(betsCounter());
+              $('.betslip-link p.betslip-link-count').attr('data', betsCounter());
               cur.closest('li.hasodds').animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
                 cur.closest('li.hasodds').remove();
                 if ($('.betSlipyCountText').text() == 0) {
                   blur.removeClass('block');
                   blur.addClass('none');
                   betslip.slideUp('fast');
-                  if (window.BetslipList.length > 0) {
+                  if (betsCounter() > 0) {
                     bsLink.slideDown('fast');
                   }
                 }
@@ -237,7 +277,7 @@ exports('betslip', (params, done) => {
           if (cur.is('.focus')) {
             $('.stk.focus').removeClass('focus');
             $.each($('.stk'), (i, el) => {
-              if ($(el).siblings('.stakeToReturn').children('.stakeToReturn_Value').text() == '0.00') {
+              if ($(el).siblings('.stakeToReturn').children('.stakeToReturn_Value').text() == ' 0.00') {
                 $(el).siblings('.stakeToReturn').addClass('hidden');
               }
             });
@@ -267,7 +307,7 @@ exports('betslip', (params, done) => {
                     }
                   }
                   cur.css('border-radius', '0');
-                  if ($('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text() == '0.00') {
+                  if ($('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text() == ' 0.00') {
                     $('.stakeToReturn').addClass('hidden');
                   }
                   $('.stk.focus').removeClass('focus');
@@ -331,10 +371,21 @@ exports('betslip', (params, done) => {
             let multiplyer = parseFloat(cur.parent().siblings('.odds').text());
             let tr = parseFloat($('.stk.focus').val()) * multiplyer;
             if (!isNaN(tr)) {
-              $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text(Math.round((tr + Number.EPSILON) * 100) / 100);
+              tr = tr.toFixed(2);
+              let trStr = tr.toString();
+
+              if (typeof trStr.split('.')[1] == 'undefined') {
+                trStr += '.00';
+              }
+              else {
+                if (trStr.split('.')[1].length == 1) {
+                  trStr += '0';
+                }
+              }
+              $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text(' ' + trStr);
             }
             else {
-              $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text('0.00');
+              $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text(' 0.00');
             }
             const total = $('#bstsx');
             let sum = 0;
@@ -376,7 +427,7 @@ exports('betslip', (params, done) => {
             blur.removeClass('block');
             blur.addClass('none');
             betslip.slideUp('fast');
-            if (window.BetslipList.length > 0) {
+            if (betsCounter() > 0) {
               bsLink.slideDown('fast');
             }
           });
@@ -384,15 +435,31 @@ exports('betslip', (params, done) => {
           $('.removeColumn').on('click', (event) => {
             let cur = $(event.target);
             let eventID = cur.closest('li.hasodds').data('event');
-            let ID = cur.closest('li.hasodds').data(`id`);
+            let ID = cur.closest('li.hasodds').data(`itemFpid`);
+
+            let counter = 0;
+            const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+            const keys = Object.keys(parsedCookies);
+            for (name of keys) {
+              if (name.substring(0, 3) == 'pa_') {
+                if (name.slice(3) == ID) {
+                  console.log(name.slice(3));
+                  Cookies.remove(`pa_${ID}`);
+                  $(`[data-id=${ID}]`).removeClass('selected');
+                  counter--;
+                }
+                counter++;
+              }
+            }
+
             window.BetslipList.map((item, index) => {
               if (item.eventID == eventID) {
                 window.BetslipList.splice(index, 1);
               }
             });
             $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
-            $('.betSlipyCountText').text(parseInt($('.betSlipyCountText').text()) - 1);
-            $('.betslip-link p.betslip-link-count').attr('data', parseInt($('.betslip-link p.betslip-link-count').attr('data') - 1));
+            $('.betSlipyCountText').text(betsCounter());
+            $('.betslip-link p.betslip-link-count').attr('data', betsCounter());
             if (cur.is('span')) {
               cur = cur.parent();
             }
@@ -402,7 +469,7 @@ exports('betslip', (params, done) => {
                 blur.removeClass('block');
                 blur.addClass('none');
                 betslip.slideUp('fast');
-                if (window.BetslipList.length > 0) {
+                if (betsCounter() > 0) {
                   bsLink.slideDown('fast');
                 }
               }
@@ -504,6 +571,7 @@ exports('betslip', (params, done) => {
         });
       });
     }
+
     /*((bets) => { 
       const betsRenderer = new Promise((resolve, reject) => {
         count.text(bets.length);
@@ -888,8 +956,11 @@ exports('betslip', (params, done) => {
       blur.removeClass('block');
       blur.addClass('none');
       betslip.slideUp('fast');
-      if (window.BetslipList.length > 0) {
+      if (betsCounter() > 0) {
         bsLink.slideDown('fast');
+      }
+      else {
+        bsLink.slideUp('fast');
       }
     });
     // oddsChange class

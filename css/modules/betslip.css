@@ -1289,3 +1289,12 @@ ul li.multipleBets ul>li {
 ul li.multipleBets ul.closed li:not(.mbHeader):not(.bs-MultipleBets_HighestAccumulator):not(.error) {
   display: none;
 }
+.betslipWrapper .multiple-section .bs-BetNameNoBreakdown .multiplesBetCount:empty {
+  display: none;
+}
+.betslipWrapper .multiple-section .bs-BetNameNoBreakdown .multiplesBetCount {
+  display: inline;
+  padding: 0;
+  font-size: 15px;
+  color: #404040;
+}

@@ -19,6 +19,18 @@ exports('betslip_link', (params, done) => {
       })
     }
 
+    function betsCounter() {
+      let counter = 0;
+      const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+      const keys = Object.keys(parsedCookies);
+      for (name of keys) {
+        if (name.substring(0, 3) == 'pa_') {
+          counter++;
+        }
+      }
+      return counter;
+    }
+
     window.BetslipList = [];   // array of selected odds
     BetslipList.uniquenes = (betsList) => {
       let ids = [];
@@ -36,7 +48,6 @@ exports('betslip_link', (params, done) => {
     const keys = Object.keys(parsedCookies);
     for (name of keys) {
       if (name.substring(0, 3) == 'pa_') {
-        console.log(name.slice(3));
         $(`[data-id=${name.slice(3)}]`).addClass('selected');
         counter++;
       }
@@ -58,20 +69,21 @@ exports('betslip_link', (params, done) => {
     }
 
     PAs.changeListener((val) => {
-      if (val == 0) {
+      if (betsCounter() == 0) {
         bsLink.slideUp('fast');
       }
       else {
-        rerenderLink(val);
+        rerenderLink(betsCounter());
       }
     });
 
-    PAs.active = 0;
-    if (counter) {
-      PAs.active += counter;
-      console.log(PAs.active);
+    if (betsCounter() != 0) {
+      PAs.active = betsCounter;
       rerenderLink(PAs.active);
       bsLink.slideDown('fast');
+    }
+    else {
+      bsLink.slideUp('fast');
     }
 
     function multiOdds() {
@@ -114,15 +126,17 @@ exports('betslip_link', (params, done) => {
     coefBtn.on('click', (event) => {
       const cur = $(event.target).closest('.button.coefficient');
       if (cur.hasClass('selected')) {
-        PAs.active -= 1;
-        cur.removeClass('selected');
         Cookies.remove('pa_' + cur[0].dataset.id);
+        cur.removeClass('selected');
         multiOdds();
         BetslipList.map((item, index) => {
           if (item.eventID == cur.parent().siblings(`[data-id=event]`).data('gameId') && item.type == cur.data('type')) {
             BetslipList.splice(index, 1);
           }
         });
+        console.log(betsCounter());
+        PAs.active = betsCounter();
+        console.log(PAs.active);
       }
       else {
         const BetslipItem = {};
@@ -165,7 +179,7 @@ exports('betslip_link', (params, done) => {
         // console.log(Cookies.get('pa_' + cur[0].dataset.id));
         cur.addClass('selected');
         bsLink.slideDown('fast');
-        PAs.active += 1;
+        PAs.active = betsCounter();
       }
     });
     $('.button.coefficient.disabled').off('click');
@@ -180,7 +194,7 @@ exports('betslip_link', (params, done) => {
       if (val == 0) {
         bsLink.slideUp('fast');
       }
-      $('.betslip-link p.betslip-link-count').attr('data', val);
+      $('.betslip-link p.betslip-link-count').attr('data', betsCounter());
       if (val > 1) {
         multiOdds();
       }
