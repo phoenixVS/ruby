@@ -68,3 +68,14 @@ div.row.info.det.not-active:before{
 .half-w {
   width: 49%;
 }
+.coeficient-table .row.info p{
+  padding-left: 20px;
+}
+.button.coefficient span.coeff{
+  text-align: right;
+  justify-self: end;
+  padding-right: 15px;
+}
+.coeficient-table .row .button {
+  justify-content: space-between;
+}

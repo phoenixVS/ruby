@@ -90,12 +90,12 @@ exports('login', (params, done) => {
             <div class="loginHeader" data-lang="login">Login</div>
             <!--User Name-->
             <div class="inputLogin">
-              <input data-req="1" data-reg-exp="/^([A-Za-z0-9]{8,})$/" id="username" type="text" placeholder="User name" name="username" autocapitalize="off" autocomplete="off" autocorrect="off">
+              <input data-req="1" data-reg-exp="/^([A-Za-z0-9]{8,})$/" data-lang="usrname" id="username" type="text" placeholder="User name" name="username" autocapitalize="off" autocomplete="off" autocorrect="off">
               <div class="clearButton"></div>
             </div>
             <!--Password-->
             <div class="inputPassword">
-              <input data-req="1" id="password" type="password" placeholder="Password" name="password" autocapitalize="off" autocomplete="off" autocorrect="off">
+              <input data-req="1" id="password" type="password" data-lang="pass" placeholder="Password" name="password" autocapitalize="off" autocomplete="off" autocorrect="off">
               <div class="showPassword"></div>
             </div>
             <div class="failedLogin">

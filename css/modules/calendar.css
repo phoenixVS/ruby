@@ -105,11 +105,15 @@
     bottom: 100%;
   }
   .select-menu.horizontal button div {
-    display: flex;
+    display: inline-flex;
   }
   .select-menu.horizontal button div span {
-    right: 100%;
+    right: 85%;
     top: 0;
+  }
+  .select-menu.horizontal button div span:last-child {
+    right: 85%;
+    top: -20px;
   }
   .select-menu.horizontal button em {
     --r: -45deg;
@@ -497,4 +501,113 @@
 
   .game-list-ul li:nth-child(even) {
     background: #432a38;
+  }
+  @keyframes slideInRight {
+    from {
+      transform: translate3d(100%, 0, 0);
+      visibility: visible;
+    }
+  
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  
+  .slideInRight {
+    animation-name: slideInRight;
+  }
+  @keyframes slideInLeft {
+    from {
+      transform: translate3d(-100%, 0, 0);
+      visibility: visible;
+    }
+  
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  
+  .slideInLeft {
+    animation-name: slideInLeft;
+  }
+  @keyframes slideOutRight {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+  
+    to {
+      visibility: hidden;
+      transform: translate3d(100%, 0, 0);
+    }
+  }
+  
+  .slideOutRight {
+    animation-name: slideOutRight;
+  }
+  @keyframes slideOutLeft {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+  
+    to {
+      visibility: hidden;
+      transform: translate3d(-100%, 0, 0);
+    }
+  }
+  
+  .slideOutLeft {
+    animation-name: slideOutLeft;
+  }
+
+  .animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+  }
+  
+  .animated.infinite {
+    animation-iteration-count: infinite;
+  }
+  
+  .animated.delay-1s {
+    animation-delay: 1s;
+  }
+  
+  .animated.delay-2s {
+    animation-delay: 2s;
+  }
+  
+  .animated.delay-3s {
+    animation-delay: 3s;
+  }
+  
+  .animated.delay-4s {
+    animation-delay: 4s;
+  }
+  
+  .animated.delay-5s {
+    animation-delay: 5s;
+  }
+  
+  .animated.fast {
+    animation-duration: 800ms;
+  }
+  
+  .animated.faster {
+    animation-duration: 500ms;
+  }
+  
+  .animated.slow {
+    animation-duration: 2s;
+  }
+  
+  .animated.slower {
+    animation-duration: 3s;
+  }
+  
+  @media (print), (prefers-reduced-motion: reduce) {
+    .animated {
+      animation-duration: 1ms !important;
+      transition-duration: 1ms !important;
+      animation-iteration-count: 1 !important; 
+    }
   }

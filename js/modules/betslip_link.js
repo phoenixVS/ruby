@@ -77,12 +77,26 @@ exports('betslip_link', (params, done) => {
     function multiOdds() {
       if (BetslipList.uniquenes(window.BetslipList)) {
         let m = 1;
-        window.BetslipList.map((item) => {
-          m *= modifyBets(item.OD);
-        });
-        m = Math.round((m + Number.EPSILON) * 100) / 100;
+        const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+        const keys = Object.keys(parsedCookies);
+        for (name of keys) {
+          if (name.substring(0, 3) == 'pa_') {
+            m *= modifyBets(/o=(.*)#f=/i.exec(parsedCookies[name])[1]);
+          }
+        }
+        m = m.toFixed(2);
+        let mStr = m.toString();
+
+        if (typeof mStr.split('.')[1] == 'undefined') {
+          mStr += '.00';
+        }
+        else {
+          if (mStr.split('.')[1].length == 1) {
+            mStr += '0';
+          }
+        }
         bsLink.children().children('.text-right').children('p.font').text('Multiply Odds');
-        bsLink.children().children('.text-right').children('p.title').text(m);
+        bsLink.children().children('.text-right').children('p.title').text(mStr);
       }
       else {
         bsLink.children().children('.text-right').children('p.font').text(' ');
@@ -103,6 +117,7 @@ exports('betslip_link', (params, done) => {
         PAs.active -= 1;
         cur.removeClass('selected');
         Cookies.remove('pa_' + cur[0].dataset.id);
+        multiOdds();
         BetslipList.map((item, index) => {
           if (item.eventID == cur.parent().siblings(`[data-id=event]`).data('gameId') && item.type == cur.data('type')) {
             BetslipList.splice(index, 1);
@@ -166,7 +181,13 @@ exports('betslip_link', (params, done) => {
         bsLink.slideUp('fast');
       }
       $('.betslip-link p.betslip-link-count').attr('data', val);
-      multiOdds();
+      if (val > 1) {
+        multiOdds();
+      }
+      else {
+        bsLink.children().children('.text-right').children('p.font').text(' ');
+        bsLink.children().children('.text-right').children('p.title').text(' ');
+      }
     }
 
     bsLink.on('click', (event) => {

@@ -20,6 +20,9 @@ exports('langs', (params, done) => {
         setTimeout(() => {
           if (typeof window.dict !== 'undefined') {
             $(`[data-lang]`).each((i, el) => {
+              if ($(el).is('input')) {
+                $(el).attr('placeholder', window.dict[$(el).data(`lang`)]);
+              }
               $(el).text(window.dict[$(el).data(`lang`)]);
             });
           }

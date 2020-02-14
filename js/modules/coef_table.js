@@ -26,20 +26,20 @@ exports('coef_table', (params, done) => {
     function shortize(name) {
       let str = name;
       if (screen.width < 350) {
-        str = str.slice(0, 7);
-        if (name.length > 7) {
+        str = str.slice(0, 12);
+        if (name.length > 12) {
           str += '...';
         }
         return str;
       } else if (screen.width > 350 && screen.width < 450) {
-        str = str.slice(0, 10);
-        if (name.length > 10) {
+        str = str.slice(0, 16);
+        if (name.length > 16) {
           str += '...';
         }
         return str;
       } else {
-        str = str.slice(0, 13);
-        if (name.length > 13) {
+        str = str.slice(0, 18);
+        if (name.length > 18) {
           str += '...';
         }
         return str;
@@ -152,7 +152,7 @@ exports('coef_table', (params, done) => {
                           <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
                           <button style="padding-left: 10px;" class="button coefficient" data-eventNA="${data[0].NA}" data-cl="${data[0].CL}" data-marketNA="${ma.NA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}" class="button coefficient" >
                             <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${shortize(pa.N2 ? pa.N2 : pa.NA)}</span>
-                            <span class="font">${pa.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : pa.OD}</span>
+                            <span class="font coeff">${pa.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(pa.OD)}</span>
                           </button>
                         </div>`);
                         });

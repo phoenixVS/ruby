@@ -153,7 +153,9 @@ exports('play_table', (params, done) => {
             preloader.addClass('done');
             preloader.data(`status`, 'done').attr('data-status', 'done');
           }
+
           window.translate();
+
           loadJsModules({
             betslip_link: { loadCSS: true, loadLanguage: false }
           });

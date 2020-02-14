@@ -146,16 +146,26 @@ exports('header', (params, done) => {
             if (window.pageYOffset >= sticky) {
                 navbar.classList.add("sticky");
                 document.querySelector('.slider').style.marginTop = '64px';
+                if ($(`[data-id="calendarContainer"]`).length) {
+                    document.querySelector(`[data-id="calendarContainer"]`).style.marginTop = '64px';
+                }
                 if ($('.video-title').length) {
                     document.querySelector('.video-title').style.marginTop = '64px';
                 }
             } else {
                 navbar.classList.remove("sticky");
                 document.querySelector('.slider').style.marginTop = '0';
+                if ($(`[data-id="calendarContainer"]`).length) {
+                    document.querySelector(`[data-id="calendarContainer"]`).style.marginTop = '0';
+                }
                 if ($('.video-title').length) {
                     document.querySelector('.video-title').style.marginTop = '0';
                 }
             }
+        }
+        // Clear all cookies function
+        window.cookieCleaner = () => {
+            document.cookie.split(";").forEach(function (c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
         }
 
         // Account profile redirect

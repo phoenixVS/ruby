@@ -108,6 +108,7 @@ function mainHandler() {
                         const betslip = $(`[data-id=betslip]`);
                         const betslip_link = $(`[data-id=betslip-link]`);
                         const betslip_small = $(`[data-id=betslip-small]`);
+                        const calendar = $('[data-id=calendarContainer]');
                         const lurks = [
                             mybets,
                             formWrapper,
@@ -116,6 +117,7 @@ function mainHandler() {
                             betslip_link,
                             betslip_small,
                             user_menu,
+                            calendar,
                         ];
                         const unlurks = [
                             play_big,
@@ -242,6 +244,7 @@ function filterHandler(ID) {
                             const betslip = $(`[data-id=betslip]`);
                             const betslip_link = $(`[data-id=betslip-link]`);
                             const betslip_small = $(`[data-id=betslip-small]`);
+                            const calendar = $('[data-id=calendarContainer]');
                             const lurks = [
                                 user_menu,
                                 mybets,
@@ -250,6 +253,7 @@ function filterHandler(ID) {
                                 betslip,
                                 betslip_link,
                                 betslip_small,
+                                calendar,
                             ];
                             const unlurks = [
                                 play_big,
@@ -360,6 +364,7 @@ function gameHandler(ID) {
                             betslip,
                             betslip_link,
                             betslip_small,
+                            calendar,
                         ];
                         const unlurks = [
                             game,
@@ -417,6 +422,7 @@ function calendarHandler() {
             const betslip_link = $(`[data-id=betslip-link]`);
             const betslip_small = $(`[data-id=betslip-small]`);
             const regist = $('[data-id=regist]');
+            const calendar = $('.calendarContainer');
             const lurks = [
                 mybets,
                 game,
@@ -432,6 +438,7 @@ function calendarHandler() {
                 regist,
             ];
             const unlurks = [
+                calendar,
                 formWrapper,
             ];
             lurking(lurks, unlurks);
