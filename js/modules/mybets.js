@@ -62,6 +62,7 @@ exports('mybets', (params, done) => {
                         }
                     }
                     $('.myBets-navLinks>a').on('click', navLinksHandler);
+                    window.translate();
                 });
         }
         renderMyBets();
