@@ -253,7 +253,10 @@ exports('play_table', (params, done) => {
       }
       if (typeof ev.MA[0].PA !== 'undefined' && ev.MA[0].SU != '1') {
         if (type) {
-          $(`[data-id="play-table"]`).children('.row:last-child').append(`
+          if (ev.MA[0].NA != "Fulltime Result") {
+            
+          } else {
+            $(`[data-id="play-table"]`).children('.row:last-child').append(`
             <div class="cell">
               <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[0].BS}" data-FI="${ev.MA[0].PA[0].FI}" data-HA="${ev.MA[0].PA[0].HA}" data-HD="${ev.MA[0].PA[0].HD}" data-ID="${ev.MA[0].PA[0].ID}" data-IT="${ev.MA[0].PA[0].IT}" data-NA="${ev.MA[0].PA[0].NA}" data-OD="${ev.MA[0].PA[0].OD}" data-OR="${ev.MA[0].PA[0].OR}" data-SU="${ev.MA[0].PA[0].SU}" class="button coefficient ${ev.MA[0].PA[0].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[0].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[0].OD}</button> 
             </div> 
@@ -264,6 +267,7 @@ exports('play_table', (params, done) => {
               <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[2].BS}" data-FI="${ev.MA[0].PA[2].FI}" data-HA="${ev.MA[0].PA[2].HA}" data-HD="${ev.MA[0].PA[2].HD}" data-ID="${ev.MA[0].PA[2].ID}" data-IT="${ev.MA[0].PA[2].IT}" data-NA="${ev.MA[0].PA[2].NA}" data-OD="${ev.MA[0].PA[2].OD}" data-OR="${ev.MA[0].PA[2].OR}" data-SU="${ev.MA[0].PA[2].SU}" class="button coefficient ${ev.MA[0].PA[2].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[2].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[2].OD}</button> 
             </div>
           `);
+          }
         }
         else {
           $(`[data-id="play-table"]`).children('.row:last-child').append(`
