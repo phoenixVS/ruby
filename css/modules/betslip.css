@@ -327,10 +327,16 @@
   -o-transform: translateX(-23px);
   -webkit-transform: translateX(-23px);
   transform: translateX(-23px);
-  /* -o-transition: transform .2s,-webkit-transform .2s;
+  -o-transition: transform .2s,-webkit-transform .2s;
   -moz-transition: transform .2s,-webkit-transform .2s;
   -webkit-transition: transform .2s,-webkit-transform .2s;
-  transition: transform .2s,-webkit-transform .2s; */
+  transition: transform .2s,-webkit-transform .2s;
+}
+.betslipWrapper li.moving div.selectionRow>div.selection {
+  -o-transition: none;
+  -moz-transition: none;
+  -webkit-transition: none;
+  transition: none;
 }
 .betslipWrapper.editMode div.selectionRow>div.selection {
   -moz-transform: translateX(2px);
@@ -1061,9 +1067,14 @@ button {
   justify-content: center;
   color: #fff;
   font-size: 13px;
-  /* -moz-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
+  -moz-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
   -webkit-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
-  transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s; */
+  transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
+}
+.betslipWrapper li.single-section ul li.moving .deleteItem, .betslipWrapper li.cast-section ul li.moving .deleteItem, .betslipWrapper li.tote-pot-section ul li.moving .deleteItem, .betslipWrapper li.moving.bs-BetBuilderGroupSection .deleteItem {
+  -moz-transition: none;
+  -webkit-transition: none;
+  transition: none;
 }
 .single-section.standardBet {
   overflow-x: hidden;
