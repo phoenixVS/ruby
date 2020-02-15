@@ -257,7 +257,7 @@ exports('play_table', (params, done) => {
             $(`[data-id="play-table"]`).children('.row:last-child').append(`
             <div class="right-container" style="width: 100%; height: 100%">
 
-            <div class="bets-container" style="width: 100%; height: 50%; display: table;">
+            <div class="bets-container" style="width: 100%; height: 65%; display: table;">
             <div class="cell" style="display: table-cell;border-right: 1px solid rgb(51, 32, 43);">
               <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[0].BS}" data-FI="${ev.MA[0].PA[0].FI}" data-HA="${ev.MA[0].PA[0].HA}" data-HD="${ev.MA[0].PA[0].HD}" data-ID="${ev.MA[0].PA[0].ID}" data-IT="${ev.MA[0].PA[0].IT}" data-NA="${ev.MA[0].PA[0].NA}" data-OD="${ev.MA[0].PA[0].OD}" data-OR="${ev.MA[0].PA[0].OR}" data-SU="${ev.MA[0].PA[0].SU}" class="button coefficient ${ev.MA[0].PA[0].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[0].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : ev.MA[0].PA[0].OD}</button> 
             </div> 
@@ -269,10 +269,10 @@ exports('play_table', (params, done) => {
             </div>
             </div>
 
-            <div class="result-container" data-id="event" data-game-id="${ev.ID}" style="width: 100%; height: 50%; background-color: #343341; display: flex;
+            <div class="result-container" data-id="event" data-game-id="${ev.ID}" style="width: 100%; height: 35%; background-color: #343341; display: flex;
             justify-content: center;
             align-items: center; border-top: 1px solid rgb(51, 32, 43);">
-            <p class="font white" data-game-id="${ev.ID}">${ev.MA[0].NA}</p>
+            <p class="font m-white ellipsis" data-game-id="${ev.ID}" style="font-size: 13px;">${ev.MA[0].NA}</p>
             </div>
 
             </div>
