@@ -142,32 +142,29 @@ exports('betslip', (params, done) => {
 
         $('.deleteItem').on('click', (event) => {
           const cur = $(event.target).closest('li.hasodds');
-          console.log(cur);
-          let eventID = cur.closest('li.hasodds').data('event');
-          let ID = cur.closest('li.hasodds').data(`id`);
-          let counter = 0;
+          const eventID = cur.closest('li.hasodds').data('event');
+          const ID = cur.closest('li.hasodds').data(`itemFpid`);
+
           const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
           const keys = Object.keys(parsedCookies);
+
+          let counter = 0;
           for (name of keys) {
             if (name.substring(0, 3) == 'pa_') {
-              if (name.slice(3, -1) == modifyBets(/fp=(.*)#so=/i.exec(parsedCookies[name])[1])) {
-                console.log(`match!!!`);
+              if (name.slice(3) == ID) {
+                Cookies.remove(`pa_${ID}`);
+                $(`[data-id=${ID}]`).removeClass('selected');
                 counter--;
               }
               counter++;
             }
           }
-          window.BetslipList.map((item, index) => {
-            if (item.eventID == eventID) {
-              window.BetslipList.splice(index, 1);
-            }
-          });
           $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
           $('.betSlipyCountText').text(betsCounter());
-          $('.betslip-link p.betslip-link-count').attr('data', betsCounter());
+          $('.betslip-link p.betslip-link-count').attr('data', counter);
           cur.animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
             cur.remove();
-            $('.betslip-link p.betslip-link-count').attr('data', betsCounter());
+            $('.betslip-link p.betslip-link-count').attr('data', counter);
             if ($('.betslip-link p.betslip-link-count').attr('data') == 0) {
               bsLink.slideUp('fast');
             }
@@ -182,12 +179,13 @@ exports('betslip', (params, done) => {
             }
           });
         });
+        let startX = 0;
         item.on('touchstart', (event) => {
           const cur = $(event.target);
           const li = cur.closest('li.hasodds')[0];
           const transformStyle = li.style.transform;
           const startTranslated = transformStyle.replace(/[^\d.]/g, '');
-          const startX = event.originalEvent.touches[0].pageX;
+          startX = event.originalEvent.touches[0].pageX;
           // const width = setInterval(() => {
           //   if (distance < -100) {
           //     console.log('not +100');
@@ -200,12 +198,13 @@ exports('betslip', (params, done) => {
           // }, 150);
           //console.log('startX:', startX);
           let distance = 0;
-          item.on('touchmove', (event) => {
+          cur.on('touchmove', (event) => {
             cur.parent('.single-section.standardBet > ul > li').addClass('mov');
             const curX = event.originalEvent.touches[0].pageX;
-            //console.log('curX:', curX);
+            console.log(startX);
+            console.log('curX:', curX);
             distance = curX - startX;
-            console.log(distance);
+            console.log('distance: ', distance);
             let drugEl = $(event.target).closest('li.hasodds');
             if (startTranslated == '') {
               if (distance < 0) {
@@ -222,6 +221,7 @@ exports('betslip', (params, done) => {
               }
               if (distance < -100) {
                 // -d + 100
+                drugEl.css('transform', `translateX(0px)`);
                 cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance}`);
               }
             }
@@ -231,15 +231,26 @@ exports('betslip', (params, done) => {
             let endTranslated = transformStyleEnd.replace(/[^\d.]/g, '');
             if (endTranslated > 200) {
               let eventID = cur.closest('li.hasodds').data('event');
-              let ID = cur.closest('li.hasodds').data(`id`);
-              window.BetslipList.map((item, index) => {
-                if (item.eventID == eventID) {
-                  window.BetslipList.splice(index, 1);
+              const ID = cur.closest('li.hasodds').data(`itemFpid`);
+
+              const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+              const keys = Object.keys(parsedCookies);
+
+              let counter = 0;
+              for (name of keys) {
+                if (name.substring(0, 3) == 'pa_') {
+                  if (name.slice(3) == ID) {
+                    Cookies.remove(`pa_${ID}`);
+                    $(`[data-id=${ID}]`).removeClass('selected');
+                    counter--;
+                  }
+                  counter++;
                 }
-              });
+              }
+
               $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
-              $('.betSlipyCountText').text(betsCounter());
-              $('.betslip-link p.betslip-link-count').attr('data', betsCounter());
+              $('.betSlipyCountText').text(counter);
+              $('.betslip-link p.betslip-link-count').attr('data', counter);
               cur.closest('li.hasodds').animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
                 cur.closest('li.hasodds').remove();
                 if ($('.betSlipyCountText').text() == 0) {
@@ -247,6 +258,9 @@ exports('betslip', (params, done) => {
                   blur.addClass('none');
                   betslip.slideUp('fast');
                   if (betsCounter() > 0) {
+                    loadJsModules({
+                      betslip: { loadCSS: true, loadLanguage: false },
+                    });
                     bsLink.slideDown('fast');
                   }
                 }
@@ -443,7 +457,6 @@ exports('betslip', (params, done) => {
             for (name of keys) {
               if (name.substring(0, 3) == 'pa_') {
                 if (name.slice(3) == ID) {
-                  console.log(name.slice(3));
                   Cookies.remove(`pa_${ID}`);
                   $(`[data-id=${ID}]`).removeClass('selected');
                   counter--;
@@ -860,7 +873,7 @@ exports('betslip', (params, done) => {
                 $(this).remove();
               });
             }
-
+  
             $('#BetSlipEditButton').off();
             // remove all bets
             $('.removeAll').on('click', (event) => {
