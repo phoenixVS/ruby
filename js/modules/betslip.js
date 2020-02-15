@@ -201,10 +201,7 @@ exports('betslip', (params, done) => {
           cur.on('touchmove', (event) => {
             cur.parent('.single-section.standardBet > ul > li').addClass('mov');
             const curX = event.originalEvent.touches[0].pageX;
-            console.log(startX);
-            console.log('curX:', curX);
             distance = curX - startX;
-            console.log('distance: ', distance);
             let drugEl = $(event.target).closest('li.hasodds');
             if (startTranslated == '') {
               if (distance < 0) {
