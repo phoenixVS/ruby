@@ -327,10 +327,10 @@
   -o-transform: translateX(-23px);
   -webkit-transform: translateX(-23px);
   transform: translateX(-23px);
-  -o-transition: transform .2s,-webkit-transform .2s;
+  /* -o-transition: transform .2s,-webkit-transform .2s;
   -moz-transition: transform .2s,-webkit-transform .2s;
   -webkit-transition: transform .2s,-webkit-transform .2s;
-  transition: transform .2s,-webkit-transform .2s;
+  transition: transform .2s,-webkit-transform .2s; */
 }
 .betslipWrapper.editMode div.selectionRow>div.selection {
   -moz-transform: translateX(2px);
@@ -595,10 +595,10 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
   width: 100%;
   overflow: hidden;
   min-height: 63px;
-  -o-transition: opacity .2s;
+  /* -o-transition: opacity .2s;
   -moz-transition: opacity .2s;
   -webkit-transition: opacity .2s;
-  transition: opacity .2s;
+  transition: opacity .2s; */
 }
 .bs-NoMultiples .standardBet .restrictedCong div.selectionRow div.restrictedMultiple, .bs-NoMultiples .standardBet .restrictedCong div.ausToteType div.restrictedMultiple, .bs-NoMultiples .standardBet .restrictedCong div.subItemWrapper div.restrictedMultiple, .bs-NoMultiples .castBet .restrictedCong div.selectionRow div.restrictedMultiple, .bs-NoMultiples .castBet .restrictedCong div.ausToteType div.restrictedMultiple, .bs-NoMultiples li.bs-BetBuilderGroupSection.restrictedCong div.restrictedMultiple {
   background-color: transparent;
@@ -613,10 +613,10 @@ li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content 
   -o-transform: translateX(-29px);
   -webkit-transform: translateX(-29px);
   transform: translateX(-29px);
-  -o-transition: transform .2s,-webkit-transform .2s;
+  /* -o-transition: transform .2s,-webkit-transform .2s;
   -moz-transition: transform .2s,-webkit-transform .2s;
   -webkit-transition: transform .2s,-webkit-transform .2s;
-  transition: transform .2s,-webkit-transform .2s;
+  transition: transform .2s,-webkit-transform .2s; */
   pointer-events: none;
 }
 div.removeColumn span {
@@ -633,10 +633,10 @@ div.removeColumn span {
   -o-transform: translateX(-23px);
   -webkit-transform: translateX(-23px);
   transform: translateX(-23px);
-  -o-transition: transform .2s,-webkit-transform .2s;
+  /* -o-transition: transform .2s,-webkit-transform .2s;
   -moz-transition: transform .2s,-webkit-transform .2s;
   -webkit-transition: transform .2s,-webkit-transform .2s;
-  transition: transform .2s,-webkit-transform .2s;
+  transition: transform .2s,-webkit-transform .2s; */
 }
 .betslipWrapper div.selectionRow div.selection div.selectionDescription {
   color: #404040;
@@ -728,9 +728,9 @@ div.removeColumn span {
   justify-content: center;
   color: #fff;
   font-size: 13px;
-  -moz-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
+  /* -moz-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
   -webkit-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
-  transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
+  transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s; */
 }
 
 /* Stakepad*/
@@ -1061,9 +1061,9 @@ button {
   justify-content: center;
   color: #fff;
   font-size: 13px;
-  -moz-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
+  /* -moz-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
   -webkit-transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
-  transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s;
+  transition: transform .2s,-webkit-transform .2s,width .2S,opacity .1s; */
 }
 .single-section.standardBet {
   overflow-x: hidden;
@@ -1234,8 +1234,8 @@ ul li.multipleBets ul>li.bs-MultipleBets_HighestAccumulator, ul li.multipleBets 
 }
 .betslipWrapper li.single-section ul li, .betslipWrapper li.multiple-section ul li, .betslipWrapper li.bs-BetBuilderSectionContainer>ul>li, .betslipWrapper li.cast-section ul li, .betslipWrapper .betReceipt li.tote-pot-section ul li {
   position: relative;
-  -webkit-transition: transform .2s,min-width .2s,-webkit-transform .2s;
-  transition: transform .2s,min-width .2s,-webkit-transform .2s;
+  /* -webkit-transition: transform .2s,min-width .2s,-webkit-transform .2s;
+  transition: transform .2s,min-width .2s,-webkit-transform .2s; */
   -webkit-box-shadow: inset 0 -1px 0 0 #c7c7c7;
   box-shadow: inset 0 -1px 0 0 #c7c7c7;
 }

@@ -134,9 +134,7 @@ exports('betslip_link', (params, done) => {
             BetslipList.splice(index, 1);
           }
         });
-        console.log(betsCounter());
         PAs.active = betsCounter();
-        console.log(PAs.active);
       }
       else {
         const BetslipItem = {};
