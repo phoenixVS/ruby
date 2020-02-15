@@ -159,39 +159,41 @@ exports('betslip', (params, done) => {
           //   }
           // }, 150);
           //console.log('startX:', startX);
-
+          console.log(startTranslated);
           let distance = 0;
           cur.on('touchmove', (event) => {
             cur.parent('.single-section.standardBet > ul > li').addClass('mov');
             const curX = event.originalEvent.touches[0].pageX;
             distance = curX - startX;
-            let drugEl = $(event.target).closest('li.hasodds');
+            const drugEl = $(event.target).closest('.single-section.standardBet > ul > li');
+
             if (startTranslated == '') {
               if (distance < 0) {
                 drugEl.css('transform', `translateX(${distance}px)`);
               }
               if (distance < -100) {
-                cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance}`);
+                cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance}px`);
               }
             }
             else {
               if (distance < 0) {
-                // d - 100
-                drugEl.css('transform', `translateX(${distance}px)`);
-              }
-              if (distance < -100) {
+                //   // d - 100
+                //   drugEl.css('transform', `translateX(${distance}px)`);
+                // }
+                // if (distance < -100) {
                 // -d + 100
-                drugEl.css('transform', `translateX(0px)`);
-                cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance}`);
+                drugEl.css('transform', `translateX(${distance - 100}px)`);
+                cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance + 100}px`);
               }
             }
           });
           cur.on('touchend', (event) => {
+            cur.parent('.single-section.standardBet > ul > li').removeClass('mov');
             $('.deleteItem').on('touchstart', (event) => {
               const cur = $(event.target).closest('li.hasodds');
               const eventID = cur.closest('li.hasodds').data('event');
               const ID = cur.closest('li.hasodds').data(`itemFpid`);
-
+              console.log(ID);
               const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
               const keys = Object.keys(parsedCookies);
 
@@ -200,13 +202,13 @@ exports('betslip', (params, done) => {
                 if (name.substring(0, 3) == 'pa_') {
                   if (name.slice(3) == ID) {
                     Cookies.remove(`pa_${ID}`);
-                    $(`[data-id=${ID}]`).removeClass('selected');
+                    $(`[data-id= ${ID}]`).removeClass('selected');
                     counter--;
                   }
                   counter++;
                 }
               }
-              $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
+              $(`.button.coefficient[data-id= ${ID}]`).removeClass('selected');
               $('.betSlipyCountText').text(betsCounter());
               $('.betslip-link p.betslip-link-count').attr('data', counter);
               cur.animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
@@ -220,9 +222,11 @@ exports('betslip', (params, done) => {
                   blur.removeClass('block');
                   blur.addClass('none');
                   betslip.slideUp('fast');
-                  if (betsCounter() > 0) {
-                    bsLink.slideDown('fast');
-                  }
+                }
+                if (betsCounter() > 0) {
+                  loadJsModules({
+                    betslip: { loadCSS: true, loadLanguage: false },
+                  });
                 }
               });
             });
@@ -240,14 +244,14 @@ exports('betslip', (params, done) => {
                 if (name.substring(0, 3) == 'pa_') {
                   if (name.slice(3) == ID) {
                     Cookies.remove(`pa_${ID}`);
-                    $(`[data-id=${ID}]`).removeClass('selected');
+                    $(`[data-id= ${ID}]`).removeClass('selected');
                     counter--;
                   }
                   counter++;
                 }
               }
 
-              $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
+              $(`.button.coefficient[data-id= ${ID}]`).removeClass('selected');
               $('.betSlipyCountText').text(counter);
               $('.betslip-link p.betslip-link-count').attr('data', counter);
               cur.closest('li.hasodds').animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
@@ -267,11 +271,11 @@ exports('betslip', (params, done) => {
             }
             if (distance < -70) {
               cur.closest('li.hasodds').css('transform', `translateX(-100px)`);
-              cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${100}`);
+              cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${100} `);
             }
             else {
               cur.closest('li.hasodds').css('transform', ``);
-              cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${100}`);
+              cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${100} `);
             }
             cur.parent('.single-section.standardBet > ul > li').removeClass('mov');
             event.stopPropagation();
@@ -460,7 +464,7 @@ exports('betslip', (params, done) => {
               if (name.substring(0, 3) == 'pa_') {
                 if (name.slice(3) == ID) {
                   Cookies.remove(`pa_${ID}`);
-                  $(`[data-id=${ID}]`).removeClass('selected');
+                  $(`[data-id= ${ID}]`).removeClass('selected');
                   counter--;
                 }
                 counter++;
@@ -472,7 +476,7 @@ exports('betslip', (params, done) => {
                 window.BetslipList.splice(index, 1);
               }
             });
-            $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
+            $(`.button.coefficient[data-id= ${ID}]`).removeClass('selected');
             $('.betSlipyCountText').text(betsCounter());
             $('.betslip-link p.betslip-link-count').attr('data', betsCounter());
             if (cur.is('span')) {
@@ -630,7 +634,7 @@ exports('betslip', (params, done) => {
                 window.BetslipList.splice(index, 1);
               }
             });
-            $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
+            $(`.button.coefficient[data-id= ${ ID }]`).removeClass('selected');
             $('.betSlipyCountText').text(BetslipList.length);
             $('.betslip-link p.betslip-link-count').attr('data', BetslipList.length);
             $('.')
@@ -660,11 +664,11 @@ exports('betslip', (params, done) => {
             // const width = setInterval(() => {
             //   if (distance < -100) {
             //     console.log('not +100');
-            //     cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance}`);
+            //     cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${ -distance } `);
             //   }
             //   else {
             //     console.log('+100');
-            //     cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance + 100}`);
+            //     cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${ -distance + 100 } `);
             //   }
             // }, 150);
             //console.log('startX:', startX);
@@ -678,20 +682,20 @@ exports('betslip', (params, done) => {
               let drugEl = $(event.target).closest('li.hasodds');
               if (startTranslated == '') {
                 if (distance < 0) {
-                  drugEl.css('transform', `translateX(${distance}px)`);
+                  drugEl.css('transform', `translateX(${ distance }px)`);
                 }
                 if (distance < -100) {
-                  cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance}`);
+                  cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${ -distance } `);
                 }
               }
               else {
                 if (distance < 0) {
                   // d - 100
-                  drugEl.css('transform', `translateX(${distance}px)`);
+                  drugEl.css('transform', `translateX(${ distance }px)`);
                 }
                 if (distance < -100) {
                   // -d + 100
-                  cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${-distance}`);
+                  cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${ -distance } `);
                 }
               }
             });
@@ -706,7 +710,7 @@ exports('betslip', (params, done) => {
                     window.BetslipList.splice(index, 1);
                   }
                 });
-                $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
+                $(`.button.coefficient[data-id= ${ ID }]`).removeClass('selected');
                 $('.betSlipyCountText').text(parseInt($('.betSlipyCountText').text()) - 1);
                 $('.betslip-link p.betslip-link-count').attr('data', parseInt($('.betslip-link p.betslip-link-count').attr('data') - 1));
                 cur.closest('li.hasodds').animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
@@ -723,11 +727,11 @@ exports('betslip', (params, done) => {
               }
               if (distance < -70) {
                 cur.closest('li.hasodds').css('transform', `translateX(-100px)`);
-                cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${100}`);
+                cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${ 100 } `);
               }
               else {
                 cur.closest('li.hasodds').css('transform', ``);
-                cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${100}`);
+                cur.closest('.single-section.standardBet > ul > li').children('.deleteItem').css('width', `${ 100 } `);
               }
               cur.parent('.single-section.standardBet > ul > li').removeClass('mov');
               event.stopPropagation();
@@ -762,7 +766,7 @@ exports('betslip', (params, done) => {
               input.removeClass('focus');
               cur.addClass('focus');
               cur.siblings('.stakeToReturn').removeClass('hidden');
-              cur.closest('.hasodds').append($('<div class="stakepad">').load(`./html/modules/betslip/keyboard.html`, () => {
+              cur.closest('.hasodds').append($('<div class="stakepad">').load(`./ html / modules / betslip / keyboard.html`, () => {
                 cur.closest('.hasodds').addClass('keypad');
                 $('.stakepad').hide();
                 $('.stakepad').slideDown('fast');
@@ -899,7 +903,7 @@ exports('betslip', (params, done) => {
                   window.BetslipList.splice(index, 1);
                 }
               });
-              $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
+              $(`.button.coefficient[data-id= ${ ID }]`).removeClass('selected');
               $('.betSlipyCountText').text(parseInt($('.betSlipyCountText').text()) - 1);
               $('.betslip-link p.betslip-link-count').attr('data', parseInt($('.betslip-link p.betslip-link-count').attr('data') - 1));
               if (cur.is('span')) {
@@ -982,25 +986,25 @@ exports('betslip', (params, done) => {
     function appendBet(item) {
       let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU } = item;
       content.children('ul').append(`
-                    <li class= "hasodds" data-event="${eventID}" data-BS="${BS}" data-FI="${FI}" data-HA="${HA}" data-HD="${HD}" data-ID="${ID}" data-IT="${IT}" data-NA="${NA}" data-OD="${OD}" data-OR="${OR}" data-SU="${SU}" >
-                  <div class="bs-ItemOverlay" ></div > <div class="selectionRow">
-                    <div class="restrictedMultiple"></div>
-                    <div class="removeColumn"><span class="close remove-bet"></span></div>
-                    <div class="selection">
-                      <div class="selectionDescription">${NA}</div>
-                      <div class="fullSlipMode">${marketNA}</div>
-                      <div class="fullSlipMode">${eventNA}</div>
-                    </div>
-                    <div class="odds">${modifyBets(OD)}</div>
-                    <div class="stake">
-                      <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Stake" readonly="readonly" maxlength="9">
-                        <div class="stakeToReturn hidden  ">
-                          To return&nbsp;
+            < li class= "hasodds" data-event="${eventID}" data-BS="${BS}" data-FI="${FI}" data-HA="${HA}" data-HD="${HD}" data-ID="${ID}" data-IT="${IT}" data-NA="${NA}" data-OD="${OD}" data-OR="${OR}" data-SU="${SU}" >
+              <div class="bs-ItemOverlay" ></div > <div class="selectionRow">
+                <div class="restrictedMultiple"></div>
+                <div class="removeColumn"><span class="close remove-bet"></span></div>
+                <div class="selection">
+                  <div class="selectionDescription">${NA}</div>
+                  <div class="fullSlipMode">${marketNA}</div>
+                  <div class="fullSlipMode">${eventNA}</div>
+                </div>
+                <div class="odds">${modifyBets(OD)}</div>
+                <div class="stake">
+                  <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Stake" readonly="readonly" maxlength="9">
+                    <div class="stakeToReturn hidden  ">
+                      To return&nbsp;
                       <span class="stakeToReturn_Value">0.00</span>
-                        </div>
                     </div>
                     </div>
-                    <div class="deleteItem">Delete</div>
+                </div>
+                <div class="deleteItem">Delete</div>
               </li>`);
     }
 
