@@ -140,49 +140,11 @@ exports('betslip', (params, done) => {
           }
         });
 
-        $('.deleteItem').on('click', (event) => {
-          const cur = $(event.target).closest('li.hasodds');
-          const eventID = cur.closest('li.hasodds').data('event');
-          const ID = cur.closest('li.hasodds').data(`itemFpid`);
-
-          const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
-          const keys = Object.keys(parsedCookies);
-
-          let counter = 0;
-          for (name of keys) {
-            if (name.substring(0, 3) == 'pa_') {
-              if (name.slice(3) == ID) {
-                Cookies.remove(`pa_${ID}`);
-                $(`[data-id=${ID}]`).removeClass('selected');
-                counter--;
-              }
-              counter++;
-            }
-          }
-          $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
-          $('.betSlipyCountText').text(betsCounter());
-          $('.betslip-link p.betslip-link-count').attr('data', counter);
-          cur.animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
-            cur.remove();
-            $('.betslip-link p.betslip-link-count').attr('data', counter);
-            if ($('.betslip-link p.betslip-link-count').attr('data') == 0) {
-              bsLink.slideUp('fast');
-            }
-            multiOdds();
-            if (betsCounter() == 0) {
-              blur.removeClass('block');
-              blur.addClass('none');
-              betslip.slideUp('fast');
-              if (betsCounter() > 0) {
-                bsLink.slideDown('fast');
-              }
-            }
-          });
-        });
         let startX = 0;
         item.on('touchstart', (event) => {
           const cur = $(event.target);
           const li = cur.closest('li.hasodds')[0];
+          li.classList.add('moving');
           const transformStyle = li.style.transform;
           const startTranslated = transformStyle.replace(/[^\d.]/g, '');
           startX = event.originalEvent.touches[0].pageX;
@@ -197,6 +159,7 @@ exports('betslip', (params, done) => {
           //   }
           // }, 150);
           //console.log('startX:', startX);
+
           let distance = 0;
           cur.on('touchmove', (event) => {
             cur.parent('.single-section.standardBet > ul > li').addClass('mov');
@@ -224,6 +187,45 @@ exports('betslip', (params, done) => {
             }
           });
           cur.on('touchend', (event) => {
+            $('.deleteItem').on('touchstart', (event) => {
+              const cur = $(event.target).closest('li.hasodds');
+              const eventID = cur.closest('li.hasodds').data('event');
+              const ID = cur.closest('li.hasodds').data(`itemFpid`);
+
+              const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+              const keys = Object.keys(parsedCookies);
+
+              let counter = 0;
+              for (name of keys) {
+                if (name.substring(0, 3) == 'pa_') {
+                  if (name.slice(3) == ID) {
+                    Cookies.remove(`pa_${ID}`);
+                    $(`[data-id=${ID}]`).removeClass('selected');
+                    counter--;
+                  }
+                  counter++;
+                }
+              }
+              $(`.button.coefficient[data-id=${ID}]`).removeClass('selected');
+              $('.betSlipyCountText').text(betsCounter());
+              $('.betslip-link p.betslip-link-count').attr('data', counter);
+              cur.animate({ "margin-right": '+=200', opacity: 0.25, height: "toggle" }, 250, () => {
+                cur.remove();
+                $('.betslip-link p.betslip-link-count').attr('data', counter);
+                if ($('.betslip-link p.betslip-link-count').attr('data') == 0) {
+                  bsLink.slideUp('fast');
+                }
+                multiOdds();
+                if (betsCounter() == 0) {
+                  blur.removeClass('block');
+                  blur.addClass('none');
+                  betslip.slideUp('fast');
+                  if (betsCounter() > 0) {
+                    bsLink.slideDown('fast');
+                  }
+                }
+              });
+            });
             const transformStyleEnd = li.style.transform;
             let endTranslated = transformStyleEnd.replace(/[^\d.]/g, '');
             if (endTranslated > 200) {
@@ -434,13 +436,16 @@ exports('betslip', (params, done) => {
           $('.removeAll').on('click', (event) => {
             $('.button.coefficient.selected').removeClass('selected');
             item.animate({ "margin-right": '+=200' }, 150);
-            window.BetslipList.splice(0, BetslipList.length);
+            const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+            const keys = Object.keys(parsedCookies);
+            for (name of keys) {
+              if (name.substring(0, 3) == 'pa_') {
+                Cookies.remove(name);
+              }
+            }
             blur.removeClass('block');
             blur.addClass('none');
             betslip.slideUp('fast');
-            if (betsCounter() > 0) {
-              bsLink.slideDown('fast');
-            }
           });
           // Remove bet
           $('.removeColumn').on('click', (event) => {
