@@ -11,5 +11,8 @@ window.dict = {
   pers_inf: "Personal info",
   confim: "Comfirmation",
   usrname: "Username",
-  pass: "Password"
+  pass: "Password",
+  pass_conf: "Confirm password:",
+  fields: "All the fields, marked by (*) are required.",
+  next: "Next",
 }

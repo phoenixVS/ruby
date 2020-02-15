@@ -535,5 +535,6 @@ exports('regist', (params, done) => {
       // };
       done();
     });
+    window.translate();
   }
 });
