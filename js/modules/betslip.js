@@ -52,8 +52,14 @@ exports('betslip', (params, done) => {
       "ms": "",
       "cs": ""
     }`;
+    let url = '';
     console.log(JSON.parse(data));
-    const url = 'https://www.bestline.bet/bs/?op=1';
+    if (typeof params.update === 'undefined') {
+      url = 'https://www.bestline.bet/bs/?op=1';
+    }
+    else {
+      url = 'https://www.bestline.bet/bs/?op=9';
+    }
 
     function loadBetslip(url, callback) {
       const xhr = new XMLHttpRequest();
@@ -113,7 +119,9 @@ exports('betslip', (params, done) => {
 
         // Accept changes
         $('.acceptChanges').on('click', (event) => {
-          // TODO: accept changes functionality
+          loadJsModules({
+            betslip: { update: true, loadCSS: true, loadLanguage: false },
+          });
         });
 
         $('#BetSlipEditButton').on('click', (event) => {
@@ -288,6 +296,10 @@ exports('betslip', (params, done) => {
           if (cur.is('.stake')) {
             cur = cur.children('input.stk');
           }
+          if (cur.is('.bs-stakeContainer')) {
+            cur = cur.children('input.stk');
+          }
+          // multiplesWrapper TODO
           if (cur.is('.stakeToReturn')) {
             cur = cur.parent('.stake').children('input.stk');
           }
@@ -380,6 +392,7 @@ exports('betslip', (params, done) => {
           }
         };
         $('.stake').on('click', onStake);
+        $('.bs-stakeContainer').on('click', onStake);
         // on input change
         const inputs = document.querySelectorAll('.stk');
         for (let i = 0; i < inputs.length; i++) {
