@@ -252,7 +252,7 @@ exports('betslip', (params, done) => {
                 if (name.substring(0, 3) == 'pa_') {
                   if (name.slice(3) == ID) {
                     Cookies.remove(`pa_${ID}`);
-                    $(`[data-id= ${ID}]`).removeClass('selected');
+                    $(`[data-id=${ID}]`).removeClass('selected');
                     counter--;
                   }
                   counter++;
@@ -298,6 +298,9 @@ exports('betslip', (params, done) => {
           }
           if (cur.is('.bs-stakeContainer')) {
             cur = cur.children('input.stk');
+          }
+          if (cur.is('.stakeToReturn')) {
+            cur = cur.parent('.bs-stakeContainer').children('input.stk');
           }
           // multiplesWrapper TODO
           if (cur.is('.stakeToReturn')) {
