@@ -13,3 +13,49 @@
     color: rgba(0,0,0,.5);
     z-index: 2;
 }
+
+.search-container {
+  width: 100%;
+  height: 40px;
+  background-color: #761c2d;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#search {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  transition: 0.3s;
+  width: 100%;
+  padding-left: 10px;
+  border-bottom: 3px solid white;
+}
+
+.search-form {
+  width: 100%;
+  padding-left: 10px;
+}
+
+#search-input {
+  height: 100%;
+  width: 100%;
+  background: none;
+  color: #fff;
+  border: none;
+  outline: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  visibility: visible;
+}
+
+#search-input::placeholder {
+  font-size: 16px;
+  font-weight: 500;
+  color: hsla(0,0%,100%,.6);
+  font-family: Roboto Condensed,sans-serif;
+  line-height: 1.3;
+}
