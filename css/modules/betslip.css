@@ -334,6 +334,7 @@
 }
 .betslipWrapper li.moving div.selectionRow>div.selection {
   -o-transition: none;
+  -o-transition: none;
   -moz-transition: none;
   -webkit-transition: none;
   transition: none;
@@ -1308,4 +1309,12 @@ ul li.multipleBets ul.closed li:not(.mbHeader):not(.bs-MultipleBets_HighestAccum
   padding: 0;
   font-size: 15px;
   color: #404040;
+}
+.betslipContent {
+  max-height: 75vh;
+  overflow-y: auto;
+}
+.stk.focus {
+  color: rgba(67, 42, 56, 1)!important;
+  border-bottom: 2px solid #888!important;
 }
