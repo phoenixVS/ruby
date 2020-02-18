@@ -1376,3 +1376,7 @@ li.error div.text {
   height: 100%;
   display: table-cell;
 }
+.betslipWrapper.editMode .suspended .bs-ItemOverlay {
+  -webkit-transform: translateX(20px);
+  transform: translateX(20px);
+}

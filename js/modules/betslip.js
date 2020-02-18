@@ -215,6 +215,7 @@ exports('betslip', (params, done) => {
                   counter++;
                 }
               }
+
               $(`.button.coefficient[data-id= ${ID}]`).removeClass('selected');
               $('.betSlipyCountText').text(betsCounter());
               $('.betslip-link p.betslip-link-count').attr('data', counter);
@@ -481,7 +482,6 @@ exports('betslip', (params, done) => {
 
             curTR = trStr;
             if (ID !== 0) {
-              // TODO: stake
               for (name of keys) {
                 if (name.substring(0, 3) == 'pa_') {
                   if (name.slice(3) == ID) {
@@ -511,11 +511,57 @@ exports('betslip', (params, done) => {
             }
             else {
               if (multiID !== 0) {
-                // TODO: multiStake
                 if (typeof curTR !== 'undefined') {
+                  for (name of keys) {
+                    if (name == 'ms') {
+                      let old = parsedCookies[name];
+                      let newCookie = '';
+                      let curMult = old.split('||').filter((el) => {
+                        if (el.match('id=' + multiID)) {
+                          return true;
+                        }
+                      });
+                      if (/st=/i.test(curMult[0])) {
+                        let newMult = '';
+                        newMult = curMult[0].slice(0, curMult[0].search(/st=/gi));
+                        newMult += 'st=' + curST + '#ust=' + curUST + '#tr=' + curTR;
+                        newCookie = old.replace(curMult[0], newMult);
+                      }
+                      else {
+                        let newMult = '';
+                        newMult = curMult[0] + 'st=' + curST + '#ust=' + curUST + '#tr=' + curTR;
+                        newCookie = old.replace(curMult[0], newMult);
+                      }
+                      Cookies.set(name, newCookie);
+                    }
+                  }
                   console.log(multiID, ' ', curST, ' ', curTR);
                 }
                 else {
+                  for (name of keys) {
+                    if (name == 'ms') {
+                      let old = parsedCookies[name];
+                      let newCookie = '';
+                      let curMult = old.split('||').filter((el) => {
+                        if (el.match('id=' + multiID)) {
+                          return true;
+                        }
+                      });
+                      if (/st=/i.test(curMult[0])) {
+                        let newMult = '';
+                        newMult = curMult[0].slice(0, curMult[0].search(/st=/gi));
+                        newMult += 'st=' + curST + '#ust=' + curUST;
+                        newCookie = old.replace(curMult[0], newMult);
+                      }
+                      else {
+                        let newMult = '';
+                        console.log(curMult[0]);
+                        newMult = curMult[0] + 'st=' + curST + '#ust=' + curUST;
+                        newCookie = old.replace(curMult[0], newMult);
+                      }
+                      Cookies.set(name, newCookie);
+                    }
+                  }
                   console.log(multiID, ' ', curST);
                 }
               }
