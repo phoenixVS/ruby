@@ -294,16 +294,18 @@ exports('betslip', (params, done) => {
           if (cur.is('.stake')) {
             cur = cur.children('input.stk');
           }
-          if (cur.is('.bs-stakeContainer')) {
-            cur = cur.children('input.stk');
+          else {
+            if (cur.is('.bs-stakeContainer')) {
+              cur = cur.children('input.stk');
+            }
+            if (cur.is('.stakeToReturn')) {
+              cur = cur.parent('.bs-stakeContainer').children('input.stk');
+            }
+            if (cur.is('.bs-StandardMultipleStake_ToReturn')) {
+              cur = cur.parent('.bs-stakeContainer').children('input.stk');
+            }
           }
-          if (cur.is('.stakeToReturn')) {
-            cur = cur.parent('.bs-stakeContainer').children('input.stk');
-          }
-          if (cur.is('.bs-StandardMultipleStake_ToReturn')) {
-            cur = cur.parent('.bs-stakeContainer').children('input.stk');
-          }
-          if (cur.is('.stakeToReturn')) {
+          if (cur.is('.stakeToReturn') || cur.is('.stakeToReturn_Text') || cur.is('.stakeToReturn_Value')) {
             cur = cur.parent('.stake').children('input.stk');
           }
           if (cur.is('.focus')) {
@@ -324,10 +326,15 @@ exports('betslip', (params, done) => {
             });
           }
           else {
-            $('.stakepad').remove();
+            $('.stakepad').slideUp(250, function () {
+              $(this).remove();
+            });
+            // $('.stakepad').remove();
             input.removeClass('focus');
             if (cur.is('input')) {
-              cur[0].classList.add('focus');
+              cur.addClass('focus');
+            } else {
+              cur.addClass('focus');
             }
 
             cur.siblings('.stakeToReturn').removeClass('hidden');
