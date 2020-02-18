@@ -81,6 +81,7 @@ exports('betslip_link', (params, done) => {
       PAs.active = betsCounter;
       rerenderLink(PAs.active);
       bsLink.slideDown('fast');
+      rerenderLink(betsCounter());
     }
     else {
       bsLink.slideUp('fast');
@@ -177,12 +178,13 @@ exports('betslip_link', (params, done) => {
         // console.log(Cookies.get('pa_' + cur[0].dataset.id));
         cur.addClass('selected');
         bsLink.slideDown('fast');
+        rerenderLink(betsCounter());
         PAs.active = betsCounter();
       }
     });
     $('.button.coefficient.disabled').off('click');
     // Convert fractial to decimal
-    modifyBets = (od) => {
+    function modifyBets(od) {
       const nums = od.split('/');
       return (nums[0] / nums[1] + 1).toFixed(2)
     };

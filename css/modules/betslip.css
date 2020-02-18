@@ -334,6 +334,7 @@
 }
 .betslipWrapper li.moving div.selectionRow>div.selection {
   -o-transition: none;
+  -o-transition: none;
   -moz-transition: none;
   -webkit-transition: none;
   transition: none;
@@ -1308,4 +1309,70 @@ ul li.multipleBets ul.closed li:not(.mbHeader):not(.bs-MultipleBets_HighestAccum
   padding: 0;
   font-size: 15px;
   color: #404040;
+}
+.betslipContent {
+  max-height: 75vh;
+  overflow-y: auto;
+}
+.stk.focus {
+  color: rgba(67, 42, 56, 1)!important;
+  border-bottom: 2px solid #888!important;
+}
+li.bsError.feedBack, li.bsPotentialReturns {
+  margin-bottom: 0;
+  border-radius: 0;
+  background-color: #f8f8f8;
+  -webkit-box-shadow: inset 0 1px 0 0 #c7c7c7;
+  box-shadow: inset 0 1px 0 0 #c7c7c7;
+}
+li.error, li.alert {
+  display: block;
+  width: 100%;
+  vertical-align: middle;
+  text-align: center;
+  background-color: #f0f0f0;
+  font-size: 0;
+  -webkit-box-shadow: inset 0 1px 0 0 #c7c7c7;
+  box-shadow: inset 0 1px 0 0 #c7c7c7;
+}
+li.bsError.feedBack .content, li.bsPotentialReturns .content {
+  display: table;
+  vertical-align: middle;
+  padding: 8px 20px 9px 20px;
+  text-align: center;
+  color: #333;
+  font-size: 12px;
+  line-height: 14px;
+  min-height: 44px;
+  width: 100%;
+}
+li.bsError.feedBack div.text, li.alert div.text, li.bsPotentialReturns .content .bs-TotalToReturn_Wrapper {
+  vertical-align: middle;
+  display: table-cell;
+}
+li.error .restrictedMultiple, li.alert .restrictedMultiple {
+  padding-left: 3px;
+  height: 100%;
+  background-color: #ce5655;
+  width: 0;
+}
+li.error>div {
+  display: table-cell;
+  vertical-align: middle;
+}
+li.error div.text {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 8px 11px 9px 29px;
+  color: #757575;
+  font-size: 12px;
+  line-height: 16px;
+  width: 100%;
+}
+.betslipWrapper .restrictedCong div.subItemWrapper div.restrictedMultiple, .betslipWrapper .restrictedCong div.selectionRow div.restrictedMultiple, .betslipWrapper .restrictedCong div.ifBetSelectorRow div.restrictedMultiple, .betslipWrapper .restrictedCong div.pitcher div.restrictedMultiple, .betslipWrapper .restrictedCong div.ausToteType div.restrictedMultiple, .betslipWrapper .restrictedCong div.bs-AusRaceBetType div.restrictedMultiple, .betslipWrapper li.bs-BetBuilderIncompatibleSelections div.restrictedMultiple, .betslipWrapper li.bs-BetBuilderGroupSection.restrictedCong div.restrictedMultiple {
+  background-color: #ce5655;
+  min-width: 3px;
+  width: 3px;
+  height: 100%;
+  display: table-cell;
 }
