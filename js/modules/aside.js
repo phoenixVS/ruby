@@ -34,7 +34,7 @@ exports('aside', (params, done) => {
     <input type="text" id="search-input" placeholder="Search..." data-id="search">
   </form>
 </div>
-        </div>
+</div>
   <a data-id="aside-fav"class="[ favourite-category ] flex-container align-middle align-justify">
     <span class="font">My favourites</span>
     <span data-id="main-fav-star" class="star not-active:before active"></span>
@@ -125,12 +125,17 @@ exports('aside', (params, done) => {
           });
 
           $(`[data-id=search]`).on('click', (el) => {
+
             el.stopPropagation();
-            loadJsModules({
-              search: { loadCSS: true, loadLanguage: false },
-            });
-            aside.removeClass('active');
-            aside.addClass('not-active');
+            if ($(el.target).data('id') == 'search') {
+              loadJsModules({
+                search: { loadCSS: true, loadLanguage: false },
+              });
+              aside.removeClass('active');
+              aside.addClass('not-active');
+            } else {
+              return false;
+            }
           });
         });
     }
@@ -227,6 +232,14 @@ exports('aside', (params, done) => {
       let promise = new Promise((resolve, reject) => {
         $(`[data-id=aside]`).empty();
         $(`[data-id=aside]`).append(`
+        <div class="search-container" data-id="search">
+        <div id="search" data-id="search">
+        <i class="fa fa-search" aria-hidden="true" id="search-icon" style="font-size: 20px; color: #fff" data-id="search"></i>
+  <form class="search-form" data-id="search">
+    <input type="text" id="search-input" placeholder="Search..." data-id="search">
+  </form>
+</div>
+</div>
   <a data-id="aside-fav" class="[ favourite-category ] flex-container align-middle align-justify">
     <span class="font">My favourites</span>
     <span data-id="main-fav-star" class="star not-active:before active"></span>
@@ -309,7 +322,19 @@ exports('aside', (params, done) => {
           $(`[data-id=fav-star]`).click((elem) => {
             asideOrderAnim(elem);
           });
+          $(`[data-id=search]`).on('click', (el) => {
 
+            el.stopPropagation();
+            if ($(el.target).data('id') == 'search') {
+              loadJsModules({
+                search: { loadCSS: true, loadLanguage: false },
+              });
+              aside.removeClass('active');
+              aside.addClass('not-active');
+            } else {
+              return false;
+            }
+          });
         });
     }
 
@@ -331,6 +356,14 @@ exports('aside', (params, done) => {
       let promise = new Promise((resolve, reject) => {
         $(`[data-id=aside]`).empty();
         $(`[data-id=aside]`).append(`
+        <div class="search-container" data-id="search">
+        <div id="search" data-id="search">
+        <i class="fa fa-search" aria-hidden="true" id="search-icon" style="font-size: 20px; color: #fff" data-id="search"></i>
+  <form class="search-form" data-id="search">
+    <input type="text" id="search-input" placeholder="Search..." data-id="search">
+  </form>
+</div>
+</div>
   <a data-id="aside-fav" class="[ favourite-category ] flex-container align-middle align-justify">
     <span class="font">My favourites</span>
   </a>
@@ -373,10 +406,24 @@ exports('aside', (params, done) => {
 
           RenderAsideAll(window.inplay);
         });
+        resolve();
       });
 
       promise.then(() => {
         console.log('Promise done');
+        $(`[data-id=search]`).on('click', (el) => {
+
+          el.stopPropagation();
+          if ($(el.target).data('id') == 'search') {
+            loadJsModules({
+              search: { loadCSS: true, loadLanguage: false },
+            });
+            aside.removeClass('active');
+            aside.addClass('not-active');
+          } else {
+            return false;
+          }
+        });
       });
     }
 
