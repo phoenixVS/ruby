@@ -6,8 +6,8 @@
     top: 50%;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     overflow-y: none;
     background-color: #33202b;
 }
@@ -20,8 +20,8 @@
     top: 50%;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     overflow-y: none;
     background-color: #33202b;
 }
@@ -95,6 +95,15 @@
     height: 180px;
 }
 
+.search-body.active {
+    width: 100%;
+    height: 180px;
+}
+
+.search-body.not-active {
+    display: none;
+}
+
 .search-example {
     height: 44px;
     width: 100%;
@@ -102,7 +111,7 @@
     justify-content: left;
     align-items: center;
     padding-left: 10px;
-    border-bottom: 1px solid hsla(0,0%,100%,.6);;
+    border-bottom: 1px solid hsla(0,0%,100%,.6);
 }
 
 .search-links {
@@ -128,6 +137,99 @@
 .s-link p::after {
     cursor: pointer;
     content: '\f105';
+    font-family: FontAwesome;
+    font-size: 15px;
+    color: #fff;
+    position: absolute;
+    margin-left: 10px;
+}
+
+.search-result {
+    width: 100%;
+    height: 100%;
+}
+
+.search-result.active {
+    width: 100%;
+    height: 100%;
+}
+
+.search-result.not-active {
+    display: none;
+}
+
+.search-scroll {
+    height: 44px;
+    overflow-x: scroll;
+    white-space: nowrap;
+    border-bottom: 1px solid hsla(0,0%,100%,.6);
+}
+
+.search-scroll-item {
+    display: inline-block;
+    width: auto;
+    height: 80%;
+    margin-top: 10px;
+}
+
+.search-scroll-item.choosen {
+    display: inline-block;
+    width: auto;
+    height: 80%;
+    margin-top: 10px;
+    border-bottom: 5px solid #c8304d;
+    outline: 5px solid #fff;
+}
+
+.search-scroll-item p {
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 200;
+    text-transform: uppercase;
+}
+
+.search-ev {
+    height: 44px;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding-left: 10px;
+    border-bottom: 1px solid hsla(0,0%,100%,.6);
+}
+
+.search-ev p {
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 200;
+}
+
+.search-ev-links {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding-bottom: 10px;
+}
+
+.s-ev-link {
+    display: flex;
+    width: 100%;
+    height: 44px;
+    justify-content: left;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.s-ev-link p {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.s-ev-link p::after {
+    cursor: pointer;
+    content: '\f107';
     font-family: FontAwesome;
     font-size: 15px;
     color: #fff;

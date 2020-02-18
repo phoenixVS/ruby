@@ -34,7 +34,7 @@ exports('search', (params, done) => {
               </div>
             </div>
 
-            <div class="search-body">
+            <div class="search-body active">
               <div class="search-example">
                 <p class="font m-white">Search examples:</p>
               </div>
@@ -50,7 +50,55 @@ exports('search', (params, done) => {
                 </div>
               </div>
             </div>
-          
+
+            <div class="search-result not-active">
+              <div class="search-scroll">
+                <div class="search-scroll-item choosen">
+                  <p class="font">Soccer</p>
+                </div>
+                <div class="search-scroll-item">
+                  <p class="font">Tennis</p>
+                </div>
+                <div class="search-scroll-item">
+                  <p class="font">Basketball</p>
+                </div>
+                <div class="search-scroll-item">
+                  <p class="font">Cricket</p>
+                </div>
+                <div class="search-scroll-item">
+                  <p class="font">Handball</p>
+                </div>
+                <div class="search-scroll-item">
+                  <p class="font">Ice Hokey</p>
+                </div>
+                <div class="search-scroll-item">
+                  <p class="font">Soccer</p>
+                </div>
+                <div class="search-scroll-item">
+                  <p class="font">Soccer</p>
+                </div>
+                <div class="search-scroll-item">
+                  <p class="font">Soccer</p>
+                </div>
+                <div class="search-scroll-item">
+                  <p class="font">Soccer</p>
+                </div>
+              </div>
+              <div class="search-ev">
+              <p class="font m-white">Competitions</p>
+            </div>
+            <div class="search-ev-links">
+                <div class="s-ev-link">
+                  <p class="font white">AFC Champions League</p>
+                </div>
+                <div class="s-ev-link">
+                  <p class="font white">Algeria Youth League</p>
+                </div>
+                <div class="s-ev-link">
+                  <p class="font white">Argentina Reserve League</p>
+                </div>
+              </div>
+            </div>
           </div>
         `).prependTo('#content').fadeIn('middle');
           resolve();
@@ -65,8 +113,36 @@ exports('search', (params, done) => {
             });
             $(`[data-id=search-field]`).on('input', (el) => {
               let input_val = $(el.target).val();
+
+              if (input_val.length >= 1) {
+                $('.search-mic').empty().append('<i class="fas fa fa-times"></i>');
+                $('.search-mic').on('click', () => {
+                  $(el.target).val('');
+                  $('.search-mic').empty().append('<i class="fas fa fa-microphone"></i>');
+
+                  $('.search-result').removeClass('active');
+                  $('.search-result').addClass('not-active');
+
+                  $('.search-body').removeClass('not-active');
+                  $('.search-body').addClass('active');
+                });
+              } else {
+                $('.search-mic').empty().append('<i class="fas fa fa-microphone"></i>');
+                $('.search-mic').prop("onclick", null).off("click");
+              }
               if ( input_val.length >= 2 ) {
-                console.log(input_val);
+                $('.search-body').removeClass('active');
+                $('.search-body').addClass('not-active');
+
+                $('.search-result').removeClass('not-active');
+                $('.search-result').addClass('active');
+              } else {
+
+                $('.search-result').removeClass('active');
+                $('.search-result').addClass('not-active');
+
+                $('.search-body').removeClass('not-active');
+                $('.search-body').addClass('active');
               }
             });
         });
