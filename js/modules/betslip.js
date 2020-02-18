@@ -428,6 +428,7 @@ exports('betslip', (params, done) => {
             const cur = $(event.target);
             let multiplyer = 0;
             if (cur.parent().siblings('.odds').length > 0) {
+              document.querySelector('#mltsngstk').value = '';
               multiplyer = parseFloat(cur.parent().siblings('.odds').text());
             }
             else {
@@ -458,7 +459,6 @@ exports('betslip', (params, done) => {
                   trStr += '0';
                 }
               }
-              // console.log(cur.is('#mltsngstk'));
               if (cur.is('#mltsngstk')) {
                 $('li.hasodds input.stk').val(trStr);
               }
@@ -466,7 +466,6 @@ exports('betslip', (params, done) => {
               $('.stk.focus').siblings('.bs-StandardMultipleStake_ToReturn').children('span.bs-StandardMultipleStake_ToReturnValue').text(' ' + trStr);
             }
             else {
-              // console.log(cur.is('#mltsngstk'));
               if (cur.is('#mltsngstk')) {
                 $('li.hasodds input').val('');
               }
@@ -475,10 +474,14 @@ exports('betslip', (params, done) => {
             }
             const total = $('#bstsx');
             let sum = 0;
-            $('.stakeToReturn_Value').each((index, el) => {
-              sum += parseFloat($(el).text());
+            $('.hasodds input.stk').each((index, el) => {
+              if (el.value !== '')
+                sum += parseFloat(el.value);
             });
             sum += parseFloat($('span.bs-StandardMultipleStake_ToReturnValue').text());
+            // if (document.querySelector('.bs-MultipleBets_Singles .stake input.stk').value !== '') {
+            //   sum += parseFloat(parseFloat(document.querySelector('.bs-MultipleBets_Singles .stake input.stk').value) * parseFloat(document.querySelector('.bs-MultipleBets_Singles .stake .multiplesBetCount').innerText.split('x')[0]));
+            // }
             $('.mlt').each((index, el) => {
               if (index > 0) {
                 console.log(el.querySelector('.mltbrk').innerText, ':');
@@ -487,10 +490,6 @@ exports('betslip', (params, done) => {
                 if (el.querySelector('.stake .bs-stakeContainer input.stk').value == '') return;
                 sum += parseFloat(parseFloat(el.querySelector('.stake .bs-stakeContainer input.stk').value) * parseFloat(el.querySelector('.multiplesBetCount').innerText.split('x')[0]));
               }
-              // console.log(el.querySelector('.stake .bs-stakeContainer input.stk').value);
-              // console.log(el.querySelector('.multiplesBetCount').innerText.split('x')[0]);
-              // console.log($(el).children('.stake .bs-stakeContainer input.stk').val());
-              // console.log($(el).children('.stake .multiplesBetCount').text().split('x')[0]);
             });
             if (typeof String(sum).split('.')[1] === 'undefined') {
               total.text('$' + sum + '.00');
