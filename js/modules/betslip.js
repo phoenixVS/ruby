@@ -28,14 +28,6 @@ exports('betslip', (params, done) => {
       }
       return counter;
     }
-    // get request body from cookies
-    // let formData = new FormData();
-    // formData.append('bt', 1);
-    // formData.append('ns', '');
-    // formData.append('mo', 1);
-    // formData.append('ms', '||');
-    // formData.append('cs', '||');
-    // console.log(formData);
     let ns = '', ms = '||';
     const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
     const keys = Object.keys(parsedCookies);
@@ -209,7 +201,6 @@ exports('betslip', (params, done) => {
               const cur = $(event.target).closest('li.hasodds');
               const eventID = cur.closest('li.hasodds').data('event');
               const ID = cur.closest('li.hasodds').data(`itemFpid`);
-              console.log(ID);
               const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
               const keys = Object.keys(parsedCookies);
 
@@ -239,9 +230,9 @@ exports('betslip', (params, done) => {
                   blur.addClass('none');
                   betslip.slideUp('fast');
                 }
-                if (betsCounter() > 0) {
+                else {
                   loadJsModules({
-                    betslip: { loadCSS: true, loadLanguage: false },
+                    betslip: { loadCSS: false, loadLanguage: false },
                   });
                 }
               });
@@ -277,13 +268,11 @@ exports('betslip', (params, done) => {
                   blur.addClass('none');
                   betslip.slideUp('fast');
                   if (betsCounter() > 0) {
-                    loadJsModules({
-                      betslip: { loadCSS: true, loadLanguage: false },
-                    });
                     bsLink.slideDown('fast');
                   }
                 }
               });
+
             }
             if (distance < -70) {
               cur.closest('li.hasodds').css('transform', `translateX(-100px)`);
@@ -326,7 +315,6 @@ exports('betslip', (params, done) => {
             });
             if ($('.bs-StandardMultipleStake_ToReturnValue').text() == ' 0.00' || $('.bs-StandardMultipleStake_ToReturnValue').text() == ` &nbsp;0.00`) {
               $('.bs-StandardMultipleStake_ToReturn').addClass('hidden');
-              console.log(`triggered`);
             }
             cur.closest('.hasodds').removeClass('keypad');
             cur.closest('.bs-stakeContainer').removeClass('keypad');
@@ -425,21 +413,34 @@ exports('betslip', (params, done) => {
         const inputs = document.querySelectorAll('.stk');
         for (let i = 0; i < inputs.length; i++) {
           inputs[i].addEventListener('inputChange', (event) => {
+
+            // For Cookies
+            let curTR = 0, curST = 0, curUST = 0;
+            let ID = 0, multiID = 0;
+
             const cur = $(event.target);
             let multiplyer = 0;
             if (cur.parent().siblings('.odds').length > 0) {
               document.querySelector('#mltsngstk').value = '';
               multiplyer = parseFloat(cur.parent().siblings('.odds').text());
+              ID = cur.closest('.standardBet li.hasodds').data(`itemFpid`);
             }
             else {
               if (cur.parent().siblings('.bs-multiple-default-odds').length > 0) {
                 multiplyer = parseFloat(cur.parent().siblings('.bs-multiple-default-odds').text());
+                multiID = cur.closest('.multipleBets li').data(`itemId`);
               }
               else {
                 multiplyer = parseFloat(cur.siblings('.multiplesBetCount').text().split('x')[0]);
+                multiID = cur.closest('.multipleBets li').data(`itemId`);
               }
             }
-            let tr;
+
+            // For Cookies
+            curST = document.querySelector('input.stk.focus').value;
+            curUST = curST;
+
+            let tr, trStr;
             if (cur.is('#mltsngstk')) {
               tr = parseFloat($('.stk.focus').val());
             }
@@ -449,7 +450,7 @@ exports('betslip', (params, done) => {
 
             if (!isNaN(tr) && $('.stk.focus').val().length > 0) {
               tr = tr.toFixed(2);
-              let trStr = tr.toString();
+              trStr = tr.toString();
 
               if (typeof trStr.split('.')[1] == 'undefined') {
                 trStr += '.00';
@@ -459,6 +460,7 @@ exports('betslip', (params, done) => {
                   trStr += '0';
                 }
               }
+
               if (cur.is('#mltsngstk')) {
                 $('li.hasodds input.stk').val(trStr);
               }
@@ -472,6 +474,57 @@ exports('betslip', (params, done) => {
               $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text(' 0.00');
               $('.stk.focus').siblings('.bs-StandardMultipleStake_ToReturn').children('span.bs-StandardMultipleStake_ToReturnValue').text(' 0.00');
             }
+
+            // For Cookies
+            const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+            const keys = Object.keys(parsedCookies);
+
+            curTR = trStr;
+            if (ID !== 0) {
+              // TODO: stake
+              for (name of keys) {
+                if (name.substring(0, 3) == 'pa_') {
+                  if (name.slice(3) == ID) {
+                    let newCookie = '';
+                    if (/tr=/i.test(parsedCookies[name])) {
+                      if (typeof tr !== 'undefined') {
+                        newCookie = parsedCookies[name].replace(/st=(.*)#tr=/i, 'st=' + curST + '#tr=');
+                        newCookie = newCookie.replace(/tr=(.*)#ust=/i, 'tr=' + curTR + '#ust=');
+                        newCookie = newCookie.replace(/ust=(.*)#mt=/i, 'ust=' + curUST + '#mt=');
+                      }
+                      else {
+                        newCookie = parsedCookies[name].replace(/st=(.*)#tr=/i, 'st=' + '#tr=');
+                        newCookie = newCookie.replace(/tr=(.*)#ust=/i, 'tr=' + '#ust=');
+                        newCookie = newCookie.replace(/ust=(.*)#mt=/i, 'ust=' + '#mt=');
+                      }
+                    }
+                    else {
+                      newCookie = parsedCookies[name].replace(/False(.*)#mt=/i, 'False#ust=' + curUST + '#mt=');
+                      newCookie = newCookie.replace(/False(.*)#ust=/i, 'False#tr=' + curTR + '#ust=');
+                      newCookie = newCookie.replace(/False(.*)#tr=/i, 'False#st=' + curST + '#tr=');
+                    }
+                    Cookies.set(name, newCookie);
+                  }
+                }
+              }
+              console.log(ID, ' ', curST, ' ', curTR);
+            }
+            else {
+              if (multiID !== 0) {
+                // TODO: multiStake
+                if (typeof curTR !== 'undefined') {
+                  console.log(multiID, ' ', curST, ' ', curTR);
+                }
+                else {
+                  console.log(multiID, ' ', curST);
+                }
+              }
+              else {
+                // TODO: Singles
+                console.log(multiID, ' ', curST);
+              }
+            }
+
             const total = $('#bstsx');
             let sum = 0;
             $('.hasodds input.stk').each((index, el) => {
@@ -479,14 +532,15 @@ exports('betslip', (params, done) => {
                 sum += parseFloat(el.value);
             });
             sum += parseFloat($('span.bs-StandardMultipleStake_ToReturnValue').text());
+            // Count sum throw singels multiplyer
             // if (document.querySelector('.bs-MultipleBets_Singles .stake input.stk').value !== '') {
             //   sum += parseFloat(parseFloat(document.querySelector('.bs-MultipleBets_Singles .stake input.stk').value) * parseFloat(document.querySelector('.bs-MultipleBets_Singles .stake .multiplesBetCount').innerText.split('x')[0]));
             // }
             $('.mlt').each((index, el) => {
               if (index > 0) {
-                console.log(el.querySelector('.mltbrk').innerText, ':');
-                console.log(el.querySelector('.stake .bs-stakeContainer input.stk').value);
-                console.log(el.querySelector('.multiplesBetCount').innerText.split('x')[0]);
+                // console.log(el.querySelector('.mltbrk').innerText, ':');
+                // console.log(el.querySelector('.stake .bs-stakeContainer input.stk').value);
+                // console.log(el.querySelector('.multiplesBetCount').innerText.split('x')[0]);
                 if (el.querySelector('.stake .bs-stakeContainer input.stk').value == '') return;
                 sum += parseFloat(parseFloat(el.querySelector('.stake .bs-stakeContainer input.stk').value) * parseFloat(el.querySelector('.multiplesBetCount').innerText.split('x')[0]));
               }
@@ -558,6 +612,7 @@ exports('betslip', (params, done) => {
                 window.BetslipList.splice(index, 1);
               }
             });
+
             $(`.button.coefficient[data-id= ${ID}]`).removeClass('selected');
             $('.betSlipyCountText').text(betsCounter());
             $('.betslip-link p.betslip-link-count').attr('data', betsCounter());
@@ -573,6 +628,7 @@ exports('betslip', (params, done) => {
                 if (betsCounter() > 0) {
                   bsLink.slideDown('fast');
                 }
+                // TODO: reload multipliers
               }
             });
           });
