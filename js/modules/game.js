@@ -65,6 +65,11 @@ exports('game', (params, done) => {
           }
           // Move back button
           $('.video-title-button').on('click', () => { window.location.hash = ''; });
+
+          // Event switcher
+          $('.bet-title').on('click', (event) => {
+
+          });
         })
         .catch((err) => { console.log(err); });
     }
