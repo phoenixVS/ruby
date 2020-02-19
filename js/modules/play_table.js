@@ -133,10 +133,13 @@ exports('play_table', (params, done) => {
           $(`[data-id=event]`).on('click', (event) => {
             let id = $(event.target).data('gameId');
             let curURL = window.location.href;
+            // Start preloader
+            const preloader = $('#page-preloader');
+            preloader.removeClass('done');
             //if filter is active - remove it from hash
-            if (window.location.hash.split('/')[1] == 'filter') {
+            if (window.location.hash.split('/')[1] == 'sport') {
               window.location.hash = '';
-              window.location.href += `/event/${id}`;
+              window.location.hash += `/event/${id}`;
             }
             else {
               if (curURL.includes('#')) {

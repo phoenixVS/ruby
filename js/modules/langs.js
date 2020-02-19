@@ -27,7 +27,7 @@ exports('langs', (params, done) => {
               $(el).text(window.dict[$(el).data(`lang`)]);
             });
           }
-        }, 500);
+        }, 1000);
       });
     }
     else {

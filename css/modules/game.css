@@ -1,4 +1,4 @@
-.bet-title {
+/* .bet-title {
     padding-left: 50%;
 }
 
@@ -26,4 +26,179 @@
         
         padding-left: 13%;
     }
+} */
+.bet-title .span.vs {
+    text-align: center;
+}
+.bet-title .span.team-name-1 {
+    text-align: right;
+}
+.bet-title .span.team-name-2 {
+    text-align: left;
+}
+.video-title-text span {
+    display: inline-block;
+    transform: none;
+}
+
+/* Event Switcher */
+.ipe-EventSwitcher {
+    position: absolute;
+    z-index: 65;
+    top: 44px;
+    left: 0;
+    max-width: 400px;
+    width: 100%;
+    padding-left: 10px;
+    margin-left: auto;
+    padding-right: 10px;
+    margin-right: auto;
+    right: 0;
+}
+.ipe-EventSwitcher_Container {
+    overflow-y: scroll;
+    border-radius: 0 0 2px 2px;
+    -webkit-overflow-scrolling: touch;
+}
+.ipe-EventSwitcherFixtureList {
+    background-color: #ddd;
+    box-sizing: border-box;
+}
+.ipe-EventViewTitle {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    position: relative;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 0 44px;
+    height: 44px;
+    background-color: #474747;
+    font-size: 13px;
+    color: #e4e4e4;
+    border-bottom: 1px solid #333;
+    width: 100%;
+}
+
+.ip-MobileViewController {
+    font-family: -apple-system,Helvetica Neue,Roboto,Droid Sans,Segoe UI,Verdana,Arial,Lucida Grande,sans-serif;
+    font-weight: 400;
+    background-color: #585858;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.ipe-EventSwitcher_CompetitionName {
+    font-size: 12px;
+    color: #757575;
+    padding-left: 15px;
+    line-height: 22px;
+    border-bottom: 1px solid #ccc;
+}
+.ipe-EventSwitcherFixture:last-child {
+    border-bottom: none;
+}
+.ipe-EventSwitcherFixture_CurrentFixture, .ipe-EventSwitcherFixture_SelectedFixture {
+    background-color: #f0f0f0;
+}
+.ipe-EventSwitcherFixture {
+    border-bottom: 1px solid #ccc;
+    height: 49px;
+    position: relative;
+}
+.ipe-EventSwitcherFixture_CurrentFixture:before, .ipe-EventSwitcherFixture_SelectedFixture:before {
+    content: " ";
+    position: absolute;
+    background-color: red;
+    width: 4px;
+    left: 0;
+    top: -1px;
+    height: 100%;
+    padding-bottom: 2px;
+}
+.ipe-EventSwitcherFixture_GameDetail {
+    display: table;
+    width: 100%;
+    position: relative;
+    min-height: 48px;
+    padding: 5px 15px 9px;
+}
+.ipe-EventSwitcherFixture_ParentTime .ipe-EventSwitcherFixture_MetaContainer {
+    width: 1px;
+}
+.ipe-EventSwitcherFixture_MetaContainer {
+    display: table-cell;
+    width: 0;
+}
+.ipe-EventSwitcherFixture_Time {
+    min-width: 41px;
+    margin-right: 0;
+}
+.ipe-EventSwitcherFixture_GameInfo {
+    font-size: 12px;
+    color: #757575;
+    line-height: 18px;
+    margin-right: 11px;
+}
+.ipe-EventSwitcherFixture_GameInfo {
+    font-size: 12px;
+    color: #757575;
+    line-height: 18px;
+    margin-right: 11px;
+}
+.ipe-EventSwitcherFixture_GameItems {
+    display: table-cell;
+}
+.ipe-EventSwitcherFixture_GameItem {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    -webkit-box-align: baseline;
+    -webkit-align-items: baseline;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+    width: 100%;
+}
+.ipe-EventSwitcherFixture_CompetitorName {
+    font-family: -apple-system,Helvetica Neue,Roboto,Droid Sans,Segoe UI,Verdana,Arial,Lucida Grande,sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #333;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 2;
+    -webkit-flex: 2 1 0;
+    -ms-flex: 2 1 0px;
+    flex: 2 1 0;
+    line-height: 18px;
+    position: relative;
+    overflow: hidden;
+}
+.ipe-EventSwitcherFixture_CompetitorScores {
+    color: brown;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    font-size: 13px;
+    line-height: 13px;
+}
+.ipe-EventSwitcher_PointNode {
+    min-width: 17px;
+    text-align: center;
 }
