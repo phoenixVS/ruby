@@ -2,8 +2,11 @@ exports('search', (params, done) => {
     insertHtmlModules({
     }, () => {
 
-      function GET(val) {
-        /*https:/bestline.bet/api/1/sitesearch/query?lid=31&zid=0&pd=%23AX%23K%5E%25D0%25B0%25D0%25B0%23&cid=195&cgid=1&cs64=W0&ct64=J3&cg64=01&area=DYNAMIC_SEARCH*/
+      async function GET(squery) {
+        let URL = "http://bestline.bet/api/1/sitesearch/query?squery=" + squery;
+        let resp = await fetch(URL);
+
+        return resp;
       }
 
       function renderSearch() {
@@ -113,7 +116,7 @@ exports('search', (params, done) => {
             });
             $(`[data-id=search-field]`).on('input', (el) => {
               let input_val = $(el.target).val();
-
+              console.log(GET(input_val));
               if (input_val.length >= 1) {
                 $('.search-mic').empty().append('<i class="fas fa fa-times"></i>');
                 $('.search-mic').on('click', () => {
