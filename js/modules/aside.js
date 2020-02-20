@@ -1,9 +1,11 @@
 exports('aside', (params, done) => {
+
   insertHtmlModules({
     ".aside": [
       "aside/aside.html"
     ]
   }, () => {
+
     // aside handler
     let show_menu = $('.show-menu');
     let aside = $('.aside');
@@ -11,6 +13,9 @@ exports('aside', (params, done) => {
       aside.removeClass('not-active');
       aside.addClass('active');
       aside.attr('data-id', 'aside-active');
+      if (typeof window.prematch === 'undefined') {
+        window.sportsLoad();
+      }
       RenderAside(window.inplay);
     });
 
@@ -23,7 +28,7 @@ exports('aside', (params, done) => {
     };
 
     function RenderAside(data) {
-
+      console.log(`render Aside`);
       let promise = new Promise((resolve, reject) => {
         $(`[data-id=aside]`).empty();
         $(`[data-id=aside]`).append(`
@@ -41,8 +46,9 @@ exports('aside', (params, done) => {
   </a>
   <div class="[ tab-header border ] flex-container align-middle align-justify">
     <a data-id="aside-live" class="[ tab-link active ]">In-play</a>
-    <a data-id="aside-all" class="[ tab-link ]">All</a>
+    <a data-id="aside-all" class="[ tab-link ]">Sport</a>
   </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
+
         /*
         let cks = JSON.parse(JSON.stringify(Cookies.get()));
         let fav_arr = [];
@@ -50,12 +56,12 @@ exports('aside', (params, done) => {
           let name_ = i;
           let ID_ = Cookies.get(name_);
           let id_;
-
+    
           if (name_ != 'logon') {
             for (let j = 0; j < data.DATA.length; j++) {
               if (name_ == data.DATA[j].NA) {
                 id_ = j;
-
+    
               }
             }
           
@@ -82,7 +88,7 @@ exports('aside', (params, done) => {
           }
           $(`[data-id=aside-ul]`).append(`
             <li data-d="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
-            <span class="sports-${ID}" style="margin-left: 5px; "></span>
+            <span class="sports-${ID}" style="margin-left: 5px;"></span>
             <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
             <span style="position: absolute; left: 75%;">${ev_count} Events</span>
             </li>
@@ -90,7 +96,7 @@ exports('aside', (params, done) => {
 
           $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
             if (true) {
-              window.location.hash = '/sport/' + ID;
+              window.location.hash = '/inplay/' + ID;
 
               aside.removeClass('active');
               aside.addClass('not-active');
@@ -102,11 +108,22 @@ exports('aside', (params, done) => {
 
       promise
         .then(() => {
-          console.log('Promise done');
-          $(`[data-id=aside-all]`).on('click', () => {
 
-            RenderAsideAll(window.inplay);
-          });
+          function checkVariable() {
+            if (typeof window.prematch !== 'undefined') {
+              $(`[data-id=aside-all]`).on('click', () => {
+                RenderAsideAll(window.inplay, window.prematch);
+              });
+            }
+            else {
+              setTimeout(checkVariable, 100);
+            }
+          }
+
+          setTimeout(checkVariable, 100);
+
+
+
           $(`[data-id=main-fav-star]`).click((el) => {
             //console.log("Just click");
             $(el.target).slideUp();
@@ -227,27 +244,28 @@ exports('aside', (params, done) => {
       });
     }
 
-    function RenderAsideAll(data) {
-
+    function RenderAsideAll(data, prematch) {
+      console.log(`render All`);
+      console.log(prematch);
       let promise = new Promise((resolve, reject) => {
         $(`[data-id=aside]`).empty();
         $(`[data-id=aside]`).append(`
         <div class="search-container" data-id="search">
         <div id="search" data-id="search">
-        <i class="fa fa-search" aria-hidden="true" id="search-icon" style="font-size: 20px; color: #fff" data-id="search"></i>
-  <form class="search-form" data-id="search">
-    <input type="text" id="search-input" placeholder="Search..." data-id="search">
-  </form>
-</div>
-</div>
-  <a data-id="aside-fav" class="[ favourite-category ] flex-container align-middle align-justify">
-    <span class="font">My favourites</span>
-    <span data-id="main-fav-star" class="star not-active:before active"></span>
-  </a>
-  <div class="[ tab-header border ] flex-container align-middle align-justify">
-    <a data-id="aside-live" class="[ tab-link ]">In-play</a>
-    <a data-id="aside-all" class="[ tab-link active ]">All</a>
-  </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
+            <i class="fa fa-search" aria-hidden="true" id="search-icon" style="font-size: 20px; color: #fff" data-id="search"></i>
+            <form class="search-form" data-id="search">
+              <input type="text" id="search-input" placeholder="Search..." data-id="search">
+            </form>
+          </div>
+        </div>
+        <a data-id="aside-fav" class="[ favourite-category ] flex-container align-middle align-justify">
+          <span class="font">My favourites</span>
+          <span data-id="main-fav-star" class="star not-active:before active"></span>
+        </a>
+      <div class="[ tab-header border ] flex-container align-middle align-justify">
+        <a data-id="aside-live" class="[ tab-link ]">In-play</a>
+        <a data-id="aside-all" class="[ tab-link active ]">Sport</a>
+      </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
         let cks = getAllStorage();
         let fav_arr = [];
         for (let i = 0; i < cks.length; i++) {
@@ -274,30 +292,89 @@ exports('aside', (params, done) => {
             continue;
           }
         }
-        for (let i = 0; i < data.length; i++) {
+        // for (let i = 0; i < data.length; i++) {
 
-          let ID = data[i].ID;
-          let name = data[i].NA;
+        //   let ID = data[i].ID;
+        //   let name = data[i].NA;
 
-          if (fav_arr.includes(name)) {
-            continue;
-          } else {
-            $(`[data-id=aside-ul]`).append(`
-            <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
-            <span class="sports-${ID}" style="margin-left: 5px; "></span>
-            <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
-            <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
-            </li>
-            `);
+        //   if (fav_arr.includes(name)) {
+        //     continue;
+        //   } else {
+        //     $(`[data-id=aside-ul]`).append(`
+        //     <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+        //     <span class="sports-${ID}" style="margin-left: 5px; "></span>
+        //     <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
+        //     <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
+        //     </li>
+        //     `);
 
-            $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
-              if (true) {
-                window.location.hash = '/sport/' + ID;
+        //     $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
+        //       if (true) {
+        //         window.location.hash = '/sport/' + ID;
 
-                aside.removeClass('active');
-                aside.addClass('not-active');
+        //         aside.removeClass('active');
+        //         aside.addClass('not-active');
+        //       }
+        //     });
+        //   }
+        // }
+
+        for (let i = 0; i < prematch.length; i++) {
+
+          let ID = prematch[i].ID;
+          let name = prematch[i].NA;
+          let PD = prematch[i].NA;
+          if (ID != -2) {
+            if (prematch[i].EV.length > 0) {
+              for (event of prematch[i].EV) {
+                ID = event.ID;
+                name = event.NA;
+                PD = event.NA;
+                $(`[data-id=aside-ul]`).append(`
+                <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+                <span class="sports-${ID}" style="margin-left: 5px; "></span>
+                <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
+                ${ID == -1 ? '<span data-id="home" style="position: absolute; left: 79%;"></span> ' : '<span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>'}
+                </li>
+                `);
               }
-            });
+              $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
+                if (ID == -1) {
+                  ID = 'home';
+                }
+                if (true) {
+                  window.location.hash = '/sport/' + ID;
+
+                  aside.removeClass('active');
+                  aside.addClass('not-active');
+                }
+              });
+            }
+            else {
+              if (fav_arr.includes(name)) {
+                continue;
+              } else {
+                $(`[data-id=aside-ul]`).append(`
+                <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+                <span class="sports-${ID}" style="margin-left: 5px; "></span>
+                <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
+                ${ID == -1 ? '<span data-id="home" style="position: absolute; left: 79%;"></span> ' : '<span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>'}
+                </li>
+                `);
+
+                $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
+                  if (ID == -1) {
+                    ID = 'home';
+                  }
+                  if (true) {
+                    window.location.hash = '/sport/' + ID;
+
+                    aside.removeClass('active');
+                    aside.addClass('not-active');
+                  }
+                });
+              }
+            }
           }
         }
 
@@ -305,7 +382,6 @@ exports('aside', (params, done) => {
       });
       promise
         .then(() => {
-          console.log('Promise done');
           $(`[data-id=aside-live]`).on('click', () => {
 
             RenderAside(window.inplay);
@@ -341,36 +417,37 @@ exports('aside', (params, done) => {
     function getAllStorage() {
 
       let archive = [],
-          keys = Object.keys(localStorage),
-          i = 0, key;
-  
+        keys = Object.keys(localStorage),
+        i = 0, key;
+
       for (; key = keys[i]; i++) {
         archive.push(key);
       }
-  
+
       return archive;
-  }
+    }
 
     function RenderAsideFav(data) {
+      console.log(`render FAV`);
 
       let promise = new Promise((resolve, reject) => {
         $(`[data-id=aside]`).empty();
         $(`[data-id=aside]`).append(`
         <div class="search-container" data-id="search">
-        <div id="search" data-id="search">
-        <i class="fa fa-search" aria-hidden="true" id="search-icon" style="font-size: 20px; color: #fff" data-id="search"></i>
-  <form class="search-form" data-id="search">
-    <input type="text" id="search-input" placeholder="Search..." data-id="search">
-  </form>
-</div>
-</div>
-  <a data-id="aside-fav" class="[ favourite-category ] flex-container align-middle align-justify">
-    <span class="font">My favourites</span>
-  </a>
-  <div class="[ tab-header border ] flex-container align-middle align-justify">
-    <a data-id="aside-live" class="[ tab-link ]">In-play</a>
-    <a data-id="aside-all" class="[ tab-link ]">All</a>
-  </div>`);
+          <div id="search" data-id="search">
+            <i class="fa fa-search" aria-hidden="true" id="search-icon" style="font-size: 20px; color: #fff" data-id="search"></i>
+            <form class="search-form" data-id="search">
+              <input type="text" id="search-input" placeholder="Search..." data-id="search">
+            </form>
+          </div>
+        </div>
+          <a data-id="aside-fav" class="[ favourite-category ] flex-container align-middle align-justify">
+            <span class="font">My favourites</span>
+          </a>
+          <div class="[ tab-header border ] flex-container align-middle align-justify">
+            <a data-id="aside-live" class="[ tab-link ]">In-play</a>
+            <a data-id="aside-all" class="[ tab-link ]">All</a>
+        </div>`);
         let cookies = getAllStorage();
         for (let f = 0; f < cookies.length; f++) {
           let name = cookies[f];
@@ -399,18 +476,28 @@ exports('aside', (params, done) => {
           }
         }
         $(`[data-id=aside-live]`).on('click', () => {
-
           RenderAside(window.inplay);
         });
-        $(`[data-id=aside-all]`).on('click', () => {
 
-          RenderAsideAll(window.inplay);
-        });
+
+        function checkVariable() {
+          if (typeof window.prematch !== 'undefined') {
+            $(`[data-id=aside-all]`).on('click', () => {
+              RenderAsideAll(window.inplay, window.prematch);
+            });
+          }
+          else {
+            setTimeout(checkVariable, 100);
+          }
+        }
+
+        setTimeout(checkVariable, 100);
+
         resolve();
+
       });
 
       promise.then(() => {
-        console.log('Promise done');
         $(`[data-id=search]`).on('click', (el) => {
 
           el.stopPropagation();
@@ -429,6 +516,10 @@ exports('aside', (params, done) => {
 
     let aside_close = $('.aside-close');
     aside_close.on('click', () => {
+      aside.removeClass('active');
+      aside.addClass('not-active');
+    });
+    $('.close-field').on('touchstart', () => {
       aside.removeClass('active');
       aside.addClass('not-active');
     });

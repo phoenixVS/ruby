@@ -38,7 +38,7 @@ exports('slider', (params, done) => {
             data-order="${parseInt(el.OR)}"
             data-topic-id="${el.IT}"
             class="[ slider-link ]"
-            href="#/sport/${el.ID}">
+            href="#/inplay/${el.ID}">
             <span class="sports-${parseInt(el.ID) + 3} [ slider-icon ]">
             <p class="slider-text">${shortize(el.NA)}</p><span>
           </a>

@@ -2,7 +2,12 @@ exports('fetch', (params, done) => {
   insertHtmlModules({}, () => {
 
     let urlInplay = 'http://bestline.bet/api/?key=inplay',
-      urlBets = 'http://bestline.bet/api/?key=';
+      urlBets = 'http://bestline.bet/api/?key=',
+      urlSports = 'http://bestline.bet/sports/?PD=all';
+
+    window.sportsLoad = () => {
+      httpGet(urlSports, 'sports');
+    };
 
     window.tableLoad = () => {
       httpGet(urlInplay, 'inplay');
@@ -18,16 +23,24 @@ exports('fetch', (params, done) => {
       fetch(url)
         .then((res) => res.json())
         .then((data) => {
-          if (name == 'inplay') {
-            const tree = growTree(data, 'inplay');
-            window.inplay = tree;
-          }
-          else if (name == 'bets') {
-            const tree = growTree(data, 'bets');
-            window.event = tree;
+          if (name == 'sports') {
+            const tree = growTree(data, 'sports');
+            window.prematch = tree;
           }
           else {
-            throw new Error('Uncorrect handler name.');
+            if (name == 'inplay') {
+              const tree = growTree(data, 'inplay');
+              window.inplay = tree;
+            }
+            else {
+              if (name == 'bets') {
+                const tree = growTree(data, 'bets');
+                window.event = tree;
+              }
+              else {
+                throw new Error('Uncorrect handler name.');
+              }
+            }
           }
         })
         .catch((err) => {
@@ -86,60 +99,77 @@ exports('fetch', (params, done) => {
         return tree;
       }
       else {
-        let curEV = '';
-        let curTG = '';
-        let curTE = '';
-        let curES = '';
-        let curSC = '';
-        let curSL = '';
-        let curMA = '';
-        let curCO = '';
-        let curPA = '';
-        let tree = [];
-        data.map((item, index) => {
-          if (type == 'bets') {
-            if (item.type === 'EV') {
+        if (type = 'sports') {
+          let curCL = '';
+          let tree = [];
+          data.map((item, index) => {
+            if (item.type === 'CL') {
               tree.push(item);
-              curEV = item;
-              curEV.TG = [];
-              curEV.TE = [];
-              curEV.ES = [];
-              curEV.SC = [];
-              curEV.MA = [];
+              curCL = item;
+              curCL.EV = [];
             }
-            if (item.type === 'TG') {
-              curEV.TG.push(item);
+            if (item.type === 'EV') {
+              curCL.EV.push(item);
             }
-            if (item.type === 'TE') {
-              curEV.TE.push(item);
+          });
+          return tree;
+        }
+        else {
+          let curEV = '';
+          let curTG = '';
+          let curTE = '';
+          let curES = '';
+          let curSC = '';
+          let curSL = '';
+          let curMA = '';
+          let curCO = '';
+          let curPA = '';
+          let tree = [];
+          data.map((item, index) => {
+            if (type == 'bets') {
+              if (item.type === 'EV') {
+                tree.push(item);
+                curEV = item;
+                curEV.TG = [];
+                curEV.TE = [];
+                curEV.ES = [];
+                curEV.SC = [];
+                curEV.MA = [];
+              }
+              if (item.type === 'TG') {
+                curEV.TG.push(item);
+              }
+              if (item.type === 'TE') {
+                curEV.TE.push(item);
+              }
+              if (item.type === 'ES') {
+                curEV.ES.push(item);
+              }
+              if (item.type === 'SC') {
+                curEV.SC.push(item);
+                curSC = item;
+                curSC.SL = [];
+              }
+              if (item.type === 'SL') {
+                curSC.SL.push(item);
+              }
+              if (item.type === 'MA') {
+                curEV.MA.push(item);
+                curMA = item;
+                curMA.CO = [];
+              }
+              if (item.type === 'CO') {
+                curMA.CO.push(item);
+                curCO = item;
+                curCO.PA = [];
+              }
+              if (item.type === 'PA') {
+                curCO.PA.push(item);
+              }
             }
-            if (item.type === 'ES') {
-              curEV.ES.push(item);
-            }
-            if (item.type === 'SC') {
-              curEV.SC.push(item);
-              curSC = item;
-              curSC.SL = [];
-            }
-            if (item.type === 'SL') {
-              curSC.SL.push(item);
-            }
-            if (item.type === 'MA') {
-              curEV.MA.push(item);
-              curMA = item;
-              curMA.CO = [];
-            }
-            if (item.type === 'CO') {
-              curMA.CO.push(item);
-              curCO = item;
-              curCO.PA = [];
-            }
-            if (item.type === 'PA') {
-              curCO.PA.push(item);
-            }
-          }
-        });
-        return tree;
+          });
+          return tree;
+        }
       }
     }
 

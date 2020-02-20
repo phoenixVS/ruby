@@ -3,6 +3,9 @@ exports('betslip', (params, done) => {
   const bsLink = $('.betslip-link');
   const blur = $(`[data-id=blur]`);
 
+  const preloader = $('#page-preloader');
+  preloader.removeClass('done').addClass('opaci');
+
   blur.removeClass('none');
   blur.addClass('block');
   betslip.slideDown('fast');
@@ -107,6 +110,10 @@ exports('betslip', (params, done) => {
 
     });
     betslipRender.then((response) => {
+
+      // preloader done
+      preloader.addClass('done').removeClass('opaci');
+
       const content = $('li.single-section.standardBet');
       const count = $('span.betSlipyCountText');
       const item = $('.single-section.standardBet > ul > li');
@@ -510,7 +517,7 @@ exports('betslip', (params, done) => {
               }
             }
           }
-          cur.parentNode.parentNode.querySelector('.stakeToReturn span.bs-StandardMultipleStake_ToReturnValue').innerHTML = trStr;
+          cur.parentNode.parentNode.querySelector('.bs-StandardMultipleStake_ToReturn span.bs-StandardMultipleStake_ToReturnValue').innerHTML = trStr;
 
         }
       }

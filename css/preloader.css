@@ -16,7 +16,8 @@
   visibility: hidden;
 }
 .preloader.opaci {
-
+  opacity: 0.4;
+  visibility: visible;
 }
 .preloader .loader {
   position: absolute;

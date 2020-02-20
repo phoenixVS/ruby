@@ -54,6 +54,7 @@ function mainHandler() {
     fetchData.then((response) => {
         const fetchPromise = new Promise((resolve, reject) => {
             window.tableLoad();
+            window.sportsLoad();
             const wait = setInterval(() => {
                 if (window.inplay == undefined) { }
                 else {
@@ -382,12 +383,112 @@ function gameHandler(ID) {
     }
 }
 
-function betslipHandler() {
+function prematchHandler(ID) {
+    if (performance.navigation.type == 1) {
+        let fetchData = new Promise((resolve, reject) => {
+            loadJsModules({
+                fetch: { loadCSS: false, loadLanguage: false },
+                langs: { loadCSS: false, loadLanguage: false },
+            });
+            // wait until there will be an tableLoad module
+            function wait() {
+                if (typeof window.eventLoad === 'undefined') {
+                    setTimeout(wait, 10);
+                    return;
+                }
+                else {
+                    resolve();
+                }
+            }
+            wait();
+        });
+        fetchData.then((response) => {
+            go();
+        });
+    }
+    else {
+        go();
+    }
 
-}
+    function go() {
+        const fetchPromise = new Promise((resolve, reject) => {
+            window.sportsLoad();
+            window.tableLoad();
+            const wait = setInterval(() => {
+                if (window.prematch == undefined) { }
+                else {
+                    clearInterval(wait);
+                    resolve();
+                }
+            }, 10);
+        });
+        fetchPromise
+            .then((response) => {
+                return new Promise((resolve, reject) => {
+                    if (performance.navigation.type == 1) {
+                        loadJsModules({
+                            header: { loadCSS: true, loadLanguage: false },
+                            aside: { loadCSS: true, loadLanguage: false },
+                            betslip_link: { loadCSS: true, loadLanguage: false },
 
-function betslip_smallHandler() {
+                        });
+                    }
 
+
+                    loadJsModules({
+                        prematch: { ID: ID, loadCSS: true, loadLanguage: false },
+                    });
+
+                    resolve();
+                });
+            })
+            .then(
+                result => {
+                    const mybets = $(`[data-id=mybets]`);
+                    const user_menu = $(`[data-id=user-menu]`);
+                    const slider = $(`[data-id=slider]`);
+                    const formWrapper = $(`[data-id=registrationWrapper]`);
+                    const play_big = $(`[data-id=play-big]`);
+                    const coef_table = $(`[data-id=coef_table]`);
+                    const play_table = $(`[data-id=play-table]`);
+                    const live = $(`[data-id=live]`);
+                    const game = $(`[data-id=game]`);
+                    const betslip = $(`[data-id=betslip]`);
+                    const betslip_link = $(`[data-id=betslip-link]`);
+                    const betslip_small = $(`[data-id=betslip-small]`);
+                    const regist = $('[data-id=regist]');
+                    const calendar = $('.calendarContainer');
+                    const prematch = $('.prematch');
+                    const lurks = [
+                        mybets,
+                        game,
+                        betslip,
+                        betslip_link,
+                        betslip_small,
+                        play_big,
+                        coef_table,
+                        play_table,
+                        live,
+                        slider,
+                        user_menu,
+                        regist,
+                    ];
+                    const unlurks = [
+                        prematch,
+                        calendar,
+                        formWrapper,
+                    ];
+                    lurking(lurks, unlurks);
+                    mybets.empty();
+                    user_menu.empty();
+                    game.empty();
+                    regist.empty();
+                },
+                error => {
+                    console.log(`modules haven't been loaded :_( \n
+    and everthing because of: ${error}`);
+                });
+    }
 }
 
 function calendarHandler() {
@@ -423,6 +524,7 @@ function calendarHandler() {
             const betslip_small = $(`[data-id=betslip-small]`);
             const regist = $('[data-id=regist]');
             const calendar = $('.calendarContainer');
+            const prematch = $('.prematch');
             const lurks = [
                 mybets,
                 game,
@@ -436,6 +538,7 @@ function calendarHandler() {
                 slider,
                 user_menu,
                 regist,
+                prematch,
             ];
             const unlurks = [
                 calendar,
@@ -486,6 +589,7 @@ function registrationHandler(fast) {
             const betslip_link = $(`[data-id=betslip-link]`);
             const betslip_small = $(`[data-id=betslip-small]`);
             const calendar = $('[data-id=calendarContainer]');
+            const prematch = $('.prematch');
             const lurks = [
                 mybets,
                 game,
@@ -499,6 +603,7 @@ function registrationHandler(fast) {
                 slider,
                 user_menu,
                 calendar,
+                prematch,
             ];
             const unlurks = [
                 formWrapper,
@@ -547,6 +652,7 @@ function userHandler(username, nav_link, nav_link_small) {
             const betslip = $(`[data-id=betslip]`);
             const betslip_link = $(`[data-id=betslip-link]`);
             const betslip_small = $(`[data-id=betslip-small]`);
+            const prematch = $('.prematch');
             const lurks = [
                 mybets,
                 game,
@@ -559,6 +665,7 @@ function userHandler(username, nav_link, nav_link_small) {
                 live,
                 slider,
                 formWrapper,
+                prematch,
             ];
             const unlurks = [
 
@@ -605,7 +712,7 @@ function mybetsHandler() {
         const betslip_link = $(`[data-id=betslip-link]`);
         const betslip_small = $(`[data-id=betslip-small]`);
         const calendar = $('[data-id=calendarContainer]');
-
+        const prematch = $('.prematch');
         const lurks = [
             game,
             betslip,
@@ -618,6 +725,7 @@ function mybetsHandler() {
             slider,
             formWrapper,
             calendar,
+            prematch,
         ];
         const unlurks = [
             mybets,
@@ -661,6 +769,7 @@ function emptyHandler() {
         const betslip_link = $(`[data-id=betslip-link]`);
         const betslip_small = $(`[data-id=betslip-small]`);
         const calendar = $('[data-id=calendarContainer]');
+        const prematch = $('.prematch');
         const lurks = [
             game,
             betslip,
@@ -674,6 +783,7 @@ function emptyHandler() {
             formWrapper,
             mybets,
             calendar,
+            prematch,
         ];
         const unlurks = [
         ];
@@ -691,7 +801,8 @@ function locationHashChanged() {
     else {
         switch (window.location.href.split('/')[5]) {
             case '': case undefined: mainHandler(); break;
-            case 'sport': filterHandler(window.location.href.split('/')[6]); break;
+            case 'sport': prematchHandler(window.location.href.split('/')[6]); break;
+            case 'inplay': filterHandler(window.location.href.split('/')[6]); break;
             case 'event': gameHandler(window.location.href.split('/')[6]); break;
             case 'betslip': betslipHandler(); break;
             case 'betslip-small': betslip_smallHandler(); break;
