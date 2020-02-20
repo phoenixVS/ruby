@@ -359,13 +359,11 @@ exports('betslip', (params, done) => {
         if (cur.is('.focus')) {
           $('.stk.focus').removeClass('focus');
           document.querySelectorAll('.selectionRow input.stk').forEach((el, i, arr) => {
-            console.log(el.parentNode.querySelector('.stakeToReturn'));
             if (el.parentNode.querySelector('span.stakeToReturn_Value').innerHTML == ' 0.00' || el.parentNode.querySelector('span.stakeToReturn_Value').innerHTML == `&nbsp;0.00`) {
               el.parentNode.querySelector('.stakeToReturn').classList.add('hidden');
             }
           });
           if (document.querySelector('.bs-StandardMultipleStake_ToReturnValue').innerHTML == ' 0.00' || document.querySelector('.bs-StandardMultipleStake_ToReturnValue').innerHTML == `&nbsp;0.00`) {
-
             document.querySelector('.bs-StandardMultipleStake_ToReturn').classList.add('hidden');
           }
           cur.closest('.hasodds').removeClass('keypad');
@@ -403,14 +401,13 @@ exports('betslip', (params, done) => {
                   }
                 }
                 cur.css('border-radius', '0');
-                $.each($('.stk'), (i, el) => {
-                  if ($(el).siblings('.stakeToReturn').children('.stakeToReturn_Value').text() == ' 0.00' || $(el).siblings('.stakeToReturn').children('.stakeToReturn_Value').text() == `&nbsp;0.00`) {
-                    $(el).siblings('.stakeToReturn').addClass('hidden');
-                    $(el).siblings('.bs-StandardMultipleStake_ToReturn').addClass('hidden');
+                document.querySelectorAll('.selectionRow input.stk').forEach((el, i, arr) => {
+                  if (el.parentNode.querySelector('span.stakeToReturn_Value').innerHTML == ' 0.00' || el.parentNode.querySelector('span.stakeToReturn_Value').innerHTML == `&nbsp;0.00`) {
+                    el.parentNode.querySelector('.stakeToReturn').classList.add('hidden');
                   }
                 });
-                if ($('.bs-StandardMultipleStake_ToReturnValue').text() == ' 0.00' || $('.bs-StandardMultipleStake_ToReturnValue').text() == `&nbsp;0.00`) {
-                  $('.bs-StandardMultipleStake_ToReturn').addClass('hidden');
+                if (document.querySelector('.bs-StandardMultipleStake_ToReturnValue').innerHTML == ' 0.00' || document.querySelector('.bs-StandardMultipleStake_ToReturnValue').innerHTML == `&nbsp;0.00`) {
+                  document.querySelector('.bs-StandardMultipleStake_ToReturn').classList.add('hidden');
                 }
                 $('.stk.focus').removeClass('focus');
                 cur.closest('.hasodds').removeClass('keypad');
@@ -465,9 +462,59 @@ exports('betslip', (params, done) => {
         }
       };
       $('input.stk').on('click', onStake);
-      // $('.bs-stakeContainer').on('click', onStake);
-      // on input change
+
+      // count to return, if is (at start)
       const inputs = document.querySelectorAll('.stk');
+      for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].value !== '' && inputs[i].parentNode.querySelector('.stakeToReturn')) {
+          inputs[i].parentNode.querySelector('.stakeToReturn').classList.remove('hidden');
+
+          // count to return
+          const cur = inputs[i];
+          let tr, trStr;
+          let multiplyer = parseFloat(cur.parentNode.parentNode.querySelector('.odds').innerHTML);
+          tr = parseFloat(cur.value) * multiplyer;
+          if (!isNaN(tr)) {
+            tr = tr.toFixed(2);
+            trStr = tr.toString();
+
+            if (typeof trStr.split('.')[1] == 'undefined') {
+              trStr += '.00';
+            }
+            else {
+              if (trStr.split('.')[1].length == 1) {
+                trStr += '0';
+              }
+            }
+          }
+          cur.parentNode.querySelector('.stakeToReturn span.stakeToReturn_Value').innerHTML = trStr;
+        }
+        if (inputs[i].value !== '' && inputs[i].parentNode.querySelector('.bs-StandardMultipleStake_ToReturn')) {
+          inputs[i].parentNode.querySelector('.bs-StandardMultipleStake_ToReturn').classList.remove('hidden');
+
+          // count to return
+          const cur = inputs[i];
+          let tr, trStr;
+          let multiplyer = parseFloat(cur.parentNode.parentNode.querySelector('.bs-multiple-default-odds').innerHTML);
+          tr = parseFloat(cur.value) * multiplyer;
+          if (!isNaN(tr)) {
+            tr = tr.toFixed(2);
+            trStr = tr.toString();
+
+            if (typeof trStr.split('.')[1] == 'undefined') {
+              trStr += '.00';
+            }
+            else {
+              if (trStr.split('.')[1].length == 1) {
+                trStr += '0';
+              }
+            }
+          }
+          cur.parentNode.parentNode.querySelector('.stakeToReturn span.bs-StandardMultipleStake_ToReturnValue').innerHTML = trStr;
+
+        }
+      }
+      // on input change
       for (let i = 0; i < inputs.length; i++) {
         inputs[i].addEventListener('inputChange', (event) => {
 
