@@ -383,7 +383,7 @@ function gameHandler(ID) {
     }
 }
 
-function prematchHandler(ID) {
+function prematchHandler(ID, optID) {
     if (performance.navigation.type == 1) {
         let fetchData = new Promise((resolve, reject) => {
             loadJsModules({
@@ -430,14 +430,18 @@ function prematchHandler(ID) {
                             header: { loadCSS: true, loadLanguage: false },
                             aside: { loadCSS: true, loadLanguage: false },
                             betslip_link: { loadCSS: true, loadLanguage: false },
-
                         });
                     }
-
-
-                    loadJsModules({
-                        prematch: { ID: ID, loadCSS: true, loadLanguage: false },
-                    });
+                    if (typeof optID === 'undefined') {
+                        loadJsModules({
+                            prematch: { ID: ID, loadCSS: true, loadLanguage: false },
+                        });
+                    }
+                    else {
+                        loadJsModules({
+                            prematch_coupon: { PD: optID, loadCSS: true, loadLanguage: false },
+                        });
+                    }
 
                     resolve();
                 });
@@ -801,7 +805,7 @@ function locationHashChanged() {
     else {
         switch (window.location.href.split('/')[5]) {
             case '': case undefined: mainHandler(); break;
-            case 'sport': prematchHandler(window.location.href.split('/')[6]); break;
+            case 'sport': prematchHandler(window.location.href.split('/')[6], window.location.href.split('/')[7]); break;
             case 'inplay': filterHandler(window.location.href.split('/')[6]); break;
             case 'event': gameHandler(window.location.href.split('/')[6]); break;
             case 'betslip': betslipHandler(); break;

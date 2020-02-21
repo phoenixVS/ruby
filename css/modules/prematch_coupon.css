@@ -23,7 +23,7 @@
 .prematch-title {
   font-size: 1.6rem;
   color: #fff;
-  padding-left: 11px;
+  /* padding-left: 11px; */
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -204,9 +204,74 @@
 .coupon-name:first-child {
   border-top: 1px solid #fff;
 }
-.col-label {
-  background-color: #a7a7a7;
+/* PREMATCH*/
+.round-b {
+  border-right: 1px solid #fff;
+  background-color: #281420;
 }
-.table-col {
-  
+.round-b:before {
+  color:#fff;
+}
+.sport-name {
+  padding-left: 15px;
+  color: #ddd;
+}
+.league {
+  border-bottom: 1px solid #fff;
+}
+.prematch-table-filter {
+  background-color: #9f263d;
+  white-space: nowrap;
+  font-size: 1.1rem;
+  position: relative;
+  width: 100%;
+  padding-left: 20px;
+  border-bottom: 2px solid #000;
+}
+.prematch-table-filter .item {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 1.1rem;
+  vertical-align: top;
+  color: #bbb;
+  line-height: 42px;
+  height: 42px;
+  text-align: center;
+  padding: 0;
+  margin-right: 22px;
+}
+.prematch-table-filter .selected {
+  color: #e4e4e4;
+  border-bottom: 3px solid #e4e4e4;
+}
+.tableWrapper {
+  display: flex;
+  /* flex-direction: column; */
+  flex-wrap: nowrap;
+  background-color: #888;
+}
+.tableWrapper .table-col {
+  flex: 1 1 10%;
+}
+.tableWrapper .table-col:first-child {
+  flex: 1 1 60%;
+  height: 88px;
+}
+.col-label {
+  padding-left: 10px;
+}
+.col-item {
+  flex-wrap: nowrap;
+  height: 100%;
+  margin-left: 5px;
+  margin-right: 10px;
+}
+.col-item-name {
+  color: #fff;
+  font-size: .9rem;
+  padding: 5px;
+}
+span.team {
+  width: 100%;
 }

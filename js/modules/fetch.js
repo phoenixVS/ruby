@@ -50,6 +50,7 @@ exports('fetch', (params, done) => {
     // buidling tree from parsed json
     // parse input object massive into a tree 
     function growTree(data, type) {
+      console.log(type);
       if (type == 'inplay') {
         let curCL = '';
         let curCT = '';
@@ -99,7 +100,7 @@ exports('fetch', (params, done) => {
         return tree;
       }
       else {
-        if (type = 'sports') {
+        if (type == 'sports') {
           let curCL = '';
           let tree = [];
           data.map((item, index) => {
