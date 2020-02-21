@@ -23,6 +23,10 @@ exports('aside', (params, done) => {
       localStorage.setItem(NAME, ID);
     }
 
+    function RemoveFav(NAME) {
+      localStorage.removeItem(NAME);
+    }
+
     jQuery.fn.outerHTML = function () {
       return $(this).clone().wrap('<div></div>').parent().html();
     };
@@ -133,7 +137,6 @@ exports('aside', (params, done) => {
           });
 
           $(`[data-id=fav-star]`).on('click', (el) => {
-
             if ($(el.target).data('clicked') == 'on') {
               asideOrderBack(el);
             } else {
@@ -203,7 +206,7 @@ exports('aside', (params, done) => {
 
     function asideOrderBack(elem) {
       elem.stopPropagation();
-      Cookies.remove($(elem.target).data(`name`));
+      RemoveFav($(elem.target).data(`name`));
       $(elem.target).addClass('not-active');
       $(elem.target).removeClass('active');
       $(elem.target).attr('data-clicked', 'off');
@@ -266,6 +269,13 @@ exports('aside', (params, done) => {
         <a data-id="aside-live" class="[ tab-link ]">In-play</a>
         <a data-id="aside-all" class="[ tab-link active ]">Sport</a>
       </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
+      $(`[data-id=aside-ul]`).append(`
+      <li id="0" data-id="liel" data-div="home" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+      <span class="sports--1" style="margin-left: 5px; "></span>
+      <span class="font sport-name" style = "margin-left: 10px;">Home</span>
+      <span data-id="home" style="position: absolute; left: 79%;"></span>
+      </li>
+      `);
         let cks = getAllStorage();
         let fav_arr = [];
         for (let i = 0; i < cks.length; i++) {
@@ -326,18 +336,24 @@ exports('aside', (params, done) => {
           let PD = prematch[i].NA;
           if (ID != -2) {
             if (prematch[i].EV.length > 0) {
+              /*${ID == -1 ? '<span data-id="home" style="position: absolute; left: 79%;"></span> ' : '*/
               for (event of prematch[i].EV) {
                 ID = event.ID;
                 name = event.NA;
                 PD = event.NA;
-                $(`[data-id=aside-ul]`).append(`
-                <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
-                <span class="sports-${ID}" style="margin-left: 5px; "></span>
-                <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
-                ${ID == -1 ? '<span data-id="home" style="position: absolute; left: 79%;"></span> ' : '<span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>'}
-                </li>
-                `);
+                if (ID != -1) {
+                  $(`[data-id=aside-ul]`).append(`
+                  <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+                  <span class="sports-${ID}" style="margin-left: 5px; "></span>
+                  <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
+                  <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>'
+                  </li>
+                  `);
+                } else {
+                  continue;
+                }
               }
+
               $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
                 if (ID == -1) {
                   ID = 'home';
@@ -354,14 +370,17 @@ exports('aside', (params, done) => {
               if (fav_arr.includes(name)) {
                 continue;
               } else {
-                $(`[data-id=aside-ul]`).append(`
+                if (ID != -1) {
+                  $(`[data-id=aside-ul]`).append(`
                 <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
                 <span class="sports-${ID}" style="margin-left: 5px; "></span>
                 <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
-                ${ID == -1 ? '<span data-id="home" style="position: absolute; left: 79%;"></span> ' : '<span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>'}
+                <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
                 </li>
                 `);
-
+                } else {
+                  continue;
+                }
                 $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
                   if (ID == -1) {
                     ID = 'home';
@@ -382,6 +401,11 @@ exports('aside', (params, done) => {
       });
       promise
         .then(() => {
+
+          $(`[data-div=home]`).on('click', () => {
+            window.location.hash = '/sport/home';
+          });
+
           $(`[data-id=aside-live]`).on('click', () => {
 
             RenderAside(window.inplay);

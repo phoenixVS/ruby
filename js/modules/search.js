@@ -2,11 +2,14 @@ exports('search', (params, done) => {
     insertHtmlModules({
     }, () => {
 
-      async function GET(squery) {
-        let URL = "http://bestline.bet/api/1/sitesearch/query?squery=" + squery;
-        let resp = await fetch(URL);
-
-        return resp;
+      function GET(squery) {
+        let URL = "http://bestline.bet/search/?query=" + squery;
+        
+        fetch(URL)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          });
       }
 
       function renderSearch() {
@@ -116,7 +119,6 @@ exports('search', (params, done) => {
             });
             $(`[data-id=search-field]`).on('input', (el) => {
               let input_val = $(el.target).val();
-              console.log(GET(input_val));
               if (input_val.length >= 1) {
                 $('.search-mic').empty().append('<i class="fas fa fa-times"></i>');
                 $('.search-mic').on('click', () => {
@@ -134,6 +136,7 @@ exports('search', (params, done) => {
                 $('.search-mic').prop("onclick", null).off("click");
               }
               if ( input_val.length >= 2 ) {
+                console.log(GET(input_val));
                 $('.search-body').removeClass('active');
                 $('.search-body').addClass('not-active');
 
