@@ -17,6 +17,16 @@ exports('aside', (params, done) => {
         window.sportsLoad();
       }
       RenderAside(window.inplay);
+
+      if (sessionStorage.getItem('aside') == 'inplay') {
+          RenderAside(window.inplay);
+      } else if (sessionStorage.getItem('aside') == 'sport') {
+          RenderAsideAll(window.inplay, window.prematch);
+      } else if (sessionStorage.getItem('aside') == 'fav') {
+        RenderAsideFav(window.inplay);
+      } else {
+        RenderAside(window.inplay);
+      }
     });
 
     function AddFav(NAME, ID) {
@@ -157,6 +167,9 @@ exports('aside', (params, done) => {
               return false;
             }
           });
+
+          sessionStorage.removeItem('aside');
+          sessionStorage.setItem('aside', 'inplay');
         });
     }
 
@@ -435,6 +448,8 @@ exports('aside', (params, done) => {
               return false;
             }
           });
+          sessionStorage.removeItem('aside');
+          sessionStorage.setItem('aside', 'sport');
         });
     }
 
@@ -535,6 +550,8 @@ exports('aside', (params, done) => {
             return false;
           }
         });
+        sessionStorage.removeItem('aside');
+        sessionStorage.setItem('aside', 'fav');
       });
     }
 
