@@ -84,12 +84,29 @@ exports('prematch_coupon', (params, done) => {
       const nums = od.split('/');
       return (nums[0] / nums[1] + 1).toFixed(2)
     };
+    function transformDay(str) {
+      if (str) {
+        const year = str.substring(0, 4);
+        const month = str.substring(4, 6);
+        const day = str.substring(6, 8);
+        let time = str.substring(8, 12);
+        const ls2lt = time.substring(0, 2);
+        time = time.replace(ls2lt, `${ls2lt}: `)
 
+        /* const date = ${time} ${month}/${day};*/
+        const date = `${time}`;
+        const dt = new Date(year, month, day).getTime();
+
+        return [date, dt]
+      } else {
+        return ''
+      }
+    };
     function renderPrematch(data) {
       let render = new Promise((resolve, reject) => {
         console.dir(data);
         $('.prematch-title .sport-name').text(data[1].TB.split(',')[0] + ' / ');
-        $('.prematch-title .league').text(data.MG[data.MG.length - 1].ED);
+        $('.prematch-title .league').text(data[1].TB.split('#¬')[1].split(',')[0]);
 
         data.MA.forEach((item) => {
           if (typeof item.PD !== 'undefined') {
@@ -109,27 +126,30 @@ exports('prematch_coupon', (params, done) => {
         });
         $('.prematch-table-filter .item:first-child').addClass('selected');
 
-        let events = 0, bets = 0;
-        data.MA.forEach((item, i) => {
-          bets = 0;
-          if (typeof item.PD === 'undefined' && item.PA.length > 0) {
-            // teams
-            let col_name = item.NA;
-            if ((item.PY == 'di' || item.PY == 'do') && item.SY == 'ccl' && item.NA == ' ' && $('.tableWrapper .table-col').length == 0) {
-              $('.tableWrapper').append(`
-              <div class="table-col Teams" data-id="${item.ID}" data-it="${item.IT}">
-                <div class="col-label flex-container align-center ${item.NA}">
-                  &nbsp;
-                </div>
-              </div>
-            `);
-              for (item of item.PA) {
-                if (typeof item.NA !== 'undefined') {
-                  events++;
-                  $(`.table-col.Teams`).append(`
+        if (data[0].ID !== '1') {
+          let events = 0, bets = 0;
+          data.MA.forEach((item, i) => {
+            bets = 0;
+            if (typeof item.PD === 'undefined' && item.PA.length > 0) {
+              // teams
+              let col_name = item.NA;
+              if ((item.PY == 'di' || item.PY == 'do') && item.SY == 'ccl' && item.NA == ' ' && $('.tableWrapper .table-col').length == 0) {
+                console.log();
+                console.log(transformDay(item.PA[0].BC));
+                $('.tableWrapper').append(`
+                  <div class="table-col Teams" data-id="${item.ID}" data-it="${item.IT}">
+                    <div class="col-label flex-container align-center ${item.NA}">
+                      ${new Date(transformDay(item.PA[0].BC)[1]).toDateString()}
+                    </div>
+                  </div>
+                `);
+                for (item of item.PA) {
+                  if (typeof item.NA !== 'undefined') {
+                    events++;
+                    $(`.table-col.Teams`).append(`
                     <div class="col-item flex-container">
                       <div class="col-info">
-                        <div class="item-time">${item.BC.slice(-4).slice(0, 2) + ':' + item.BC.slice(-4).slice(2)}</div>
+                        <div class="item-time">${item.BC.slice(-6).slice(0, 2) + ':' + item.BC.slice(-6).slice(2, 4)}</div>
                         <div class="item-markets">${item.MR}</div>
                         <div class="item-video">
                           <div class="sport-icon play"></div>
@@ -150,24 +170,24 @@ exports('prematch_coupon', (params, done) => {
                       </div>
                     </div>
                   `);
+                  }
                 }
               }
-            }
-            else {
-              // Spread && Total
-              let col_name = item.NA;
-              if (item.NA == 'Spread' || item.NA == 'Total') {
-                $('.tableWrapper').append(`
+              else {
+                // Spread && Total
+                let col_name = item.NA;
+                if (item.NA == 'Spread' || item.NA == 'Total') {
+                  $('.tableWrapper').append(`
                 <div class="table-col ${col_name}" data-id="${item.ID}" data-it="${item.IT}">
                   <div class="col-label flex-container align-center">
                     ${item.NA}
                   </div>
                 </div>
               `);
-                item.PA.map((item) => {
-                  bets++;
-                  if (modifyBets(item.OD) == 'NaN') {
-                    $(`.table-col.${col_name}`).append(`
+                  item.PA.map((item) => {
+                    bets++;
+                    if (modifyBets(item.OD) == 'NaN') {
+                      $(`.table-col.${col_name}`).append(`
                       <div class="col-item flex-container">
                         <button class="button-coefficient disabled">
                           <span class="ha">
@@ -176,10 +196,10 @@ exports('prematch_coupon', (params, done) => {
                         </button>
                       </div>
                     `);
-                  }
-                  else {
-                    bets++;
-                    $(`.table-col.${col_name}`).append(`
+                    }
+                    else {
+                      bets++;
+                      $(`.table-col.${col_name}`).append(`
                       <div class="col-item flex-container">
                         <button class="button-coefficient">
                           <span class="ha">
@@ -191,19 +211,87 @@ exports('prematch_coupon', (params, done) => {
                         </button>
                       </div>
                     `);
-                  }
-                });
-              }
-              else {
-                // 
+                    }
+                  });
+                }
+                else {
+                  // 
+                }
               }
             }
+          });
+
+          console.log('bets', bets);
+          console.log(`events`, events);
+          if (bets / events > 2.5) {
+            $('.table-col.Teams').addClass('three');
           }
-        });
-        console.log('bets', bets);
-        console.log(`events`, events);
-        if (bets / events > 2.5) {
-          $('.table-col.Teams').addClass('three');
+        }
+        else {   // Soccer && hockey
+          let prevDate = 0;
+          let play_table = $(`<div class="play-table table"></div>`);
+          data.MA.forEach((item, i) => {
+            if (item.NA == ' ' && item.SY == 'ccd') {
+              data.MA[i].PA.forEach((item, i) => {
+                if (prevDate == item.BC) { }
+                else {
+                  // append date group
+                  play_table.append(`
+                  <div class="row [ info ]"> 
+                    <div class="cell"> 
+                      <p class="font">${new Date(transformDay(item.BC)[1]).toDateString()}</p> 
+                    </div> 
+                    <div class="cell"> 
+                      <p class="font">1</p> 
+                    </div> 
+                    <div class="cell"> 
+                      <p class="font">X</p> 
+                    </div>
+                    <div class="cell"> 
+                      <p class="font">2</p> 
+                    </div>
+                  </div>
+                  `);
+                  prevDate = item.BC;
+                }
+                // append event
+                play_table.append(`
+                <div class="row">
+                <div class="cell" data-pd="${item.PD}" data-id="event">
+                  <div data-pd="${item.PD}" data-class="play-link" data-pd="${item.PD}" class="[ play-link ]">
+                      <div data-pd="${item.PD}" class="team home">
+                        <p class="font m-white ellipsis" data-pd="${item.PD}">${item.NA}</p>
+                        <div class="team-score" data-pd="${item.PD}"></div>
+                      </div>
+                      <div data-pd="${item.PD}" class="team away">
+                        <p data-pd="${item.PD}" class="font m-white ellipsis">${item.N2}</p>
+                        <div class="team-score" data-pd="${item.PD}"></div>
+                      </div>
+                      <div data-pd="${item.PD}" class="[ metadata-wrapper ] text-right">
+                        <p class="font m-white timer-el">${item.BC.slice(-6).slice(0, 2) + ':' + item.BC.slice(-6).slice(2, 4)}</p>
+                        <div class="marketCount" data-pd="${item.PD}">${item.MR}</div>
+                        <div class="sport-icon play" data-pd="${item.PD}"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                `);
+                // append bet
+                play_table.children('.row:last-child').append(`
+                  <div class="cell" style="display: table-cell;">
+                    <button class="button coefficient ${data.MA[5].PA[i].OD == '0/0' ? 'disabled' : ''}">${data.MA[5].PA[i].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(data.MA[5].PA[i].OD)}</button> 
+                  </div> 
+                  <div class="cell" style="display: table-cell;"> 
+                  <button class="button coefficient ${data.MA[6].PA[i].OD == '0/0' ? 'disabled' : ''}">${data.MA[6].PA[i].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(data.MA[6].PA[i].OD)}</button>
+                  </div> 
+                  <div class="cell" style="display: table-cell;">
+                  <button class="button coefficient ${data.MA[7].PA[i].OD == '0/0' ? 'disabled' : ''}">${data.MA[7].PA[i].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(data.MA[7].PA[i].OD)}</button> 
+                  </div>
+                `);
+              });
+            }
+          });
+          $('.tableWrapper').append(play_table);
         }
         // preloader done
         preloader.addClass('done').removeClass('opaci');
