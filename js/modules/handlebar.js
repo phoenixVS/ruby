@@ -110,6 +110,7 @@ function mainHandler() {
                         const betslip_link = $(`[data-id=betslip-link]`);
                         const betslip_small = $(`[data-id=betslip-small]`);
                         const calendar = $('[data-id=calendarContainer]');
+                        const prematch = $('.prematch');
                         const lurks = [
                             mybets,
                             formWrapper,
@@ -119,6 +120,7 @@ function mainHandler() {
                             betslip_small,
                             user_menu,
                             calendar,
+                            prematch,
                         ];
                         const unlurks = [
                             play_big,
@@ -246,6 +248,7 @@ function filterHandler(ID) {
                             const betslip_link = $(`[data-id=betslip-link]`);
                             const betslip_small = $(`[data-id=betslip-small]`);
                             const calendar = $('[data-id=calendarContainer]');
+                            const prematch = $('.prematch');
                             const lurks = [
                                 user_menu,
                                 mybets,
@@ -255,6 +258,7 @@ function filterHandler(ID) {
                                 betslip_link,
                                 betslip_small,
                                 calendar,
+                                prematch,
                             ];
                             const unlurks = [
                                 play_big,

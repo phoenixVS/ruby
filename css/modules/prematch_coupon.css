@@ -4,7 +4,7 @@
   width: 100%;
   height: calc(100vh - 109px);
   height: -webkit-calc(100vh - 109px);
-  background-color: #21111b;
+  background-color: #4d475e;
 }
 .prematch-header {
   background-color: #281420;
@@ -292,13 +292,19 @@
   margin-right: 10px;
   min-height: 68px;
   max-height: 68px;
-  border: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
 }
 .col-item {
   height: 100%;
   min-height: 34px;
   max-height: 34px;
   border: 1px solid #504f5c;
+}
+.item-video {
+  padding-top: 12px;
+  padding-bottom: 3px;
 }
 .col-item-name .team {
   padding-top: 10px;
@@ -371,6 +377,13 @@
   color: #fff;
   font-size: .9rem;
   padding: 5px;
+}
+.table-col.Teams.three .col-item{
+  min-height: 102px;
+  max-height: 102px;
+}
+.table-col.Teams  .col-item{
+  border-bottom: 1px solid #757575;
 }
 .table-col.Teams .col-item-name {
   color: #fff;

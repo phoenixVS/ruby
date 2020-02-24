@@ -109,11 +109,13 @@ exports('prematch_coupon', (params, done) => {
         });
         $('.prematch-table-filter .item:first-child').addClass('selected');
 
+        let events = 0, bets = 0;
         data.MA.forEach((item, i) => {
+          bets = 0;
           if (typeof item.PD === 'undefined' && item.PA.length > 0) {
             // teams
             let col_name = item.NA;
-            if (item.PY == 'di' && item.SY == 'ccl' && item.NA == ' ' && $('.tableWrapper .table-col').length == 0) {
+            if ((item.PY == 'di' || item.PY == 'do') && item.SY == 'ccl' && item.NA == ' ' && $('.tableWrapper .table-col').length == 0) {
               $('.tableWrapper').append(`
               <div class="table-col Teams" data-id="${item.ID}" data-it="${item.IT}">
                 <div class="col-label flex-container align-center ${item.NA}">
@@ -123,6 +125,7 @@ exports('prematch_coupon', (params, done) => {
             `);
               for (item of item.PA) {
                 if (typeof item.NA !== 'undefined') {
+                  events++;
                   $(`.table-col.Teams`).append(`
                     <div class="col-item flex-container">
                       <div class="col-info">
@@ -139,6 +142,11 @@ exports('prematch_coupon', (params, done) => {
                         <div class="team away">
                           <span>${item.D1.split(',')[1] + ' '}</span>${item.N2}
                         </div>
+                        ${item.TM == 'Tie' ? `
+                          <div class="team away">
+                            <span></span> Tie
+                          </div>
+                        ` : ''}
                       </div>
                     </div>
                   `);
@@ -146,7 +154,7 @@ exports('prematch_coupon', (params, done) => {
               }
             }
             else {
-              // Spread
+              // Spread && Total
               let col_name = item.NA;
               if (item.NA == 'Spread' || item.NA == 'Total') {
                 $('.tableWrapper').append(`
@@ -157,6 +165,7 @@ exports('prematch_coupon', (params, done) => {
                 </div>
               `);
                 item.PA.map((item) => {
+                  bets++;
                   if (modifyBets(item.OD) == 'NaN') {
                     $(`.table-col.${col_name}`).append(`
                       <div class="col-item flex-container">
@@ -169,6 +178,7 @@ exports('prematch_coupon', (params, done) => {
                     `);
                   }
                   else {
+                    bets++;
                     $(`.table-col.${col_name}`).append(`
                       <div class="col-item flex-container">
                         <button class="button-coefficient">
@@ -190,13 +200,18 @@ exports('prematch_coupon', (params, done) => {
             }
           }
         });
-
+        console.log('bets', bets);
+        console.log(`events`, events);
+        if (bets / events > 2.5) {
+          $('.table-col.Teams').addClass('three');
+        }
         // preloader done
         preloader.addClass('done').removeClass('opaci');
         resolve();
       });
       render.then(
         response => {
+
           // go back to sport
           $('.round-b').on('click', (event) => {
             window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2];
