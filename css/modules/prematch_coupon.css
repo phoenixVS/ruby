@@ -246,31 +246,145 @@
   border-bottom: 3px solid #e4e4e4;
 }
 .tableWrapper {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  /* flex-direction: column; */
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: row;
+  -ms-flex-flow: row;
+  flex-flow: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
-  background-color: #888;
+  background-color: #343243;
 }
-.tableWrapper .table-col {
-  flex: 1 1 10%;
+.tableWrapper .table-col {  
+  color: yellow;
+  flex-direction: column;
+  flex: 1 1 15%;
+  height: 100%;
+  align-items: center;
+  background-color: #4d475e;
 }
 .tableWrapper .table-col:first-child {
-  flex: 1 1 60%;
-  height: 88px;
+  color: #fff;
+  flex: 1 1 50%;
+  height: 100%;
+  align-items: center;
+  background-color: #4D475E;
+  border: none;
 }
 .col-label {
+  background-color: #5e5e5e;
   padding-left: 10px;
+  color: #fff;
+  border-bottom: 1px solid #535353;
+  border-top: 1px solid #535353;
 }
-.col-item {
-  flex-wrap: nowrap;
+.tableWrapper .table-col:first-child .col-item {
+  background-color: #4d475e;
   height: 100%;
   margin-left: 5px;
   margin-right: 10px;
+  min-height: 68px;
+  max-height: 68px;
+  border: none;
+}
+.col-item {
+  height: 100%;
+  min-height: 34px;
+  max-height: 34px;
+  border: 1px solid #504f5c;
+}
+.col-item-name .team {
+  padding-top: 10px;
+}
+.col-item .col-info {
+  height: 100%;
+  min-width: 48px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column;
+  -ms-flex-flow: column;
+  flex-flow: column;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+  padding: 5px 10px 5px 5px;
+  color: #e1e1e1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+.col-item .item-markets {  
+  font-size: 12px;
+}
+.col-item .item-markets:after {
+  display: inline-block;
+  font-family: FontAwesome;
+  -webkit-transform: translateY(3px) rotate(-90deg);
+   -moz-transform: translateY(3px) rotate(-90deg);
+   -o-transform: translateY(3px) rotate(-90deg);
+  transform: translateY(3px) rotate(-90deg);
+  speak: none;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f107";
+  color: #aaa;
+  font-size: .9rem;
+  padding-left: 4px;
 }
 .col-item-name {
+  color: yellow;
+  font-size: .9rem;
+  padding: 5px;
+}
+.col-item .button-coefficient {
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  color: yellow;
+  background: #343243;
+  border: 1px solid #504f5c;
+  cursor: pointer;
+}
+.tableWrapper .table-col:first-child .col-item-name {
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.button-coefficient .ha{
   color: #fff;
   font-size: .9rem;
   padding: 5px;
+}
+.table-col.Teams .col-item-name {
+  color: #fff;
+  height: 100%;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-right: 10px;
+  margin-left: 5px;
+  width: 0;
+}
+.table-col.Teams .col-item-name span {
+  color: #d1d1d1;
 }
 span.team {
   width: 100%;

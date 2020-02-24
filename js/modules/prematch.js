@@ -118,6 +118,11 @@ exports('prematch', (params, done) => {
           // preloader done
           preloader.addClass('done').removeClass('opaci');
 
+          // go to sport inplay
+          $('.inplay-link').on('click', (event) => {
+            window.location.hash = '/' + 'inplay' + '/' + window.location.hash.split('/')[2];
+          });
+
           $('.prematch-table-title .item').on('click', (event) => {
             let cur = $(event.target);
             if (cur.is('.selected')) { }
@@ -174,9 +179,6 @@ exports('prematch', (params, done) => {
                   data.MG.map((item) => {
                     if (item.IT == IT) {
                       item.MA.map((item) => {
-                        // console.log(item);
-                        console.log(maIT);
-                        console.log(item.IT);
                         if (item.IT == maIT) {
                           item.PA.map((item) => {
                             console.log(item);
@@ -190,7 +192,7 @@ exports('prematch', (params, done) => {
                       });
                     }
                   });
-                  cur.append(coupon_list);
+                  coupon_list.appendTo(cur).hide().slideDown(150);
                   cur.removeClass('closed');
                   cur.addClass('opened');
 
@@ -204,7 +206,7 @@ exports('prematch', (params, done) => {
                   });
                 }
                 else {
-                  cur.children('.coupon-list').remove();
+                  cur.children('.coupon-list').slideUp(150, () => { cur.children('.coupon-list').remove(); cur.removeClass('opened'); cur.addClass('closed'); });
                   cur.addClass('closed');
                   cur.removeClass('opened');
                 }
@@ -218,7 +220,6 @@ exports('prematch', (params, done) => {
           // Open items that should be opened
           data.MG.map((item) => {
             if (item.DO == 1 && typeof item.NA !== 'undefined') {
-              console.log($(`div.prematch div.container-fluid div[data-it="${item.IT}"`));
               $(`div.prematch div.container-fluid div[data-it="${item.IT}"`).trigger('click');
             }
           });

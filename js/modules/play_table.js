@@ -254,7 +254,7 @@ exports('play_table', (params, done) => {
           }
         }
       }
-      if (typeof ev.MA[0].PA !== 'undefined' && ev.MA[0].SU != '1') {
+      if (typeof ev.MA[0].PA[1] !== 'undefined' && ev.MA[0].SU != '1') {
         if (type) {
           if (ev.MA[0].NA != "Fulltime Result") {
             $(`[data-id="play-table"]`).children('.row:last-child').append(`
@@ -323,11 +323,11 @@ exports('play_table', (params, done) => {
         else {
           $(`[data-id="play-table"]`).children('.row:last-child').append(`
             <div class="cell" style="min-width: 24%; max-width: 24%;">
-            <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient"><span class="fa fa-lock lock"></span></button> 
+            <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient disabled"><span class="fa fa-lock lock"></span></button> 
             </div>
             
             <div class="cell" style="min-width: 24%; max-width: 24%;"> 
-            <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient"><span class="fa fa-lock lock"></span></button>
+            <button data-eventNA="${ev.NA}" data-cl="${ID}" class="button coefficient disabled"><span class="fa fa-lock lock"></span></button>
             </div>
           `);
         }

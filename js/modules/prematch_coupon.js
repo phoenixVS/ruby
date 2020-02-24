@@ -79,6 +79,12 @@ exports('prematch_coupon', (params, done) => {
       return tree;
     }
 
+    // Convert fractial to decimal
+    modifyBets = (od) => {
+      const nums = od.split('/');
+      return (nums[0] / nums[1] + 1).toFixed(2)
+    };
+
     function renderPrematch(data) {
       let render = new Promise((resolve, reject) => {
         console.dir(data);
@@ -109,53 +115,73 @@ exports('prematch_coupon', (params, done) => {
             let col_name = item.NA;
             if (item.PY == 'di' && item.SY == 'ccl' && item.NA == ' ' && $('.tableWrapper .table-col').length == 0) {
               $('.tableWrapper').append(`
-              <div class="table-col teams" style="background-color: #5e5e5e;" data-id="${item.ID}" data-it="${item.IT}">
-                <div class="col-label ${item.NA}">
+              <div class="table-col Teams" data-id="${item.ID}" data-it="${item.IT}">
+                <div class="col-label flex-container align-center ${item.NA}">
                   &nbsp;
                 </div>
               </div>
             `);
-              item.PA.map((item) => {
+              for (item of item.PA) {
                 if (typeof item.NA !== 'undefined') {
-                  $(`.table-col.teams`).append(`
-                    <div class="col-item">
+                  $(`.table-col.Teams`).append(`
+                    <div class="col-item flex-container">
+                      <div class="col-info">
+                        <div class="item-time">${item.BC.slice(-4).slice(0, 2) + ':' + item.BC.slice(-4).slice(2)}</div>
+                        <div class="item-markets">${item.MR}</div>
+                        <div class="item-video">
+                          <div class="sport-icon play"></div>
+                        </div>
+                      </div>
                       <div class="col-item-name">
-                        <span class="team home">
-                          ${item.NA}
-                        </span>
-                        <span class="team away">
-                          ${item.N2}
-                        </span>
+                        <div class="team home">
+                          <span>${item.D1.split(',')[0] + ' '}</span>${item.NA}
+                        </div>
+                        <div class="team away">
+                          <span>${item.D1.split(',')[1] + ' '}</span>${item.N2}
+                        </div>
                       </div>
                     </div>
                   `);
                 }
-              });
+              }
             }
             else {
               // Spread
               let col_name = item.NA;
-              if (item.NA == 'Spread') {
+              if (item.NA == 'Spread' || item.NA == 'Total') {
                 $('.tableWrapper').append(`
                 <div class="table-col ${col_name}" data-id="${item.ID}" data-it="${item.IT}">
-                  <div class="col-label">
-                    Spread
+                  <div class="col-label flex-container align-center">
+                    ${item.NA}
                   </div>
                 </div>
               `);
                 item.PA.map((item) => {
-                  $(`.table-col.${col_name}`).append(`
-                      <div class="col-item">
-                        <div class="col-item-name">
+                  if (modifyBets(item.OD) == 'NaN') {
+                    $(`.table-col.${col_name}`).append(`
+                      <div class="col-item flex-container">
+                        <button class="button-coefficient disabled">
+                          <span class="ha">
+                            OTB
+                          </span>
+                        </button>
+                      </div>
+                    `);
+                  }
+                  else {
+                    $(`.table-col.${col_name}`).append(`
+                      <div class="col-item flex-container">
+                        <button class="button-coefficient">
                           <span class="ha">
                             ${item.HA}
                           </span>
                           <span class="od">
-                            ${item.OD}
+                            ${modifyBets(item.OD)}
                           </span>
-                        </div>
+                        </button>
                       </div>
                     `);
+                  }
                 });
               }
               else {
@@ -171,6 +197,7 @@ exports('prematch_coupon', (params, done) => {
       });
       render.then(
         response => {
+          // go back to sport
           $('.round-b').on('click', (event) => {
             window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2];
           });
