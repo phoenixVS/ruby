@@ -231,6 +231,26 @@
 
 .s-ev-link p::after {
     cursor: pointer;
+    content: '\f105';
+    font-family: FontAwesome;
+    font-size: 15px;
+    color: #fff;
+    position: relative;
+    margin-left: 10px;
+}
+
+.s-ev-link p.t-not-clicked::after {
+    cursor: pointer;
+    content: '\f105';
+    font-family: FontAwesome;
+    font-size: 15px;
+    color: #fff;
+    position: relative;
+    margin-left: 10px;
+}
+
+.s-ev-link p.t-clicked::after {
+    cursor: pointer;
     content: '\f107';
     font-family: FontAwesome;
     font-size: 15px;

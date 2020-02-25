@@ -13,6 +13,7 @@ exports('search', (params, done) => {
       }
 
       function RenderSearchResult(data) {
+        new Promise( (resolve, reject) => {
         let choosen = false;
         let choosen_NA = '';
         let res_content = $('.search-result');
@@ -58,20 +59,47 @@ exports('search', (params, done) => {
                 if ($(res_content.children(`.search-ev-links-${i}`)).length) {
                   $(`.search-ev-links-${i}`).append(`
                   <div class="s-ev-link">
-                    <p class="font white">${data[i].NA}</p>
+                    <p class="font white t-not-clicked">${data[i].NA}</p>
                   </div>
                   `);
                 } else {
                   res_content.append(`
                     <div class="search-ev-links-${0}">
                       <div class="s-ev-link">
-                        <p class="font white">${data[i].NA}</p>
+                        <p class="font white t-not-clicked">${data[i].NA}</p>
                       </div>
                     </div>
                   `);
                 }
             }
         }
+        resolve();
+        }).then( () => {
+
+          function eSetClicked(el) {
+            $(el.target).removeClass('t-not-clicked');
+            $(el.target).addClass('t-clicked');
+            $(el.target).prop("onclick", null).off("click");
+
+            $(el.target).on('click', (item) => {
+              eSetNotClicked(item);
+            });
+          }
+
+          function eSetNotClicked(el) {
+            $(el.target).removeClass('t-clicked');
+            $(el.target).addClass('t-not-clicked');
+            $(el.target).prop("onclick", null).off("click");
+
+            $(el.target).on('click', (item) => {
+              eSetClicked(item);
+            });
+          }
+
+          $('.s-ev-link p.t-not-clicked').on('click', (el) => {
+            eSetClicked(el);
+          });
+        });
       }
 
       function renderSearch() {
