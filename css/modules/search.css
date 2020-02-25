@@ -147,11 +147,13 @@
 .search-result {
     width: 100%;
     height: 100%;
+    overflow-y: scroll;
 }
 
 .search-result.active {
     width: 100%;
     height: 100%;
+    overflow-y: scroll;
 }
 
 .search-result.not-active {
@@ -233,6 +235,6 @@
     font-family: FontAwesome;
     font-size: 15px;
     color: #fff;
-    position: absolute;
+    position: relative;
     margin-left: 10px;
 }

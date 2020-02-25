@@ -8,8 +8,70 @@ exports('search', (params, done) => {
         fetch(URL)
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
+            RenderSearchResult(data);
           });
+      }
+
+      function RenderSearchResult(data) {
+        let choosen = false;
+        let choosen_NA = '';
+        let res_content = $('.search-result');
+        res_content.empty();
+        res_content.append(`
+        <div class="search-scroll">
+        </div>
+        `);
+        let scroll = $('.search-scroll');
+        let cl_counter = 0;
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].type == 'CL') {
+              cl_counter++
+              if (cl_counter > 1) {
+                for (let g = 0; g < data.length; g++) {
+                  if (data[g].type == 'CL' && data[g].NA != choosen_NA) {
+                    scroll.append(`
+                    <div class="search-scroll-item">
+                      <p class="font">${data[g].NA}</p>
+                    </div>
+                    `);
+                  } else {
+                    continue;
+                  }
+                }
+                break;
+              } else {
+                choosen = true;
+                choosen_NA = data[i].NA;
+                scroll.append(`
+              <div class="search-scroll-item choosen">
+                <p class="font">${data[i].NA}</p>
+              </div>
+              `);
+              }
+            } else if (data[i].type == 'EV') {
+                res_content.append(`
+                <div class="search-ev">
+                  <p class="font m-white">${data[i].NA}</p>
+                </div>
+                `);
+            } else if (data[i].type == 'MG') {
+                if ($(res_content.children(`.search-ev-links-${i}`)).length) {
+                  $(`.search-ev-links-${i}`).append(`
+                  <div class="s-ev-link">
+                    <p class="font white">${data[i].NA}</p>
+                  </div>
+                  `);
+                } else {
+                  res_content.append(`
+                    <div class="search-ev-links-${0}">
+                      <div class="s-ev-link">
+                        <p class="font white">${data[i].NA}</p>
+                      </div>
+                    </div>
+                  `);
+                }
+            }
+        }
       }
 
       function renderSearch() {
@@ -90,20 +152,6 @@ exports('search', (params, done) => {
                   <p class="font">Soccer</p>
                 </div>
               </div>
-              <div class="search-ev">
-              <p class="font m-white">Competitions</p>
-            </div>
-            <div class="search-ev-links">
-                <div class="s-ev-link">
-                  <p class="font white">AFC Champions League</p>
-                </div>
-                <div class="s-ev-link">
-                  <p class="font white">Algeria Youth League</p>
-                </div>
-                <div class="s-ev-link">
-                  <p class="font white">Argentina Reserve League</p>
-                </div>
-              </div>
             </div>
           </div>
         `).prependTo('#content').fadeIn('middle');
@@ -136,7 +184,7 @@ exports('search', (params, done) => {
                 $('.search-mic').prop("onclick", null).off("click");
               }
               if ( input_val.length >= 2 ) {
-                console.log(GET(input_val));
+                GET('ef');
                 $('.search-body').removeClass('active');
                 $('.search-body').addClass('not-active');
 
