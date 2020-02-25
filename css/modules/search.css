@@ -235,6 +235,6 @@
     font-family: FontAwesome;
     font-size: 15px;
     color: #fff;
-    position: absolute;
+    position: relative;
     margin-left: 10px;
 }

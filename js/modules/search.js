@@ -13,19 +13,37 @@ exports('search', (params, done) => {
       }
 
       function RenderSearchResult(data) {
-        /*
-        let scroll = $('.search-scroll');
+        let choosen = false;
+        let choosen_NA = '';
         let res_content = $('.search-result');
-        scroll.empty();
+        res_content.empty();
+        res_content.append(`
+        <div class="search-scroll">
+        </div>
+        `);
+        let scroll = $('.search-scroll');
         let cl_counter = 0;
         for (let i = 0; i < data.length; i++) {
             if (data[i].type == 'CL') {
               cl_counter++
               if (cl_counter > 1) {
+                for (let g = 0; g < data.length; g++) {
+                  if (data[g].type == 'CL' && data[g].NA != choosen_NA) {
+                    scroll.append(`
+                    <div class="search-scroll-item">
+                      <p class="font">${data[g].NA}</p>
+                    </div>
+                    `);
+                  } else {
+                    continue;
+                  }
+                }
                 break;
               } else {
+                choosen = true;
+                choosen_NA = data[i].NA;
                 scroll.append(`
-              <div class="search-scroll-item">
+              <div class="search-scroll-item choosen">
                 <p class="font">${data[i].NA}</p>
               </div>
               `);
@@ -37,15 +55,15 @@ exports('search', (params, done) => {
                 </div>
                 `);
             } else if (data[i].type == 'MG') {
-                if ($(res_content.children('.search-ev-links')).length) {
-                  $('.search-ev-links').append(`
+                if ($(res_content.children(`.search-ev-links-${i}`)).length) {
+                  $(`.search-ev-links-${i}`).append(`
                   <div class="s-ev-link">
                     <p class="font white">${data[i].NA}</p>
                   </div>
                   `);
                 } else {
                   res_content.append(`
-                    <div class="search-ev-links">
+                    <div class="search-ev-links-${0}">
                       <div class="s-ev-link">
                         <p class="font white">${data[i].NA}</p>
                       </div>
@@ -54,7 +72,6 @@ exports('search', (params, done) => {
                 }
             }
         }
-        */
       }
 
       function renderSearch() {
