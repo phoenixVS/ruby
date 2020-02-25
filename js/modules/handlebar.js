@@ -390,7 +390,7 @@ function gameHandler(ID) {
     }
 }
 
-function prematchHandler(ID, optID) {
+function prematchHandler(ID, optID, eventID) {
     if (performance.navigation.type == 1) {
         let fetchData = new Promise((resolve, reject) => {
             loadJsModules({
@@ -445,9 +445,16 @@ function prematchHandler(ID, optID) {
                         });
                     }
                     else {
-                        loadJsModules({
-                            prematch_coupon: { PD: optID, loadCSS: true, loadLanguage: false },
-                        });
+                        if (typeof eventID === 'undefined') {
+                            loadJsModules({
+                                prematch_coupon: { PD: optID, loadCSS: true, loadLanguage: false },
+                            });
+                        }
+                        else {
+                            loadJsModules({
+                                prematch_event: { PD: eventID, CT: optID, loadCSS: true, loadLanguage: false },
+                            });
+                        }
                     }
 
                     resolve();
@@ -690,6 +697,7 @@ function userHandler(username, nav_link, nav_link_small) {
         and everthing because of: ${error}`);
         });
 }
+
 // My bets page
 function mybetsHandler() {
     let onModulesLoad = new Promise((resolve, reject) => {
@@ -812,7 +820,7 @@ function locationHashChanged() {
     else {
         switch (window.location.href.split('/')[5]) {
             case '': case undefined: mainHandler(); break;
-            case 'sport': prematchHandler(window.location.href.split('/')[6], window.location.href.split('/')[7]); break;
+            case 'sport': prematchHandler(window.location.href.split('/')[6], window.location.href.split('/')[7], window.location.href.split('/')[8]); break;
             case 'inplay': filterHandler(window.location.href.split('/')[6]); break;
             case 'event': gameHandler(window.location.href.split('/')[6]); break;
             case 'betslip': betslipHandler(); break;

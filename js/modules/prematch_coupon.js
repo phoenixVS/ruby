@@ -319,6 +319,11 @@ exports('prematch_coupon', (params, done) => {
             window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2];
           });
 
+          document.querySelector('.play-link').addEventListener('click', (event) => {
+            const cur = event.target;
+            window.location.hash += '/' + encodeURL(cur.dataset.pd);
+          });
+
           $('.prematch-table-title .item').on('click', (event) => {
             let cur = $(event.target);
             if (cur.is('.selected')) { }
