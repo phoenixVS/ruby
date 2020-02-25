@@ -13,8 +13,9 @@ exports('search', (params, done) => {
       }
 
       function RenderSearchResult(data) {
+        new Promise( (resolve, reject) => {
         let choosen = false;
-        let choosen_NA = '';
+        let lastEV = '';
         let res_content = $('.search-result');
         res_content.empty();
         res_content.append(`
@@ -49,6 +50,7 @@ exports('search', (params, done) => {
               `);
               }
             } else if (data[i].type == 'EV') {
+                lastEV = data[i].NA;
                 res_content.append(`
                 <div class="search-ev">
                   <p class="font m-white">${data[i].NA}</p>
@@ -56,22 +58,105 @@ exports('search', (params, done) => {
                 `);
             } else if (data[i].type == 'MG') {
                 if ($(res_content.children(`.search-ev-links-${i}`)).length) {
-                  $(`.search-ev-links-${i}`).append(`
+                  if (lastEV == 'Teams') {
+                    $(`.search-ev-links-${i}`).append(`
+                    <div class="s-ev-link">
+                      <p class="font white t-clicked">${data[i].NA}</p>
+                      <div class="t-market-group active">
+                        <div class="market-pa">
+                        <div class="market-pa-item">
+                            <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                            <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                          </div>
+
+                          <div class="market-pa-item">
+                          <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                          <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                          </div>
+                        </div>
+                        <div class="market-bets">
+                        </div>
+                      </div>
+                    </div>
+                  `);
+                  } else {
+                    $(`.search-ev-links-${i}`).append(`
                   <div class="s-ev-link">
                     <p class="font white">${data[i].NA}</p>
                   </div>
                   `);
+                  }
                 } else {
-                  res_content.append(`
+                  if (lastEV == 'Teams') {
+                    res_content.append(`
+                    <div class="search-ev-links-${0}">
+                      <div class="s-ev-link">
+                        <p class="font white t-clicked">${data[i].NA}</p>
+                        <div class="t-market-group active">
+                        <div class="market-pa">
+                          <div class="market-pa-item">
+                          <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                          <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                          </div>
+
+                          <div class="market-pa-item">
+                          <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                          <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                          </div>
+                        </div>
+                        <div class="market-bets">
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+                  `);
+                  } else {
+                    res_content.append(`
                     <div class="search-ev-links-${0}">
                       <div class="s-ev-link">
                         <p class="font white">${data[i].NA}</p>
                       </div>
                     </div>
                   `);
+                  }
                 }
             }
         }
+        resolve();
+        }).then( () => {
+
+          function eSetClicked(el) {
+            $(el.target).removeClass('t-not-clicked');
+            $(el.target).addClass('t-clicked');
+            $(el.target).prop("onclick", null).off("click");
+
+            let marketDIV = $(el.target).parent().children('.t-market-group');
+            marketDIV.removeClass('not-active');
+            marketDIV.addClass('active');
+
+            $(el.target).on('click', (item) => {
+              eSetNotClicked(item);
+            });
+          }
+
+          function eSetNotClicked(el) {
+            $(el.target).removeClass('t-clicked');
+            $(el.target).addClass('t-not-clicked');
+            $(el.target).prop("onclick", null).off("click");
+
+            let marketDIV = $(el.target).parent().children('.t-market-group');
+            marketDIV.removeClass('active');
+            marketDIV.addClass('not-active');
+
+            $(el.target).on('click', (item) => {
+              eSetClicked(item);
+            });
+          }
+
+          $('.s-ev-link p.t-clicked').on('click', (el) => {
+            eSetNotClicked(el);
+          });
+        });
       }
 
       function renderSearch() {

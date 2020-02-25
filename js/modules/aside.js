@@ -158,11 +158,19 @@ exports('aside', (params, done) => {
 
             el.stopPropagation();
             if ($(el.target).data('id') == 'search') {
-              loadJsModules({
-                search: { loadCSS: true, loadLanguage: false },
-              });
-              aside.removeClass('active');
-              aside.addClass('not-active');
+              if (window.searchIsLoaded != true) {
+                loadJsModules({
+                  search: { loadCSS: true, loadLanguage: false },
+                });
+                window.searchIsLoaded = true;
+                aside.removeClass('active');
+                aside.addClass('not-active');
+              } else {
+                aside.removeClass('active');
+                aside.addClass('not-active');
+                $('.main-search-container').addClass('active');
+                $('.main-search-container').removeClass('not-active');
+              }
             } else {
               return false;
             }
@@ -439,11 +447,19 @@ exports('aside', (params, done) => {
 
             el.stopPropagation();
             if ($(el.target).data('id') == 'search') {
-              loadJsModules({
-                search: { loadCSS: true, loadLanguage: false },
-              });
-              aside.removeClass('active');
-              aside.addClass('not-active');
+              if (window.searchIsLoaded != true) {
+                loadJsModules({
+                  search: { loadCSS: true, loadLanguage: false },
+                });
+                window.searchIsLoaded = true;
+                aside.removeClass('active');
+                aside.addClass('not-active');
+              } else {
+                aside.removeClass('active');
+                aside.addClass('not-active');
+                $('.main-search-container').addClass('active');
+                $('.main-search-container').removeClass('not-active');
+              }
             } else {
               return false;
             }
@@ -541,11 +557,19 @@ exports('aside', (params, done) => {
 
           el.stopPropagation();
           if ($(el.target).data('id') == 'search') {
-            loadJsModules({
-              search: { loadCSS: true, loadLanguage: false },
-            });
-            aside.removeClass('active');
-            aside.addClass('not-active');
+            if (window.searchIsLoaded != true) {
+              loadJsModules({
+                search: { loadCSS: true, loadLanguage: false },
+              });
+              window.searchIsLoaded = true;
+              aside.removeClass('active');
+              aside.addClass('not-active');
+            } else {
+              aside.removeClass('active');
+              aside.addClass('not-active');
+              $('.main-search-container').removeClass('not-active');
+              $('.main-search-container').addClass('active');
+            }
           } else {
             return false;
           }
