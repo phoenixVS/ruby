@@ -147,3 +147,61 @@ ns: pt = N#o = 6 / 5#f = 86423099#fp = 595950360#so =#c = 1#mt = 2#id = 86423099
         </div>
       </div>
     </div>
+
+type: "CL"
+TK: "BEw"
+ID: "13"
+IT: "#AC#B13#C20689562#D7#E83#F4#"
+OR: "0"
+EX: "7,#AC#B13#C20689562#D7#E83#F4#@9,BETTINGNEWS13@15,<"
+ED: "1,#AS#B13#Q1#,0@2,#AS#B13#,1"
+H1: "1,#AS#B13#Q1#,0@2,#AS#B13#,1"
+H2: ""
+NA: ","
+PV: "300.0.198.0/MCC"
+
+type: "EV"
+IT: "13"
+OR: "0"
+TB: "Tennis,#AS#B13#¬ATP Acapulco,#ABM#B13#C20689562#D7#E83#F4#"
+EN: "1"
+
+type: "CL"
+TK: "B/0"
+ID: "13"
+IT: "#AC#B13#C20689562#D700#E130066#F4#"
+OR: "0"
+EX: "7,#AC#B13#C20689562#D700#E130066#F4#@9,BETTINGNEWS13@15,<"
+ED: "1,#AS#B13#Q1#,0@2,#AS#B13#,1"
+H1: "1,#AS#B13#Q1#,0@2,#AS#B13#,1"
+H2: ""
+NA: ","
+PV: "300.0.198.0/MCC"
+
+type: "EV"
+ID: "13"
+IT: "13"
+TB: "Tennis,#AS#B13#¬ATP Acapulco,#ABM#B13#C20689562#D700#E130066#F4#"
+EN: "1"
+NF: "86828101"
+CC: "20689562"
+
+
+// one more col
+type: "CL"
+TK: "2Tw"
+ID: "13"
+IT: "#AC#B13#C20689562#D7#E130104#F4#"
+OR: "0"
+EX: "7,#AC#B13#C20689562#D7#E130104#F4#@9,BETTINGNEWS13@15,<"
+ED: "1,#AS#B13#Q1#,0@2,#AS#B13#,1"
+H1: "1,#AS#B13#Q1#,0@2,#AS#B13#,1"
+H2: ""
+NA: ","
+PV: "300.0.198.0/MCC"
+
+type: "EV"
+IT: "13"
+OR: "0"
+TB: "Tennis,#AS#B13#¬ATP Acapulco,#ABM#B13#C20689562#D7#E130104#F4#"
+EN: "1"

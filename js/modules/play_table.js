@@ -137,7 +137,7 @@ exports('play_table', (params, done) => {
             const preloader = $('#page-preloader');
             preloader.removeClass('done');
             //if filter is active - remove it from hash
-            if (window.location.hash.split('/')[1] == 'sport') {
+            if ((window.location.hash.split('/')[1] == 'sport') || (window.location.hash.split('/')[1] == 'inplay')) {
               window.location.hash = '';
               window.location.hash += `/event/${id}`;
             }

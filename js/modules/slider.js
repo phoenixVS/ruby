@@ -1,4 +1,5 @@
 exports('slider', (params, done) => {
+  $('.slider').empty();
   insertHtmlModules({
     ".main .slider": [
       "slider/slider.html"

@@ -4,6 +4,9 @@
   font-weight: bold;
   border: 1px solid black;
 }
+.button.coefficient.selected span.m-white{
+  color: #33202B;
+}
 .betslip, .betslip-link {
   position: fixed;
   left: 50%;

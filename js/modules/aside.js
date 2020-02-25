@@ -21,7 +21,7 @@ exports('aside', (params, done) => {
       if (sessionStorage.getItem('aside') == 'inplay') {
         RenderAside(window.inplay);
       } else if (sessionStorage.getItem('aside') == 'sport') {
-        RenderAsideAll(window.inplay, window.prematch);
+        RenderAsideAll(window.inplay, window.prematch); RenderAsideAll
       } else if (sessionStorage.getItem('aside') == 'fav') {
         RenderAsideFav(window.inplay);
       } else {

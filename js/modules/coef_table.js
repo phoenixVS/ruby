@@ -111,92 +111,166 @@ exports('coef_table', (params, done) => {
             $(`[data-id=coef_table]`).addClass('event');
             data[0].MA.forEach(ma => {
               $(`[data-id=coef_table]`).append(`
-            <div data-id="row_info" data-row-status="not_active" data-coef-id="${ma.ID}" class="row info det" style="height: 50px; border-bottom: 0.5px solid black;">
-              <div class="cell">
-                <p data-coef-id="${ma.ID}" class="font">${ma.NA}</p>
-              </div>
-            </div>
-            `);
+                <div data-id="row_info" data-row-status="not_active" data-coef-id="${ma.ID}" class="row info det" style="height: 50px; border-bottom: 0.5px solid black;">
+                  <div class="cell">
+                    <p class="font">${ma.NA}</p>
+                  </div>
+                </div>
+                `);
             });
             resolve();
           });
-          rowsPromise.then((resolve) => {
-            const slideBetsRenderer = new Promise((resolve, reject) => {
-              $(`[data-id=row_info]`).on('click', (elem) => {
-                let cur = $(elem.target);
-                if (cur.is('p')) {
-                  cur = cur.parent().parent();
-                }
-                if (cur.data('rowStatus') == 'not_active') {
-                  cur.addClass('active');
-                  cur.removeClass('not-active');
-                  data[0].MA.forEach((ma) => {
-                    if (ma.ID == cur.data('coefId')) {
-                      let new_item = $(`<div data-id="coef_row" data-bet="${ma.ID}" class="row" style="height: auto;">
+          rowsPromise
+            .then(response => {
+              return new Promise((resolve, reject) => {
+                data[0].MA.map((ma) => {
+                  if (ma.DO == 1) {
+                    console.log(ma.ID);
+                    let cur = $(`[data-coef-id="${ma.ID}"]`);
+                    cur.addClass('active');
+                    cur.removeClass('not-active');
+                    data[0].MA.forEach((ma) => {
+                      if (ma.ID == cur.data('coefId')) {
+                        let new_item = $(`<div data-id="coef_row" data-bet="${ma.ID}" class="row" style="height: auto;">
                       </div>`).hide();
-                      cur.after(new_item);
-                      if (ma.CO.length > 1) {
-                        ma.CO.map(co => {
-                          const div = document.createElement('div');
-                          div.className = 'bets_column';
-                          div.appendChild(titleTemplateForBets(co));
-                          co.PA.map(pa => {
-                            div.appendChild(forEventDataColumnTemplate(pa, co.SY, data[0].NA, ma.NA, data[0].CL));
+                        cur.after(new_item);
+                        if (ma.CO.length > 1) {
+                          ma.CO.map(co => {
+                            const div = document.createElement('div');
+                            div.className = 'bets_column';
+                            div.appendChild(titleTemplateForBets(co));
+                            co.PA.map(pa => {
+                              div.appendChild(forEventDataColumnTemplate(pa, co.SY, data[0].NA, ma.NA, data[0].CL));
+                            });
+                            new_item.append(div)
                           });
-                          new_item.append(div)
-                        });
-                      }
-                      else {
-                        ma.CO[0].PA.forEach((pa) => {
-                          $(`[data-bet=${ma.ID}]`).append(`
+                        }
+                        else {
+                          ma.CO[0].PA.forEach((pa) => {
+                            $(`[data-bet=${ma.ID}]`).append(`
                           <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
                           <button style="padding-left: 10px;" class="button coefficient" data-eventNA="${data[0].NA}" data-cl="${data[0].CL}" data-marketNA="${ma.NA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}" class="button coefficient" >
                             <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${shortize(pa.N2 ? pa.N2 : pa.NA)}</span>
                             <span class="font coeff">${pa.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(pa.OD)}</span>
                           </button>
                         </div>`);
-                        });
-                        if (ma.CO[0].CN < ma.CO[0].PA.length) {
-                          $(`[data-bet=${ma.ID}]`).children('.cell').addClass('half-w');
+                          });
+                          if (ma.CO[0].CN < ma.CO[0].PA.length) {
+                            $(`[data-bet=${ma.ID}]`).children('.cell').addClass('half-w');
+                          }
                         }
+                        new_item.slideDown('fast');
+                        //RenderRows(cur.data('coefId'), ma);
                       }
-                      new_item.slideDown('fast');
-                      //RenderRows(cur.data('coefId'), ma);
+                    });
+                    $('[data-id=row_info]').css('position', 'relative');
+                    $(`[data-bet=${cur.data('coefId')}]`).css({
+                      position: 'relative',
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                    });
+                    $('[data-id=row_info]').children().css('position', 'relative');
+                    cur.data('rowStatus', 'active').attr('data-row-status', 'active');
+                  }
+                });
+                resolve();
+              })
+            })
+            .then((resolve) => {
+              const slideBetsRenderer = new Promise((resolve, reject) => {
+                $(`[data-id=row_info]`).on('click', (elem) => {
+                  const waitForBS = new Promise((resolve, reject) => {
+                    let cur = $(elem.target);
+                    if (cur.is('p')) {
+                      cur = cur.parent().parent();
                     }
+                    if (cur.data('rowStatus') == 'not_active') {
+                      cur.addClass('active');
+                      cur.removeClass('not-active');
+                      data[0].MA.forEach((ma) => {
+                        if (ma.ID == cur.data('coefId')) {
+                          let new_item = $(`<div data-id="coef_row" data-bet="${ma.ID}" class="row" style="height: auto;">
+                      </div>`).hide();
+                          cur.after(new_item);
+                          if (ma.CO.length > 1) {
+                            ma.CO.map(co => {
+                              const div = document.createElement('div');
+                              div.className = 'bets_column';
+                              div.appendChild(titleTemplateForBets(co));
+                              co.PA.map(pa => {
+                                div.appendChild(forEventDataColumnTemplate(pa, co.SY, data[0].NA, ma.NA, data[0].CL));
+                              });
+                              new_item.append(div)
+                            });
+                          }
+                          else {
+                            ma.CO[0].PA.forEach((pa) => {
+                              $(`[data-bet=${ma.ID}]`).append(`
+                          <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
+                          <button style="padding-left: 10px;" class="button coefficient" data-eventNA="${data[0].NA}" data-cl="${data[0].CL}" data-marketNA="${ma.NA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}" class="button coefficient" >
+                            <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${shortize(pa.N2 ? pa.N2 : pa.NA)}</span>
+                            <span class="font coeff">${pa.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(pa.OD)}</span>
+                          </button>
+                        </div>`);
+                            });
+                            if (ma.CO[0].CN < ma.CO[0].PA.length) {
+                              $(`[data-bet=${ma.ID}]`).children('.cell').addClass('half-w');
+                            }
+                          }
+                          new_item.slideDown('fast');
+                          //RenderRows(cur.data('coefId'), ma);
+                        }
+                      });
+                      $('[data-id=row_info]').css('position', 'relative');
+                      $(`[data-bet=${cur.data('coefId')}]`).css({
+                        position: 'relative',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                      });
+                      $('[data-id=row_info]').children().css('position', 'relative');
+                      cur.data('rowStatus', 'active').attr('data-row-status', 'active');
+                    }
+                    else {
+                      cur.removeClass('active');
+                      cur.addClass('not-active');
+                      coID = cur.data('coefId');
+                      $(`[data-bet=${coID}]`).slideUp(250, () => { $(`[data-bet=${coID}]`).remove(); });
+                      cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
+                    }
+                    resolve();
                   });
-                  $('[data-id=row_info]').css('position', 'relative');
-                  $(`[data-bet=${cur.data('coefId')}]`).css({
-                    position: 'relative',
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start',
+                  waitForBS
+                    .then(response => {
+                      // $('.betslip-link').empty();
+                      loadJsModules({
+                        betslip_link: { loadCSS: false, loadLanguage: false }
+                      });
+                    });
+                });
+                resolve();
+              });
+              slideBetsRenderer
+                .then(response => {
+                  return new Promise((resolve, reject) => {
+                    // data[0].MA.map((ma) => {
+                    //   if (ma.DO == 1) {
+                    //     console.log(ma.ID);
+                    //     $(`div.coeficient-table.event div[data-coef-id="${ma.ID}"`).trigger('click');
+                    //   }
+                    // });
+                    resolve();
                   });
-                  $('[data-id=row_info]').children().css('position', 'relative');
-                  cur.data('rowStatus', 'active').attr('data-row-status', 'active');
-                }
-                else {
-                  cur.removeClass('active');
-                  cur.addClass('not-active');
-                  coID = cur.data('coefId');
-                  $(`[data-bet=${coID}]`).slideUp(250, () => { $(`[data-bet=${coID}]`).remove(); });
-                  cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
-                }
-              });
-              data[0].MA.map((ma) => {
-                if (ma.DO == 1) {
-                  console.log(ma.ID);
-                  $(`div.coeficient-table.event div[data-coef-id="${ma.ID}"`).trigger('click');
-                }
-              });
-              resolve();
+                })
+                .then((response) => {
+                  loadJsModules({
+                    betslip_link: { loadCSS: false, loadLanguage: false }
+                  });
+                });
             });
-            slideBetsRenderer.then((response) => {
-              loadJsModules({
-                betslip_link: { loadCSS: true, loadLanguage: false }
-              });
-            });
-          });
         }
       });
     }

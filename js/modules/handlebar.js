@@ -70,6 +70,7 @@ function mainHandler() {
                     if ($('script[src="js/modules/header.js"]').length > 0) {
                         loadJsModules({
                             wsocket: { loadCSS: false, loadLanguage: false },
+                            slider: { loadCSS: true, loadLanguage: false },
                             play_big: { loadCSS: true, loadLanguage: false },
                             play_table: { loadCSS: true, loadLanguage: false },
                             coef_table: { loadCSS: true, loadLanguage: false },
@@ -226,6 +227,7 @@ function filterHandler(ID) {
                     let onModulesLoad = new Promise((resolve, reject) => {
                         loadJsModules({
                             live: { sportId: ID, loadCSS: false, loadLanguage: false },
+                            slider: { loadCSS: true, loadLanguage: false },
                             coef_table: { filtered: true, sportId: ID, loadCSS: false, loadLanguage: false },
                             play_big: { sportId: ID, loadCSS: true, loadLanguage: false },
                             play_table: { sportId: ID, loadCSS: true, loadLanguage: false },
@@ -316,6 +318,7 @@ function gameHandler(ID) {
     function go() {
         const fetchPromise = new Promise((resolve, reject) => {
             window.eventLoad(ID);
+            window.tableLoad();
             const wait = setInterval(() => {
                 if (window.event == undefined) { }
                 else {
