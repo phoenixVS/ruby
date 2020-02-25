@@ -126,7 +126,7 @@ exports('prematch_coupon', (params, done) => {
         });
         $('.prematch-table-filter .item:first-child').addClass('selected');
 
-        if (data[0].ID !== '1') {
+        if (data[0].ID !== '1' && data[0].ID !== '13') {
           let events = 0, bets = 0;
           data.MA.forEach((item, i) => {
             bets = 0;
@@ -227,7 +227,7 @@ exports('prematch_coupon', (params, done) => {
             $('.table-col.Teams').addClass('three');
           }
         }
-        else {   // Soccer && hockey
+        else {   // Soccer && Tennis
           let prevDate = 0;
           let play_table = $(`<div class="play-table table"></div>`);
           data.MA.forEach((item, i) => {
