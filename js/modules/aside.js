@@ -19,9 +19,9 @@ exports('aside', (params, done) => {
       RenderAside(window.inplay);
 
       if (sessionStorage.getItem('aside') == 'inplay') {
-          RenderAside(window.inplay);
+        RenderAside(window.inplay);
       } else if (sessionStorage.getItem('aside') == 'sport') {
-          RenderAsideAll(window.inplay, window.prematch);
+        RenderAsideAll(window.inplay, window.prematch);
       } else if (sessionStorage.getItem('aside') == 'fav') {
         RenderAsideFav(window.inplay);
       } else {
@@ -47,21 +47,21 @@ exports('aside', (params, done) => {
         $(`[data-id=aside]`).empty();
         $(`[data-id=aside]`).append(`
         <div class="search-container" data-id="search">
-        <div id="search" data-id="search">
-        <i class="fa fa-search" aria-hidden="true" id="search-icon" style="font-size: 20px; color: #fff" data-id="search"></i>
-  <form class="search-form" data-id="search">
-    <input type="text" id="search-input" placeholder="Search..." data-id="search">
-  </form>
-</div>
-</div>
-  <a data-id="aside-fav"class="[ favourite-category ] flex-container align-middle align-justify">
-    <span class="font">My favourites</span>
-    <span data-id="main-fav-star" class="star not-active:before active"></span>
-  </a>
-  <div class="[ tab-header border ] flex-container align-middle align-justify">
-    <a data-id="aside-live" class="[ tab-link active ]">In-play</a>
-    <a data-id="aside-all" class="[ tab-link ]">Sport</a>
-  </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
+          <div id="search" data-id="search">
+            <i class="fa fa-search" aria-hidden="true" id="search-icon" style="font-size: 20px; color: #fff" data-id="search"></i>
+            <form class="search-form" data-id="search">
+              <input type="text" id="search-input" placeholder="Search..." data-id="search">
+            </form>
+          </div>
+        </div>
+        <a data-id="aside-fav"class="[ favourite-category ] flex-container align-middle align-justify">
+          <span class="font">My favourites</span>
+          <span data-id="main-fav-star" class="star not-active:before active"></span>
+        </a>
+        <div class="[ tab-header border ] flex-container align-middle align-justify">
+          <a data-id="aside-live" class="[ tab-link active ]">In-play</a>
+          <a data-id="aside-all" class="[ tab-link ]">Sport</a>
+        </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
 
         /*
         let cks = JSON.parse(JSON.stringify(Cookies.get()));
@@ -282,7 +282,7 @@ exports('aside', (params, done) => {
         <a data-id="aside-live" class="[ tab-link ]">In-play</a>
         <a data-id="aside-all" class="[ tab-link active ]">Sport</a>
       </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
-      $(`[data-id=aside-ul]`).append(`
+        $(`[data-id=aside-ul]`).append(`
       <li id="0" data-id="liel" data-div="home" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
       <span class="sports--1" style="margin-left: 5px; "></span>
       <span class="font sport-name" style = "margin-left: 10px;">Home</span>

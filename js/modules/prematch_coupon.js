@@ -126,7 +126,7 @@ exports('prematch_coupon', (params, done) => {
         });
         $('.prematch-table-filter .item:first-child').addClass('selected');
 
-        if (data[0].ID !== '1' && data[0].ID !== '13') {
+        if (data[0].ID !== '1' && data[0].ID !== '13') { // Basketball, ice hockey etc.
           let events = 0, bets = 0;
           data.MA.forEach((item, i) => {
             bets = 0;
@@ -277,7 +277,20 @@ exports('prematch_coupon', (params, done) => {
                 </div>
                 `);
                 // append bet
-                play_table.children('.row:last-child').append(`
+                if (data[0].ID === '13') {
+                  // tennis
+                  play_table.children('.row:last-child').append(`
+                    <div class="cell" style="display: table-cell; min-width: 24%; max-width: 24%;">
+                      <button class="button coefficient ${data.MA[4].PA[i].OD == '0/0' ? 'disabled' : ''}">${data.MA[4].PA[i].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(data.MA[4].PA[i].OD)}</button> 
+                    </div> 
+                    <div class="cell" style="display: table-cell; min-width: 24%; max-width: 24%;"> 
+                      <button class="button coefficient ${data.MA[5].PA[i].OD == '0/0' ? 'disabled' : ''}">${data.MA[5].PA[i].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(data.MA[5].PA[i].OD)}</button>
+                    </div>
+                  `);
+                }
+                else {
+                  // soccer
+                  play_table.children('.row:last-child').append(`
                   <div class="cell" style="display: table-cell;">
                     <button class="button coefficient ${data.MA[5].PA[i].OD == '0/0' ? 'disabled' : ''}">${data.MA[5].PA[i].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(data.MA[5].PA[i].OD)}</button> 
                   </div> 
@@ -288,6 +301,7 @@ exports('prematch_coupon', (params, done) => {
                   <button class="button coefficient ${data.MA[7].PA[i].OD == '0/0' ? 'disabled' : ''}">${data.MA[7].PA[i].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(data.MA[7].PA[i].OD)}</button> 
                   </div>
                 `);
+                }
               });
             }
           });
