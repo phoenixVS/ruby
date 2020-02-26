@@ -12,9 +12,24 @@ exports('search', (params, done) => {
         });
     }
 
+    function getPAforMG(teamName, data) {
+      let PAarr = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].type == 'PA') {
+          let paNA = data[i].NA;
+          if (typeof paNA !== 'undefined') {
+            if (paNA.includes(teamName)) {
+              PAarr.push(paNA);
+            }
+          }
+        }
+      }
+      return PAarr;
+    }
+
     function RenderSearchResult(data) {
       new Promise((resolve, reject) => {
-        let choosen = false;
         let lastEV = '';
         let res_content = $('.search-result');
         res_content.empty();
@@ -59,11 +74,13 @@ exports('search', (params, done) => {
           } else if (data[i].type == 'MG') {
             if ($(res_content.children(`.search-ev-links-${i}`)).length) {
               if (lastEV == 'Teams') {
+                let PAarray = getPAforMG(data[i].NA, data);
+                let trimmedNA = data[i].NA.replace(/\s/g, '');
                 $(`.search-ev-links-${i}`).append(`
                     <div class="s-ev-link">
                       <p class="font white t-clicked">${data[i].NA}</p>
                       <div class="t-market-group active">
-                        <div class="market-pa">
+                        <div data-id="${trimmedNA}" class="market-pa">
                         <div class="market-pa-item">
                             <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
                             <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
@@ -79,6 +96,15 @@ exports('search', (params, done) => {
                       </div>
                     </div>
                   `);
+                  $(`[data-id=${trimmedNA}]`).empty();
+                  for (let m = 0; m < PAarray.length; m++) {
+                    $(`[data-id=${trimmedNA}]`).append(`
+                    <div class="market-pa-item">
+                      <span class="font m-white ellipsis" style="font-size: 15px;">${PAarray[m]}</span>
+                      <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                    </div>
+                    `);
+                  }
               } else {
                 $(`.search-ev-links-${i}`).append(`
                   <div class="s-ev-link">
@@ -88,12 +114,14 @@ exports('search', (params, done) => {
               }
             } else {
               if (lastEV == 'Teams') {
+                let PAarray = getPAforMG(data[i].NA, data);
+                let trimmedNA = data[i].NA.replace(/\s/g, '');
                 res_content.append(`
                     <div class="search-ev-links-${0}">
                       <div class="s-ev-link">
                         <p class="font white t-clicked">${data[i].NA}</p>
                         <div class="t-market-group active">
-                        <div class="market-pa">
+                        <div data-id="${trimmedNA}"class="market-pa">
                           <div class="market-pa-item">
                           <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
                           <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
@@ -110,6 +138,15 @@ exports('search', (params, done) => {
                       </div>
                     </div>
                   `);
+                    $(`[data-id=${trimmedNA}]`).empty();
+                  for (let m = 0; m < PAarray.length; m++) {
+                    $(`[data-id=${trimmedNA}]`).append(`
+                    <div class="market-pa-item">
+                      <span class="font m-white ellipsis" style="font-size: 15px;">${PAarray[m]}</span>
+                      <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                    </div>
+                    `);
+                  }
               } else {
                 res_content.append(`
                     <div class="search-ev-links-${0}">
