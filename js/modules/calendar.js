@@ -358,12 +358,14 @@ exports('calendar', (params, done) => {
               });
             }); */
 
-            $("body").click(function (e) {
+            /*$("body").click(function (e) {
+              
               if ($(e.target).closest(`[data-id=calendarContainer]`).length != 0) return false; // disable trigger on first click to log in
               if ($(e.target).closest(`[data-id=calendarContainer]`).length != 0) return false; // disable trigger on login popup
               $('.calendarContainer').fadeOut().remove("active");
               $('.blur').removeClass('block').addClass('none');
-            });
+              
+            });*/
 
             const dropdowns = $(".dropdown");
             const days = $('.dropdown-days');

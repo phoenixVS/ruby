@@ -170,6 +170,17 @@ exports('aside', (params, done) => {
                 aside.addClass('not-active');
                 $('.main-search-container').addClass('active');
                 $('.main-search-container').removeClass('not-active');
+
+                let vh = window.innerHeight * 0.01;
+                console.log(vh);
+        // Then we set the value in the --vh custom property to the root of the document
+                document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
+        // We listen to the resize event
+                window.addEventListener('resize', () => {
+          // We execute the same script as before
+                let vh = window.innerHeight * 0.01;
+                document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
+        });
               }
             } else {
               return false;
@@ -459,6 +470,16 @@ exports('aside', (params, done) => {
                 aside.addClass('not-active');
                 $('.main-search-container').addClass('active');
                 $('.main-search-container').removeClass('not-active');
+                let vh = window.innerHeight * 0.01;
+                console.log(vh);
+        // Then we set the value in the --vh custom property to the root of the document
+                document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
+        // We listen to the resize event
+                window.addEventListener('resize', () => {
+          // We execute the same script as before
+                let vh = window.innerHeight * 0.01;
+                document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
+        });
               }
             } else {
               return false;
@@ -569,6 +590,17 @@ exports('aside', (params, done) => {
               aside.addClass('not-active');
               $('.main-search-container').removeClass('not-active');
               $('.main-search-container').addClass('active');
+
+              let vh = window.innerHeight * 0.01;
+                console.log(vh);
+        // Then we set the value in the --vh custom property to the root of the document
+                document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
+        // We listen to the resize event
+                window.addEventListener('resize', () => {
+          // We execute the same script as before
+                let vh = window.innerHeight * 0.01;
+                document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
+        });
             }
           } else {
             return false;

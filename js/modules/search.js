@@ -91,8 +91,7 @@ exports('search', (params, done) => {
                           <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
                           </div>
                         </div>
-                        <div class="market-bets">
-                        </div>
+                        
                       </div>
                     </div>
                   `);
@@ -117,7 +116,10 @@ exports('search', (params, done) => {
                 let PAarray = getPAforMG(data[i].NA, data);
                 let trimmedNA = data[i].NA.replace(/\s/g, '');
                 res_content.append(`
-                    <div class="search-ev-links-${0}">
+                    <div class="search-ev-links-${0}" style="display: block;
+                    width: 100%;
+                    height: auto;
+                    min-height: 44px;">
                       <div class="s-ev-link">
                         <p class="font white t-clicked">${data[i].NA}</p>
                         <div class="t-market-group active">
@@ -132,8 +134,7 @@ exports('search', (params, done) => {
                           <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
                           </div>
                         </div>
-                        <div class="market-bets">
-                        </div>
+                        
                       </div>
                       </div>
                     </div>
@@ -149,7 +150,10 @@ exports('search', (params, done) => {
                   }
               } else {
                 res_content.append(`
-                    <div class="search-ev-links-${0}">
+                    <div class="search-ev-links-${0}" style="display: block;
+                    width: 100%;
+                    height: auto;
+                    min-height: 44px;">
                       <div class="s-ev-link">
                         <p class="font white">${data[i].NA}</p>
                       </div>
@@ -283,6 +287,7 @@ exports('search', (params, done) => {
       renderPromise.then(() => {
         // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
         let vh = window.innerHeight * 0.01;
+        console.log(vh);
         // Then we set the value in the --vh custom property to the root of the document
         document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
         // We listen to the resize event

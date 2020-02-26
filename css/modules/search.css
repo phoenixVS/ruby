@@ -209,11 +209,11 @@
     font-weight: 200;
 }
 
-.search-ev-links {
+.search-ev-links-0 {
     display: block;
     width: 100%;
     height: auto;
-    padding-bottom: 10px;
+    min-height: 44px;
 }
 
 .s-ev-link {
@@ -264,7 +264,7 @@
 .t-market-group {
     width: 100%;
     height: auto;
-    min-height: px;
+    min-height: 60px;
     display: flex;
     flex-direction: row;
 }
