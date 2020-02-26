@@ -158,8 +158,10 @@ exports('betslip_link', (params, done) => {
       BetslipItem.SU = cur.data(`su`);
       BetslipList.push(BetslipItem);
       const date = new Date();
-      const timestamp = date.getTime();
+      let timestamp = date.getTime();
+      timestamp = Math.round(timestamp / 1000);
       let tsToHex = timestamp.toString(16);
+      console.log(tsToHex);
       Cookies.set('pa_' + cur[0].dataset.id,
         'pt=N#'
         + 'o=' + BetslipItem.OD + '#'

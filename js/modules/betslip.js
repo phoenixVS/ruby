@@ -21,6 +21,22 @@ exports('betslip', (params, done) => {
     }
     return counter;
   }
+  if (typeof params.update !== 'undefined') {
+    const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+    const keys = Object.keys(parsedCookies);
+    for (name of keys) {
+      if (name.substring(0, 3) == 'pa_') {
+        const date = new Date();
+        let timestamp = date.getTime();
+        timestamp = Math.round(timestamp / 1000);
+        let tsToHex = timestamp.toString(16);
+        console.log(tsToHex);
+        let old = /sa=(.*)#|FO/i.exec(parsedCookies[name])[1].substring(0, 8);
+        console.log('old:', old);
+        Cookies.set(name, parsedCookies[name].replace(old, tsToHex));
+      }
+    }
+  }
   let ns = '', ms = '||';
   const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
   const keys = Object.keys(parsedCookies);
