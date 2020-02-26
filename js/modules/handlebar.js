@@ -511,67 +511,102 @@ function prematchHandler(ID, optID, eventID) {
 
 function calendarHandler() {
     $(`[data-id=calendarContainer]`).empty();
-    if (performance.navigation.type == 1) {
-        loadJsModules({
-            header: { loadCSS: true, loadLanguage: false },
-            aside: { loadCSS: false, loadLanguage: false },
-            langs: { loadCSS: false, loadLanguage: false },
-        });
-    }
-
     let onModulesLoad = new Promise((resolve, reject) => {
-        loadJsModules({
-            calendar: { loadCSS: true, loadLanguage: false },
-        });
-        resolve();
+        if (performance.navigation.type == 1) {
+            const fetchPromise = new Promise((resolve, reject) => {
+                loadJsModules({
+                    fetch: { loadCSS: false, loadLanguage: false },
+                });
+                setTimeout(() => {
+                    resolve();
+                }, 200);
+
+            });
+            fetchPromise.then(
+                response => {
+                    return new Promise((resolve, reject) => {
+                        window.sportsLoad();
+                        window.tableLoad();
+                        resolve();
+                    });
+                }
+            ).then(
+                response => {
+                    loadJsModules({
+                        header: { loadCSS: true, loadLanguage: false },
+                        aside: { loadCSS: true, loadLanguage: false },
+                        langs: { loadCSS: false, loadLanguage: false },
+                    });
+                    resolve();
+                }
+            )
+
+        }
+
+        else {
+
+            resolve();
+        }
+
     });
 
-    onModulesLoad.then(
-        result => {
-            const mybets = $(`[data-id=mybets]`);
-            const user_menu = $(`[data-id=user-menu]`);
-            const slider = $(`[data-id=slider]`);
-            const formWrapper = $(`[data-id=registrationWrapper]`);
-            const play_big = $(`[data-id=play-big]`);
-            const coef_table = $(`[data-id=coef_table]`);
-            const play_table = $(`[data-id=play-table]`);
-            const live = $(`[data-id=live]`);
-            const game = $(`[data-id=game]`);
-            const betslip = $(`[data-id=betslip]`);
-            const betslip_link = $(`[data-id=betslip-link]`);
-            const betslip_small = $(`[data-id=betslip-small]`);
-            const regist = $('[data-id=regist]');
-            const calendar = $('.calendarContainer');
-            const prematch = $('.prematch');
-            const lurks = [
-                mybets,
-                game,
-                betslip,
-                betslip_link,
-                betslip_small,
-                play_big,
-                coef_table,
-                play_table,
-                live,
-                slider,
-                user_menu,
-                regist,
-                prematch,
-            ];
-            const unlurks = [
-                calendar,
-                formWrapper,
-            ];
-            lurking(lurks, unlurks);
-            mybets.empty();
-            user_menu.empty();
-            game.empty();
-            regist.empty();
-        },
-        error => {
-            console.log(`modules haven't been loaded :_( \n
+    onModulesLoad
+        .then(
+            result => {
+                return new Promise((resolve, reject) => {
+                    loadJsModules({
+                        calendar: { loadCSS: true, loadLanguage: false },
+                    });
+                    resolve();
+                });
+
+            })
+        .then(
+            result => {
+                const mybets = $(`[data-id=mybets]`);
+                const user_menu = $(`[data-id=user-menu]`);
+                const slider = $(`[data-id=slider]`);
+                const formWrapper = $(`[data-id=registrationWrapper]`);
+                const play_big = $(`[data-id=play-big]`);
+                const coef_table = $(`[data-id=coef_table]`);
+                const play_table = $(`[data-id=play-table]`);
+                const live = $(`[data-id=live]`);
+                const game = $(`[data-id=game]`);
+                const betslip = $(`[data-id=betslip]`);
+                const betslip_link = $(`[data-id=betslip-link]`);
+                const betslip_small = $(`[data-id=betslip-small]`);
+                const regist = $('[data-id=regist]');
+                const calendar = $('.calendarContainer');
+                const prematch = $('.prematch');
+                const lurks = [
+                    mybets,
+                    game,
+                    betslip,
+                    betslip_link,
+                    betslip_small,
+                    play_big,
+                    coef_table,
+                    play_table,
+                    live,
+                    slider,
+                    user_menu,
+                    regist,
+                    prematch,
+                ];
+                const unlurks = [
+                    calendar,
+                    formWrapper,
+                ];
+                lurking(lurks, unlurks);
+                mybets.empty();
+                user_menu.empty();
+                game.empty();
+                regist.empty();
+            },
+            error => {
+                console.log(`modules haven't been loaded :_( \n
         and everthing because of: ${error}`);
-        });
+            });
 }
 
 // registration page load
