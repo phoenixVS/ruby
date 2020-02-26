@@ -214,6 +214,7 @@
     width: 100%;
     height: auto;
     min-height: 44px;
+    max-height: 132px;
 }
 
 .s-ev-link {
@@ -221,6 +222,7 @@
     width: 100%;
     height: auto;
     min-height: 44px;
+    max-height: 132px;
     flex-direction: column;
     padding-left: 10px;
     padding-top: 10px;
