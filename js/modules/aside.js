@@ -162,6 +162,10 @@ exports('aside', (params, done) => {
                 loadJsModules({
                   search: { loadCSS: true, loadLanguage: false },
                 });
+                window.searchIsLoaded = true;
+                aside.removeClass('active');
+                aside.addClass('not-active');
+
                 let vh = window.innerHeight * 0.01;
                 console.log(vh);
         // Then we set the value in the --vh custom property to the root of the document
@@ -172,11 +176,6 @@ exports('aside', (params, done) => {
                 let vh = window.innerHeight * 0.01;
                 document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
         });
-                window.searchIsLoaded = true;
-                aside.removeClass('active');
-                aside.addClass('not-active');
-
-                
               } else {
                 aside.removeClass('active');
                 aside.addClass('not-active');
