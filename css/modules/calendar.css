@@ -2,13 +2,16 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
   background-color: #33202b;
 }
 
 .calendarContent {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 120px;
   overflow: hidden;
 }
 
@@ -19,6 +22,7 @@
   padding-right: 15px;
   padding-left: 15px;
   margin-bottom: 1px;
+  overflow: visible;
 }
 
 .select-menu {
@@ -77,7 +81,7 @@
     position: absolute;
     width: 100%;
   }
-  .select-menu button em {
+  /* .select-menu button em {
     --r: 45deg;
     display: block;
     position: absolute;
@@ -86,8 +90,22 @@
     width: 7px;
     height: 7px;
     margin-top: -4px;
+  } */
+  
+  /* .dropdown dt a span em, .dropdown-days dt a span em{
+    --r: 45deg;
+    display: block;
+    position: absolute;
+    right: 25px;
+    top: 66%;
+    width: 7px;
+    height: 7px;
+    margin-top: -4px;
   }
-  .select-menu button em:before {
+  .dropdown dt a span em, .dropdown-days dt a span em {
+
+  } */
+  /* .select-menu button em:before, .dropdown dt a span em:before, .dropdown-days dt a span em:before{
     content: '';
     width: 7px;
     height: 7px;
@@ -96,7 +114,7 @@
             transform: rotate(var(--r)) scale(0.75);
     border-right: 2px solid var(--icon);
     border-bottom: 2px solid var(--icon);
-  }
+  } */
   .select-menu.vertical button div {
     display: flex;
   }
@@ -382,7 +400,7 @@
     }
   }
 
-  .dropdown {
+  .dropdown, .dropdown-days {
     width: 100%;
     margin-top: 5px;
     margin-bottom: 1em;
@@ -393,7 +411,7 @@
       --shadow: rgba(18, 22, 33, .2);
   }
   
-  .dropdown dt a {
+  .dropdown dt a, .dropdown-days dt a{
     display: block;
     height: 2.5em;
     width: 100%;
@@ -403,7 +421,7 @@
     text-align: left;
     text-transform: none;
   }
-  .dropdown dt span {
+  .dropdown dt span, .dropdown-days dt span {
     display: block;
     padding: 0 1em;
     line-height: 2.5em;
@@ -412,16 +430,18 @@
     border: 1px solid #fff;
     border-radius: 6px;
   }
-  .dropdown dd {
+  .dropdown dd, .dropdown-days dd {
     position: relative;
   }
-  .dropdown dd ul {
+  .dropdown dd ul, .dropdown-days dd ul {
     display: none;
-    position: absolute;
-    left: 0;
-    top: -2.5em;
-    width: 100%;
-    max-height: 280px;
+    position: fixed;
+    left: 5px;
+    right: 5px;
+    bottom: 0;
+    transform: translateX(2%);
+    width: 95%;
+    max-height: 300px;
     overflow: scroll;
     list-style: none;
     background: #fff;
@@ -433,7 +453,7 @@
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
   }
-  .dropdown dd li a {
+  .dropdown dd li a, .dropdown-days dd li a {
     display: block;
     padding: 0 1em;
     line-height: 2.5em;
@@ -446,7 +466,7 @@
     border-bottom: 0.7px solid #ecf0f1
   }
 
-  .game-list {
+  .game-list{
     width: 100%;
     height: auto;
     border-top: 2px solid #c8304d;

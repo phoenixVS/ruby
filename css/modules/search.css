@@ -7,6 +7,7 @@
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     width: 100vw;
     overflow-y: none;
     background-color: #33202b;

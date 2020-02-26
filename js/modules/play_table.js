@@ -160,6 +160,7 @@ exports('play_table', (params, done) => {
           const preloader = $('#page-preloader');
           if (preloader.data(`status`) != 'done') {
             preloader.addClass('done');
+            preloader.removeClass('opaci');
             preloader.data(`status`, 'done').attr('data-status', 'done');
           }
 

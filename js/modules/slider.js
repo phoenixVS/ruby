@@ -35,16 +35,16 @@ exports('slider', (params, done) => {
             data.forEach((el) => {
               if (el.CT) {
                 sliderWrapper.append(`
-            <a data-id="${parseInt(el.ID)}"
-              data-name="${el.NA}"
-              data-order="${parseInt(el.OR)}"
-              data-topic-id="${el.IT}"
-              class="[ slider-link ]"
-              href="#/inplay/${el.ID}">
-              <span class="sports-${parseInt(el.ID) + 3} [ slider-icon ]">
-              <p class="slider-text">${shortize(el.NA)}</p><span>
-            </a>
-            `);
+                <a data-id="${parseInt(el.ID)}"
+                  data-name="${el.NA}"
+                  data-order="${parseInt(el.OR)}"
+                  data-topic-id="${el.IT}"
+                  class="[ slider-link ]"
+                  href="#/inplay/${el.ID}">
+                  <span class="sports-${parseInt(el.ID) + 3} [ slider-icon ]">
+                  <p class="slider-text">${shortize(el.NA)}</p><span>
+                </a>
+              `);
               }
             });
             resolve();
@@ -56,8 +56,14 @@ exports('slider', (params, done) => {
         renderSlider
           .then(response => {
             let activeLink = window.location.hash.split('/')[2];
-            document.querySelector(`.slider-link`).classList.remove('active');
-            document.querySelector(`.slider-link[data-id="${activeLink}"]`).classList.add('active');
+            if (typeof activeLink !== 'undefined') {
+              document.querySelector(`.slider-link`).classList.remove('active');
+              document.querySelector(`.slider-link[data-id="${activeLink}"]`).classList.add('active');
+            }
+            else {
+              document.querySelector(`.slider-link`).classList.remove('active');
+              document.querySelector(`.slider-wrapper .slider-link:first-child`).classList.add('active');
+            }
           });
       }
     })(0);

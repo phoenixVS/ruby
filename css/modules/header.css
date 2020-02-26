@@ -7,3 +7,11 @@
 .languages {
     z-index: 100;
 }
+.time-wrapper {
+    display: inline-flex;
+}
+span[data-id='calendar']{
+    margin-left: 10px;
+    /* align-self: flex-start; */
+    /* text-align: left; */
+}
