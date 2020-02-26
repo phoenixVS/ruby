@@ -89,6 +89,7 @@ exports('calendar', (params, done) => {
           $(`<div class="game-list">
                 <ul class="game-list-ul">
                 </ul>
+                <div class="filter-blur"></div>
               </div>
               <div class="calendarContent" style="display: inline-table">
                 <div class="selectors">
@@ -111,6 +112,7 @@ exports('calendar', (params, done) => {
                       </ul>
                     </dd>
                   </dl>
+                  
               </div>
           `).prependTo('[data-id="calendarContainer"]').fadeIn('middle');
           resolve();
@@ -166,7 +168,6 @@ exports('calendar', (params, done) => {
             }
           });
           renderLayout.then(() => {
-
             $('select[data-menu]').each(function () {
 
               let select = $(this),
@@ -379,7 +380,7 @@ exports('calendar', (params, done) => {
               $(this).next().children().toggle();
             });
 
-            // Click handler for dropdown
+            // Click handler for dropdown-days
             days.find("dd ul li a").click(function () {
               var leSpan = $(this).parents(".dropdown-days").find("dt a span");
               let sportId = $(this).data(`sportId`);
@@ -403,18 +404,35 @@ exports('calendar', (params, done) => {
                     sportName = sport.NA;
                   }
                 });
-
-                tree.DD.map((day) => {
-                  if (day.DD == setDate) {
-                    for (ev of day.EV) {
-                      if (ev.CL == sportName) {
-                        $('.game-list-ul').append(`
-                        <li><a class="calendar-list-time">${ev.SM}</a><a class="calendar-list-font">${ev.NA}</a></li>
-                      `);
+                if (sportName.length == 0) {
+                  sportName = 'All sports';
+                }
+                console.log(sportName.length);
+                if (sportName !== 'All sports') {
+                  tree.DD.map((day) => {
+                    if (day.DD == setDate) {
+                      for (ev of day.EV) {
+                        if (ev.CL == sportName) {
+                          $('.game-list-ul').append(`
+                          <li><a class="calendar-list-time">${ev.SM}</a><a class="calendar-list-font">${ev.NA}</a></li>
+                        `);
+                        }
                       }
                     }
-                  }
-                });
+                  });
+                }
+                else {
+                  tree.DD.map((day) => {
+                    if (day.DD == setDate) {
+                      for (ev of day.EV) {
+                        $('.game-list-ul').append(`
+                          <li><a class="calendar-list-time">${ev.SM}</a><a class="calendar-list-font">${ev.NA}</a></li>
+                        `);
+                      }
+                    }
+                  });
+                }
+
               }, 300);
 
               // If back to default, remove selected class else addclass on right element

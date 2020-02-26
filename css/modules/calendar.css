@@ -16,6 +16,10 @@
 }
 
 .selectors {
+  display: flex;
+  z-index: 5;
+  flex-direction: column;
+  justify-content: flex-end;
   width: 100%;
   height: 120px;
   padding-top: 20px;
@@ -23,8 +27,18 @@
   padding-left: 15px;
   margin-bottom: 1px;
   overflow: visible;
+  background-color: rgba(0, 0, 2, .8);
+  /* filter: blur(4px); */
 }
-
+/* .game-list .filter-blur {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  height: 120px;
+  width: 100%;
+  filter: blur(4px);
+} */
 .select-menu {
     --background: #fff;
     --text: #171C28;
