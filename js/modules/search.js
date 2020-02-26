@@ -91,8 +91,7 @@ exports('search', (params, done) => {
                           <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
                           </div>
                         </div>
-                        <div class="market-bets">
-                        </div>
+                        
                       </div>
                     </div>
                   `);
@@ -132,8 +131,7 @@ exports('search', (params, done) => {
                           <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
                           </div>
                         </div>
-                        <div class="market-bets">
-                        </div>
+                        
                       </div>
                       </div>
                     </div>
