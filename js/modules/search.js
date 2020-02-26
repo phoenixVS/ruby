@@ -116,7 +116,10 @@ exports('search', (params, done) => {
                 let PAarray = getPAforMG(data[i].NA, data);
                 let trimmedNA = data[i].NA.replace(/\s/g, '');
                 res_content.append(`
-                    <div class="search-ev-links-${0}">
+                    <div class="search-ev-links-${0}" style="display: block;
+                    width: 100%;
+                    height: auto;
+                    min-height: 44px;">
                       <div class="s-ev-link">
                         <p class="font white t-clicked">${data[i].NA}</p>
                         <div class="t-market-group active">
@@ -147,7 +150,10 @@ exports('search', (params, done) => {
                   }
               } else {
                 res_content.append(`
-                    <div class="search-ev-links-${0}">
+                    <div class="search-ev-links-${0}" style="display: block;
+                    width: 100%;
+                    height: auto;
+                    min-height: 44px;">
                       <div class="s-ev-link">
                         <p class="font white">${data[i].NA}</p>
                       </div>
