@@ -30,26 +30,35 @@ exports('slider', (params, done) => {
       }
 
       function renderSlider(data) {
-        if (data) {
-          data.forEach((el) => {
-            if (el.CT) {
-              sliderWrapper.append(`
-          <a data-id="${parseInt(el.ID)}"
-            data-name="${el.NA}"
-            data-order="${parseInt(el.OR)}"
-            data-topic-id="${el.IT}"
-            class="[ slider-link ]"
-            href="#/inplay/${el.ID}">
-            <span class="sports-${parseInt(el.ID) + 3} [ slider-icon ]">
-            <p class="slider-text">${shortize(el.NA)}</p><span>
-          </a>
-          `);
-            }
+        const renderSlider = new Promise((resolve, reject) => {
+          if (data) {
+            data.forEach((el) => {
+              if (el.CT) {
+                sliderWrapper.append(`
+            <a data-id="${parseInt(el.ID)}"
+              data-name="${el.NA}"
+              data-order="${parseInt(el.OR)}"
+              data-topic-id="${el.IT}"
+              class="[ slider-link ]"
+              href="#/inplay/${el.ID}">
+              <span class="sports-${parseInt(el.ID) + 3} [ slider-icon ]">
+              <p class="slider-text">${shortize(el.NA)}</p><span>
+            </a>
+            `);
+              }
+            });
+            resolve();
+          }
+          else {
+            alert('DATA 404');
+          }
+        });
+        renderSlider
+          .then(response => {
+            let activeLink = window.location.hash.split('/')[2];
+            document.querySelector(`.slider-link`).classList.remove('active');
+            document.querySelector(`.slider-link[data-id="${activeLink}"]`).classList.add('active');
           });
-        }
-        else {
-          alert('DATA 404');
-        }
       }
     })(0);
     done();

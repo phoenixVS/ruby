@@ -2,6 +2,10 @@
     font-size: 11px;
 }
 
+.slider-link.active {
+    color: #fff;
+}
+
 .sports-4:before{margin-left: 5px;}
 .sports-1:before{margin-left: 5px;}
 .sports-5:before{margin-left: 5px;}

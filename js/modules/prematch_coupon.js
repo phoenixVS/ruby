@@ -19,6 +19,13 @@ exports('prematch_coupon', (params, done) => {
       const url = encodeURIComponent(pd);
       return url
     }
+
+    // Convert fractial to decimal
+    modifyBets = (od) => {
+      const nums = od.split('/');
+      return (nums[0] / nums[1] + 1).toFixed(2)
+    };
+
     let url = 'http://bestline.bet/sports/?PD=';
     url += PD;
 
@@ -134,8 +141,6 @@ exports('prematch_coupon', (params, done) => {
               // teams
               let col_name = item.NA;
               if ((item.PY == 'di' || item.PY == 'do') && item.SY == 'ccl' && item.NA == ' ' && $('.tableWrapper .table-col').length == 0) {
-                console.log();
-                console.log(transformDay(item.PA[0].BC));
                 $('.tableWrapper').append(`
                   <div class="table-col Teams" data-id="${item.ID}" data-it="${item.IT}">
                     <div class="col-label flex-container align-center ${item.NA}">
