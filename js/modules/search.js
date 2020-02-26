@@ -124,10 +124,7 @@ exports('search', (params, done) => {
         }
         resolve();
       }).then(() => {
-        // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
-        let vh = window.innerHeight * 0.01;
-        // Then we set the value in the --vh custom property to the root of the document
-        document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
+
         function eSetClicked(el) {
           $(el.target).removeClass('t-not-clicked');
           $(el.target).addClass('t-clicked');
@@ -247,6 +244,16 @@ exports('search', (params, done) => {
         }
       });
       renderPromise.then(() => {
+        // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+        let vh = window.innerHeight * 0.01;
+        // Then we set the value in the --vh custom property to the root of the document
+        document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
+        // We listen to the resize event
+        window.addEventListener('resize', () => {
+          // We execute the same script as before
+          let vh = window.innerHeight * 0.01;
+          document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
+        });
         console.log('search then done');
         $('.search-close').on('click', (el) => {
           console.log('Exit');
