@@ -484,9 +484,6 @@
     height: auto;
     border-top: 2px solid #c8304d;
     overflow: auto;
-    border-bottom: 1px solid #ccc;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
   }
 
   .calendar-list-font {
