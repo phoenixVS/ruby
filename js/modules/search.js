@@ -8,6 +8,8 @@ exports('search', (params, done) => {
       fetch(URL)
         .then((res) => res.json())
         .then((data) => {
+          window.searchDATA = Tree(data);
+          console.log(window.searchDATA);
           RenderSearchResult(data);
         });
     }
@@ -26,6 +28,60 @@ exports('search', (params, done) => {
         }
       }
       return PAarr;
+    }
+
+    function getCoefsSoccer(data, teamName, machName) {
+      let firstArr;
+      let secArr;
+      for (let i = 0; i < data.CL[0].EV[0].MG.length; i++) {
+        if (data.CL[0].EV[0].MG[i].NA == teamName) {
+          let order;
+          for (let j = 0; j < data.CL[0].EV[0].MG[i].MA[0].PA.length; j++) {
+            if (data.CL[0].EV[0].MG[i].MA[0].PA[j].NA == machName) {
+              order = j;
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    function Tree(data) {
+      this.data = {};
+      this.data.CL = [];
+
+      let CL;
+      let EV;
+      let MG;
+      let MA;
+
+      data.forEach(item => {
+          if (item.type === 'CL'){
+              CL = item;
+              CL.EV = [];
+              this.data.CL.push(item)
+          }
+          if (item.type === 'EV'){
+              EV = item;
+              EV.MG = [];
+              CL.EV.push(item);
+          }
+          if (item.type === 'MG'){
+              MG = item;
+              MG.MA = [];
+              EV.MG.push(MG)
+          }
+          if (item.type === 'MA'){
+              MA = item;
+              MA.PA = [];
+              MG.MA.push(MA)
+          }
+          if (item.type === 'PA'){
+              MA.PA.push(item)
+          }
+      });
+
+      return this.data;
     }
 
     function RenderSearchResult(data) {
@@ -82,16 +138,17 @@ exports('search', (params, done) => {
                       <div class="t-market-group active">
                         <div data-id="${trimmedNA}" class="market-pa">
                         <div class="market-pa-item">
+                          <div>
                             <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
                             <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
-                          </div>
+                          </div>                        
+                        </div>
 
                           <div class="market-pa-item">
                           <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
                           <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
                           </div>
                         </div>
-                        
                       </div>
                     </div>
                   `);
@@ -99,8 +156,30 @@ exports('search', (params, done) => {
                   for (let m = 0; m < PAarray.length; m++) {
                     $(`[data-id=${trimmedNA}]`).append(`
                     <div class="market-pa-item">
+                    <div class="pa-item-names">
                       <span class="font m-white ellipsis" style="font-size: 15px;">${PAarray[m]}</span>
                       <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                    </div>
+                    <div class="pa-item-bets">
+                    <div class="bet-cell">
+                    <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                    align-items: flex-start; padding-bottom: 22px">
+                    1
+                    </button>
+                  </div>  
+                  <div class="bet-cell">
+                  <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                  align-items: flex-start; padding-bottom: 22px">
+                  x
+                  </button>
+                  </div>  
+                  <div class="bet-cell">
+                  <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                  align-items: flex-start; padding-bottom: 22px">
+                  2
+                  </button>
+                  </div>   
+                    </div>
                     </div>
                     `);
                   }
@@ -116,7 +195,7 @@ exports('search', (params, done) => {
                 let PAarray = getPAforMG(data[i].NA, data);
                 let trimmedNA = data[i].NA.replace(/\s/g, '');
                 res_content.append(`
-                    <div class="search-ev-links-${0}" style="display: block;
+                    <div class="search-ev-links-${0}" style="
                     width: 100%;
                     height: auto;
                     min-height: 44px;">
@@ -134,7 +213,6 @@ exports('search', (params, done) => {
                           <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
                           </div>
                         </div>
-                        
                       </div>
                       </div>
                     </div>
@@ -143,8 +221,30 @@ exports('search', (params, done) => {
                   for (let m = 0; m < PAarray.length; m++) {
                     $(`[data-id=${trimmedNA}]`).append(`
                     <div class="market-pa-item">
-                      <span class="font m-white ellipsis" style="font-size: 15px;">${PAarray[m]}</span>
-                      <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                      <div class="pa-item-names">
+                        <span class="font m-white ellipsis" style="font-size: 15px;">${PAarray[m]}</span>
+                        <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                      </div>
+                      <div class="pa-item-bets">
+                      <div class="bet-cell">
+                        <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                        align-items: flex-start; padding-bottom: 22px">
+                        1
+                        </button>
+                      </div>  
+                      <div class="bet-cell">
+                      <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                      align-items: flex-start; padding-bottom: 22px">
+                      x
+                      </button>
+                      </div>  
+                      <div class="bet-cell">
+                      <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                      align-items: flex-start; padding-bottom: 22px">
+                      2
+                      </button>
+                      </div>  
+                      </div>
                     </div>
                     `);
                   }

@@ -210,7 +210,6 @@
 }
 
 .search-ev-links-0 {
-    display: block;
     width: 100%;
     height: auto;
     min-height: 44px;
@@ -222,6 +221,7 @@
     width: 100%;
     height: auto;
     min-height: 44px;
+    line-height: normal;
     flex-direction: column;
     padding-left: 10px;
     padding-top: 10px;
@@ -240,6 +240,14 @@
     color: #fff;
     position: relative;
     margin-left: 10px;
+}
+
+.s-ev-link p.t-clicked {
+    line-height: normal;
+}
+
+.s-ev-link p.t-not-clicked {
+    line-height: normal;
 }
 
 .s-ev-link p.t-not-clicked::after {
@@ -284,19 +292,32 @@
 
 .market-pa {
     height: 100%;
-    width: 50%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     padding-top: 10px;
+    padding-right: 10px;
 }
 
-.market-bets {
+.market-pa-item {
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.pa-item-names {
+    height: 100%;
+    width: 50%;
+}
+
+.pa-item-bets {
     height: 100%;
     width: 50%;
     display: flex;
     flex-direction: row;
 }
 
-.market-pa-item {
-    margin-bottom: 5px;
+.bet-cell {
+    width: 33%;
+    height: 100%;
 }
