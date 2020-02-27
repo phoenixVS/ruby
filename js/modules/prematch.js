@@ -153,6 +153,8 @@ exports('prematch', (params, done) => {
           // appending MAs aka list-item
           if (data[0].ID != 1) {
             $('.market-group').on('click', (event) => {
+              event.preventDefault();
+              event.stopPropagation();
               let cur = $(event.target);
               if (!cur.is('.market-group')) {
                 while (!cur.is('.market-group')) {

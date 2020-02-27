@@ -74,6 +74,65 @@ exports('game', (params, done) => {
             if ($('.ipe-EventSwitcher').length == 0) {
               $('.video-title').removeClass('not-active');
               $('.video-title').addClass('active');
+              let eventSwitcherWrapper = $(`
+              <div class="ipe-EventSwitcher ">
+                <div style="max-height: 647px;" class="ipe-EventSwitcher_Container ">
+                  <div class="ipe-EventSwitcherFixtureList">
+                  
+                  </div>
+                </div>
+              </div>
+              `);
+
+              console.log('inplay', window.inplay);
+              console.log('event', window.event);
+
+              for (cl of window.inplay) {
+                if (cl.ID == window.event[0].TG[0].DS) {
+                  console.log(`cur sport:`, cl);
+                  for (ct of cl.CT) {
+                    if (ct.EV.length > 0) {
+                      let curCT = $(`
+                      <div class="ipe-EventSwitcherCompetitionBase">
+                        <div class="ipe-EventSwitcher_CompetitionName">${ct.NA}</div>
+                        <div class="ipe-EventSwitcherFixture">
+                        </div>
+                      </div>
+                      `);
+                      for (ev of ct.EV) {
+                        curCT.children(`.ipe-EventSwitcherFixture`).append(`
+                        <div class="ipe-EventSwitcherFixture_GameDetail">
+                        <div class="ipe-EventSwitcherFixture_MetaContainer Hidden">
+                        </div><div class="ipe-EventSwitcherFixture_GameItems">
+                          <div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable">
+                            <div class="ipe-EventSwitcherFixture_CompetitorName">
+                              <span class="ipe-EventSwitcherFixture_Truncator">
+                                ${ev.NA.split(' v ')[0] || ev.NA.split(' vs ')[0] || ev.NA.split(' @ ')[0]}
+                              </span>
+                            </div>
+                            <div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets">
+                              <span class="ipe-EventSwitcher_PointNode">${ev.SS.split('-')[0] || ' '}</span>
+                            </div>
+                          </div>
+                          <div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active ">
+                            <div class="ipe-EventSwitcherFixture_CompetitorName ">
+                              <span class="ipe-EventSwitcherFixture_Truncator ">
+                                ${ev.NA.split(' v ')[1] || ev.NA.split(' vs ')[1] || ev.NA.split(' @ ')[1]}
+                              </span>
+                            </div>
+                            <div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets ">
+                              <span class="ipe-EventSwitcher_PointNode ">${ev.SS.split('-')[1] || ' '}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                        `);
+                      }
+                      eventSwitcherWrapper.children(`.ipe-EventSwitcherFixtureList`).append(curCT);
+                    }
+                  }
+                }
+              }
               const EventSwitcher = $(`
             <div class="ipe-EventSwitcher ">
             <div style="max-height: 647px;" class="ipe-EventSwitcher_Container ">
@@ -118,114 +177,71 @@ exports('game', (params, done) => {
           </div>
             `);
               $('.ipe-EventSwitcherFixtureList ').empty();
-              console.log(window.inplay);
-              console.log(window.event);
-              let FixtureList = $();
-              for (sport of window.inplay) {
-                if (sport.ID == ev.TG.DS) {
-                  for (ct of sport.CT) {
-                    const curCT = $(`<div class="ipe-EventSwitcherCompetitionBase">
-                    <div class="ipe-EventSwitcher_CompetitionName">${ct.NA}</div>
-                    <div class="ipe-EventSwitcherFixture ipe-EventSwitcherFixture_NoTimings">
-                    </div>`);
-                    for (ev of ct.EV) {
-                      curEV = (`
-                      <div class="ipe-EventSwitcherFixture_GameDetail">
-                      <div class="ipe-EventSwitcherFixture_MetaContainer Hidden">
-                      </div>
-                      <div class="ipe-EventSwitcherFixture_GameItems">
-                        <div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable">
-                          <div class="ipe-EventSwitcherFixture_CompetitorName">
-                            <span class="ipe-EventSwitcherFixture_Truncator">${typeof ev.NA.split(' v ')[1] !== 'undefined' ? ev.NA.split(' v ')[0] : ev.NA.split(' vs ')[0]}</span>
-                          </div>
-                          <div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets">
-                            <span class="ipe-EventSwitcher_PointNode">0</span>
-                          </div>
-                        </div>
-                        <div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active ">
-                          <div class="ipe-EventSwitcherFixture_CompetitorName ">
-                            <span class="ipe-EventSwitcherFixture_Truncator ">${typeof ev.NA.split(' v ')[1] !== 'undefined' ? ev.NA.split(' v ')[1] : ev.NA.split(' vs ')[1]}</span>
-                          </div>
-                          <div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets ">
-                            <span class="ipe-EventSwitcher_PointNode ">0</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                      `);
-                      // if (typeof XP !== 'undefined') {
-                      //   if (typeof XP.split(',')[1] !== 'undefined') {
-                      //     let counter = 0;
-                      //     ev.XP.split(',').map((item) => {
-                      //       counter++;
-                      //       $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
-                      //         <span class="point">${item.split('-')[0]}
-                      //       `);
-                      //       $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
-                      //         <span class="point">${item.split('-')[1]}
-                      //       `);
-                      //     });
-                      //   }
-                      //   else {
-                      //     let counter = 0;
-                      //     ev.SS.split(',').map((item) => {
-                      //       counter++;
-                      //       $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
-                      //         <span class="point">${item.split('-')[0]}
-                      //       `);
-                      //       $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
-                      //         <span class="point">${item.split('-')[1]}
-                      //       `);
-                      //     });
-                      //   }
-                      // }
-                      // else {
-                      //   let counter = 0;
-                      //   ev.SS.split(',').map((item) => {
-                      //     counter++;
-                      //     $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
-                      //       <span class="point">${item.split('-')[0]}
-                      //     `);
-                      //     $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
-                      //     <span class="point">${item.split('-')[1]}
-                      //   `);
-                      //   });
-                      // }
-                      // if (typeof XP !== 'undefined') {
-                      //   if (ev.PI.split(',')[0] == '1')
-                      //     $(`div[data-game-id="${ev.ID}"] .team.home p`).addClass('bowler');
-                      //   if (ev.PI.split(',')[1] == '1')
-                      //     $(`div[data-game-id="${ev.ID}"] .team.away p`).addClass('bowler');
-                      //   $(`div[data-game-id="${ev.ID}"] .timer-el`).remove();
-                      //   if (typeof XP.split(',')[1] !== 'undefined') {
-                      //     $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
-                      //       <span class="point">${ev.SS.split('-')[0]}
-                      //     `);
-                      //     $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
-                      //       <span class="point">${ev.SS.split('-')[1]}
-                      //     `);
-                      //   }
-                      //   else {
-                      //     if (XP !== '') {
-                      //       $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
-                      //       <span class="point">${XP.split('-')[0]}
-                      //     `);
-                      //       $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
-                      //       <span class="point">${XP.split('-')[1]}
-                      //     `);
-                      //     }
-                      //   }
-                      // }
-                      curCT.append(curEV);
-                    }
+              // if (typeof XP !== 'undefined') {
+              //   if (typeof XP.split(',')[1] !== 'undefined') {
+              //     let counter = 0;
+              //     ev.XP.split(',').map((item) => {
+              //       counter++;
+              //       $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+              //         <span class="point">${item.split('-')[0]}
+              //       `);
+              //       $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+              //         <span class="point">${item.split('-')[1]}
+              //       `);
+              //     });
+              //   }
+              //   else {
+              //     let counter = 0;
+              //     ev.SS.split(',').map((item) => {
+              //       counter++;
+              //       $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+              //         <span class="point">${item.split('-')[0]}
+              //       `);
+              //       $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+              //         <span class="point">${item.split('-')[1]}
+              //       `);
+              //     });
+              //   }
+              // }
+              // else {
+              //   let counter = 0;
+              //   ev.SS.split(',').map((item) => {
+              //     counter++;
+              //     $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+              //       <span class="point">${item.split('-')[0]}
+              //     `);
+              //     $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+              //     <span class="point">${item.split('-')[1]}
+              //   `);
+              //   });
+              // }
+              // if (typeof XP !== 'undefined') {
+              //   if (ev.PI.split(',')[0] == '1')
+              //     $(`div[data-game-id="${ev.ID}"] .team.home p`).addClass('bowler');
+              //   if (ev.PI.split(',')[1] == '1')
+              //     $(`div[data-game-id="${ev.ID}"] .team.away p`).addClass('bowler');
+              //   $(`div[data-game-id="${ev.ID}"] .timer-el`).remove();
+              //   if (typeof XP.split(',')[1] !== 'undefined') {
+              //     $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+              //       <span class="point">${ev.SS.split('-')[0]}
+              //     `);
+              //     $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+              //       <span class="point">${ev.SS.split('-')[1]}
+              //     `);
+              //   }
+              //   else {
+              //     if (XP !== '') {
+              //       $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+              //       <span class="point">${XP.split('-')[0]}
+              //     `);
+              //       $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+              //       <span class="point">${XP.split('-')[1]}
+              //     `);
+              //     }
+              //   }
+              // }
 
-                    $('.ipe-EventSwitcherFixtureList').append(curCT);
-
-                  }
-                }
-              }
-
-              $(`[data-id=game]`).after(EventSwitcher);
+              $(`[data-id=game]`).after(eventSwitcherWrapper);
 
             }
             else {
