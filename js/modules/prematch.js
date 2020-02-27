@@ -97,19 +97,38 @@ exports('prematch', (params, done) => {
           `);
         });
         $('.prematch-table-title .item:first-child').addClass('selected');
-        console.log(data.MG);
-        data.MG.map((item, i) => {
-          if (i > 1 && typeof item.NA !== 'undefined') {
-            $('.prematch-table .container-fluid').append(`
-            <div class="market-group closed" data-id="${item.ID}" data-it="${item.IT}" data-pd="${item.PD}">
-              <div class="market-group-text">
-                <span class="market-group-name">${item.NA}</span>
-              </div>
-            </div>
-            `);
-          }
-        });
 
+        // Render table of leagues
+        if (data[0].ID != 1) {
+          data.MG.map((item, i) => {
+            if (i > 1 && typeof item.NA !== 'undefined') {
+              $('.prematch-table .container-fluid').append(`
+              <div class="market-group closed" data-id="${item.ID}" data-it="${item.IT}" data-pd="${item.PD}">
+                <div class="market-group-text">
+                  <span class="market-group-name">${item.NA}</span>
+                </div>
+              </div>
+              `);
+            }
+          });
+        }
+        else {
+          data.MG.map((mg, i) => {
+            if (i > 1 && mg.NA == 'Full Time Result') {
+              mg.MA.map((ma, i) => {
+                if (i > 0) {
+                  $('.prematch-table .container-fluid').append(`
+              <div class="market-group closed" data-id="${ma.ID}" data-it="${ma.IT}" data-pd="${ma.PD}">
+                <div class="market-group-text">
+                  <span class="market-group-name">${ma.NA}</span>
+                </div>
+              </div>
+              `);
+                }
+              });
+            }
+          });
+        }
         resolve();
       });
 
@@ -132,91 +151,178 @@ exports('prematch', (params, done) => {
             }
           });
           // appending MAs aka list-item
-          $('.market-group').on('click', (event) => {
-
-            let cur = $(event.target);
-            if (!cur.is('.market-group')) {
-              while (!cur.is('.market-group')) {
-                cur = cur.parent();
+          if (data[0].ID != 1) {
+            $('.market-group').on('click', (event) => {
+              let cur = $(event.target);
+              if (!cur.is('.market-group')) {
+                while (!cur.is('.market-group')) {
+                  cur = cur.parent();
+                }
               }
-            }
-
-            if (cur.is('.closed')) {
-              let market_list = $(`<div class="market-group-list"></div>`);
-              let IT = cur.data(`it`);
-              data.MG.map((item) => {
-                if (item.IT == IT) {
-                  item.MA.map((item) => {
-                    market_list.append(`
-                    <div class="list-item closed" data-it="${item.IT}">
-                      <div class="item-header">
-                        ${item.NA}
-                      </div>
-                    </div>
-                    `);
-                  });
+              let url = 'http://bestline.bet/sports/?PD=';
+              data.MG.map((mg) => {
+                if (mg.PD == cur.data(`pd`)) {
+                  let PD = mg.MA[0].PA[0].PD;
+                  window.location.hash += '/' + encodeURL(PD);
                 }
               });
-              market_list.appendTo(cur).hide().slideDown(150);
-              cur.removeClass('closed');
-              cur.addClass('opened');
+            });
+            /*  $('.market-group').on('click', (event) => {
+       
+               let cur = $(event.target);
+               if (!cur.is('.market-group')) {
+                 while (!cur.is('.market-group')) {
+                   cur = cur.parent();
+                 }
+               }
+       
+               if (cur.is('.closed')) {
+                 let market_list = $(`<div class="market-group-list"></div>`);
+                 let IT = cur.data(`it`);
+                 data.MG.map((item) => {
+                   if (item.IT == IT) {
+                     item.MA.map((item) => {
+                       market_list.append(`
+                       <div class="list-item closed" data-it="${item.IT}">
+                         <div class="item-header">
+                           ${item.NA}
+                         </div>
+                       </div>
+                       `);
+                     });
+                   }
+                 });
+                 market_list.appendTo(cur).hide().slideDown(150);
+                 cur.removeClass('closed');
+                 cur.addClass('opened');
+       
+                 // append PAs aka coupon-link
+                 $('.list-item').off();
+                 $('.list-item').on('click', (event) => {
+                   event.preventDefault();
+                   event.stopPropagation();
+                   let cur = $(event.target);
+                   if (!cur.is('.list-item')) {
+                     while (!cur.is('.list-item')) {
+                       cur = cur.parent();
+                     }
+                   }
+                   const IT = cur.parent().parent().data(`it`);
+                   if (cur.is('.closed')) {
+                     let coupon_list = $(`<div class="coupon-list"></div>`);
+                     let maIT = cur.data(`it`);
+                     data.MG.map((item) => {
+                       if (item.IT == IT) {
+                         item.MA.map((item) => {
+                           if (item.IT == maIT) {
+                             item.PA.map((item) => {
+                               coupon_list.append(`
+                                   <div data-pd="${item.PD}" class="coupon-name">
+                                     ${item.NA}
+                                   </div>
+                               `);
+                             });
+                           }
+                         });
+                       }
+                     });
+                     coupon_list.appendTo(cur).hide().slideDown(150);
+                     cur.removeClass('closed');
+                     cur.addClass('opened');
+       
+                     $('.coupon-name').off();
+                     $('.coupon-name').on('click', (event) => {
+                       event.preventDefault();
+                       event.stopPropagation();
+                       let cur = $(event.target);
+                       let PD = cur.data(`pd`);
+                       window.location.hash += '/' + encodeURL(PD);
+                     });
+                   }
+                   else {
+                     cur.children('.coupon-list').slideUp(150, () => { cur.children('.coupon-list').remove(); cur.removeClass('opened'); cur.addClass('closed'); });
+                     cur.addClass('closed');
+                     cur.removeClass('opened');
+                   }
+                 });
+       
+               }
+               else {
+                 cur.children('.market-group-list').slideUp(150, () => { cur.children('.market-group-list').remove(); cur.removeClass('opened'); cur.addClass('closed'); });
+               }
+             }); */
+          }
+          else {// if Soccer
+            $('.market-group').on('click', (event) => {
+              // add preloader
+              const preloader = $('#page-preloader');
+              preloader.removeClass('done').addClass('opaci');
 
-              // append PAs aka coupon-link
-              $('.list-item').off();
-              $('.list-item').on('click', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                let cur = $(event.target);
-                if (!cur.is('.list-item')) {
-                  while (!cur.is('.list-item')) {
-                    cur = cur.parent();
-                  }
+              let cur = $(event.target);
+              if (!cur.is('.market-group')) {
+                while (!cur.is('.market-group')) {
+                  cur = cur.parent();
                 }
-                const IT = cur.parent().parent().data(`it`);
-                if (cur.is('.closed')) {
-                  let coupon_list = $(`<div class="coupon-list"></div>`);
-                  let maIT = cur.data(`it`);
-                  data.MG.map((item) => {
-                    if (item.IT == IT) {
-                      item.MA.map((item) => {
-                        if (item.IT == maIT) {
-                          item.PA.map((item) => {
-                            console.log(item);
-                            coupon_list.append(`
-                                <div data-pd="${item.PD}" class="coupon-name">
-                                  ${item.NA}
-                                </div>
-                            `);
+              }
+              let url = 'http://bestline.bet/sports/?PD=';
+
+              if (cur.is('.closed')) {
+                let coupon_list = $(`<div class="coupon-list"></div>`);
+                data.MG.map((item) => {
+                  if (item.NA == "Full Time Result") {
+                    item.MA.map((ma) => {
+                      if (ma.PD == cur.data(`pd`)) {
+                        url += encodeURL(ma.PD);
+                        fetch(url)
+                          .then((response) => {
+                            return response.json();
+                          })
+                          .then((json) => {
+                            console.log(json);
+                            for (item of json) {
+                              if (item.type == 'PA') {
+                                coupon_list.append(`
+                                  <div data-pd="${item.PD}" class="coupon-name">
+                                    ${item.NA}
+                                  </div>
+                              `);
+                              }
+                            }
+                          })
+                          .then(() => {
+                            // finish preloader
+                            preloader.addClass('done').removeClass('opaci');
+                            coupon_list.appendTo(cur).hide().slideDown(150);
+                            cur.removeClass('closed');
+                            cur.addClass('opened');
+
+                            $('.coupon-name').off();
+                            $('.coupon-name').on('click', (event) => {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              let cur = $(event.target);
+                              let PD = cur.data(`pd`);
+                              window.location.hash += '/' + encodeURL(PD);
+                            });
                           });
-                        }
-                      });
-                    }
-                  });
-                  coupon_list.appendTo(cur).hide().slideDown(150);
-                  cur.removeClass('closed');
-                  cur.addClass('opened');
+                      }
+                    });
+                  }
+                });
 
-                  $('.coupon-name').off();
-                  $('.coupon-name').on('click', (event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    let cur = $(event.target);
-                    let PD = cur.data(`pd`);
-                    window.location.hash += '/' + encodeURL(PD);
-                  });
-                }
-                else {
-                  cur.children('.coupon-list').slideUp(150, () => { cur.children('.coupon-list').remove(); cur.removeClass('opened'); cur.addClass('closed'); });
-                  cur.addClass('closed');
-                  cur.removeClass('opened');
-                }
-              });
 
-            }
-            else {
-              cur.children('.market-group-list').slideUp(150, () => { cur.children('.market-group-list').remove(); cur.removeClass('opened'); cur.addClass('closed'); });
-            }
-          });
+              }
+              else {
+                cur.children('.market-group-list').slideUp(150, () => {
+                  cur.children('.market-group-list').remove();
+                  cur.removeClass('opened'); cur.addClass('closed');
+                  // finish preloader
+                  preloader.addClass('done').removeClass('opaci');
+                });
+              }
+            });
+          }
+
           // Open items that should be opened
           data.MG.map((item) => {
             if (item.DO == 1 && typeof item.NA !== 'undefined') {

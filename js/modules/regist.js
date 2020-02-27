@@ -706,8 +706,12 @@ exports('regist', (params, done) => {
           }
         }
       });
-      done();
+
     });
-    window.translate();
+    setTimeout(() => {
+      window.translate();
+      done();
+    }, 1000);
+
   }
 });

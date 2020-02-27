@@ -284,26 +284,47 @@ exports('prematch_coupon', (params, done) => {
                 // append bet
                 if (data[0].ID === '13') {
                   // tennis
+                  let home = 0, away = 0;
+                  data.MA.forEach((ma) => {
+                    if (ma.IT === 'C41-83-1') {
+                      home = ma.PA[i];
+                    }
+                    if (ma.IT === 'C41-83-2') {
+                      away = ma.PA[i];
+                    }
+                  });
                   play_table.children('.row:last-child').append(`
                     <div class="cell" style="display: table-cell; min-width: 24%; max-width: 24%;">
-                      <button class="button coefficient ${data.MA[4].PA[i].OD == '0/0' ? 'disabled' : ''}">${data.MA[4].PA[i].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(data.MA[4].PA[i].OD)}</button> 
+                      <button class="button coefficient ${home.OD == '0/0' ? 'disabled' : ''}" data-id="${home.ID}" data-fi="${home.FI}">${home.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(home.OD)}</button> 
                     </div> 
                     <div class="cell" style="display: table-cell; min-width: 24%; max-width: 24%;"> 
-                      <button class="button coefficient ${data.MA[5].PA[i].OD == '0/0' ? 'disabled' : ''}">${data.MA[5].PA[i].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(data.MA[5].PA[i].OD)}</button>
+                      <button class="button coefficient ${away.OD == '0/0' ? 'disabled' : ''}" data-id="${away.ID}" data-fi="${away.FI}">${away.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(away.OD)}</button>
                     </div>
                   `);
                 }
                 else {
                   // soccer
+                  let home = 0, draw = 0, away = 0;
+                  data.MA.forEach((ma) => {
+                    if (ma.IT === 'C41-40-1') {
+                      home = ma.PA[i];
+                    }
+                    if (ma.IT === 'C41-40-2') {
+                      draw = ma.PA[i];
+                    }
+                    if (ma.IT === 'C41-40-3') {
+                      away = ma.PA[i];
+                    }
+                  });
                   play_table.children('.row:last-child').append(`
                   <div class="cell" style="display: table-cell;">
-                    <button class="button coefficient ${data.MA[5].PA[i].OD == '0/0' ? 'disabled' : ''}">${data.MA[5].PA[i].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(data.MA[5].PA[i].OD)}</button> 
+                    <button class="button coefficient ${home.OD == '0/0' ? 'disabled' : ''}" data-id="${home.ID}" data-fi="${home.FI}">${home.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(home.OD)}</button> 
                   </div> 
                   <div class="cell" style="display: table-cell;"> 
-                  <button class="button coefficient ${data.MA[6].PA[i].OD == '0/0' ? 'disabled' : ''}">${data.MA[6].PA[i].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(data.MA[6].PA[i].OD)}</button>
+                  <button class="button coefficient ${draw.OD == '0/0' ? 'disabled' : ''}" data-id="${draw.ID}" data-fi="${draw.FI}">${draw.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(draw.OD)}</button>
                   </div> 
                   <div class="cell" style="display: table-cell;">
-                  <button class="button coefficient ${data.MA[7].PA[i].OD == '0/0' ? 'disabled' : ''}">${data.MA[7].PA[i].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(data.MA[7].PA[i].OD)}</button> 
+                  <button class="button coefficient ${away.OD == '0/0' ? 'disabled' : ''}" data-id="${away.ID}" data-fi="${away.FI}">${away.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(away.OD)}</button> 
                   </div>
                 `);
                 }
@@ -318,6 +339,10 @@ exports('prematch_coupon', (params, done) => {
       });
       render.then(
         response => {
+          loadJsModules({
+            betslip_link: { loadCSS: false, loadLanguage: false }
+          });
+          document.querySelector('body').scrollTop;
 
           // go back to sport
           $('.round-b').on('click', (event) => {

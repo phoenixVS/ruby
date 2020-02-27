@@ -127,6 +127,7 @@
     pointer-events: none;
     position: relative;
     background-color: #761c2d;
+    text-transform: uppercase;
 }
 .sign-up-nav:after {
     content: "";
