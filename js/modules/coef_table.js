@@ -269,7 +269,7 @@ exports('coef_table', (params, done) => {
                   loadJsModules({
                     betslip_link: { loadCSS: false, loadLanguage: false }
                   });
-                  document.querySelector('body').scrollTop;
+                  window.scrollTo(0, 0);
                 });
             });
         }

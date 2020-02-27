@@ -220,7 +220,12 @@ exports('regist', (params, done) => {
       }
       // Form validation
       Popup.registerListener((val) => {
+        $('input').on('blur', (event) => {
+          // console.log(`blur`);
+          // window.scrollTo(0, 0);
+        });
         if (val == 'details') {
+          window.scrollTo(0, 0);
           if ($('.details .sign-up-body-item').filter('.corrected').length != 3) {
             $(`[data-id=nextButton]`).addClass('disable');
           }
@@ -322,6 +327,7 @@ exports('regist', (params, done) => {
           });
         } else {
           if (val == 'information') {
+            window.scrollTo(0, 0);
             if ($('.information .sign-up-body-item').filter('.corrected').length != 8) {
               $(`[data-id=nextButton]`).addClass('disable');
             }
@@ -333,7 +339,7 @@ exports('regist', (params, done) => {
               let cur = $(event.target);
               cur.children('[value="0"]').wrap('<span/>')
             });
-            $('#Country').on('change', (event) => {
+            $('#Country').on('focusout', (event) => {
               let cur = $(event.target);
               cur.parent()
                 .removeClass('uncorrected')
@@ -349,7 +355,7 @@ exports('regist', (params, done) => {
               let cur = $(event.target);
               cur.children('[value="0"]').wrap('<span/>')
             });
-            $('#Currency').on('change', (event) => {
+            $('#Currency').on('focusout', (event) => {
               let cur = $(event.target);
               cur.parent()
                 .removeClass('uncorrected')
@@ -456,7 +462,7 @@ exports('regist', (params, done) => {
               let cur = $(event.target);
               cur.children('[value="00"]').wrap('<span/>');
             });
-            $('#Day').on('change', (event) => {
+            $('#Day').on('focusout', (event) => {
               date.day = true;
               let cur = $(event.target);
               if (date.day && (date.year && date.month)) {
@@ -473,7 +479,7 @@ exports('regist', (params, done) => {
               let cur = $(event.target);
               cur.children('[value="00"]').wrap('<span/>');
             });
-            $('#Month').on('change', (event) => {
+            $('#Month').on('focusout', (event) => {
               date.month = true;
               let cur = $(event.target);
               if (date.day && (date.year && date.month)) {
@@ -490,7 +496,7 @@ exports('regist', (params, done) => {
               let cur = $(event.target);
               cur.children('[value="00"]').wrap('<span/>');
             });
-            $('#Year').on('change', (event) => {
+            $('#Year').on('focusout', (event) => {
               date.year = true;
               let cur = $(event.target);
               if (date.day && (date.year && date.month)) {
@@ -538,6 +544,7 @@ exports('regist', (params, done) => {
               }
             });
           } else {
+            window.scrollTo(0, 0);
             if (val == 'confirmation') {
               $(`[data-id=nextButton]`).addClass('disable');
               const confs = {
