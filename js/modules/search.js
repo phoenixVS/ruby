@@ -9,7 +9,7 @@ exports('search', (params, done) => {
         .then((res) => res.json())
         .then((data) => {
           window.searchDATA = Tree(data);
-          console.log(window.searchDATA);
+          console.log(getCoefsSoccer(window.searchDATA, 'Barnsley', 'Barnsley v Middlesbrough'));
           RenderSearchResult(data);
         });
     }
@@ -31,19 +31,29 @@ exports('search', (params, done) => {
     }
 
     function getCoefsSoccer(data, teamName, machName) {
-      let firstArr;
-      let secArr;
+      
+      let coefsArr = [];
+
       for (let i = 0; i < data.CL[0].EV[0].MG.length; i++) {
         if (data.CL[0].EV[0].MG[i].NA == teamName) {
           let order;
           for (let j = 0; j < data.CL[0].EV[0].MG[i].MA[0].PA.length; j++) {
             if (data.CL[0].EV[0].MG[i].MA[0].PA[j].NA == machName) {
               order = j;
-              break;
             }
           }
+
+          let one = data.CL[0].EV[0].MG[i].MA[1].PA[order].OD;
+          let X = data.CL[0].EV[0].MG[i].MA[2].PA[order].OD;
+          let two = data.CL[0].EV[0].MG[i].MA[3].PA[order].OD;
+
+          coefsArr.push(one);
+          coefsArr.push(X);
+          coefsArr.push(two);
         }
       }
+
+      return coefsArr;
     }
 
     function Tree(data) {
