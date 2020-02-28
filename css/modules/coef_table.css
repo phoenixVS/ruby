@@ -9,17 +9,17 @@ div.row.info.det:before {
   margin-top: 12px;
   transform: translateY(-50%);
 }
-div.row.info.det.active:before{
-  transform: rotate(90deg); 
+div.row.info.det.active:before {
+  transform: rotate(90deg);
   transition-duration: 0.5s;
   margin-top: 0px;
 }
-div.row.info.det.not-active:before{
-  transform: rotate(0deg); 
+div.row.info.det.not-active:before {
+  transform: rotate(0deg);
   transition-duration: 0.5s;
   margin-top: 0px;
 }
-.bets_title{
+.bets_title {
   display: block;
   justify-content: center;
   align-items: flex-start;
@@ -31,28 +31,29 @@ div.row.info.det.not-active:before{
 }
 .bets_column {
   -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    width: 100%;
-    background-color: #343341;
-    min-width: 0;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  background-color: #343341;
+  min-width: 0;
 }
-.bets_column>.maTable__cell{
+.bets_column > .maTable__cell {
   position: relative;
   justify-content: center;
   align-items: center;
   border: 1px solid transparent;
   min-height: 44px;
+  max-height: 44px;
   height: 100%;
   width: 100%;
   font-size: 13px;
@@ -62,16 +63,16 @@ div.row.info.det.not-active:before{
   border-right-color: #737373;
   border-bottom-color: #111111;
 }
-.bets_column:last-child{
+.bets_column:last-child {
   border: 0;
 }
 .half-w {
   width: 49%;
 }
-.coeficient-table .row.info p{
+.coeficient-table .row.info p {
   padding-left: 20px;
 }
-.button.coefficient span.coeff{
+.button.coefficient span.coeff {
   text-align: right;
   justify-self: end;
   padding-right: 15px;
@@ -79,3 +80,10 @@ div.row.info.det.not-active:before{
 .coeficient-table .row .button {
   justify-content: space-between;
 }
+/* .coeficient-table .row {
+  
+} */
+/* .coeficient-table .row {
+  height: initial;
+  margin-bottom: 1px;
+} */

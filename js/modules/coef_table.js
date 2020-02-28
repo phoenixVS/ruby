@@ -111,7 +111,7 @@ exports('coef_table', (params, done) => {
             $(`[data-id=coef_table]`).addClass('event');
             data[0].MA.forEach(ma => {
               $(`[data-id=coef_table]`).append(`
-                <div data-id="row_info" data-row-status="not_active" data-coef-id="${ma.ID}" class="row info det" style="height: 50px; border-bottom: 0.5px solid black;">
+                <div data-id="row_info" data-row-status="not_active" data-coef-id="${ma.ID}" class="row info det" style="height: 50px; max-height:50px; border-bottom: 0.5px solid black;">
                   <div class="cell">
                     <p class="font">${ma.NA}</p>
                   </div>
@@ -131,7 +131,7 @@ exports('coef_table', (params, done) => {
                     cur.removeClass('not-active');
                     data[0].MA.forEach((ma) => {
                       if (ma.ID == cur.data('coefId')) {
-                        let new_item = $(`<div data-id="coef_row" data-bet="${ma.ID}" class="row" style="height: auto;">
+                        let new_item = $(`<div data-id="coef_row" data-bet="${ma.ID}" class="row" style="">
                           </div>`).hide();
                         cur.after(new_item);
                         if (ma.CO.length > 1) {
@@ -167,6 +167,9 @@ exports('coef_table', (params, done) => {
                     $(`[data-bet=${cur.data('coefId')}]`).css({
                       position: 'relative',
                       display: 'flex',
+                      display: '-ms-flexbox',
+                      display: '-webkit-box',
+                      display: '-webkit-flex',
                       flexWrap: 'wrap',
                       justifyContent: 'space-between',
                       alignItems: 'flex-start',
@@ -191,7 +194,7 @@ exports('coef_table', (params, done) => {
                       cur.removeClass('not-active');
                       data[0].MA.forEach((ma) => {
                         if (ma.ID == cur.data('coefId')) {
-                          let new_item = $(`<div data-id="coef_row" data-bet="${ma.ID}" class="row" style="height: auto;">
+                          let new_item = $(`<div data-id="coef_row" data-bet="${ma.ID}" class="row" style="">
                       </div>`).hide();
                           cur.after(new_item);
                           if (ma.CO.length > 1) {
@@ -227,6 +230,9 @@ exports('coef_table', (params, done) => {
                       $(`[data-bet=${cur.data('coefId')}]`).css({
                         position: 'relative',
                         display: 'flex',
+                        display: '-ms-flexbox',
+                        display: '-webkit-box',
+                        display: '-webkit-flex',
                         flexWrap: 'wrap',
                         justifyContent: 'space-between',
                         alignItems: 'flex-start',
