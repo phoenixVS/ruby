@@ -118,7 +118,7 @@ exports('prematch_coupon', (params, done) => {
         data.MA.forEach((item) => {
           if (typeof item.PD !== 'undefined') {
             $('.prematch-table-title').append(`
-              <div class="item" data-id="${item.ID}" data-pd="${item.PD}">${item.NA}</div>
+              <div class="item" data-id="${item.ID}">${item.NA}</div>
             `);
           }
         });
@@ -142,7 +142,7 @@ exports('prematch_coupon', (params, done) => {
               let col_name = item.NA;
               if ((item.PY == 'di' || item.PY == 'do') && item.SY == 'ccl' && item.NA == ' ' && $('.tableWrapper .table-col').length == 0) {
                 $('.tableWrapper').append(`
-                  <div class="table-col Teams" data-id="${item.ID}" data-it="${item.IT}">
+                  <div class="table-col Teams">
                     <div class="col-label flex-container align-center ${item.NA}">
                       ${new Date(transformDay(item.PA[0].BC)[1]).toDateString()}
                     </div>
@@ -152,7 +152,7 @@ exports('prematch_coupon', (params, done) => {
                   if (typeof item.NA !== 'undefined') {
                     events++;
                     $(`.table-col.Teams`).append(`
-                    <div class="col-item flex-container">
+                    <div class="col-item flex-container" data-event-id="${item.PD}" data-pd="${item.PD}">
                       <div class="col-info">
                         <div class="item-time">${item.BC.slice(-6).slice(0, 2) + ':' + item.BC.slice(-6).slice(2, 4)}</div>
                         <div class="item-markets">${item.MR}</div>
@@ -162,10 +162,10 @@ exports('prematch_coupon', (params, done) => {
                       </div>
                       <div class="col-item-name">
                         <div class="team home">
-                          <span>${item.D1.split(',')[0] + ' '}</span>${item.NA}
+                          <span>${item.D1.split(',')[0] + '&nbsp;'}</span>${item.NA}
                         </div>
                         <div class="team away">
-                          <span>${item.D1.split(',')[1] + ' '}</span>${item.N2}
+                          <span>${item.D1.split(',')[1] + '&nbsp;'}</span>${item.N2}
                         </div>
                         ${item.TM == 'Tie' ? `
                           <div class="team away">
@@ -194,7 +194,7 @@ exports('prematch_coupon', (params, done) => {
                     if (modifyBets(item.OD) == 'NaN') {
                       $(`.table-col.${col_name}`).append(`
                       <div class="col-item flex-container">
-                        <button class="button-coefficient disabled">
+                        <button class="button coefficient disabled">
                           <span class="ha">
                             OTB
                           </span>
@@ -206,7 +206,7 @@ exports('prematch_coupon', (params, done) => {
                       bets++;
                       $(`.table-col.${col_name}`).append(`
                       <div class="col-item flex-container">
-                        <button class="button-coefficient">
+                        <button class="button coefficient" data-id="${item.ID}" data-fi="${item.FI}">
                           <span class="ha">
                             ${item.HA}
                           </span>
@@ -241,28 +241,45 @@ exports('prematch_coupon', (params, done) => {
                 if (prevDate == item.BC) { }
                 else {
                   // append date group
-                  play_table.append(`
+                  if (data[0].ID != '1') {
+                    play_table.append(`
                   <div class="row [ info ]"> 
                     <div class="cell"> 
                       <p class="font">${new Date(transformDay(item.BC)[1]).toDateString()}</p> 
                     </div> 
-                    <div class="cell"> 
+                    <div class="cell" style="width: 50%; max-width: 50%"> 
                       <p class="font">1</p> 
                     </div> 
-                    <div class="cell"> 
-                      <p class="font">X</p> 
-                    </div>
-                    <div class="cell"> 
+                    <div class="cell" style="width: 50%; max-width: 50%"> 
                       <p class="font">2</p> 
                     </div>
                   </div>
                   `);
+                  }
+                  else {
+                    play_table.append(`
+                    <div class="row [ info ]"> 
+                      <div class="cell"> 
+                        <p class="font">${new Date(transformDay(item.BC)[1]).toDateString()}</p> 
+                      </div> 
+                      <div class="cell"> 
+                        <p class="font">1</p> 
+                      </div> 
+                      <div class="cell"> 
+                        <p class="font">X</p> 
+                      </div>
+                      <div class="cell"> 
+                        <p class="font">2</p> 
+                      </div>
+                    </div>
+                    `);
+                  }
                   prevDate = item.BC;
                 }
                 // append event
                 play_table.append(`
                 <div class="row">
-                <div class="cell" data-pd="${item.PD}" data-id="event">
+                <div class="cell" data-pd="${item.PD}" data-event-id="${item.PD}">
                   <div data-pd="${item.PD}" data-class="play-link" data-pd="${item.PD}" class="[ play-link ]">
                       <div data-pd="${item.PD}" class="team home">
                         <p class="font m-white ellipsis" data-pd="${item.PD}">${item.NA}</p>
@@ -282,7 +299,7 @@ exports('prematch_coupon', (params, done) => {
                 </div>
                 `);
                 // append bet
-                if (data[0].ID === '13') {
+                if (data[0].ID != '1') {
                   // tennis
                   let home = 0, away = 0;
                   data.MA.forEach((ma) => {
@@ -339,9 +356,7 @@ exports('prematch_coupon', (params, done) => {
       });
       render.then(
         response => {
-          loadJsModules({
-            betslip_link: { loadCSS: false, loadLanguage: false }
-          });
+
           document.querySelector('body').scrollTop;
 
           // go back to sport
@@ -349,9 +364,14 @@ exports('prematch_coupon', (params, done) => {
             window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2];
           });
 
-          document.querySelector('.play-link').addEventListener('click', (event) => {
-            const cur = event.target;
-            window.location.hash += '/' + encodeURL(cur.dataset.pd);
+          document.querySelector(`[data-event-id]`).addEventListener('click', (event) => {
+            const cur = $(event.target);
+            if (typeof cur.parents(`.col-item`).data(`pd`) !== 'undefined') {
+              window.location.hash += '/' + encodeURL(cur.parents(`.col-item`).data(`pd`));
+            }
+            else {
+              window.location.hash += '/' + encodeURL(cur.parents(`.play-link`).data(`pd`));
+            }
           });
 
           $('.prematch-table-title .item').on('click', (event) => {
@@ -371,7 +391,9 @@ exports('prematch_coupon', (params, done) => {
               cur.addClass('selected');
             }
           });
-
+          loadJsModules({
+            betslip_link: { loadCSS: true, loadLanguage: false }
+          });
         }
       );
     }

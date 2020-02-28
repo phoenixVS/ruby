@@ -103,7 +103,7 @@ exports('prematch', (params, done) => {
           data.MG.map((item, i) => {
             if (i > 1 && typeof item.NA !== 'undefined') {
               $('.prematch-table .container-fluid').append(`
-              <div class="market-group closed" data-id="${item.ID}" data-it="${item.IT}" data-pd="${item.PD}">
+              <div class="market-group opened" data-id="${item.ID}" data-it="${item.IT}" data-pd="${item.PD}">
                 <div class="market-group-text">
                   <span class="market-group-name">${item.NA}</span>
                 </div>
@@ -157,17 +157,20 @@ exports('prematch', (params, done) => {
               event.stopPropagation();
               let cur = $(event.target);
               if (!cur.is('.market-group')) {
-                while (!cur.is('.market-group')) {
-                  cur = cur.parent();
-                }
+                cur = cur.parents('.market-group');
               }
-              let url = 'http://bestline.bet/sports/?PD=';
-              data.MG.map((mg) => {
+              for (mg of data.MG) {
                 if (mg.PD == cur.data(`pd`)) {
                   let PD = mg.MA[0].PA[0].PD;
                   window.location.hash += '/' + encodeURL(PD);
                 }
-              });
+              }
+              /* data.MG.map((mg) => {
+                if (mg.PD == cur.data(`pd`)) {
+                  let PD = mg.MA[0].PA[0].PD;
+                  window.location.hash += '/' + encodeURL(PD);
+                }
+              }); */
             });
             /*  $('.market-group').on('click', (event) => {
        
@@ -328,7 +331,7 @@ exports('prematch', (params, done) => {
           // Open items that should be opened
           data.MG.map((item) => {
             if (item.DO == 1 && typeof item.NA !== 'undefined') {
-              $(`div.prematch div.container-fluid div[data-it="${item.IT}"`).trigger('click');
+              // $(`div.prematch div.container-fluid div[data-it="${item.IT}"`).trigger('click');
             }
           });
         }

@@ -202,3 +202,13 @@
     min-width: 17px;
     text-align: center;
 }
+.ipe-EventViewTitle_Overlay {
+    z-index: 60;
+    position: fixed;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    bottom: 0;
+}

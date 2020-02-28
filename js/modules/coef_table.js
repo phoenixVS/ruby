@@ -123,16 +123,16 @@ exports('coef_table', (params, done) => {
           rowsPromise
             .then(response => {
               return new Promise((resolve, reject) => {
+                console.log(data[0]);
                 data[0].MA.map((ma) => {
                   if (ma.DO == 1) {
-                    console.log(ma.ID);
                     let cur = $(`[data-coef-id="${ma.ID}"]`);
                     cur.addClass('active');
                     cur.removeClass('not-active');
                     data[0].MA.forEach((ma) => {
                       if (ma.ID == cur.data('coefId')) {
                         let new_item = $(`<div data-id="coef_row" data-bet="${ma.ID}" class="row" style="height: auto;">
-                      </div>`).hide();
+                          </div>`).hide();
                         cur.after(new_item);
                         if (ma.CO.length > 1) {
                           ma.CO.map(co => {

@@ -274,20 +274,22 @@
   flex: 1 1 15%;
   height: 100%;
   align-items: center;
-  background-color: #4d475e;
+  background-color: #432A38;
 }
 .tableWrapper .table-col:first-child {
   color: #fff;
   flex: 1 1 50%;
   height: 100%;
   align-items: center;
-  background-color: #4D475E;
+  background-color: #432A38;
   border: none;
 }
 .tableWrapper .table-col:first-child .col-label {
   text-align: left;
   justify-content: start;
   padding-left: 10px;
+  margin-right: 1px;
+  /* border-right: 1px solid black; */
 }
 .col-label {
   background-color: #5e5e5e;
@@ -295,16 +297,17 @@
   padding-left: 10px;
   height: 30px;
   color: #fff;
+  margin-right: 1px;
   border-bottom: 1px solid #535353;
   border-top: 1px solid #535353;
 }
 .tableWrapper .table-col:first-child .col-item {
-  background-color: #4d475e;
+  background-color: #432A38;
   height: 100%;
-  margin-left: 5px;
-  margin-right: 10px;
-  min-height: 68px;
-  max-height: 68px;
+  padding-left: 5px;
+  padding-right: 10px;
+  min-height: 74px;
+  max-height: 74px;
   border-top: none;
   border-left: none;
   border-right: none;
@@ -312,8 +315,13 @@
 .col-item {
   height: 100%;
   min-height: 34px;
-  max-height: 34px;
-  border: 1px solid #504f5c;
+  /* max-height: 34px; */
+  /* margin-right: 1px; */
+  /* border-bottom: 1px solid #504f5c;
+  border-right: 1px solid #504f5c; */
+}
+.Teams .col-item {
+  border-bottom: 1px solid #504f5c;
 }
 .item-video {
   padding-top: 12px;
@@ -371,14 +379,23 @@
   font-size: .9rem;
   padding: 5px;
 }
-.col-item .button-coefficient {
+.col-item .button.coefficient {
   justify-content: center;
   text-align: center;
   width: 100%;
   color: yellow;
   background: #343243;
-  border: 1px solid #504f5c;
+  margin-right: 1px;
   cursor: pointer;
+}
+.button.coefficient.selected .ha{
+  color: #000;
+}
+.col-item{
+  margin-bottom: 1px;
+}
+.table-col .col-item:nth-child(odd){
+  border-bottom: 1px solid #757575;
 }
 .tableWrapper .table-col:first-child .col-item-name {
   display: -ms-flexbox;
@@ -386,7 +403,7 @@
   flex-direction: column;
   justify-content: center;
 }
-.button-coefficient .ha{
+.button.coefficient .ha{
   color: #fff;
   font-size: .9rem;
   padding: 5px;

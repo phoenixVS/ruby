@@ -322,8 +322,12 @@ function gameHandler(ID) {
             const wait = setInterval(() => {
                 if (window.event == undefined) { }
                 else {
-                    clearInterval(wait);
-                    resolve();
+                    if (window.event[0].ID !== ID) { }
+                    else {
+                        clearInterval(wait);
+                        resolve();
+                    }
+
                 }
             }, 10);
         });
