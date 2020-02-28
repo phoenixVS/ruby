@@ -106,16 +106,22 @@ exports('play_table', (params, done) => {
           let type = false;
           if (parseInt(sport.ID) == ID) {
             for (let i = 0; i < sport.CT.length; i++) {
-              if (typeof sport.CT[0].EV[0].MA[0].PA[2] === 'undefined' || sport.CT[0].EV[0].MA[0].PA[2] == null) {
-                drawCompet(sport.CT[i].NA, false);
+              console.log(sport.CT[i].EV);
+              if (sport.CT[i].EV[0].MA.length === 0) {
+                drawCompet(sport.CT[i].NA, ID == 1 ? true : false);
               }
               else {
-                drawCompet(sport.CT[i].NA, true);
+                if (typeof sport.CT[0].EV[0].MA[0].PA[2] === 'undefined' || sport.CT[0].EV[0].MA[0].PA[2] == null) {
+                  drawCompet(sport.CT[i].NA, false);
+                }
+                else {
+                  drawCompet(sport.CT[i].NA, true);
+                }
               }
               for (let j = 0; j < sport.CT[i].EV.length; j++) {
                 // Check if bets' coeficients exist
-                if (typeof (sport.CT[i].EV[j].MA) == 'undefined' || typeof (sport.CT[i].EV[j].MA[0]) == 'undefined') {
-                  // throw new Error(String(sport.CT[i].EV[j].NA));
+                if (sport.CT[i].EV[j].MA.length == 0 || typeof (sport.CT[i].EV[j].MA[0]) == 'undefined') {
+                  drawEvents(sport.CT[i].EV[j], ID == 1 ? true : false, ID);
                   continue;
                 }
                 // Check if bets' coeficients for draw exist
@@ -204,10 +210,10 @@ exports('play_table', (params, done) => {
           ev.XP.split(',').map((item) => {
             counter++;
             $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
-              <span class="point">${item.split('-')[0]}
+              <span data-game-id="${ev.ID}" class="point">${item.split('-')[0]}
             `);
             $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
-              <span class="point">${item.split('-')[1]}
+              <span data-game-id="${ev.ID}" class="point">${item.split('-')[1]}
             `);
           });
         }
@@ -216,10 +222,10 @@ exports('play_table', (params, done) => {
           ev.SS.split(',').map((item) => {
             counter++;
             $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
-              <span class="point">${item.split('-')[0]}
+              <span data-game-id="${ev.ID}" class="point">${item.split('-')[0]}
             `);
             $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
-              <span class="point">${item.split('-')[1]}
+              <span data-game-id="${ev.ID}" class="point">${item.split('-')[1]}
             `);
           });
         }
@@ -229,10 +235,10 @@ exports('play_table', (params, done) => {
         ev.SS.split(',').map((item) => {
           counter++;
           $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
-            <span class="point">${item.split('-')[0]}
+            <span data-game-id="${ev.ID}" class="point">${item.split('-')[0]}
           `);
           $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
-          <span class="point">${item.split('-')[1]}
+          <span data-game-id="${ev.ID}" class="point">${item.split('-')[1]}
         `);
         });
       }
@@ -261,7 +267,7 @@ exports('play_table', (params, done) => {
           }
         }
       }
-      if (typeof ev.MA[0].PA[1] !== 'undefined' && ev.MA[0].SU != '1') {
+      if (ev.MA.length > 0 && (typeof ev.MA !== 'undefined' && ev.MA[0].SU != '1')) {
         if (type) {
           if (ev.MA[0].NA != "Fulltime Result") {
             $(`[data-id="play-table"]`).children('.row:last-child').append(`
