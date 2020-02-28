@@ -131,3 +131,6 @@ p.timer-el {
   font-size: .9rem;
   transform: translateY(-3px) rotate(-90deg);
 }
+.play-table .cell{
+  height: 100%;
+}
