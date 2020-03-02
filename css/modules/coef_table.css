@@ -79,6 +79,10 @@ div.row.info.det.not-active:before {
 }
 .coeficient-table .row .button {
   justify-content: space-between;
+  border-bottom: 1px solid black;
+}
+.maTable__cell .button.coefficient {
+  border-bottom: none;
 }
 /* .coeficient-table .row {
   
