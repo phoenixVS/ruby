@@ -272,6 +272,14 @@ exports('coef_table', (params, done) => {
                   });
                 })
                 .then((response) => {
+                  // Preloader finishes
+                  const preloader = $('#page-preloader');
+                  if (preloader.data(`status`) != 'done' || preloader.is(`.opaci`)) {
+                    preloader.children('img').remove();
+                    preloader.addClass('done');
+                    preloader.removeClass('opaci');
+                    preloader.data(`status`, 'done').attr('data-status', 'done');
+                  }
                   loadJsModules({
                     betslip_link: { loadCSS: false, loadLanguage: false }
                   });

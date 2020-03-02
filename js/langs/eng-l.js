@@ -19,6 +19,8 @@ window.dict = {
   cash_out: "Cash out",
   cash_out_main: "Cash out",
   live: "Live",
+  betslip: "Bet slip",
+  multiodds: "Multiply Odds",
   unsettled: "Unsettled",
   settled: "Settled",
   all: "All",

@@ -18,6 +18,16 @@
 .preloader.opaci {
   opacity: 0.4;
   visibility: visible;
+  filter: blur(7px);
+}
+.preloader img {
+  position: absolute;
+  top: 35%;
+}
+@media (orientation: landscape) {
+  .preloader img {
+    top: 25%;
+  }
 }
 .preloader .loader {
   position: absolute;

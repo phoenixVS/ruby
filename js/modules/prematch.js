@@ -4,6 +4,7 @@ exports('prematch', (params, done) => {
   }
   const preloader = $('#page-preloader');
   preloader.removeClass('done').addClass('opaci');
+  preloader.children('img').remove();
 
   $('.prematch').empty();
 
@@ -297,6 +298,7 @@ exports('prematch', (params, done) => {
                           .then(() => {
                             // finish preloader
                             preloader.addClass('done').removeClass('opaci');
+
                             coupon_list.appendTo(cur).hide().slideDown(150);
                             cur.removeClass('closed');
                             cur.addClass('opened');

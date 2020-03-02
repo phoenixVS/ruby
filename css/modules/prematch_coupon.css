@@ -13,7 +13,7 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  height: 55px;
+  height: 40px;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
@@ -21,7 +21,8 @@
   border-bottom: 1px solid #ccf;
 }
 .prematch-title {
-  font-size: 1.6rem;
+  height: 100%;
+  font-size: 1.4rem;
   color: #fff;
   /* padding-left: 11px; */
   -webkit-box-flex: 1;
@@ -64,6 +65,9 @@
   right: 7px;
   top: 0;
   transform: rotate(-90deg);
+}
+.prematch-table .cell {
+  height: 100%;
 }
 .prematch-table-title {
   overflow-x: scroll;
@@ -191,7 +195,7 @@
   border-left: 4px solid red;
   border-bottom: 1px solid #fff;
   color: #fff;
-  height: 44px;
+  height: 40px;
   padding: 15px 25px;
   overflow: hidden;
   -webkit-box-sizing: border-box;
@@ -199,7 +203,6 @@
   position: relative;
   display: table;
   vertical-align: middle;
-  height: 44px;
   line-height: 14px;
 }
 .coupon-name:first-child {
@@ -207,8 +210,12 @@
 }
 /* PREMATCH*/
 .round-b {
+  height: 100%;
   border-right: 1px solid #fff;
   background-color: #281420;
+}
+.button.square {
+  max-height: 100%;
 }
 .round-b:before {
   color:#fff;

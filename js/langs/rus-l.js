@@ -18,6 +18,8 @@ window.dict = {
   my_bets: "Мои ставки",
   cash_out: "Вывести",
   live: "В игре",
+  betslip: "Купон ставки",
+  multiodds: "Умножить Шансы",
   unsettled: "Несыгранные",
   settled: "Сыгранные",
   all: "Все",

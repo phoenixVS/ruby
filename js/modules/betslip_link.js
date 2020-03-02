@@ -1,4 +1,5 @@
 exports('betslip_link', (params, done) => {
+  $('.betslip-link .mini-loader').addClass('done');
   if (document.querySelector('.betslip-link').innerHTML.length > 0) {
     // $('.betslip-link').empty();
   }
@@ -7,6 +8,8 @@ exports('betslip_link', (params, done) => {
       ".betslip-link": [
         "betslip/betslip-link.html"
       ]
+    }, () => {
+      rerenderLink(betsCounter());
     });
   }
   const bsLink = $('.betslip-link');
@@ -97,7 +100,7 @@ exports('betslip_link', (params, done) => {
       const keys = Object.keys(parsedCookies);
       for (name of keys) {
         if (name.substring(0, 3) == 'pa_') {
-          m *= modifyBets(/o=(.*)#f=/i.exec(parsedCookies[name])[1]);
+          m *= (/o=(.*)#f=/i.exec(parsedCookies[name])[1].includes('/') ? modifyBets(/o=(.*)#f=/i.exec(parsedCookies[name])[1]) : /o=(.*)#f=/i.exec(parsedCookies[name])[1]);
         }
       }
       m = m.toFixed(2);
@@ -115,16 +118,24 @@ exports('betslip_link', (params, done) => {
       bsLink.children().children('.text-right').children('p.title').text(mStr);
     }
     else {
-      bsLink.children().children('.text-right').children('p.font').text(' ');
-      bsLink.children().children('.text-right').children('p.title').text(' ');
+      bsLink.children().children('.text-right').children('p.font').html('&nbsp;');
+      bsLink.children().children('.text-right').children('p.title').html('&nbsp;');
     }
   }
 
   (() => {
-    bsLink.css({
-      'min-width': `${screen.width}px`,
-      'max-width': `${screen.width}px`,
-    });
+    if (window.innerHeight > window.innerWidth) {
+      bsLink.css({
+        'min-width': `${screen.width}px`,
+        'max-width': `${screen.width}px`,
+      });
+    }
+    else {
+      bsLink.css({
+        'min-width': `60vw`,
+        'max-width': `60vw`,
+      });
+    }
   })(0);
 
   coefBtn.on('click', (event) => {
@@ -201,7 +212,7 @@ exports('betslip_link', (params, done) => {
     if (val == 0) {
       bsLink.slideUp('fast');
     }
-    if (val == 1) {
+    if (val >= 1) {
       bsLink.slideDown('fast');
     }
     $('.betslip-link p.betslip-link-count').attr('data', betsCounter());
@@ -209,14 +220,15 @@ exports('betslip_link', (params, done) => {
       multiOdds();
     }
     else {
-      bsLink.children().children('.text-right').children('p.font').text(' ');
-      bsLink.children().children('.text-right').children('p.title').text(' ');
+      bsLink.children().children('.text-right').children('p.font').html('&nbsp;');
+      bsLink.children().children('.text-right').children('p.title').html('&nbsp;');
     }
+    window.translate();
   }
 
   bsLink.on('click', (event) => {
-    bsLink.slideUp('fast');
-    betslip.empty();
+    // bsLink.slideUp('fast');
+    $('.betslip-link .mini-loader').removeClass(done);
     loadJsModules({
       betslip: { loadCSS: true, loadLanguage: false },
     });

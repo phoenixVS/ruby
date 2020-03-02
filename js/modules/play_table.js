@@ -147,7 +147,7 @@ exports('play_table', (params, done) => {
             let curURL = window.location.href;
             // Start preloader
             const preloader = $('#page-preloader');
-            preloader.removeClass('done');
+            preloader.removeClass('done').addClass('opaci');
             //if filter is active - remove it from hash
             if ((window.location.hash.split('/')[1] == 'sport') || (window.location.hash.split('/')[1] == 'inplay')) {
               window.location.hash = '';
@@ -165,6 +165,7 @@ exports('play_table', (params, done) => {
           // Preloader finishes
           const preloader = $('#page-preloader');
           if (preloader.data(`status`) != 'done') {
+            preloader.children('img').remove();
             preloader.addClass('done');
             preloader.removeClass('opaci');
             preloader.data(`status`, 'done').attr('data-status', 'done');
