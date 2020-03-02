@@ -1,14 +1,30 @@
 exports('betslip', (params, done) => {
+  if (document.querySelector('.inBetslip') == null) {
+
+  }
+  else {
+    let cln = document.querySelector('.inBetslip');
+    cln.classList.add('opaci', 'inBetslip');
+    cln.classList.remove('done');
+    cln.dataset.status = 'not-done';
+    console.log(`#bsDiv!`);
+    console.log(`Height: `, document.querySelector('#bsDiv').offsetHeight);
+    console.log(`Height: `, document.querySelector('#bsDiv').offsetWidth);
+    cln.style.height = document.querySelector('#bsDiv').offsetHeight;
+    cln.style.width = document.querySelector('#bsDiv').offsetWidth;
+    cln.style.top = `calc(100vh - ${document.querySelector('#bsDiv').offsetHeight}px)`;
+  }
   const betslip = $('.betslipWrapper');
   const bsLink = $('.betslip-link');
   const blur = $(`[data-id=blur]`);
 
   const preloader = $('#page-preloader');
-  preloader.removeClass('done').addClass('opaci');
+  // preloader.removeClass('done').addClass('opaci');
 
   blur.removeClass('none');
   blur.addClass('block');
-  betslip.slideDown('fast');
+
+  // betslip.slideDown('fast');
 
   function betsCounter() {
     let counter = 0;
@@ -21,6 +37,7 @@ exports('betslip', (params, done) => {
     }
     return counter;
   }
+
   if (typeof params.update !== 'undefined') {
     const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
     const keys = Object.keys(parsedCookies);
@@ -77,7 +94,23 @@ exports('betslip', (params, done) => {
   }
 
   loadBetslip(url, (response) => {
-
+    if (response.length < 36) {
+      const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+      const keys = Object.keys(parsedCookies);
+      for (name of keys) {
+        if (name.substring(0, 3) == 'pa_') {
+          Cookies.remove(name);
+        }
+        if (name === 'ms') {
+          Cookies.remove(name);
+        }
+      }
+      betslip.slideUp('fast');
+      $('button.coefficient.selected').removeClass('selected');
+      blur.addClass('none');
+      blur.removeClass('block');
+      return;
+    }
     const betslipRender = new Promise((resolve, reject) => {
       /{bss}(.*?){bse}/i.exec(response)[1].split('&')[3].slice(3).split('||').map((item) => {
         if (item) {
@@ -108,6 +141,14 @@ exports('betslip', (params, done) => {
       if ($('.betslipWrapper').length > 0) {
         $('.betslipWrapper').empty();
       }
+      if ($('.preloader.inBetslip').length == 0) {
+        let cln = document.querySelector('#page-preloader').cloneNode(true);
+        cln.classList.add('opaci', 'inBetslip');
+        cln.classList.remove('done');
+        cln.dataset.status = 'not-done';
+        document.querySelector('.betslipWrapper').insertAdjacentElement('beforebegin', cln);;
+      }
+
       insertHtmlModules({
         ".betslipWrapper": [
           "betslip/betslip.html"
@@ -126,9 +167,15 @@ exports('betslip', (params, done) => {
 
     });
     betslipRender.then((response) => {
+      bsLink.slideUp('fast');
+      betslip.slideDown('fast');
 
       // preloader done
-      preloader.addClass('done').removeClass('opaci');
+      let cln = document.querySelector('.preloader.inBetslip');
+      console.log(cln);
+      cln.classList.add('done');
+      cln.dataset.status = 'done';
+      // preloader.addClass('done').removeClass('opaci');
 
       const content = $('li.single-section.standardBet');
       const count = $('span.betSlipyCountText');
@@ -139,13 +186,26 @@ exports('betslip', (params, done) => {
         blur.addClass('none');
         betslip.slideUp('fast');
         if (betsCounter() > 0) {
-          bsLink.slideDown('fast');
+          loadJsModules({
+            betslip_link: { loadCSS: false, loadLanguage: false },
+          });
+          // bsLink.slideDown('fast');
         }
       });
 
       // Accept changes
       $('.acceptChanges').on('click', (event) => {
         event.preventDefault();
+        let cln = document.querySelector('.preloader.inBetslip');
+        cln.classList.add('opaci', 'inBetslip');
+        cln.classList.remove('done');
+        cln.dataset.status = 'not-done';
+        console.log(`#bsDiv!`);
+        console.log(`Height: `, document.querySelector('#bsDiv').offsetHeight);
+        console.log(`Height: `, document.querySelector('#bsDiv').offsetWidth);
+        cln.style.height = document.querySelector('#bsDiv').offsetHeight;
+        cln.style.width = document.querySelector('#bsDiv').offsetWidth;
+        // cln.style.bottom = 0;
         loadJsModules({
           betslip: { update: true, loadCSS: true, loadLanguage: false },
         });
@@ -399,7 +459,7 @@ exports('betslip', (params, done) => {
           $('.stakepad').slideUp(250, function () {
             $(this).remove();
           });
-          // $('.stakepad').remove();
+          $('.stakepad').remove();
           input.removeClass('focus');
           if (cur.is('input')) {
             cur.addClass('focus');
@@ -916,7 +976,10 @@ exports('betslip', (params, done) => {
         blur.addClass('none');
         betslip.slideUp('fast');
         if (betsCounter() > 0) {
-          bsLink.slideDown('fast');
+          loadJsModules({
+            betslip_link: { loadCSS: false, loadLanguage: false },
+          });
+          // bsLink.slideDown('fast');
         }
         else {
           bsLink.slideUp('fast');

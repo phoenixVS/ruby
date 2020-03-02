@@ -106,7 +106,6 @@ exports('play_table', (params, done) => {
           let type = false;
           if (parseInt(sport.ID) == ID) {
             for (let i = 0; i < sport.CT.length; i++) {
-              console.log(sport.CT[i].EV);
               if (sport.CT[i].EV[0].MA.length === 0) {
                 drawCompet(sport.CT[i].NA, ID == 1 ? true : false);
               }

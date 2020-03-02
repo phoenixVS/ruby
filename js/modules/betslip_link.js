@@ -1,7 +1,6 @@
 exports('betslip_link', (params, done) => {
-  $('.betslip-link .mini-loader').addClass('done');
   if (document.querySelector('.betslip-link').innerHTML.length > 0) {
-    // $('.betslip-link').empty();
+    // $('.betslip-link').empty();ы
   }
   else {
     insertHtmlModules({
@@ -9,6 +8,7 @@ exports('betslip_link', (params, done) => {
         "betslip/betslip-link.html"
       ]
     }, () => {
+      $('.betslip-link .mini-loader').addClass('done');
       rerenderLink(betsCounter());
     });
   }
@@ -114,10 +114,17 @@ exports('betslip_link', (params, done) => {
           mStr += '0';
         }
       }
-      bsLink.children().children('.text-right').children('p.font').text('Multiply Odds');
+      $('.betslip-link .mini-loader').css({
+        '-webkit-transform': 'translateZ(0) translateX(0vw)',
+        '-ms-transform': 'translateZ(0) translateX(0w)',
+        'transform': 'translateZ(0) translateX(0vw)',
+      });
+      $('.betslip-link .text-right').show();
+      bsLink.children().children('.text-right').children('p.font').text(window.dict.multiodds);
       bsLink.children().children('.text-right').children('p.title').text(mStr);
     }
     else {
+      $('.betslip-link .text-right').hide();
       bsLink.children().children('.text-right').children('p.font').html('&nbsp;');
       bsLink.children().children('.text-right').children('p.title').html('&nbsp;');
     }
@@ -220,15 +227,24 @@ exports('betslip_link', (params, done) => {
       multiOdds();
     }
     else {
+      console.log(`go left`);
+      $('.betslip-link .mini-loader').css({
+        '-webkit-transform': 'translateZ(0) translateX(-7vw)',
+        '-ms-transform': 'translateZ(0) translateX(-7vw)',
+        'transform': 'translateZ(0) translateX(-7vw)',
+      });
+      $('.betslip-link .text-right').hide();
       bsLink.children().children('.text-right').children('p.font').html('&nbsp;');
       bsLink.children().children('.text-right').children('p.title').html('&nbsp;');
     }
     window.translate();
   }
 
+  $('.betslip-link .mini-loader').addClass('done');
+
   bsLink.on('click', (event) => {
     // bsLink.slideUp('fast');
-    $('.betslip-link .mini-loader').removeClass(done);
+    $('.betslip-link .mini-loader').removeClass('done');
     loadJsModules({
       betslip: { loadCSS: true, loadLanguage: false },
     });
