@@ -2,6 +2,8 @@ exports('search', (params, done) => {
   insertHtmlModules({
   }, () => {
 
+    var betslipIsLoaded;
+
     function GET(squery) {
       let URL = "http://bestline.bet/search/?query=" + squery;
 
@@ -10,7 +12,6 @@ exports('search', (params, done) => {
         .then((data) => {
           window.searchDATA = Tree(data);
           console.log(window.searchDATA);
-          console.log(getPAforCompets(window.searchDATA, "Antigua & Barbuda Premier Division"));
           RenderSearchResult(data);
         });
     }
@@ -31,6 +32,36 @@ exports('search', (params, done) => {
       return PAarr;
     }
 
+
+    function getCoefsCompet(data, compet_name, machName) {
+      let coefsArr = [];
+      let order;
+      let time;
+      for (let i = 0; i < data.CL[0].EV[1].MG.length; i++) {
+        if (data.CL[0].EV[1].MG[i].NA == compet_name) {
+          for (let j = 0; j < data.CL[0].EV[1].MG[i].MA[0].PA.length; j++) {
+            if (data.CL[0].EV[1].MG[i].MA[0].PA[j].NA == machName) {
+              time = data.CL[0].EV[1].MG[i].MA[0].PA[j].BC;
+              order = j+=1;
+            }
+          }
+
+          let one = data.CL[0].EV[1].MG[i].MA[order].PA[0].OD;
+          order = order+=1;
+          let X = data.CL[0].EV[1].MG[i].MA[order].PA[0].OD;
+          order = order+=1;
+          let two = data.CL[0].EV[1].MG[i].MA[order].PA[0].OD;
+
+          coefsArr.push(one);
+          coefsArr.push(X);
+          coefsArr.push(two);
+          coefsArr.push(time);
+        }
+      }
+
+      return coefsArr;
+  }
+    
     function getPAforCompets(data, compet_name) {
       let PACompArr = [];
 
@@ -42,7 +73,6 @@ exports('search', (params, done) => {
           break;
         }
       }
-
       return PACompArr;
     }
 
@@ -197,6 +227,7 @@ exports('search', (params, done) => {
             }
           } else if (data[i].type == 'EV') {
             lastEV = data[i].NA;
+            
             res_content.append(`
                 <div class="search-ev">
                   <p class="font m-white">${data[i].NA}</p>
@@ -211,19 +242,23 @@ exports('search', (params, done) => {
                     <div class="s-ev-link">
                       <p class="font white t-clicked">${data[i].NA}</p>
                       <div class="t-market-group active">
+
                         <div data-id="${trimmedNA}" class="market-pa">
-                        <div class="market-pa-item">
-                          <div>
-                            <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
-                            <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
-                          </div>                        
-                        </div>
 
                           <div class="market-pa-item">
-                          <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
-                          <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                            <div>
+                              <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                              <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                            </div>                        
+                           </div>
+
+                          <div class="market-pa-item">
+                            <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                            <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
                           </div>
+
                         </div>
+
                       </div>
                     </div>
                   `);
@@ -263,14 +298,84 @@ exports('search', (params, done) => {
                     `);
                     }
                   }
-              } else if (lastEV == 'Competitions') {
-                
-                $(`.search-ev-links-${i}`).append(`
-                  <div class="s-ev-link">
-                    <p class="font white">${data[i].NA}</p>
-                  </div>
+              } else if (lastEV == 'COMPETITIONS') {
+                let trimmedNA = data[i].NA.replace(/\s/g, '').replace(/\W/g, '');
+                res_content.append(`
+                    <div class="search-ev-links-${0}" style="display: block;
+                    width: 100%;
+                    height: auto;
+                    min-height: 44px;">
+                      <div class="s-ev-link">
+                        <p class="font white t-clicked">${data[i].NA}</p>
+                        <div class="t-market-group active">
+
+                        <div data-id="${trimmedNA}" class="market-pa">
+
+                          <div class="market-pa-item">
+                            <div>
+                              <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                              <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                            </div>                        
+                           </div>
+
+                          <div class="market-pa-item">
+                            <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                            <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                          </div>
+
+                        </div>
+
+                      </div>
+                      </div>
+                    </div>
                   `);
-                
+                  
+                  let compets = getPAforCompets(window.searchDATA, data[i].NA);
+                  //console.log(data[i].NA + ': ' + comp_coefs);
+                  let marketPA = $(`[data-id=${trimmedNA}]`);
+                  marketPA.empty();
+                  for (let b = 0; b < compets.length; b++) {
+                    let comp_coefs = getCoefsCompet(window.searchDATA, data[i].NA ,compets[b]);
+                    marketPA.append(`
+                    <div class="market-pa-item">
+                    <div class="pa-item-names">
+                      <span class="font m-white ellipsis" style="font-size: 15px;">${compets[b]}</span>
+                      <span class="font m-white ellipsis" style="font-size: 12px;">${convertToDate(comp_coefs[3])}</span>
+                    </div>
+                    <div class="pa-item-bets">
+                    <div class="bet-cell">
+                    <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                    align-items: flex-start; padding-bottom: 22px">
+                    1<br>${comp_coefs[0]}
+                    </button>
+                  </div>  
+                  <div class="bet-cell">
+                  <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                  align-items: flex-start; padding-bottom: 22px">
+                  x<br>${comp_coefs[1]}
+                  </button>
+                  </div>  
+                  <div class="bet-cell">
+                  <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                  align-items: flex-start; padding-bottom: 22px">
+                  2<br>${comp_coefs[2]}
+                  </button>
+                  </div>   
+                    </div>                        
+                   </div>
+                    `);
+                  }
+              } else {
+                res_content.append(`
+                    <div class="search-ev-links-${0}" style="display: block;
+                    width: 100%;
+                    height: auto;
+                    min-height: 44px;">
+                      <div class="s-ev-link">
+                        <p class="font white">${data[i].NA}</p>
+                      </div>
+                    </div>
+                  `);
               }
             } else {
               if (lastEV == 'Teams') {
@@ -335,6 +440,68 @@ exports('search', (params, done) => {
                     `);
                     }
                   }
+              } else if (lastEV == 'COMPETITIONS') {
+                let trimmedNA = data[i].NA.replace(/\s/g, '').replace(/\W/g, '');
+                res_content.append(`
+                <div class="search-ev-links-${0}" style="
+                width: 100%;
+                height: auto;
+                min-height: 44px;">
+                  <div class="s-ev-link">
+                    <p class="font white t-clicked">${data[i].NA}</p>
+                    <div class="t-market-group active">
+                    <div data-id="${trimmedNA}"class="market-pa">
+                      <div class="market-pa-item">
+                      <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                      <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                      </div>
+
+                      <div class="market-pa-item">
+                      <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                      <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+                  `);
+                  
+                  let compets = getPAforCompets(window.searchDATA, data[i].NA);
+                  //console.log(data[i].NA + ': ' + comp_coefs);
+                  let marketPA = $(`[data-id=${trimmedNA}]`);
+                  marketPA.empty();
+                  for (let b = 0; b < compets.length; b++) {
+                    let comp_coefs = getCoefsCompet(window.searchDATA, data[i].NA ,compets[b]);
+                    marketPA.append(`
+                    <div class="market-pa-item">
+                    <div class="pa-item-names">
+                      <span class="font m-white ellipsis" style="font-size: 15px;">${compets[b]}</span>
+                      <span class="font m-white ellipsis" style="font-size: 12px;">${convertToDate(comp_coefs[3])}</span>
+                    </div>
+                    <div class="pa-item-bets">
+                    <div class="bet-cell">
+                    <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                    align-items: flex-start; padding-bottom: 22px">
+                    1<br>${comp_coefs[0]}
+                    </button>
+                  </div>  
+                  <div class="bet-cell">
+                  <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                  align-items: flex-start; padding-bottom: 22px">
+                  x<br>${comp_coefs[1]}
+                  </button>
+                  </div>  
+                  <div class="bet-cell">
+                  <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                  align-items: flex-start; padding-bottom: 22px">
+                  2<br>${comp_coefs[2]}
+                  </button>
+                  </div>   
+                    </div>                        
+                   </div>
+                    `);
+                  }
+                  
               } else {
                 res_content.append(`
                     <div class="search-ev-links-${0}" style="display: block;
@@ -384,6 +551,14 @@ exports('search', (params, done) => {
         $('.s-ev-link p.t-clicked').on('click', (el) => {
           eSetNotClicked(el);
         });
+
+        if (betslipIsLoaded == false) {
+          loadJsModules({
+            betslip_link: { loadCSS: true, loadLanguage: false },
+            betslip: { loadCSS: true, loadLanguage: false },
+          });
+          betslipIsLoaded = true;
+        }
       });
     }
 
