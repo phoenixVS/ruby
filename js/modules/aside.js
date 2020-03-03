@@ -16,10 +16,12 @@ exports('aside', (params, done) => {
       if (typeof window.prematch === 'undefined') {
         window.sportsLoad();
       }
-      RenderAside(window.inplay);
+      let kek = ['val'];
+      RenderAside(kek);
 
       if (sessionStorage.getItem('aside') == 'inplay') {
-        RenderAside(window.inplay);
+        let kek = ['val'];
+        RenderAside(kek);
       } else if (sessionStorage.getItem('aside') == 'sport') {
         RenderAsideAll(window.inplay, window.prematch); RenderAsideAll
       } else if (sessionStorage.getItem('aside') == 'fav') {
@@ -42,7 +44,6 @@ exports('aside', (params, done) => {
     };
 
     function RenderAside(data) {
-      console.log(`render Aside`);
       let promise = new Promise((resolve, reject) => {
         $(`[data-id=aside]`).empty();
         $(`[data-id=aside]`).append(`
@@ -91,7 +92,7 @@ exports('aside', (params, done) => {
             continue;
           }
         }*/
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {/*
 
           let ID = data[i].ID;
           let name = data[i].NA;
@@ -115,7 +116,7 @@ exports('aside', (params, done) => {
               aside.removeClass('active');
               aside.addClass('not-active');
             }
-          });
+          });*/
         }
         resolve();
       });

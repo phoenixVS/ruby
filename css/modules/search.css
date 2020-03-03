@@ -321,3 +321,11 @@
     width: 33%;
     height: 100%;
 }
+
+.button.coefficient {
+    background-color: transparent;
+}
+
+.button.coefficient.selected {
+    background-color: #fff;
+}
