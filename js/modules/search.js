@@ -2,12 +2,16 @@ exports('search', (params, done) => {
   insertHtmlModules({
   }, () => {
 
+    var betslipIsLoaded;
+
     function GET(squery) {
       let URL = "http://bestline.bet/search/?query=" + squery;
 
       fetch(URL)
         .then((res) => res.json())
         .then((data) => {
+          window.searchDATA = Tree(data);
+          console.log(window.searchDATA);
           RenderSearchResult(data);
         });
     }
@@ -26,6 +30,163 @@ exports('search', (params, done) => {
         }
       }
       return PAarr;
+    }
+
+
+    function getCoefsCompet(data, compet_name, machName) {
+      let coefsArr = [];
+      let order;
+      let time;
+      for (let i = 0; i < data.CL[0].EV[1].MG.length; i++) {
+        if (data.CL[0].EV[1].MG[i].NA == compet_name) {
+          for (let j = 0; j < data.CL[0].EV[1].MG[i].MA[0].PA.length; j++) {
+            if (data.CL[0].EV[1].MG[i].MA[0].PA[j].NA == machName) {
+              time = data.CL[0].EV[1].MG[i].MA[0].PA[j].BC;
+              order = j+=1;
+            }
+          }
+
+          let one = data.CL[0].EV[1].MG[i].MA[order].PA[0].OD;
+          order = order+=1;
+          let X = data.CL[0].EV[1].MG[i].MA[order].PA[0].OD;
+          order = order+=1;
+          let two = data.CL[0].EV[1].MG[i].MA[order].PA[0].OD;
+
+          coefsArr.push(one);
+          coefsArr.push(X);
+          coefsArr.push(two);
+          coefsArr.push(time);
+        }
+      }
+
+      return coefsArr;
+  }
+    
+    function getPAforCompets(data, compet_name) {
+      let PACompArr = [];
+
+      for (let i = 0; i < data.CL[0].EV[1].MG.length; i++) {
+        if (data.CL[0].EV[1].MG[i].NA == compet_name) {
+          for (let j = 0; j < data.CL[0].EV[1].MG[i].MA[0].PA.length; j++) {
+            PACompArr.push(data.CL[0].EV[1].MG[i].MA[0].PA[j].NA);
+          }
+          break;
+        }
+      }
+      return PACompArr;
+    }
+
+    function getCoefsSoccer(data, teamName, machName) {
+      
+      let coefsArr = [];
+
+      for (let i = 0; i < data.CL[0].EV[0].MG.length; i++) {
+        if (data.CL[0].EV[0].MG[i].NA == teamName) {
+          let order;
+          let time_millis
+          for (let j = 0; j < data.CL[0].EV[0].MG[i].MA[0].PA.length; j++) {
+            if (data.CL[0].EV[0].MG[i].MA[0].PA[j].NA == machName) {
+              order = j;
+              time_millis = data.CL[0].EV[0].MG[i].MA[0].PA[j].BC;
+              break;
+            }
+          }
+
+          let one, X, two;
+          
+          if (typeof data.CL[0].EV[0].MG[i].MA[1].PA[order] === 'undefined') {
+            one = 'null';
+          } else {
+            one = data.CL[0].EV[0].MG[i].MA[1].PA[order].OD;
+          }
+
+          if (typeof data.CL[0].EV[0].MG[i].MA[2].PA[order] === 'undefined') {
+            X = 'null';
+          } else {
+            X = data.CL[0].EV[0].MG[i].MA[2].PA[order].OD;
+          }
+
+          if (typeof data.CL[0].EV[0].MG[i].MA[3] === 'undefined') {
+            two = 'null';
+          } else {
+            if (typeof data.CL[0].EV[0].MG[i].MA[3].PA[order] === 'undefined') {
+              two = 'null';
+            } else {
+              two = data.CL[0].EV[0].MG[i].MA[3].PA[order].OD;
+            }
+          }
+
+
+
+          coefsArr.push(one);
+          coefsArr.push(X);
+          coefsArr.push(two);
+          coefsArr.push(time_millis)
+        }
+      }
+
+      return coefsArr;
+    }
+
+    function convertToDate(millis) {
+      let x = millis;
+			if(x.charAt(x.length-1)=="L"){x=x.slice(0,-1)}
+			var checkedOffset = new Number(x);
+			//var convertUrl='https://currentmillis.com/?'+checkedOffset;
+			//convertLink.setAttribute('href',convertUrl);
+			var date = new Date(checkedOffset);
+			var local = date.toDateString()+' '+date.toTimeString();
+			var lastColonIndex = local.lastIndexOf(':');
+			local = local.substring(0, lastColonIndex + 3)
+			//document.getElementById('leftDate').value = local;
+			var utc = date.toUTCString();
+			var timezoneIndex = utc.lastIndexOf('GMT');
+			if (timezoneIndex < 0){
+				timezoneIndex = utc.lastIndexOf('UTC');
+			}
+			utc = utc.substring(0, timezoneIndex - 1);
+			var firstCommaIndex = utc.indexOf(',');
+			utc = utc.substring(0, firstCommaIndex) + utc.substring(firstCommaIndex + 1);
+      utc = utc.split(' ');
+			return utc[0] + ' ' + utc[2] + ' ' + utc[1] + ' ' + utc[4];
+    }
+
+    function Tree(data) {
+      this.data = {};
+      this.data.CL = [];
+
+      let CL;
+      let EV;
+      let MG;
+      let MA;
+
+      data.forEach(item => {
+          if (item.type === 'CL'){
+              CL = item;
+              CL.EV = [];
+              this.data.CL.push(item)
+          }
+          if (item.type === 'EV'){
+              EV = item;
+              EV.MG = [];
+              CL.EV.push(item);
+          }
+          if (item.type === 'MG'){
+              MG = item;
+              MG.MA = [];
+              EV.MG.push(MG)
+          }
+          if (item.type === 'MA'){
+              MA = item;
+              MA.PA = [];
+              MG.MA.push(MA)
+          }
+          if (item.type === 'PA'){
+              MA.PA.push(item)
+          }
+      });
+
+      return this.data;
     }
 
     function RenderSearchResult(data) {
@@ -66,6 +227,7 @@ exports('search', (params, done) => {
             }
           } else if (data[i].type == 'EV') {
             lastEV = data[i].NA;
+            
             res_content.append(`
                 <div class="search-ev">
                   <p class="font m-white">${data[i].NA}</p>
@@ -80,35 +242,139 @@ exports('search', (params, done) => {
                     <div class="s-ev-link">
                       <p class="font white t-clicked">${data[i].NA}</p>
                       <div class="t-market-group active">
+
                         <div data-id="${trimmedNA}" class="market-pa">
-                        <div class="market-pa-item">
+
+                          <div class="market-pa-item">
+                            <div>
+                              <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                              <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                            </div>                        
+                           </div>
+
+                          <div class="market-pa-item">
                             <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
                             <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
                           </div>
 
-                          <div class="market-pa-item">
-                          <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
-                          <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
-                          </div>
                         </div>
-                        
+
                       </div>
                     </div>
                   `);
                   $(`[data-id=${trimmedNA}]`).empty();
                   for (let m = 0; m < PAarray.length; m++) {
-                    $(`[data-id=${trimmedNA}]`).append(`
+                    let coefs = getCoefsSoccer(window.searchDATA, data[i].NA, PAarray[m]);
+                    if (coefs[0] == 'null' || coefs[0] == 'undefined' || coefs[1] == 'null' || coefs[1] == 'undefined' || coefs[2] == 'null' || coefs[2] == 'undefined') {
+                      continue;
+                    } else {
+                      $(`[data-id=${trimmedNA}]`).append(`
                     <div class="market-pa-item">
+                    <div class="pa-item-names">
                       <span class="font m-white ellipsis" style="font-size: 15px;">${PAarray[m]}</span>
-                      <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                      <span class="font m-white ellipsis" style="font-size: 12px;">${convertToDate(coefs[3])}</span>
                     </div>
+                    <div class="pa-item-bets">
+                    <div class="bet-cell">
+                    <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                    align-items: flex-start; padding-bottom: 22px">
+                    1<br>${coefs[0]}
+                    </button>
+                  </div>  
+                  <div class="bet-cell">
+                  <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                  align-items: flex-start; padding-bottom: 22px">
+                  x<br>${coefs[1]}
+                  </button>
+                  </div>  
+                  <div class="bet-cell">
+                  <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                  align-items: flex-start; padding-bottom: 22px">
+                  2<br>${coefs[2]}
+                  </button>
+                  </div>   
+                    </div>
+                    </div>
+                    `);
+                    }
+                  }
+              } else if (lastEV == 'COMPETITIONS') {
+                let trimmedNA = data[i].NA.replace(/\s/g, '').replace(/\W/g, '');
+                res_content.append(`
+                    <div class="search-ev-links-${0}" style="display: block;
+                    width: 100%;
+                    height: auto;
+                    min-height: 44px;">
+                      <div class="s-ev-link">
+                        <p class="font white t-clicked">${data[i].NA}</p>
+                        <div class="t-market-group active">
+
+                        <div data-id="${trimmedNA}" class="market-pa">
+
+                          <div class="market-pa-item">
+                            <div>
+                              <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                              <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                            </div>                        
+                           </div>
+
+                          <div class="market-pa-item">
+                            <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                            <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                          </div>
+
+                        </div>
+
+                      </div>
+                      </div>
+                    </div>
+                  `);
+                  
+                  let compets = getPAforCompets(window.searchDATA, data[i].NA);
+                  //console.log(data[i].NA + ': ' + comp_coefs);
+                  let marketPA = $(`[data-id=${trimmedNA}]`);
+                  marketPA.empty();
+                  for (let b = 0; b < compets.length; b++) {
+                    let comp_coefs = getCoefsCompet(window.searchDATA, data[i].NA ,compets[b]);
+                    marketPA.append(`
+                    <div class="market-pa-item">
+                    <div class="pa-item-names">
+                      <span class="font m-white ellipsis" style="font-size: 15px;">${compets[b]}</span>
+                      <span class="font m-white ellipsis" style="font-size: 12px;">${convertToDate(comp_coefs[3])}</span>
+                    </div>
+                    <div class="pa-item-bets">
+                    <div class="bet-cell">
+                    <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                    align-items: flex-start; padding-bottom: 22px">
+                    1<br>${comp_coefs[0]}
+                    </button>
+                  </div>  
+                  <div class="bet-cell">
+                  <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                  align-items: flex-start; padding-bottom: 22px">
+                  x<br>${comp_coefs[1]}
+                  </button>
+                  </div>  
+                  <div class="bet-cell">
+                  <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                  align-items: flex-start; padding-bottom: 22px">
+                  2<br>${comp_coefs[2]}
+                  </button>
+                  </div>   
+                    </div>                        
+                   </div>
                     `);
                   }
               } else {
-                $(`.search-ev-links-${i}`).append(`
-                  <div class="s-ev-link">
-                    <p class="font white">${data[i].NA}</p>
-                  </div>
+                res_content.append(`
+                    <div class="search-ev-links-${0}" style="display: block;
+                    width: 100%;
+                    height: auto;
+                    min-height: 44px;">
+                      <div class="s-ev-link">
+                        <p class="font white">${data[i].NA}</p>
+                      </div>
+                    </div>
                   `);
               }
             } else {
@@ -116,7 +382,7 @@ exports('search', (params, done) => {
                 let PAarray = getPAforMG(data[i].NA, data);
                 let trimmedNA = data[i].NA.replace(/\s/g, '');
                 res_content.append(`
-                    <div class="search-ev-links-${0}" style="display: block;
+                    <div class="search-ev-links-${0}" style="
                     width: 100%;
                     height: auto;
                     min-height: 44px;">
@@ -134,20 +400,108 @@ exports('search', (params, done) => {
                           <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
                           </div>
                         </div>
-                        
                       </div>
                       </div>
                     </div>
                   `);
                     $(`[data-id=${trimmedNA}]`).empty();
                   for (let m = 0; m < PAarray.length; m++) {
-                    $(`[data-id=${trimmedNA}]`).append(`
+                    let coefs = getCoefsSoccer(window.searchDATA, data[i].NA, PAarray[m]);
+                    if (coefs[0] == 'null' || coefs[0] == 'undefined' || coefs[1] == 'null' || coefs[1] == 'undefined' || coefs[2] == 'null' || coefs[2] == 'undefined') {
+                      continue;
+                    } else {
+                      $(`[data-id=${trimmedNA}]`).append(`
                     <div class="market-pa-item">
-                      <span class="font m-white ellipsis" style="font-size: 15px;">${PAarray[m]}</span>
-                      <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                      <div class="pa-item-names">
+                        <span class="font m-white ellipsis" style="font-size: 15px;">${PAarray[m]}</span>
+                        <span class="font m-white ellipsis" style="font-size: 12px;">${convertToDate(coefs[3])}</span>
+                      </div>
+                      <div class="pa-item-bets">
+                      <div class="bet-cell">
+                        <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                        align-items: flex-start; padding-bottom: 22px">
+                        1<br>${coefs[0]}
+                        </button>
+                      </div>  
+                      <div class="bet-cell">
+                      <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                      align-items: flex-start; padding-bottom: 22px">
+                      x<br>${coefs[1]}
+                      </button>
+                      </div>  
+                      <div class="bet-cell">
+                      <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                      align-items: flex-start; padding-bottom: 22px">
+                      2<br>${coefs[2]}
+                      </button>
+                      </div>  
+                      </div>
                     </div>
                     `);
+                    }
                   }
+              } else if (lastEV == 'COMPETITIONS') {
+                let trimmedNA = data[i].NA.replace(/\s/g, '').replace(/\W/g, '');
+                res_content.append(`
+                <div class="search-ev-links-${0}" style="
+                width: 100%;
+                height: auto;
+                min-height: 44px;">
+                  <div class="s-ev-link">
+                    <p class="font white t-clicked">${data[i].NA}</p>
+                    <div class="t-market-group active">
+                    <div data-id="${trimmedNA}"class="market-pa">
+                      <div class="market-pa-item">
+                      <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                      <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                      </div>
+
+                      <div class="market-pa-item">
+                      <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
+                      <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+                  `);
+                  
+                  let compets = getPAforCompets(window.searchDATA, data[i].NA);
+                  //console.log(data[i].NA + ': ' + comp_coefs);
+                  let marketPA = $(`[data-id=${trimmedNA}]`);
+                  marketPA.empty();
+                  for (let b = 0; b < compets.length; b++) {
+                    let comp_coefs = getCoefsCompet(window.searchDATA, data[i].NA ,compets[b]);
+                    marketPA.append(`
+                    <div class="market-pa-item">
+                    <div class="pa-item-names">
+                      <span class="font m-white ellipsis" style="font-size: 15px;">${compets[b]}</span>
+                      <span class="font m-white ellipsis" style="font-size: 12px;">${convertToDate(comp_coefs[3])}</span>
+                    </div>
+                    <div class="pa-item-bets">
+                    <div class="bet-cell">
+                    <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                    align-items: flex-start; padding-bottom: 22px">
+                    1<br>${comp_coefs[0]}
+                    </button>
+                  </div>  
+                  <div class="bet-cell">
+                  <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                  align-items: flex-start; padding-bottom: 22px">
+                  x<br>${comp_coefs[1]}
+                  </button>
+                  </div>  
+                  <div class="bet-cell">
+                  <button class="button coefficient" style="padding: 0; background-color: transparent; display: inline-flex; /* keep the inline nature of buttons */
+                  align-items: flex-start; padding-bottom: 22px">
+                  2<br>${comp_coefs[2]}
+                  </button>
+                  </div>   
+                    </div>                        
+                   </div>
+                    `);
+                  }
+                  
               } else {
                 res_content.append(`
                     <div class="search-ev-links-${0}" style="display: block;
@@ -197,6 +551,14 @@ exports('search', (params, done) => {
         $('.s-ev-link p.t-clicked').on('click', (el) => {
           eSetNotClicked(el);
         });
+
+        if (betslipIsLoaded == false) {
+          loadJsModules({
+            betslip_link: { loadCSS: true, loadLanguage: false },
+            betslip: { loadCSS: true, loadLanguage: false },
+          });
+          betslipIsLoaded = true;
+        }
       });
     }
 
