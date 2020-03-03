@@ -16,12 +16,10 @@ exports('aside', (params, done) => {
       if (typeof window.prematch === 'undefined') {
         window.sportsLoad();
       }
-      let kek = ['val'];
-      RenderAside(kek);
+      RenderAside(window.inplay);
 
       if (sessionStorage.getItem('aside') == 'inplay') {
-        let kek = ['val'];
-        RenderAside(kek);
+        RenderAside(window.inplay);
       } else if (sessionStorage.getItem('aside') == 'sport') {
         RenderAsideAll(window.inplay, window.prematch); RenderAsideAll
       } else if (sessionStorage.getItem('aside') == 'fav') {
@@ -92,7 +90,7 @@ exports('aside', (params, done) => {
             continue;
           }
         }*/
-        for (let i = 0; i < data.length; i++) {/*
+        for (let i = 0; i < data.length; i++) {
 
           let ID = data[i].ID;
           let name = data[i].NA;
@@ -116,7 +114,7 @@ exports('aside', (params, done) => {
               aside.removeClass('active');
               aside.addClass('not-active');
             }
-          });*/
+          });
         }
         resolve();
       });

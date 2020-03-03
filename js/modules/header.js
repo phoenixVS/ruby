@@ -10,8 +10,6 @@ exports('header', (params, done) => {
             "header/menu.html",
         ]
     }, () => {
-        $('.preloader').removeClass('not-done');
-        $('.preloader').addClass('done');
         // Login and user menu handlers
         Cookies.set('logon', 'false');
         $(`[data-id=login-button]`).on('click', () => {
