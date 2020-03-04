@@ -227,7 +227,6 @@ exports('betslip_link', (params, done) => {
       multiOdds();
     }
     else {
-      console.log(`go left`);
       $('.betslip-link .mini-loader').css({
         '-webkit-transform': 'translateZ(0) translateX(-7vw)',
         '-ms-transform': 'translateZ(0) translateX(-7vw)',

@@ -14,7 +14,7 @@
 .preloader.opaci {
   opacity: 0.4;
   visibility: visible;
-  filter: blur(7px);
+  /* filter: blur(7px); */
 }
 .preloader img {
   position: absolute;

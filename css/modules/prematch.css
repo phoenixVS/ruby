@@ -39,10 +39,11 @@
 .live-text {
   display: inline;
   padding-right: 10px;
+  color: red;
 }
 .inplay-text {
-  color: red;
   padding-right: 5px;
+  color: #fff;
 }
 .live-count {
   display: inline;
@@ -95,9 +96,11 @@
   -ms-overflow-style: none;
 }
 .market-group {
-  max-height: 40px;
   border-top: 1px solid #000;
   position: relative;
+}
+.market-group.closed {
+  max-height: 40px;
 }
 .market-group-text {
   text-overflow: ellipsis;
@@ -180,10 +183,16 @@
   font-weight: 700;
 }
 .coupon-list {
+  /* position: relative;
+  display: table;
+  table-layout: fixed;
+  background-color: #666;
+  font-size: 0; */
   width: 100%;
-  /* display: table; */
+  min-height: 34px;
 }
 .coupon-name {
+  position: relative;
   width: 100%;
   background-color: #808080;
   font-size: 1rem;
@@ -191,15 +200,14 @@
   border-left: 4px solid red;
   border-bottom: 1px solid #fff;
   color: #fff;
-  height: 44px;
   padding: 15px 25px;
   overflow: hidden;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  position: relative;
   display: table;
   vertical-align: middle;
-  height: 44px;
+  min-height: 34px;
+  height: 34px;
   line-height: 14px;
 }
 .coupon-name:first-child {

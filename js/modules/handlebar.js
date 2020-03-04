@@ -596,10 +596,10 @@ function calendarHandler() {
                     user_menu,
                     regist,
                     prematch,
+                    formWrapper,
                 ];
                 const unlurks = [
                     calendar,
-                    formWrapper,
                 ];
                 lurking(lurks, unlurks);
                 mybets.empty();

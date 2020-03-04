@@ -40,9 +40,10 @@
 .live-text {
   display: inline;
   padding-right: 10px;
+  color: red;
 }
 .inplay-text {
-  color: red;
+  color: #fff;
   padding-right: 5px;
 }
 .live-count {
@@ -69,6 +70,13 @@
 .prematch-table .cell {
   height: 100%;
 }
+.table .cell, .table .row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
 .prematch-table-title {
   overflow-x: scroll;
   white-space: nowrap;
@@ -77,6 +85,7 @@
   width: 100%;
   padding-left: 20px;
   border-bottom: 2px solid #000;
+  background-color: #9f263d;
 }
 .prematch-table-title .item {
   position: relative;

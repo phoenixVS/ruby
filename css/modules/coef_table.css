@@ -10,7 +10,7 @@ div.row.info.det:before {
   transform: translateY(-50%);
 }
 div.row.info.det.active:before {
-  transform: rotate(90deg);
+  transform: rotate(180deg);
   transition-duration: 0.5s;
   margin-top: 0px;
 }
