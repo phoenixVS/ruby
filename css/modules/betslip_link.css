@@ -11,6 +11,7 @@
   position: fixed;
   left: 50%;
   border-radius: 0 0 0 0;
+  z-index: 70;
 }
 .betslip-link.active div.flex-container {
   height: 51px;
