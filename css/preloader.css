@@ -14,7 +14,7 @@
 .preloader.opaci {
   opacity: 0.4;
   visibility: visible;
-  filter: blur(7px);
+  /* filter: blur(7px); */
 }
 .preloader img {
   position: absolute;
@@ -102,9 +102,9 @@
   }
 }
 .preloader.inBetslip {
-  background: #d8d8d8;
-  /* opacity: .7; */
-  filter: blur(6px);
+  background: #000;
+  opacity: .2;
+  /* filter: blur(6px); */
 }
 .preloader.done {
   opacity: 0;

@@ -4,6 +4,7 @@ exports('prematch_coupon', (params, done) => {
   }
   const preloader = $('#page-preloader');
   preloader.removeClass('done').addClass('opaci');
+  preloader.children('img').remove();
 
   $('.prematch').empty();
 
@@ -91,10 +92,12 @@ exports('prematch_coupon', (params, done) => {
       const nums = od.split('/');
       return (nums[0] / nums[1] + 1).toFixed(2)
     };
+
     function transformDay(str) {
       if (str) {
         const year = str.substring(0, 4);
-        const month = str.substring(4, 6);
+        let month = parseInt(str.substring(4, 6));
+        month--;
         const day = str.substring(6, 8);
         let time = str.substring(8, 12);
         const ls2lt = time.substring(0, 2);
@@ -363,15 +366,19 @@ exports('prematch_coupon', (params, done) => {
           $('.round-b').on('click', (event) => {
             window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2];
           });
-
-          document.querySelector(`[data-event-id]`).addEventListener('click', (event) => {
-            const cur = $(event.target);
-            if (typeof cur.parents(`.col-item`).data(`pd`) !== 'undefined') {
-              window.location.hash += '/' + encodeURL(cur.parents(`.col-item`).data(`pd`));
-            }
-            else {
-              window.location.hash += '/' + encodeURL(cur.parents(`.play-link`).data(`pd`));
-            }
+          document.querySelector('.sport-name').addEventListener('click', (event) => {
+            window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2];
+          });
+          document.querySelectorAll(`[data-event-id]`).forEach((item) => {
+            item.addEventListener('click', (event) => {
+              const cur = $(event.target);
+              if (typeof cur.parents(`.col-item`).data(`pd`) !== 'undefined') {
+                window.location.hash += '/' + encodeURL(cur.parents(`.col-item`).data(`pd`));
+              }
+              else {
+                window.location.hash += '/' + encodeURL(cur.parents(`.play-link`).data(`pd`));
+              }
+            });
           });
 
           $('.prematch-table-title .item').on('click', (event) => {

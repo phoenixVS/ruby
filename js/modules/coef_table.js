@@ -23,26 +23,54 @@ exports('coef_table', (params, done) => {
     }
 
     // Shortening club name
-    function shortize(name) {
+    function shortize(name, gameName) {
       let str = name;
-      if (screen.width < 350) {
-        str = str.slice(0, 12);
-        if (name.length > 12) {
-          str += '...';
+      let team1 = game.NA.split(' v ')[0] || ev.NA.split(' vs ')[0] || game.NA.split(' @ ')[0],
+        team2 = game.NA.split(' v ')[1] || ev.NA.split(' vs ')[1] || game.NA.split(' @ ')[1];
+      if (name.includes(team1) || name.includes(team2)) {
+        if (screen.width < 350) {
+          if (name.includes(team1)){
+            
+          }
+            str = str.slice(0, 12);
+          if (name.length > 12) {
+            str += '...';
+          }
+          return str;
+        } else if (screen.width > 350 && screen.width < 450) {
+          str = str.slice(0, 16);
+          if (name.length > 16) {
+            str += '...';
+          }
+          return str;
+        } else {
+          str = str.slice(0, 18);
+          if (name.length > 18) {
+            str += '...';
+          }
+          return str;
         }
-        return str;
-      } else if (screen.width > 350 && screen.width < 450) {
-        str = str.slice(0, 16);
-        if (name.length > 16) {
-          str += '...';
+      }
+      else {
+        if (screen.width < 350) {
+          str = str.slice(0, 12);
+          if (name.length > 12) {
+            str += '...';
+          }
+          return str;
+        } else if (screen.width > 350 && screen.width < 450) {
+          str = str.slice(0, 16);
+          if (name.length > 16) {
+            str += '...';
+          }
+          return str;
+        } else {
+          str = str.slice(0, 18);
+          if (name.length > 18) {
+            str += '...';
+          }
+          return str;
         }
-        return str;
-      } else {
-        str = str.slice(0, 18);
-        if (name.length > 18) {
-          str += '...';
-        }
-        return str;
       }
     }
 
@@ -150,7 +178,7 @@ exports('coef_table', (params, done) => {
                             $(`[data-bet=${ma.ID}]`).append(`
                           <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
                           <button style="padding-left: 10px;" class="button coefficient" data-eventNA="${data[0].NA}" data-cl="${data[0].CL}" data-marketNA="${ma.NA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}" class="button coefficient" >
-                            <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${shortize(pa.N2 ? pa.N2 : pa.NA)}</span>
+                            <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${shortize(pa.N2 ? pa.N2 : pa.NA, data[0].NA)}</span>
                             <span class="font coeff">${pa.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(pa.OD)}</span>
                           </button>
                         </div>`);
@@ -213,7 +241,7 @@ exports('coef_table', (params, done) => {
                               $(`[data-bet=${ma.ID}]`).append(`
                           <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
                           <button style="padding-left: 10px;" class="button coefficient" data-eventNA="${data[0].NA}" data-cl="${data[0].CL}" data-marketNA="${ma.NA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}" class="button coefficient" >
-                            <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${shortize(pa.N2 ? pa.N2 : pa.NA)}</span>
+                            <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${shortize(pa.N2 ? pa.N2 : pa.NA, data[0].NA)}</span>
                             <span class="font coeff">${pa.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(pa.OD)}</span>
                           </button>
                         </div>`);
@@ -299,7 +327,7 @@ exports('coef_table', (params, done) => {
       const div = document.createElement('div');
       div.className = 'bets_title';
       div.innerHTML = `
-        ${shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;')}
+        ${shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;', data[0].NA)}
       `
       //${CO.NA && !CO.NA.includes('Count') ? CO.NA : '&nbsp;'}
       return div
@@ -331,7 +359,7 @@ exports('coef_table', (params, done) => {
       div.className = `maTable__cell`;
       div.innerHTML = `
       <button class="button coefficient ${SU2}" data-it="${IT}" data-eventNA="${eventNA}" data-cl="${sport}" data-marketNA="${marketNA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}">
-        <p class="font ellipsis mra"> ${shortize(NA ? NA : '')}</p>
+        <p class="font ellipsis mra"> ${shortize(NA ? NA : '', data[0].NA)}</p>
         ${bet()}
       </button >
         `

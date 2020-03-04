@@ -3,6 +3,7 @@ exports('prematch_event', (params, done) => {
     window.sportsLoad();
   }
   const preloader = $('#page-preloader');
+  preloader.children('img').remove();
   preloader.removeClass('done').addClass('opaci');
 
   $('.prematch').empty();
@@ -88,7 +89,8 @@ exports('prematch_event', (params, done) => {
     function transformDay(str) {
       if (str) {
         const year = str.substring(0, 4);
-        const month = str.substring(4, 6);
+        let month = parseInt(str.substring(4, 6));
+        month--;
         const day = str.substring(6, 8);
         let time = str.substring(8, 12);
         const ls2lt = time.substring(0, 2);
@@ -115,12 +117,16 @@ exports('prematch_event', (params, done) => {
           if (mg.SY == 'cm') {
             mg.MA.forEach(item => {
               $('.prematch-table-title').append(`
-              <div class="item" data-id="${item.ID}" data-pd="${item.PD}">${item.NA}</div>
+              <div class="item" data-ls="${typeof item.LS === 'undefined' ? '0' : '1'}" data-pd="${item.PD}">${item.NA}</div>
             `);
             });
           }
         });
-        $('.prematch-table-title .item:first-child').addClass('selected');
+        document.querySelectorAll('.prematch-table-title .item').forEach((el) => {
+          if (el.dataset.ls == '1') {
+            el.classList.add('selected');
+          }
+        });
         for (mg of data.MG) {
           if (mg.N2 == 'Start Time') {
             document.querySelector('.event-date').innerText = new Date(transformDay(mg.BC)[1]).toDateString();
@@ -158,11 +164,16 @@ exports('prematch_event', (params, done) => {
                       let new_item = $(`<div data-id="coef_row" data-bet="${mg.IT}" class="row" style="height: auto;">
                         </div>`).hide();
                       cur.after(new_item);
-                      if (mg.MA[0].PA.length > 3 && typeof mg.MA[0].PA[0].OD !== 'undefined') {
+                      if (mg.MA[0].PY !== 'cj' /* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
                         mg.MA.map(ma => {
                           const div = document.createElement('div');
-                          div.className = 'bets_column';
-                          div.appendChild(titleTemplateForBets(ma));
+                          div.className = `bets_column`;
+                          if (ma.SY == 'cy') {
+                            div.classList.add('ma-title');
+                          }
+                          if (mg.MA.length > 1) {
+                            div.appendChild(titleTemplateForBets(ma, ma.SY == 'cy' ? true : false));
+                          }
                           ma.PA.map(pa => {
                             div.appendChild(forEventDataColumnTemplate(pa, mg.SY, data[0].NA, mg.NA, data[0].CL));
                           });
@@ -216,6 +227,21 @@ exports('prematch_event', (params, done) => {
         )
         .then(
           response => {
+            document.querySelectorAll('.prematch-table-title .item').forEach((item) => {
+              item.addEventListener('click', (event) => {
+                let cur = event.target;
+                while (!matches(cur, '.item')) {
+                  cur = cur.parentNode;
+                }
+                window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2] + '/' + window.location.hash.split('/')[3] + '/' + encodeURL(cur.dataset.pd);
+              });
+            });
+            document.querySelector('.sport-name').addEventListener('click', (event) => {
+              window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2];
+            });
+            document.querySelector('.league').addEventListener('click', (event) => {
+              window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2] + '/' + window.location.hash.split('/')[3];
+            });
             $(`[data-id=row_info]`).on('click', (elem) => {
               const waitForBS = new Promise((resolve, reject) => {
                 let cur = $(elem.target);
@@ -231,11 +257,17 @@ exports('prematch_event', (params, done) => {
                       let new_item = $(`<div data-id="coef_row" data-bet="${mg.IT}" class="row" style="height: auto;">
                         </div>`).hide();
                       cur.after(new_item);
-                      if (mg.MA[0].PA.length > 3 && typeof mg.MA[0].PA[0].OD !== 'undefined') {
+                      if (mg.MA[0].PY !== 'cj' /* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
                         mg.MA.map(ma => {
                           const div = document.createElement('div');
                           div.className = 'bets_column';
-                          div.appendChild(titleTemplateForBets(ma));
+                          if (ma.SY == 'cy') {
+                            div.classList.add('ma-title');
+                          }
+                          if (mg.MA.length > 1) {
+                            console.log(`do not shortize`);
+                            div.appendChild(titleTemplateForBets(ma, ma.SY == 'cy' ? true : false));
+                          }
                           ma.PA.map(pa => {
                             div.appendChild(forEventDataColumnTemplate(pa, mg.SY, data[0].NA, mg.NA, data[0].CL));
                           });
@@ -301,6 +333,8 @@ exports('prematch_event', (params, done) => {
             });
             // preloader done
             preloader.addClass('done').removeClass('opaci');
+            preloader.children('img').remove();
+
             $('[data-id=row_info]').css('position', 'relative');
             $('[data-id=row_info]').children().css('position', 'relative');
 
@@ -352,11 +386,11 @@ exports('prematch_event', (params, done) => {
       return (nums[0] / nums[1] + 1).toFixed(2)
     };
     // Render title of the column
-    titleTemplateForBets = (CO) => {
+    titleTemplateForBets = (CO, shorti) => {
       const div = document.createElement('div');
       div.className = 'bets_title';
       div.innerHTML = `
-        ${shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;')}
+        ${shorti ? CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;' : shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;')}
       `
       //${CO.NA && !CO.NA.includes('Count') ? CO.NA : '&nbsp;'}
       return div
@@ -364,7 +398,7 @@ exports('prematch_event', (params, done) => {
     // Render column for bet coef_row
     forEventDataColumnTemplate = (pa, SY, eventNA, marketNA, sport) => {
       const { NA, SU, IT, OD } = pa;
-      const SU2 = (SU == 1) ? 'disabled' : '';
+      const SU2 = (SU == 1 || typeof pa.OD === 'undefined') ? 'disabled' : '';
       const div = document.createElement('div');
 
       let bet = () => {
@@ -381,18 +415,29 @@ exports('prematch_event', (params, done) => {
             }
           }
           else {
-            return `<p class="font down blick">${modifyBets(pa.OD)}</p>`;
+            if (typeof pa.OD !== 'undefined') {
+              return `<p class="font down blick">${modifyBets(pa.OD)}</p>`;
+            }
+            else {
+              return ' ';
+            }
           }
         }
       };
       div.className = `maTable__cell`;
       div.innerHTML = `
-      <button class="button coefficient ${SU2}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-ID="${pa.ID}" data-OD="${pa.OD}" data-SU="${pa.SU}">
-        <p class="font ellipsis mra"> ${shortize(NA ? NA : '')}</p>
+      <button class="button coefficient ${SU2}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-ID="${pa.ID}" data-OD="${pa.OD}" data-SU="${pa.SU}" ${(NA || pa.HD) && (typeof pa.BL === 'undefined') ? '' : `style="justify-content: center"`}>
+        ${NA ? `<p class="font ellipsis mra"> ${NA}</p>` :
+          (pa.HD ?
+            (pa.BL == '' ? '' : `<p class="font ellipsis mra">${pa.HD}</p>`)
+            : '')}
         ${bet()}
       </button >
         `
       return div
+    };
+    const matches = function (el, selector) {
+      return (el.matches || el.matchesSelector || el.msMatchesSelector || el.mozMatchesSelector || el.webkitMatchesSelector || el.oMatchesSelector).call(el, selector);
     };
     done();
   });

@@ -4,7 +4,7 @@ exports('betslip', (params, done) => {
   }
   else {
     let cln = document.querySelector('.inBetslip');
-    cln.classList.add('opaci', 'inBetslip');
+    cln.classList.add('inBetslip');
     cln.classList.remove('done');
     cln.dataset.status = 'not-done';
     console.log(`#bsDiv!`);
@@ -143,7 +143,7 @@ exports('betslip', (params, done) => {
       }
       if ($('.preloader.inBetslip').length == 0) {
         let cln = document.querySelector('#page-preloader').cloneNode(true);
-        cln.classList.add('opaci', 'inBetslip');
+        cln.classList.add('inBetslip');
         cln.classList.remove('done');
         cln.dataset.status = 'not-done';
         document.querySelector('.betslipWrapper').insertAdjacentElement('beforebegin', cln);;
@@ -197,7 +197,7 @@ exports('betslip', (params, done) => {
       $('.acceptChanges').on('click', (event) => {
         event.preventDefault();
         let cln = document.querySelector('.preloader.inBetslip');
-        cln.classList.add('opaci', 'inBetslip');
+        cln.classList.add('inBetslip');
         cln.classList.remove('done');
         cln.dataset.status = 'not-done';
         console.log(`#bsDiv!`);

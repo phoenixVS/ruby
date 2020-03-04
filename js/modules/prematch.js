@@ -2,8 +2,8 @@ exports('prematch', (params, done) => {
   if (typeof window.prematch === 'undefined') {
     window.sportsLoad();
   }
-  const preloader = $('#page-preloader');
-  preloader.removeClass('done').addClass('opaci');
+  const preloader = $('#page-preloader').addClass('opaci');
+  preloader.removeClass('done');
   preloader.children('img').remove();
 
   $('.prematch').empty();
@@ -267,7 +267,7 @@ exports('prematch', (params, done) => {
               let cur = $(event.target);
               if (!cur.is('.market-group')) {
                 while (!cur.is('.market-group')) {
-                  cur = cur.parent();
+                  cur = cur.parents('.market-group');
                 }
               }
               let url = 'http://bestline.bet/sports/?PD=';
@@ -298,7 +298,6 @@ exports('prematch', (params, done) => {
                           .then(() => {
                             // finish preloader
                             preloader.addClass('done').removeClass('opaci');
-
                             coupon_list.appendTo(cur).hide().slideDown(150);
                             cur.removeClass('closed');
                             cur.addClass('opened');
@@ -316,12 +315,11 @@ exports('prematch', (params, done) => {
                     });
                   }
                 });
-
-
               }
               else {
-                cur.children('.market-group-list').slideUp(150, () => {
-                  cur.children('.market-group-list').remove();
+                console.log(cur.children('.coupon-list'));
+                cur.children('.coupon-list').slideUp(150, () => {
+                  cur.children('.coupon-list').remove();
                   cur.removeClass('opened'); cur.addClass('closed');
                   // finish preloader
                   preloader.addClass('done').removeClass('opaci');
