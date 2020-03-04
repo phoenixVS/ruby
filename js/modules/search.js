@@ -520,6 +520,8 @@ exports('search', (params, done) => {
         resolve();
       }).then(() => {
 
+        console.log('Tennis then done');
+
         function eSetClicked(el) {
           $(el.target).removeClass('t-not-clicked');
           $(el.target).addClass('t-clicked');
@@ -929,11 +931,13 @@ exports('search', (params, done) => {
           if ( $(el.target).hasClass('.search-scroll-item') ) {
             $(el.target).addClass('choosen');
             let sport_id = $(el.target).data('id');
-            console.log('Rendering sport with ID: ' + sport_id);
+            console.log(sport_id);
+            renderResult(sport_id);
           } else {
             $(el.target).parent().addClass('choosen');
             let sport_id = $(el.target).parent().data('id');
-            console.log('Rendering sport with ID: ' + sport_id);
+            console.log(sport_id);
+            renderResult(sport_id);
           }
         });
 
@@ -947,6 +951,18 @@ exports('search', (params, done) => {
       });
     }
 
+    function renderResult(id) {
+      switch (id) {
+        case 1:
+          console.log('Soccer');
+          RenderSearchResult(window.searchDATA);
+          break;
+        case 13:
+          console.log('Tennis');
+          RenderSearchResultTennis(window.searchDATA);
+          break;
+      }
+    }
 
     function renderSearch() {
       let renderPromise = new Promise((resolve, reject) => {
