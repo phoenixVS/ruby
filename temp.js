@@ -1,207 +1,121 @@
-bt = 1
-  & mo=0 & fs=0
-    & ns=pt = N#o = 8 / 13#f = 85818152#fp = 547020889#so = 0#c = 1#id = 85818152 - 547020889Y#sa = 5e3d6508 - 1E1C6E6#| FO=False#mt = 5#es = 1#TP = BS85818152 - 547020889#pbc = 0#tr = 0#
-pt = N#o = 12 / 5#f = 85789886#fp = 545146905#so = 0#c = 1#id = 85789886 - 545146905Y#sa = 5e3d66e0 - F93320E5#| FO=False#mt = 5#st = 1#tr = 3.4#es = 1#ust = 1#TP = BS85789886 - 545146905#pbc = 0#
-& ms=id = 2#bc = 1#| st=11#ust = 11#pbc = 0#es = 1#FO = False#
-& cs=
+const market = findMarket(event, itemId);
 
-o = 11 / 10#fi = 85788381#fp = 545062010#cl = 1
-
-{
-  "bt": 1,
-    "ns": "pt=N#o=10/3#
-  f = 86389659
-  #fp = 593681927
-  #so = 0
-  #c = 1
-  #id = 86389659 - 593681927Y
-  #sa = 5e413d68 - 60D0DCE9
-  #| FO=False
-  #mt = 11
-  #st = 2
-  #tr = 8.66
-  #es = 1
-  #ust = 2
-  #TP = BS86389659 - 593681927
-  #pbc = 0#
-
-  pt = N#o = 14 / 1#f = 86368563#fp = 592214180#so = 0#c = 1#id = 86368563 - 592214180Y#| TP=BS86368563 - 592214180#
-  ",
-  "mo": 1,
-    "ms": "id=2#bc=6#|pbc=0#es=1#FO=False#
-  id = 3#bc = 4#| st=12#ust = 12#pbc = 0#es = 1#FO = False#
-  ",
-  "cs": "",
+if (market.CO.length === 3
+  && market.CO[0].NA === "1"
+  && market.CO[1].NA === "X"
+  && market.CO[2].NA === "2"
+) {
+  if (market.CO[2].PA !== undefined) {
+    for (let outcome of market.CO[2].PA) {
+      outcome.NA = swapScore(outcome.NA);
+    }
+  }
 }
 
-{ bss }
-bt = 1 & ns=pt = N#o = 8 / 15#f = 86422229#fp = 595874899#so = 0#c = 1#id = 86422229 - 595874899#sa = 5e427b0b - C17A439F#| FO=False#mt = 2#es = 0#TP = BS86422229 - 595874899#pbc = 0#
+const status = market.SU === "1" ? "0" : "1";
+const eventId = event.FI;
+const marketId = market.ID;
 
-pt = N#o = 15 / 4#f = 86425165#fp = 596151262#so = 0#c = 1#id = 86425165 - 596151262#sa = 5e427b0e - 83F773C7#| FO=False#mt = 2#es = 0#TP = BS86425165 - 596151262#pbc = 0#
+let outcomes = getOutcomes(market).filter(it => it.DL !== "1" && it.OD);
 
-& ms=id = 2#bc = 1#| pbc=0#
-
-{ bse }
-{ bss } bt = 1 ||& mo=0 & fs=0 & ns=pt = N#o = 7 / 5#f = 86601149#fp = 611047806#so = 0#c = 1#id = 86601149 - 611047806Y#sa = 5e4a5051 - D88981D3#| FO=False#mt = 2#es = 1#olc = 1#TP = BS86601149 - 611047806#pbc = 0#|| pt=N#o = 4 / 7#f = 86566680#fp = 608077324#so = 0#c = 1#id = 86566680 - 608077324Y#sa = 5e4a5051 - F908CF86#| FO=False#mt = 2#es = 1#olc = 1#TP = BS86566680 - 608077324#pbc = 0#|| pt=N#o = 8 / 11#f = 86615523#fp = 612043512#so = 0#c = 1#id = 86615523 - 612043512Y#sa = 1705249b7a2 - 60D0DCE9#| FO=False#mt = 2#es = 1#TP = BS86615523 - 612043512#pbc = 0#||
-& ms=id = 2#bc = 3#| pbc=0#
-|| id=3#bc = 1#| pbc=0#|| id=14#bc = 4#| pbc=0#|| { bse }
-
-{
-  "bt": 1,
-    "ns": "pt=N#o=10/3#f=86389659#fp=593681927#so=0#c=1#id=86389659-593681927Y#sa=5e413d68-60D0DCE9#|FO=False#mt=11#st=2#tr=8.66#es=1#ust=2#TP=BS86389659-593681927#pbc=0#||pt=N#o=14/1#f=86368563#fp=592214180#so=0#c=1#id=86368563-592214180Y#|TP=BS86368563-592214180#||",
-      "mo": 1,
-        "ms": "id=2#bc=6#|pbc=0#es=1#FO=False#||id=3#bc=4#|st=12#ust=12#pbc=0#es=1#FO=False#||",
-          "cs": ""
+const someHaveHandicap = outcomes.some(it => it.HA);
+if (!someHaveHandicap) {
+  output.market.push(formatMarket(eventId, marketId, status, outcomes));
+  break;
 }
 
-ns: pt = N#o = 6 / 5#f = 86423099#fp = 595950360#so =#c = 1#mt = 2#id = 86423099 - 595950360#sa = 5e42b487 - AAAB0BC8#| TP=BS86423099 - 595950360#st =#ust =#tr =#|| pt=N#o = 8 / 13#f = 86425236#fp = 596163323#so =#c = 1#mt = 2#id = 86425236 - 596163323#| TP=BS86425236 - 596163323#||
+let specName = "hdp";
+if (outcomes.some(it => /Over/g.test(it.NA))) { // total
+  specName = "total";
+} else if (outcomes.some(it => /\d\d:\d\d/.test(it.HA))) { // time
+  specName = "time";
+}
 
-  ns: pt = N#o = 6 / 5#f = 86423099#fp = 595950360#so = 0#c = 1#id = 86423099 - 595950360#sa = 5e42b487 - AAAB0BC8#| FO=False#mt = 2#es = 1#TP = BS86423099 - 595950360#pbc = 0#tr = 0#|| pt=N#o = 8 / 13#f = 86425236#fp = 596163323#so = 0#c = 1#id = 86425236 - 596163323#sa = 5e42b4ba - 7633174#| FO=False#mt = 2#es = 1#TP = BS86425236 - 596163323#pbc = 0#tr = 0#||
+const hasTriples = outcomes.some(it => /Tie|Exactly/g.test(it.NA));
+if (hasTriples || market.CO.length === 1) {
+  let matching: Obj[] = [];
 
+  outcomes = outcomes.filter(it => it.HA);
 
-    <div class="row">
-      <div class="cell" data-game-id="${ev.ID}" data-id="event">
-        <div data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
-          <div data-game-id="${ev.ID}" class="[ play-link-block ]">
-            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[0]}</p>
-            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[1]}</p>
-          </div>
-          <div data-game-id="${ev.ID}" class="[ play-link-block ] text-right">
-            <div data-game-id="${ev.ID}" class="sport-icon play"></div>
-            <p data-game-id="${ev.ID}" data-class="play-link" class="font m-white">${ev.SS}</p>
-            <p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p>
-          </div>
-        </div>
-      </div>
-    </div>
+  while (outcomes.length > 0) {
+    let spec: string = outcomes[0].HA;
+    let sign = "";
+    if (spec[0] === "+") {
+      spec = spec.slice(1);
+      sign = "+";
+    } else if (spec[0] === "-") {
+      spec = spec.slice(1);
+      sign = "-";
+    }
+    let specifiers = [{ [specName]: sign + spec }];
 
-    <div class="cell" data-game-id="${ev.ID}" data-id="event">
-      <div data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
-        <div data-game-id="${ev.ID}" class="[ play-block ]">
-          <div class="team home">
-            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[0]}</p>
-            <div class="team-score">${ev.SS}</div>
-          </div>
-          <div class="team away">
-            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${ev.NA.split(' v ')[1]}</p>
-            <div class="team-score">${ev.SS}</div>
-          </div>
-          <div data-game-id="${ev.ID}" class="[ play-link-block ] text-right">
-            <div data-game-id="${ev.ID}" class="sport-icon play"></div>
-            <p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p>
-          </div>
-        </div>
-      </div>
-    </div>
+    [matching, outcomes] = filterDual(outcomes, outcome => {
+      return outcome.HA === spec
+        || outcome.HA === "+" + spec
+        || outcome.HA === "-" + spec;
+    });
 
-    <div class="ipo-Fixture_GameDetail ">
-      <div class="ipo-Fixture_GameItem ">
-        <div class="ipo-Fixture_CompetitorName ">
-          <div class="ipo-Fixture_Truncator ">КД Такон - Женщины</div>
-        </div>
-        <div class="ipo-Fixture_CompetitorScores ">
-          <span class="ipo-Fixture_PointField ">0</span>
-        </div>
-      </div>
-      <div class="ipo-Fixture_GameItem ">
-        <div class="ipo-Fixture_CompetitorName ">
-          <div class="ipo-Fixture_Truncator ">Райо Вальекано - Женщины</div>
-        </div>
-        <div class="ipo-Fixture_CompetitorScores ">
-          <span class="ipo-Fixture_PointField ">0</span>
-        </div>
-      </div>
-      <div class="ipo-Fixture_MetaContainer "><div class="ipo-Fixture_GameInfo ipo-Fixture_GameInfo-2 "></div><div class="ipo-Fixture_GameInfo ipo-Fixture_Time "><div>33:34</div></div><div class="ipo-Fixture_MarketCount ">22</div></div>
-    </div>
+    output.market.push(formatMarket(eventId, marketId, status, matching, specifiers));
+  }
+} else {
+  const cols: Obj[] = market.CO;
+  const firstIsHeader = cols[0].PA.every((outcome: Obj) => outcome.OD === "");
+  const start = firstIsHeader ? 1 : 0;
 
+  for (let i = 0; i < cols[start].PA.length; i++) {
+    if (cols[start].PA[i].DL === "1") continue;
 
+    const spec = cols[start].PA[i].HA;
+    const specifiers = [{ [specName]: spec }];
 
-    <div class="ipe-EventSwitcher ">
-      <div style="max-height: 647px;" class="ipe-EventSwitcher_Container ">
-        <div class="ipe-EventSwitcherFixtureList ">
-          <div class="ipe-EventSwitcherCompetitionBase ">
-            <div class="ipe-EventSwitcher_CompetitionName">ITF M25 Актобе</div>
-            <div class="ipe-EventSwitcherFixture ipe-EventSwitcherFixture_NoTimings ">
-              <div class="ipe-EventSwitcherFixture_GameDetail ">
-                <div class="ipe-EventSwitcherFixture_MetaContainer Hidden ">
-                </div><div class="ipe-EventSwitcherFixture_GameItems ">
-                  <div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ">
-                    <div class="ipe-EventSwitcherFixture_CompetitorName ">
-                      <span class="ipe-EventSwitcherFixture_Truncator "> Отто  Виртанен</span>
-                    </div>
-                    <div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets ">
-                      <span class="ipe-EventSwitcher_PointNode ">0</span>
-                    </div>
-                  </div>
-                  <div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active ">
-                    <div class="ipe-EventSwitcherFixture_CompetitorName ">
-                      <span class="ipe-EventSwitcherFixture_Truncator "> Достанбек Ташбулатов</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">0</span></div></div></div></div></div></div><div class="ipe-EventSwitcherCompetitionBase Hidden "><div class="ipe-EventSwitcher_CompetitionName">ITF M15 Анталья</div></div><div class="ipe-EventSwitcherCompetitionBase "><div class="ipe-EventSwitcher_CompetitionName">ITF W60 Киото</div><div class="ipe-EventSwitcherFixture ipe-EventSwitcherFixture_CurrentFixture ipe-EventSwitcherFixture_NoTimings "><div class="ipe-EventSwitcherFixture_GameDetail "><div class="ipe-EventSwitcherFixture_MetaContainer Hidden "></div><div class="ipe-EventSwitcherFixture_GameItems "><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator ">  Риса  Усидзима</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">6</span><span class="ipe-EventSwitcher_PointNode ">1</span></div></div><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Арина  Родионова</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">4</span><span class="ipe-EventSwitcher_PointNode ">4</span></div></div></div></div></div></div><div class="ipe-EventSwitcherCompetitionBase "><div class="ipe-EventSwitcher_CompetitionName">ITF W25 Джодхпур</div><div class="ipe-EventSwitcherFixture ipe-EventSwitcherFixture_NoTimings "><div class="ipe-EventSwitcherFixture_GameDetail "><div class="ipe-EventSwitcherFixture_MetaContainer Hidden "></div><div class="ipe-EventSwitcherFixture_GameItems "><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Берфу Ченгиз</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">3</span><span class="ipe-EventSwitcher_PointNode ">6</span><span class="ipe-EventSwitcher_PointNode ">0</span></div></div><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Карман Каур  Танди</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">6</span><span class="ipe-EventSwitcher_PointNode ">3</span><span class="ipe-EventSwitcher_PointNode ">0</span></div></div></div></div></div><div class="ipe-EventSwitcherFixture ipe-EventSwitcherFixture_NoTimings "><div class="ipe-EventSwitcherFixture_GameDetail "><div class="ipe-EventSwitcherFixture_MetaContainer Hidden "></div><div class="ipe-EventSwitcherFixture_GameItems "><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Валерия Страхова</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">3</span><span class="ipe-EventSwitcher_PointNode ">4</span></div></div><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Соуйаня Бависетти</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">6</span><span class="ipe-EventSwitcher_PointNode ">5</span></div></div></div></div></div><div class="ipe-EventSwitcherFixture ipe-EventSwitcherFixture_NoTimings "><div class="ipe-EventSwitcherFixture_GameDetail "><div class="ipe-EventSwitcherFixture_MetaContainer Hidden "></div><div class="ipe-EventSwitcherFixture_GameItems "><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Зеел Десай</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">6</span><span class="ipe-EventSwitcher_PointNode ">2</span></div></div><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Мияби Иноуэ</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">3</span><span class="ipe-EventSwitcher_PointNode ">1</span></div></div></div></div></div></div><div class="ipe-EventSwitcherCompetitionBase "><div class="ipe-EventSwitcher_CompetitionName">ITF W25 Перт</div><div class="ipe-EventSwitcherFixture ipe-EventSwitcherFixture_NoTimings "><div class="ipe-EventSwitcherFixture_GameDetail "><div class="ipe-EventSwitcherFixture_MetaContainer Hidden "></div><div class="ipe-EventSwitcherFixture_GameItems "><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Эбби Майерс</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">4</span><span class="ipe-EventSwitcher_PointNode ">7</span><span class="ipe-EventSwitcher_PointNode ">0</span></div></div><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Азия Муххамад</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">6</span><span class="ipe-EventSwitcher_PointNode ">6</span><span class="ipe-EventSwitcher_PointNode ">1</span></div></div></div></div></div><div class="ipe-EventSwitcherFixture ipe-EventSwitcherFixture_NoTimings "><div class="ipe-EventSwitcherFixture_GameDetail "><div class="ipe-EventSwitcherFixture_MetaContainer Hidden "></div><div class="ipe-EventSwitcherFixture_GameItems "><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Мана  Кавамура</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">2</span><span class="ipe-EventSwitcher_PointNode ">0</span></div></div><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Александра Божович</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">6</span><span class="ipe-EventSwitcher_PointNode ">0</span></div></div></div></div></div><div class="ipe-EventSwitcherFixture ipe-EventSwitcherFixture_NoTimings "><div class="ipe-EventSwitcherFixture_GameDetail "><div class="ipe-EventSwitcherFixture_MetaContainer Hidden "></div><div class="ipe-EventSwitcherFixture_GameItems "><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator ">Mia Repac</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">0</span></div></div><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Зузана Злочова</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">0</span></div></div></div></div></div><div class="ipe-EventSwitcherFixture ipe-EventSwitcherFixture_NoTimings "><div class="ipe-EventSwitcherFixture_GameDetail "><div class="ipe-EventSwitcherFixture_MetaContainer Hidden "></div><div class="ipe-EventSwitcherFixture_GameItems "><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Мисаки  Матсуда</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">3</span><span class="ipe-EventSwitcher_PointNode ">0</span></div></div><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator "> Найктха Бэйнс</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">6</span><span class="ipe-EventSwitcher_PointNode ">0</span></div></div></div></div></div></div><div class="ipe-EventSwitcherCompetitionBase "><div class="ipe-EventSwitcher_CompetitionName">ITF W60 Киото - ЖП</div><div class="ipe-EventSwitcherFixture ipe-EventSwitcherFixture_NoTimings "><div class="ipe-EventSwitcherFixture_GameDetail "><div class="ipe-EventSwitcherFixture_MetaContainer Hidden "></div><div class="ipe-EventSwitcherFixture_GameItems "><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator ">Инди Де Врум/Чинью  Ванг</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">2</span></div></div><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator ">Михару Иманиши/Робу Каджитани</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">1</span></div></div></div></div></div><div class="ipe-EventSwitcherFixture ipe-EventSwitcherFixture_NoTimings "><div class="ipe-EventSwitcherFixture_GameDetail "><div class="ipe-EventSwitcherFixture_MetaContainer Hidden "></div><div class="ipe-EventSwitcherFixture_GameItems "><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable ipe-EventSwitcherFixture_Active "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator ">Харука Кадзи/Дзюнри Намигата</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets "><span class="ipe-EventSwitcher_PointNode ">6</span><span class="ipe-EventSwitcher_PointNode ">2</span></div></div><div class="ipe-EventSwitcherFixture_GameItem ipe-EventSwitcherFixture_Servable "><div class="ipe-EventSwitcherFixture_CompetitorName "><span class="ipe-EventSwitcherFixture_Truncator ">Нагиса Моримото/Канако Осафун</span></div><div class="ipe-EventSwitcherFixture_CompetitorScores ipe-EventSwitcherFixture_CompetitorSets ">
-                        <span class="ipe-EventSwitcher_PointNode ">2</span>
-                        <span class="ipe-EventSwitcher_PointNode ">1</span>
-                      </div>
-                      </div>
-                      </div>
-                      </div>
-                      </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    const row: Obj[] = [];
+    for (let j = start; j < cols.length; j++) {
+      const outcomes = cols[j].PA;
+      if (outcomes !== undefined) {
+        row.push(outcomes[i]);
+      }
+    }
 
-type: "CL"
-TK: "BEw"
-ID: "13"
-IT: "#AC#B13#C20689562#D7#E83#F4#"
-OR: "0"
-EX: "7,#AC#B13#C20689562#D7#E83#F4#@9,BETTINGNEWS13@15,<"
-ED: "1,#AS#B13#Q1#,0@2,#AS#B13#,1"
-H1: "1,#AS#B13#Q1#,0@2,#AS#B13#,1"
-H2: ""
-NA: ","
-PV: "300.0.198.0/MCC"
+    output.market.push(formatMarket(eventId, marketId, status, row, specifiers));
+  }
+}
+function formatMarket(
+  eventId: string,
+  marketId: string,
+  status: string,
+  outcomes: Obj[],
+  specifiers?: Obj[],
+): Obj {
+  const formattedOutcomes = outcomes.map(outcome => {
+    let selectionId: string = (outcome.BS !== undefined && outcome.BS !== "")
+      ? outcome.BS
+      : outcome.NA;
+    selectionId = selectionId.trim();
 
-type: "EV"
-IT: "13"
-OR: "0"
-TB: "Tennis,#AS#B13#¬ATP Acapulco,#ABM#B13#C20689562#D7#E83#F4#"
-EN: "1"
+    if (outcome.N2 === "2") selectionId = swapScore(selectionId);
 
-type: "CL"
-TK: "B/0"
-ID: "13"
-IT: "#AC#B13#C20689562#D700#E130066#F4#"
-OR: "0"
-EX: "7,#AC#B13#C20689562#D700#E130066#F4#@9,BETTINGNEWS13@15,<"
-ED: "1,#AS#B13#Q1#,0@2,#AS#B13#,1"
-H1: "1,#AS#B13#Q1#,0@2,#AS#B13#,1"
-H2: ""
-NA: ","
-PV: "300.0.198.0/MCC"
+    if (outcome.OD === undefined) {
+      globals.debugLog.err({ type: "outcome.OD", eventId, marketId, outcome });
+    }
 
-type: "EV"
-ID: "13"
-IT: "13"
-TB: "Tennis,#AS#B13#¬ATP Acapulco,#ABM#B13#C20689562#D700#E130066#F4#"
-EN: "1"
-NF: "86828101"
-CC: "20689562"
+    return {
+      selectionId,
+      price: priceToDecimal(outcome.OD),
+      active: status,
+    };
+  });
 
+  const market: Obj = {
+    status,
+    eventId,
+    marketId: marketId,
+    outcomes: formattedOutcomes,
+  };
 
-// one more col
-type: "CL"
-TK: "2Tw"
-ID: "13"
-IT: "#AC#B13#C20689562#D7#E130104#F4#"
-OR: "0"
-EX: "7,#AC#B13#C20689562#D7#E130104#F4#@9,BETTINGNEWS13@15,<"
-ED: "1,#AS#B13#Q1#,0@2,#AS#B13#,1"
-H1: "1,#AS#B13#Q1#,0@2,#AS#B13#,1"
-H2: ""
-NA: ","
-PV: "300.0.198.0/MCC"
+  if (specifiers !== undefined) {
+    market.specifiers = specifiers;
+  }
 
-type: "EV"
-IT: "13"
-OR: "0"
-TB: "Tennis,#AS#B13#¬ATP Acapulco,#ABM#B13#C20689562#D7#E130104#F4#"
-EN: "1"
+  return market;
+}
+output.market.push -> marketsDiv.appendChild

@@ -3,6 +3,7 @@ exports('prematch_event', (params, done) => {
     window.sportsLoad();
   }
   const preloader = $('#page-preloader');
+  preloader.children('img').remove();
   preloader.removeClass('done').addClass('opaci');
 
   $('.prematch').empty();
@@ -301,6 +302,8 @@ exports('prematch_event', (params, done) => {
             });
             // preloader done
             preloader.addClass('done').removeClass('opaci');
+            preloader.children('img').remove();
+
             $('[data-id=row_info]').css('position', 'relative');
             $('[data-id=row_info]').children().css('position', 'relative');
 

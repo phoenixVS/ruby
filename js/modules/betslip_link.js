@@ -243,6 +243,7 @@ exports('betslip_link', (params, done) => {
   $('.betslip-link .mini-loader').addClass('done');
 
   bsLink.on('click', (event) => {
+    bsLink.off();
     // bsLink.slideUp('fast');
     $('.betslip-link .mini-loader').removeClass('done');
     loadJsModules({

@@ -29,7 +29,9 @@ exports('coef_table', (params, done) => {
         team2 = game.NA.split(' v ')[1] || ev.NA.split(' vs ')[1] || game.NA.split(' @ ')[1];
       if (name.includes(team1) || name.includes(team2)) {
         if (screen.width < 350) {
-          if (name.includes(team1))
+          if (name.includes(team1)){
+            
+          }
             str = str.slice(0, 12);
           if (name.length > 12) {
             str += '...';
