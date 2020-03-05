@@ -1,4 +1,9 @@
 exports('header', (params, done) => {
+    if ($('.header .menu').length > 0) {
+        $('.header .top').empty();
+        $('.header .show-menu').empty();
+        $('.header .menu').empty();
+    }
     insertHtmlModules({
         ".header .top": [
             "header/top-menu.html",

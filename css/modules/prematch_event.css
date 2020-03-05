@@ -44,10 +44,11 @@
 .live-text {
   display: inline;
   padding-right: 10px;
+  color: red;
 }
 .inplay-text {
-  color: red;
   padding-right: 5px;
+  color: #fff;
 }
 .live-count {
   display: inline;
@@ -190,26 +191,30 @@
   /* display: table; */
 }
 .coupon-name {
+  position: relative;
   width: 100%;
-  background-color: #808080;
-  font-size: 1rem;
-  font-weight: bold;
-  border-left: 4px solid red;
+  background-color: #606060;
+  font-size: .9rem;
+  font-weight: normal;
+  border-left: 4px solid #9f263d;
   border-bottom: 1px solid #fff;
   color: #fff;
-  height: 44px;
-  padding: 15px 25px;
+  padding: 8px 25px;
   overflow: hidden;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  position: relative;
   display: table;
   vertical-align: middle;
-  height: 44px;
-  line-height: 14px;
+  min-height: 30px;
+  max-height: 30px;
+  height: 30px;
+  /* line-height: 14px; */
 }
 .coupon-name:first-child {
   border-top: 1px solid #fff;
+}
+.col-label {
+  background-color: #a7a7a7;
 }
 /* PREMATCH*/
 .round-b {
@@ -561,6 +566,28 @@ p.timer-el {
 }
 /*end of playtable*/
 /*coef_table*/
+.bets_column > .maTable__cell {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid transparent;
+  min-height: 44px;
+  max-height: 44px;
+  height: 100%;
+  width: 100%;
+  font-size: 13px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  border-right-color: #737373;
+  border-bottom-color: #111111;
+}
+.bets_column:last-child {
+  border: 0;
+}
+.half-w {
+  width: 49%;
+}
 div.row.info.det:before {
   cursor: pointer;
   content: '\f107';

@@ -164,7 +164,7 @@ exports('prematch_event', (params, done) => {
                       let new_item = $(`<div data-id="coef_row" data-bet="${mg.IT}" class="row" style="height: auto;">
                         </div>`).hide();
                       cur.after(new_item);
-                      if (mg.MA[0].PY !== 'cj' /* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
+                      if (mg.MA[0].PY !== 'cj' && mg.MA[0].PY !== 'CJ' && mg.MA[0].PY !== 'cm'/* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
                         mg.MA.map(ma => {
                           const div = document.createElement('div');
                           div.className = `bets_column`;
@@ -209,7 +209,7 @@ exports('prematch_event', (params, done) => {
                               </div>`);
                             });
                             if (mg.MA[0].CN < mg.MA[0].PA.length) {
-                              $(`[data-bet=${ma.IT}]`).children('.cell').addClass('half-w');
+                              $(`[data-bet=${mg.MA[0].IT}]`).children('.cell').addClass('half-w');
                             }
                           }
                         }
@@ -257,7 +257,8 @@ exports('prematch_event', (params, done) => {
                       let new_item = $(`<div data-id="coef_row" data-bet="${mg.IT}" class="row" style="height: auto;">
                         </div>`).hide();
                       cur.after(new_item);
-                      if (mg.MA[0].PY !== 'cj' /* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
+                      if (mg.MA[0].PY !== 'cj' && mg.MA[0].PY !== 'CJ' && mg.MA[0].PY !== 'cm'/* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
+                        console.log('type1\n', mg);
                         mg.MA.map(ma => {
                           const div = document.createElement('div');
                           div.className = 'bets_column';
@@ -275,6 +276,7 @@ exports('prematch_event', (params, done) => {
                         });
                       }
                       else {
+                        console.log('type2\n', mg);
                         if (typeof mg.MA[0].PA[0].OD !== 'undefined') {
                           if (mg.MA.length > 1) {
                             mg.MA.forEach((ma, i) => {
@@ -303,7 +305,7 @@ exports('prematch_event', (params, done) => {
                               </div>`);
                             });
                             if (mg.MA[0].CN < mg.MA[0].PA.length) {
-                              $(`[data-bet=${ma.IT}]`).children('.cell').addClass('half-w');
+                              $(`[data-bet=${mg.MA[0].IT}]`).children('.cell').addClass('half-w');
                             }
                           }
                         }

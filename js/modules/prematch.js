@@ -113,18 +113,62 @@ exports('prematch', (params, done) => {
             }
           });
         }
-        else {
+        else { // Soccer
           data.MG.map((mg, i) => {
             if (i > 1 && mg.NA == 'Full Time Result') {
               mg.MA.map((ma, i) => {
                 if (i > 0) {
                   $('.prematch-table .container-fluid').append(`
-              <div class="market-group closed" data-id="${ma.ID}" data-it="${ma.IT}" data-pd="${ma.PD}">
-                <div class="market-group-text">
-                  <span class="market-group-name">${ma.NA}</span>
-                </div>
-              </div>
-              `);
+                  <div class="market-group closed" data-id="${ma.ID}" data-it="${ma.IT}" data-pd="${ma.PD}">
+                    <div class="market-group-text">
+                      <span class="market-group-name">${ma.NA}</span>
+                    </div>
+                  </div>
+                  `);
+                  if (ma.DO == '1') {
+                    console.log($('.prematch-table .container-fluid .market-group:last-child'));
+                    const cur = $('.prematch-table .container-fluid .market-group:last-child');
+                    let url = 'http://bestline.bet/sports/?PD=';
+                    let coupon_list = $(`<div class="coupon-list"></div>`);
+                    data.MG.map((item) => {
+                      if (item.NA == "Full Time Result") {
+                        item.MA.map((ma) => {
+                          if (ma.PD == cur.data(`pd`)) {
+                            url += encodeURL(ma.PD);
+                            fetch(url)
+                              .then((response) => {
+                                return response.json();
+                              })
+                              .then((json) => {
+                                for (item of json) {
+                                  if (item.type == 'PA') {
+                                    coupon_list.append(`
+                                        <div data-pd="${item.PD}" class="coupon-name">
+                                          ${item.NA}
+                                        </div>
+                                    `);
+                                  }
+                                }
+                              })
+                              .then(() => {
+                                coupon_list.appendTo(cur).hide().slideDown(150);
+                                cur.removeClass('closed');
+                                cur.addClass('opened');
+
+                                $('.coupon-name').off();
+                                $('.coupon-name').on('click', (event) => {
+                                  event.preventDefault();
+                                  event.stopPropagation();
+                                  let cur = $(event.target);
+                                  let PD = cur.data(`pd`);
+                                  window.location.hash += '/' + encodeURL(PD);
+                                });
+                              });
+                          }
+                        });
+                      }
+                    });
+                  }
                 }
               });
             }
