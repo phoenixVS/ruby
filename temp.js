@@ -119,3 +119,5 @@ function formatMarket(
   return market;
 }
 output.market.push -> marketsDiv.appendChild
+
+  /% 23AC % 23B1 % 23C1 % 23D13 % 23E37628398 % 23F2 % 23

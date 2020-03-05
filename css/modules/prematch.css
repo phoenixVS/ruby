@@ -92,7 +92,7 @@
   border-bottom: 3px solid #e4e4e4;
 }
 .prematch-table .container-fluid {
-  overflow-y: auto!important;
+  /* overflow-y: auto!important; */
   -ms-overflow-style: none;
 }
 .market-group {

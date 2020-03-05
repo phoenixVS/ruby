@@ -139,7 +139,7 @@ exports('prematch_event', (params, done) => {
         data.MG.forEach((mg, i) => {
           if (i > 1) {
             $('.prematch-table .coeficient-table').append(`
-                  <div data-id="row_info" data-row-status="not_active" data-coef-id="${mg.IT}" class="row info det" style="height: 50px; border-bottom: 0.5px solid black;">
+                  <div data-id="row_info" data-row-status="not_active" data-coef-id="${mg.IT}" data-pd="${mg.PD ? mg.PD : 'empty'}" class="row info det" style="height: 50px; border-bottom: 0.5px solid black;">
                     <div class="cell">
                       <p class="font">${mg.NA}</p>
                     </div>
@@ -164,7 +164,24 @@ exports('prematch_event', (params, done) => {
                       let new_item = $(`<div data-id="coef_row" data-bet="${mg.IT}" class="row" style="height: auto;">
                         </div>`).hide();
                       cur.after(new_item);
-                      if (mg.MA[0].PY !== 'cj' && mg.MA[0].PY !== 'CJ' && mg.MA[0].PY !== 'cm'/* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
+                      if ((mg.MA[0].PY !== 'cj' && mg.MA[0].PY !== 'CJ' && mg.MA[0].PY !== 'cm') || mg.MA[0].SY == 'A'/* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
+                        let counter = 0, fl = '', cb_counter = 1;
+                        if (mg.MA[0].PY == 'cb') {
+                          for (item of mg.MA) {
+                            if (item.PY == 'cb') {
+                              if (cb_counter) {
+                                cb_counter--;
+                                counter++;
+                              }
+                              else {
+                                break;
+                              }
+                            }
+                            if (item.PY == 'cf') {
+                              counter++;
+                            }
+                          }
+                        }
                         mg.MA.map(ma => {
                           const div = document.createElement('div');
                           div.className = `bets_column`;
@@ -177,6 +194,12 @@ exports('prematch_event', (params, done) => {
                           ma.PA.map(pa => {
                             div.appendChild(forEventDataColumnTemplate(pa, mg.SY, data[0].NA, mg.NA, data[0].CL));
                           });
+                          if (ma.NA == '') {
+                            div.style.flex = `1 1 50%`
+                          }
+                          if (counter) {
+                            div.style.flex = `1 1 ${(100 / counter).toFixed(2)}%`
+                          }
                           new_item.append(div);
                         });
                       }
@@ -242,9 +265,46 @@ exports('prematch_event', (params, done) => {
             document.querySelector('.league').addEventListener('click', (event) => {
               window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2] + '/' + window.location.hash.split('/')[3];
             });
-            $(`[data-id=row_info]`).on('click', (elem) => {
+            // Load pd for coef_row render
+            $(`[data-id=row_info]:not([data-pd="empty"])`).on('click', (ev) => {
+              const cur = $(ev.target);
+              if (!cur.is('[data-id="row_info"]')) {
+                cur = cur.parents(`[data-id="row_info"]`);
+              }
+              if (cur.data('rowStatus') == 'not_active') {
+                let url = 'http://bestline.bet/sports/?PD=';
+                url += encodeURL(cur.data(`pd`));
+                fetch(url)
+                  .then((response) => {
+                    return response.json();
+                  })
+                  .then((json) => {
+                    return growTree(json);
+                  })
+                  .then((data) => {
+                    console.log(data);
+
+                    cur.data('rowStatus', 'active').attr('data-row-status', 'active');
+                    cur.addClass('active');
+                    cur.removeClass('not-active');
+
+
+                  }
+                  );
+              }
+              else {
+                cur.removeClass('active');
+                cur.addClass('not-active');
+                coID = cur.data('coefId');
+                $(`[data-bet=${coID}]`).slideUp(250, () => { $(`[data-bet=${coID}]`).remove(); });
+                cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
+              }
+            });
+            // coef_row render (from json)
+            $(`[data-id="row_info"][data-pd="empty"]`).on('click', (ev) => {
+              console.log(`clicked`);
               const waitForBS = new Promise((resolve, reject) => {
-                let cur = $(elem.target);
+                let cur = $(ev.target);
                 if (cur.is('p')) {
                   cur = cur.parent().parent();
                 }
@@ -257,8 +317,25 @@ exports('prematch_event', (params, done) => {
                       let new_item = $(`<div data-id="coef_row" data-bet="${mg.IT}" class="row" style="height: auto;">
                         </div>`).hide();
                       cur.after(new_item);
-                      if (mg.MA[0].PY !== 'cj' && mg.MA[0].PY !== 'CJ' && mg.MA[0].PY !== 'cm'/* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
+                      if ((mg.MA[0].PY !== 'cj' && mg.MA[0].PY !== 'CJ' && mg.MA[0].PY !== 'cm') || mg.MA[0].SY == 'A'/* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
                         console.log('type1\n', mg);
+                        let counter = 0, fl = '', cb_counter = 1;
+                        if (mg.MA[0].PY == 'cb') {
+                          for (item of mg.MA) {
+                            if (item.PY == 'cb') {
+                              if (cb_counter) {
+                                cb_counter--;
+                                counter++;
+                              }
+                              else {
+                                break;
+                              }
+                            }
+                            if (item.PY == 'cf') {
+                              counter++;
+                            }
+                          }
+                        }
                         mg.MA.map(ma => {
                           const div = document.createElement('div');
                           div.className = 'bets_column';
@@ -272,6 +349,12 @@ exports('prematch_event', (params, done) => {
                           ma.PA.map(pa => {
                             div.appendChild(forEventDataColumnTemplate(pa, mg.SY, data[0].NA, mg.NA, data[0].CL));
                           });
+                          if (ma.NA == '') {
+                            div.style.flex = `1 1 50%`
+                          }
+                          if (counter) {
+                            div.style.flex = `1 1 ${(100 / counter).toFixed(2)}%`
+                          }
                           new_item.append(div);
                         });
                       }
@@ -289,7 +372,7 @@ exports('prematch_event', (params, done) => {
                                 </button>
                                 </div>`);
                               });
-                              if (mg.MA[0].CN < mg.MA[0].PA.length) {
+                              if (mg.MA[0].CN < mg.MA[0].PA.length || mg.MA[0].CN == '2') {
                                 $(`[data-bet=${ma.IT}]`).children('.cell').addClass('half-w');
                               }
                             });
@@ -304,7 +387,9 @@ exports('prematch_event', (params, done) => {
                               </button>
                               </div>`);
                             });
-                            if (mg.MA[0].CN < mg.MA[0].PA.length) {
+                            if ((mg.MA[0].CN < mg.MA[0].PA.length && mg.MA[0].SY != 'A') || mg.MA[0].CN == '2') {
+                              console.log(`here`, (mg.MA[0].CN == '2'));
+                              console.log($(`[data-bet=${mg.MA[0].IT}]`).children('.cell'));
                               $(`[data-bet=${mg.MA[0].IT}]`).children('.cell').addClass('half-w');
                             }
                           }
@@ -390,6 +475,9 @@ exports('prematch_event', (params, done) => {
     // Render title of the column
     titleTemplateForBets = (CO, shorti) => {
       const div = document.createElement('div');
+      if (CO.NA == '') {
+        return div;
+      }
       div.className = 'bets_title';
       div.innerHTML = `
         ${shorti ? CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;' : shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;')}

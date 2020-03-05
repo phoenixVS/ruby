@@ -99,7 +99,7 @@
   border-bottom: 3px solid #e4e4e4;
 }
 .prematch-table .container-fluid {
-  overflow-y: auto!important;
+  /* overflow-y: auto!important; */
   -ms-overflow-style: none;
 }
 .market-group {
@@ -625,10 +625,10 @@ div.row.info.det.not-active:before{
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-flex: 1 1 30%;
-  -webkit-flex: 1 1 30%;
-  -ms-flex: 1 1 30%;
-  flex: 1 1 30%;
+  -webkit-box-flex: 1 1 20%;
+  -webkit-flex: 1 1 20%;
+  -ms-flex: 1 1 20%;
+  flex: 1 1 20%;
   flex-wrap: wrap;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
