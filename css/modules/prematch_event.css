@@ -566,21 +566,8 @@ p.timer-el {
 }
 /*end of playtable*/
 /*coef_table*/
-.bets_column > .maTable__cell {
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid transparent;
-  min-height: 44px;
-  max-height: 44px;
-  height: 100%;
-  width: 100%;
-  font-size: 13px;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  border-right-color: #737373;
-  border-bottom-color: #111111;
+button.button.coefficient {
+  border-bottom: 1px solid #000;
 }
 .bets_column:last-child {
   border: 0;
@@ -657,8 +644,8 @@ div.row.info.det.not-active:before{
   justify-content: center;
   align-items: center;
   border: 1px solid transparent;
-  min-height: 44px;
-  height: 100%;
+  min-height: 36px;
+  max-height: 36px;
   width: 100%;
   font-size: 13px;
   -webkit-box-pack: center;
@@ -675,6 +662,12 @@ div.row.info.det.not-active:before{
 }
 .coeficient-table .row.info p{
   padding-left: 20px;
+}
+.button.coefficient.selected .font.ellipsis.mra {
+  color: #000;
+}
+.button.coefficient.selected {
+  border-bottom: 1px solid black;
 }
 .button.coefficient span.coeff{
   text-align: right;

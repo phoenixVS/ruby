@@ -181,6 +181,7 @@ exports('prematch_event', (params, done) => {
                               counter++;
                             }
                           }
+                          if (counter == 1) counter = 0;
                         }
                         mg.MA.map(ma => {
                           const div = document.createElement('div');
@@ -216,8 +217,8 @@ exports('prematch_event', (params, done) => {
                                 </button>
                                 </div>`);
                               });
-                              if (mg.MA[0].CN < mg.MA[0].PA.length) {
-                                $(`[data-bet=${ma.IT}]`).children('.cell').addClass('half-w');
+                              if (mg.MA[0].CN < mg.MA[0].PA.length || mg.MA[0].CN == '2') {
+                                $(`[data-bet="${mg.IT}"]`).children('.cell').addClass('half-w');
                               }
                             });
                           }
@@ -231,8 +232,8 @@ exports('prematch_event', (params, done) => {
                               </button>
                               </div>`);
                             });
-                            if (mg.MA[0].CN < mg.MA[0].PA.length) {
-                              $(`[data-bet=${mg.MA[0].IT}]`).children('.cell').addClass('half-w');
+                            if ((mg.MA[0].CN < mg.MA[0].PA.length && mg.MA[0].SY != 'A') || mg.MA[0].CN == '2') {
+                              $(`[data-bet="${mg.IT}"]`).children('.cell').addClass('half-w');
                             }
                           }
                         }
@@ -336,6 +337,7 @@ exports('prematch_event', (params, done) => {
                             }
                           }
                         }
+                        if (counter == 1) counter = 0;
                         mg.MA.map(ma => {
                           const div = document.createElement('div');
                           div.className = 'bets_column';
@@ -373,7 +375,7 @@ exports('prematch_event', (params, done) => {
                                 </div>`);
                               });
                               if (mg.MA[0].CN < mg.MA[0].PA.length || mg.MA[0].CN == '2') {
-                                $(`[data-bet=${ma.IT}]`).children('.cell').addClass('half-w');
+                                $(`[data-bet="${mg.IT}"]`).children('.cell').addClass('half-w');
                               }
                             });
                           }
@@ -388,9 +390,7 @@ exports('prematch_event', (params, done) => {
                               </div>`);
                             });
                             if ((mg.MA[0].CN < mg.MA[0].PA.length && mg.MA[0].SY != 'A') || mg.MA[0].CN == '2') {
-                              console.log(`here`, (mg.MA[0].CN == '2'));
-                              console.log($(`[data-bet=${mg.MA[0].IT}]`).children('.cell'));
-                              $(`[data-bet=${mg.MA[0].IT}]`).children('.cell').addClass('half-w');
+                              $(`[data-bet="${mg.IT}"]`).children('.cell').addClass('half-w');
                             }
                           }
                         }
