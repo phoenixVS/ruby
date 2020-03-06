@@ -99,7 +99,7 @@
   border-bottom: 3px solid #e4e4e4;
 }
 .prematch-table .container-fluid {
-  overflow-y: auto!important;
+  /* overflow-y: auto!important; */
   -ms-overflow-style: none;
 }
 .market-group {
@@ -108,7 +108,7 @@
 }
 .market-group-text {
   text-overflow: ellipsis;
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -126,7 +126,7 @@
 }
 .market-group-name {
   text-overflow: ellipsis;
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap;
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 auto;
@@ -566,21 +566,8 @@ p.timer-el {
 }
 /*end of playtable*/
 /*coef_table*/
-.bets_column > .maTable__cell {
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid transparent;
-  min-height: 44px;
-  max-height: 44px;
-  height: 100%;
-  width: 100%;
-  font-size: 13px;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  border-right-color: #737373;
-  border-bottom-color: #111111;
+.coeficient-table button.button.coefficient {
+  border-bottom: 1px solid #000!important;
 }
 .bets_column:last-child {
   border: 0;
@@ -625,10 +612,10 @@ div.row.info.det.not-active:before{
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-flex: 1 1 30%;
-  -webkit-flex: 1 1 30%;
-  -ms-flex: 1 1 30%;
-  flex: 1 1 30%;
+  -webkit-box-flex: 1 1 25%;
+  -webkit-flex: 1 1 25%;
+  -ms-flex: 1 1 25%;
+  flex: 1 1 25%;
   flex-wrap: wrap;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -641,6 +628,12 @@ div.row.info.det.not-active:before{
 }
 .coef_row .bets_column:last-child{
   border: none;
+}
+.bets_column .bets_title {
+  white-space: nowrap;
+}
+.button.coefficient.selected .font {
+  font-weight: bold!important;
 }
 .bets_column.ma-title {
   -webkit-box-flex: 1 1 100%;
@@ -657,8 +650,8 @@ div.row.info.det.not-active:before{
   justify-content: center;
   align-items: center;
   border: 1px solid transparent;
-  min-height: 44px;
-  height: 100%;
+  min-height: 36px;
+  max-height: 36px;
   width: 100%;
   font-size: 13px;
   -webkit-box-pack: center;
@@ -675,6 +668,12 @@ div.row.info.det.not-active:before{
 }
 .coeficient-table .row.info p{
   padding-left: 20px;
+}
+.button.coefficient.selected .font.ellipsis.mra {
+  color: #000;
+}
+.button.coefficient.selected {
+  border-bottom: 1px solid black;
 }
 .button.coefficient span.coeff{
   text-align: right;

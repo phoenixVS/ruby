@@ -105,7 +105,7 @@
   border-bottom: 3px solid #e4e4e4;
 }
 .prematch-table .container-fluid {
-  overflow-y: auto!important;
+  /* overflow-y: auto!important; */
   -ms-overflow-style: none;
 }
 .market-group {
@@ -114,7 +114,7 @@
 }
 .market-group-text {
   text-overflow: ellipsis;
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -132,7 +132,7 @@
 }
 .market-group-name {
   text-overflow: ellipsis;
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap;
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 auto;
@@ -408,6 +408,9 @@
   background: #343243;
   margin-right: 1px;
   cursor: pointer;
+}
+button.button.coefficient {
+  border-bottom: none!important;
 }
 .button.coefficient.selected .ha{
   color: #000;

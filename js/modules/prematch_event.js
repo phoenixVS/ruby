@@ -58,25 +58,55 @@ exports('prematch_event', (params, done) => {
           }
           else {
             if (item.type === 'MG') {
-              tree.MG.push(item);
+              let skipStatus = 0;
+              for (mg of window.blackList.sports.MG) {
+                if (mg == item.ID || (typeof item.PD !== 'undefined' ? item.PD.includes(mg) : false)) {
+                  console.log(`mg == item.ID: `, mg == item.ID);
+                  console.log(`(typeof item.PD`, typeof item.PD !== 'undefined' ? item.PD.includes(mg) : false);
+                  skipStatus = 1;
+                  break;
+                }
+                else {
+                }
+              }
+              if (skipStatus == 1) {
+                curMG = '';
+              }
+              else {
+                tree.MG.push(item);
+                curMG = item;
+                curMG.MA = [];
+              }
+              /* tree.MG.push(item);
               curMG = item;
-              curMG.MA = [];
+              curMG.MA = []; */
             }
             else {
               if (item.type === 'MA') {
-                curMG.MA.push(item);
-                curMA = item;
-                curMA.PA = [];
+                if (curMG == '') {
+
+                }
+                else {
+                  curMG.MA.push(item);
+                  curMA = item;
+                  curMA.PA = [];
+                }
               }
               else {
                 if (item.type === 'PA') {
-                  curMA.PA.push(item);
+                  if (curMG == '') {
+
+                  }
+                  else {
+                    curMA.PA.push(item);
+                  }
                 }
               }
             }
           }
         }
       });
+      console.log('filtered: ', tree);
       return tree;
     }
 
@@ -139,7 +169,7 @@ exports('prematch_event', (params, done) => {
         data.MG.forEach((mg, i) => {
           if (i > 1) {
             $('.prematch-table .coeficient-table').append(`
-                  <div data-id="row_info" data-row-status="not_active" data-coef-id="${mg.IT}" class="row info det" style="height: 50px; border-bottom: 0.5px solid black;">
+                  <div data-id="row_info" data-row-status="not_active" data-coef-id="${mg.IT}" data-pd="${mg.PD ? mg.PD : 'empty'}" class="row info det" style="height: 50px; border-bottom: 0.5px solid black;">
                     <div class="cell">
                       <p class="font">${mg.NA}</p>
                     </div>
@@ -164,7 +194,40 @@ exports('prematch_event', (params, done) => {
                       let new_item = $(`<div data-id="coef_row" data-bet="${mg.IT}" class="row" style="height: auto;">
                         </div>`).hide();
                       cur.after(new_item);
-                      if (mg.MA[0].PY !== 'cj' && mg.MA[0].PY !== 'CJ' && mg.MA[0].PY !== 'cm'/* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
+                      if ((mg.MA[0].PY !== 'cj' && mg.MA[0].PY !== 'CJ' && mg.MA[0].PY !== 'cm') || mg.MA[0].SY == 'A'/* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
+                        let counter = 0, cb_counter = 1;
+                        if (mg.MA[0].PY == 'cb') {
+                          for (item of mg.MA) {
+                            if (item.PY == 'cb') {
+                              if (cb_counter) {
+                                cb_counter--;
+                                counter++;
+                              }
+                              else {
+                                break;
+                              }
+                            }
+                            if (item.PY == 'cf') {
+                              counter++;
+                            }
+                          }
+                        }
+                        if (mg.MA[0].PY == 'f') {
+                          counter = 0;
+                          for (item of mg.MA) {
+                            if (item.PY == 'ck' || item.PY == 'f' || item.PY == 'dr') {
+                              if (item.PY == 'dr') {
+                                counter--;
+                              }
+                              if (counter > 1 && item.PY == 'f') {
+                                counter--;
+                                counter--;
+                              }
+                              counter++;
+                            }
+                          }
+                        }
+                        if (counter == 1) counter = 0;
                         mg.MA.map(ma => {
                           const div = document.createElement('div');
                           div.className = `bets_column`;
@@ -177,6 +240,17 @@ exports('prematch_event', (params, done) => {
                           ma.PA.map(pa => {
                             div.appendChild(forEventDataColumnTemplate(pa, mg.SY, data[0].NA, mg.NA, data[0].CL));
                           });
+                          if (counter) {
+                            div.style.flex = `1 1 ${(100 / counter).toFixed(2) - 1}%`
+                          }
+                          if (ma.NA == '') {
+                            if (ma.SY.includes('f')) {
+                              div.style.flex = `1 1 66%`;
+                            }
+                            else {
+                              div.style.flex = `1 1 33%`;
+                            }
+                          }
                           new_item.append(div);
                         });
                       }
@@ -193,8 +267,8 @@ exports('prematch_event', (params, done) => {
                                 </button>
                                 </div>`);
                               });
-                              if (mg.MA[0].CN < mg.MA[0].PA.length) {
-                                $(`[data-bet=${ma.IT}]`).children('.cell').addClass('half-w');
+                              if (mg.MA[0].CN < mg.MA[0].PA.length || mg.MA[0].CN == '2') {
+                                $(`[data-bet="${mg.IT}"]`).children('.cell').addClass('half-w');
                               }
                             });
                           }
@@ -208,8 +282,8 @@ exports('prematch_event', (params, done) => {
                               </button>
                               </div>`);
                             });
-                            if (mg.MA[0].CN < mg.MA[0].PA.length) {
-                              $(`[data-bet=${mg.MA[0].IT}]`).children('.cell').addClass('half-w');
+                            if ((mg.MA[0].CN < mg.MA[0].PA.length && mg.MA[0].SY != 'A') || mg.MA[0].CN == '2') {
+                              $(`[data-bet="${mg.IT}"]`).children('.cell').addClass('half-w');
                             }
                           }
                         }
@@ -242,9 +316,46 @@ exports('prematch_event', (params, done) => {
             document.querySelector('.league').addEventListener('click', (event) => {
               window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2] + '/' + window.location.hash.split('/')[3];
             });
-            $(`[data-id=row_info]`).on('click', (elem) => {
+            // Load pd for coef_row render
+            $(`[data-id=row_info]:not([data-pd="empty"])`).on('click', (ev) => {
+              const cur = $(ev.target);
+              if (!cur.is('[data-id="row_info"]')) {
+                cur = cur.parents(`[data-id="row_info"]`);
+              }
+              if (cur.data('rowStatus') == 'not_active') {
+                let url = 'http://bestline.bet/sports/?PD=';
+                url += encodeURL(cur.data(`pd`));
+                fetch(url)
+                  .then((response) => {
+                    return response.json();
+                  })
+                  .then((json) => {
+                    return growTree(json);
+                  })
+                  .then((data) => {
+                    console.log(data);
+
+                    cur.data('rowStatus', 'active').attr('data-row-status', 'active');
+                    cur.addClass('active');
+                    cur.removeClass('not-active');
+
+
+                  }
+                  );
+              }
+              else {
+                cur.removeClass('active');
+                cur.addClass('not-active');
+                coID = cur.data('coefId');
+                $(`[data-bet=${coID}]`).slideUp(250, () => { $(`[data-bet=${coID}]`).remove(); });
+                cur.data('rowStatus', 'not_active').attr('data-row-status', 'not_active');
+              }
+            });
+            // coef_row render (from json)
+            $(`[data-id="row_info"][data-pd="empty"]`).on('click', (ev) => {
+              console.log(`clicked`);
               const waitForBS = new Promise((resolve, reject) => {
-                let cur = $(elem.target);
+                let cur = $(ev.target);
                 if (cur.is('p')) {
                   cur = cur.parent().parent();
                 }
@@ -257,8 +368,40 @@ exports('prematch_event', (params, done) => {
                       let new_item = $(`<div data-id="coef_row" data-bet="${mg.IT}" class="row" style="height: auto;">
                         </div>`).hide();
                       cur.after(new_item);
-                      if (mg.MA[0].PY !== 'cj' && mg.MA[0].PY !== 'CJ' && mg.MA[0].PY !== 'cm'/* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
+                      if ((mg.MA[0].PY !== 'cj' && mg.MA[0].PY !== 'CJ' && mg.MA[0].PY !== 'cm') || mg.MA[0].SY == 'A'/* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
                         console.log('type1\n', mg);
+                        let counter = 0, cb_counter = 1;
+                        if (mg.MA[0].PY == 'cb') {
+                          for (item of mg.MA) {
+                            if (item.PY == 'cb') {
+                              if (cb_counter) {
+                                cb_counter--;
+                                counter++;
+                              }
+                              else {
+                                break;
+                              }
+                            }
+                            if (item.PY == 'cf') {
+                              counter++;
+                            }
+                          }
+                        }
+                        // if (mg.MA[0].PY == 'f') {
+                        //   counter = 0;
+                        //   for (item of mg.MA) {
+                        //     if (item.PY == 'ck' || item.PY == 'f' || item.PY == 'dr') {
+                        //       if (item.PY == 'dr') {
+                        //         counter--;
+                        //       }
+                        //       if (counter > 1 && item.PY == 'f') {
+                        //         counter -= 2;
+                        //       }
+                        //       counter++;
+                        //     }
+                        //   }
+                        // }
+                        if (counter == 1) counter = 0;
                         mg.MA.map(ma => {
                           const div = document.createElement('div');
                           div.className = 'bets_column';
@@ -266,17 +409,29 @@ exports('prematch_event', (params, done) => {
                             div.classList.add('ma-title');
                           }
                           if (mg.MA.length > 1) {
-                            console.log(`do not shortize`);
                             div.appendChild(titleTemplateForBets(ma, ma.SY == 'cy' ? true : false));
                           }
                           ma.PA.map(pa => {
                             div.appendChild(forEventDataColumnTemplate(pa, mg.SY, data[0].NA, mg.NA, data[0].CL));
                           });
+                          if (counter) {
+                            div.style.flex = `1 1 ${(100 / counter).toFixed(2) - 1}%`
+                          }
+                          if (mg.MA.length % 2 !== 0 || mg.MA.length % 2 === 6) {
+                            div.style.flex = `1 1 30%`;
+                          }
+                          if (ma.NA == '') {
+                            if (ma.SY.includes('f')) {
+                              div.style.flex = `1 1 64%`;
+                            }
+                            else {
+                              div.style.flex = `1 1 30%`;
+                            }
+                          }
                           new_item.append(div);
                         });
                       }
                       else {
-                        console.log('type2\n', mg);
                         if (typeof mg.MA[0].PA[0].OD !== 'undefined') {
                           if (mg.MA.length > 1) {
                             mg.MA.forEach((ma, i) => {
@@ -289,8 +444,8 @@ exports('prematch_event', (params, done) => {
                                 </button>
                                 </div>`);
                               });
-                              if (mg.MA[0].CN < mg.MA[0].PA.length) {
-                                $(`[data-bet=${ma.IT}]`).children('.cell').addClass('half-w');
+                              if (mg.MA[0].CN < mg.MA[0].PA.length || mg.MA[0].CN == '2') {
+                                $(`[data-bet="${mg.IT}"]`).children('.cell').addClass('half-w');
                               }
                             });
                           }
@@ -304,8 +459,8 @@ exports('prematch_event', (params, done) => {
                               </button>
                               </div>`);
                             });
-                            if (mg.MA[0].CN < mg.MA[0].PA.length) {
-                              $(`[data-bet=${mg.MA[0].IT}]`).children('.cell').addClass('half-w');
+                            if ((mg.MA[0].CN < mg.MA[0].PA.length && mg.MA[0].SY != 'A') || mg.MA[0].CN == '2') {
+                              $(`[data-bet="${mg.IT}"]`).children('.cell').addClass('half-w');
                             }
                           }
                         }
@@ -390,6 +545,9 @@ exports('prematch_event', (params, done) => {
     // Render title of the column
     titleTemplateForBets = (CO, shorti) => {
       const div = document.createElement('div');
+      if (CO.NA == '') {
+        return div;
+      }
       div.className = 'bets_title';
       div.innerHTML = `
         ${shorti ? CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;' : shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;')}
