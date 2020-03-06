@@ -28,7 +28,7 @@ exports('aside', (params, done) => {
         RenderAside(window.inplay);
       }
     });
-
+    
     function AddFav(NAME, ID) {
       localStorage.setItem(NAME, ID);
     }
@@ -90,7 +90,7 @@ exports('aside', (params, done) => {
             continue;
           }
         }*/
-        for (let i = 0; i < data.length; i++) {
+        /*for (let i = 0; i < data.length; i++) {
 
           let ID = data[i].ID;
           let name = data[i].NA;
@@ -115,7 +115,7 @@ exports('aside', (params, done) => {
               aside.addClass('not-active');
             }
           });
-        }
+        }*/
         resolve();
       });
 

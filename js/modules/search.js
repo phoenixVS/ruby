@@ -199,28 +199,19 @@ exports('search', (params, done) => {
         </div>
         `);
         let scroll = $('.search-scroll');
-        let cl_counter = 0;
         for (let i = 0; i < data.length; i++) {
           if (data[i].type == 'CL') {
-            cl_counter++
-            if (cl_counter > 1) {
-              for (let g = 0; g < data.length; g++) {
-                if (data[g].type == 'CL' && data[g].NA != choosen_NA) {
+            if (data[i].ID == 13) {
                   scroll.append(`
-                    <div class="search-scroll-item">
+                    <div class="search-scroll-item choosen">
                       <p class="font">${data[g].NA}</p>
                     </div>
                     `);
-                } else {
-                  continue;
-                }
-              }
-              break;
-            } else {
+            } /*else {
               choosen = true;
               choosen_NA = data[i].NA;
               scroll.append(`
-              <div class="search-scroll-item choosen">
+              <div class="search-scroll-item">
                 <p class="font">${data[i].NA}</p>
               </div>
               `);
@@ -276,21 +267,21 @@ exports('search', (params, done) => {
                     </div>
                     <div class="pa-item-bets">
                     <div class="bet-cell">
-                    <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                    <button class="button coefficient" style="padding: 0; display: inline-flex;
                     align-items: flex-start; padding-bottom: 22px">
-                    1<br>${coefs[0]}
+                    <span class="coef-name">1</span><br>${coefs[0]}
                     </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient" style="padding: 0; display: inline-flex;
                   align-items: flex-start; padding-bottom: 22px">
-                  x<br>${coefs[1]}
+                  <span class="coef-name">x</span><br>${coefs[1]}
                   </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient" style="padding: 0; display: inline-flex; 
                   align-items: flex-start; padding-bottom: 22px">
-                  2<br>${coefs[2]}
+                  <span class="coef-name">2</span><br>${coefs[2]}
                   </button>
                   </div>   
                     </div>
@@ -344,21 +335,21 @@ exports('search', (params, done) => {
                     </div>
                     <div class="pa-item-bets">
                     <div class="bet-cell">
-                    <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                    <button class="button coefficient" style="padding: 0; display: inline-flex; 
                     align-items: flex-start; padding-bottom: 22px">
-                    1<br>${comp_coefs[0]}
+                    <span class="coef-name">1</span><br>${comp_coefs[0]}
                     </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient" style="padding: 0; display: inline-flex; 
                   align-items: flex-start; padding-bottom: 22px">
-                  x<br>${comp_coefs[1]}
+                  <span class="coef-name">x</span><br>${comp_coefs[1]}
                   </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient" style="padding: 0; display: inline-flex;
                   align-items: flex-start; padding-bottom: 22px">
-                  2<br>${comp_coefs[2]}
+                  <span class="coef-name">2</span><br>${comp_coefs[2]}
                   </button>
                   </div>   
                     </div>                        
@@ -418,19 +409,19 @@ exports('search', (params, done) => {
                       </div>
                       <div class="pa-item-bets">
                       <div class="bet-cell">
-                        <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                        <button class="button coefficient" style="padding: 0; display: inline-flex; 
                         align-items: flex-start; padding-bottom: 22px">
                         1<br>${coefs[0]}
                         </button>
                       </div>  
                       <div class="bet-cell">
-                      <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                      <button class="button coefficient" style="padding: 0; display: inline-flex;
                       align-items: flex-start; padding-bottom: 22px">
                       x<br>${coefs[1]}
                       </button>
                       </div>  
                       <div class="bet-cell">
-                      <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                      <button class="button coefficient" style="padding: 0; display: inline-flex; 
                       align-items: flex-start; padding-bottom: 22px">
                       2<br>${coefs[2]}
                       </button>
@@ -480,19 +471,19 @@ exports('search', (params, done) => {
                     </div>
                     <div class="pa-item-bets">
                     <div class="bet-cell">
-                    <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                    <button class="button coefficient" style="padding: 0; display: inline-flex; 
                     align-items: flex-start; padding-bottom: 22px">
                     1<br>${comp_coefs[0]}
                     </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient" style="padding: 0; display: inline-flex; 
                   align-items: flex-start; padding-bottom: 22px">
                   x<br>${comp_coefs[1]}
                   </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient" style="padding: 0; display: inline-flex;
                   align-items: flex-start; padding-bottom: 22px">
                   2<br>${comp_coefs[2]}
                   </button>
@@ -515,10 +506,12 @@ exports('search', (params, done) => {
                   `);
               }
             }
-          }
+          */}
         }
         resolve();
       }).then(() => {
+
+        console.log('Tennis then done');
 
         function eSetClicked(el) {
           $(el.target).removeClass('t-not-clicked');
@@ -551,7 +544,7 @@ exports('search', (params, done) => {
         $('.s-ev-link p.t-clicked').on('click', (el) => {
           eSetNotClicked(el);
         });
-
+        console.log('Betslip status: ' + betslipIsLoaded);
         if (betslipIsLoaded == false) {
           loadJsModules({
             betslip_link: { loadCSS: true, loadLanguage: false },
@@ -579,7 +572,7 @@ exports('search', (params, done) => {
               for (let g = 0; g < data.length; g++) {
                 if (data[g].type == 'CL' && data[g].NA != choosen_NA) {
                   scroll.append(`
-                    <div class="search-scroll-item">
+                    <div class="search-scroll-item" data-id="${data[g].ID}">
                       <p class="font">${data[g].NA}</p>
                     </div>
                     `);
@@ -592,7 +585,7 @@ exports('search', (params, done) => {
               choosen = true;
               choosen_NA = data[i].NA;
               scroll.append(`
-              <div class="search-scroll-item choosen">
+              <div class="search-scroll-item choosen" data-id="${data[i].ID}">
                 <p class="font">${data[i].NA}</p>
               </div>
               `);
@@ -881,7 +874,7 @@ exports('search', (params, done) => {
                     height: auto;
                     min-height: 44px;">
                       <div class="s-ev-link">
-                        <p class="font white">${data[i].NA}</p>
+                        <p class="font white ev-pd" data-sportid="" data-lastev="${lastEV}" data-pd="${data[i].PD}">${data[i].NA}</p>
                       </div>
                     </div>
                   `);
@@ -891,7 +884,6 @@ exports('search', (params, done) => {
         }
         resolve();
       }).then(() => {
-
         function eSetClicked(el) {
           $(el.target).removeClass('t-not-clicked');
           $(el.target).addClass('t-clicked');
@@ -923,386 +915,58 @@ exports('search', (params, done) => {
         $('.s-ev-link p.t-clicked').on('click', (el) => {
           eSetNotClicked(el);
         });
+        
+        $('.ev-pd').on('click', (el) => {
+          if ($(el.target).data('lastev') == 'EVENTS') {
+            window.location.hash = "/sport/1//" + encodeURL($(el.target).data('pd'));
+          }
+        });
 
-        if (betslipIsLoaded == false) {
+        $('.search-scroll-item').on('click', (el) => {
+          $('.search-scroll').children('.choosen').removeClass('choosen');
+          if ( $(el.target).hasClass('.search-scroll-item') ) {
+            $(el.target).addClass('choosen');
+            let sport_id = $(el.target).data('id');
+            console.log(sport_id);
+            renderResult(sport_id);
+          } else {
+            $(el.target).parent().addClass('choosen');
+            let sport_id = $(el.target).parent().data('id');
+            console.log(sport_id);
+            renderResult(sport_id);
+          }
+        });
+        loadJsModules({
+          betslip_link: { loadCSS: true, loadLanguage: false },
+          betslip: {loadCSS: true, loadLanguage: false },
+        });
+        //console.log('Betslip ststus: ' + betslipIsLoaded);
+        /*if (betslipIsLoaded == false) {
           loadJsModules({
             betslip_link: { loadCSS: true, loadLanguage: false },
+            betslip: {loadCSS: true, loadLanguage: false },
           });
           betslipIsLoaded = true;
-        }
+        }*/
       });
     }
 
-    function RenderSearchResultTennis(data) {
-      new Promise((resolve, reject) => {
-        let lastEV = '';
-        let res_content = $('.search-result');
-        res_content.empty();
-        res_content.append(`
-        <div class="search-scroll">
-        </div>
-        `);
-        let scroll = $('.search-scroll');
-        let cl_counter = 0;
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].type == 'CL') {
-            cl_counter++
-            if (cl_counter > 1) {
-              for (let g = 0; g < data.length; g++) {
-                if (data[g].type == 'CL' && data[g].NA != choosen_NA) {
-                  scroll.append(`
-                    <div class="search-scroll-item">
-                      <p class="font">${data[g].NA}</p>
-                    </div>
-                    `);
-                } else {
-                  continue;
-                }
-              }
-              break;
-            } else {
-              choosen = true;
-              choosen_NA = data[i].NA;
-              scroll.append(`
-              <div class="search-scroll-item choosen">
-                <p class="font">${data[i].NA}</p>
-              </div>
-              `);
-            }
-          } else if (data[i].type == 'EV') {
-            lastEV = data[i].NA;
-            
-            res_content.append(`
-                <div class="search-ev">
-                  <p class="font m-white">${data[i].NA}</p>
-                </div>
-                `);
-          } else if (data[i].type == 'MG') {
-            if ($(res_content.children(`.search-ev-links-${i}`)).length) {
-              if (lastEV == 'Players') {
-                let PAarray = getPAforMG(data[i].NA, data);
-                let trimmedNA = data[i].NA.replace(/\s/g, '');
-                $(`.search-ev-links-${i}`).append(`
-                    <div class="s-ev-link">
-                      <p class="font white t-clicked">${data[i].NA}</p>
-                      <div class="t-market-group active">
+    function encodeURL(pd) {
+      const url = encodeURIComponent(pd);
+      return url
+    }
 
-                        <div data-id="${trimmedNA}" class="market-pa">
-
-                          <div class="market-pa-item">
-                            <div>
-                              <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
-                              <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
-                            </div>                        
-                           </div>
-
-                          <div class="market-pa-item">
-                            <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
-                            <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
-                          </div>
-
-                        </div>
-
-                      </div>
-                    </div>
-                  `);
-                  $(`[data-id=${trimmedNA}]`).empty();
-                  for (let m = 0; m < PAarray.length; m++) {
-                    let coefs = getCoefsSoccer(window.searchDATA, data[i].NA, PAarray[m]);
-                    if (coefs[0] == 'null' || coefs[0] == 'undefined' || coefs[1] == 'null' || coefs[1] == 'undefined' || coefs[2] == 'null' || coefs[2] == 'undefined') {
-                      continue;
-                    } else {
-                      $(`[data-id=${trimmedNA}]`).append(`
-                    <div class="market-pa-item">
-                    <div class="pa-item-names">
-                      <span class="font m-white ellipsis" style="font-size: 15px;">${PAarray[m]}</span>
-                      <span class="font m-white ellipsis" style="font-size: 12px;">${convertToDate(coefs[3])}</span>
-                    </div>
-                    <div class="pa-item-bets">
-                    <div class="bet-cell">
-                    <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
-                    align-items: flex-start; padding-bottom: 22px">
-                    1<br>${coefs[0]}
-                    </button>
-                  </div>  
-                  <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
-                  align-items: flex-start; padding-bottom: 22px">
-                  x<br>${coefs[1]}
-                  </button>
-                  </div>  
-                  <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
-                  align-items: flex-start; padding-bottom: 22px">
-                  2<br>${coefs[2]}
-                  </button>
-                  </div>   
-                    </div>
-                    </div>
-                    `);
-                    }
-                  }
-              } else if (lastEV == 'COMPETITIONS') {
-                let trimmedNA = data[i].NA.replace(/\s/g, '').replace(/\W/g, '');
-                res_content.append(`
-                    <div class="search-ev-links-${0}" style="display: block;
-                    width: 100%;
-                    height: auto;
-                    min-height: 44px;">
-                      <div class="s-ev-link">
-                        <p class="font white t-clicked">${data[i].NA}</p>
-                        <div class="t-market-group active">
-
-                        <div data-id="${trimmedNA}" class="market-pa">
-
-                          <div class="market-pa-item">
-                            <div>
-                              <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
-                              <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
-                            </div>                        
-                           </div>
-
-                          <div class="market-pa-item">
-                            <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
-                            <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
-                          </div>
-
-                        </div>
-
-                      </div>
-                      </div>
-                    </div>
-                  `);
-                  
-                  let compets = getPAforCompets(window.searchDATA, data[i].NA);
-                  //console.log(data[i].NA + ': ' + comp_coefs);
-                  let marketPA = $(`[data-id=${trimmedNA}]`);
-                  marketPA.empty();
-                  for (let b = 0; b < compets.length; b++) {
-                    let comp_coefs = getCoefsCompet(window.searchDATA, data[i].NA ,compets[b]);
-                    marketPA.append(`
-                    <div class="market-pa-item">
-                    <div class="pa-item-names">
-                      <span class="font m-white ellipsis" style="font-size: 15px;">${compets[b]}</span>
-                      <span class="font m-white ellipsis" style="font-size: 12px;">${convertToDate(comp_coefs[3])}</span>
-                    </div>
-                    <div class="pa-item-bets">
-                    <div class="bet-cell">
-                    <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
-                    align-items: flex-start; padding-bottom: 22px">
-                    1<br>${comp_coefs[0]}
-                    </button>
-                  </div>  
-                  <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
-                  align-items: flex-start; padding-bottom: 22px">
-                  x<br>${comp_coefs[1]}
-                  </button>
-                  </div>  
-                  <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
-                  align-items: flex-start; padding-bottom: 22px">
-                  2<br>${comp_coefs[2]}
-                  </button>
-                  </div>   
-                    </div>                        
-                   </div>
-                    `);
-                  }
-              } else {
-                res_content.append(`
-                    <div class="search-ev-links-${0}" style="display: block;
-                    width: 100%;
-                    height: auto;
-                    min-height: 44px;">
-                      <div class="s-ev-link">
-                        <p class="font white">${data[i].NA}</p>
-                      </div>
-                    </div>
-                  `);
-              }
-            } else {
-              if (lastEV == 'Players') {
-                let PAarray = getPAforMG(data[i].NA, data);
-                let trimmedNA = data[i].NA.replace(/\s/g, '');
-                res_content.append(`
-                    <div class="search-ev-links-${0}" style="
-                    width: 100%;
-                    height: auto;
-                    min-height: 44px;">
-                      <div class="s-ev-link">
-                        <p class="font white t-clicked">${data[i].NA}</p>
-                        <div class="t-market-group active">
-                        <div data-id="${trimmedNA}"class="market-pa">
-                          <div class="market-pa-item">
-                          <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
-                          <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
-                          </div>
-
-                          <div class="market-pa-item">
-                          <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
-                          <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
-                          </div>
-                        </div>
-                      </div>
-                      </div>
-                    </div>
-                  `);
-                    $(`[data-id=${trimmedNA}]`).empty();
-                  for (let m = 0; m < PAarray.length; m++) {
-                    let coefs = getCoefsSoccer(window.searchDATA, data[i].NA, PAarray[m]);
-                    if (coefs[0] == 'null' || coefs[0] == 'undefined' || coefs[1] == 'null' || coefs[1] == 'undefined' || coefs[2] == 'null' || coefs[2] == 'undefined') {
-                      continue;
-                    } else {
-                      $(`[data-id=${trimmedNA}]`).append(`
-                    <div class="market-pa-item">
-                      <div class="pa-item-names">
-                        <span class="font m-white ellipsis" style="font-size: 15px;">${PAarray[m]}</span>
-                        <span class="font m-white ellipsis" style="font-size: 12px;">${convertToDate(coefs[3])}</span>
-                      </div>
-                      <div class="pa-item-bets">
-                      <div class="bet-cell">
-                        <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
-                        align-items: flex-start; padding-bottom: 22px">
-                        1<br>${coefs[0]}
-                        </button>
-                      </div>  
-                      <div class="bet-cell">
-                      <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
-                      align-items: flex-start; padding-bottom: 22px">
-                      x<br>${coefs[1]}
-                      </button>
-                      </div>  
-                      <div class="bet-cell">
-                      <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
-                      align-items: flex-start; padding-bottom: 22px">
-                      2<br>${coefs[2]}
-                      </button>
-                      </div>  
-                      </div>
-                    </div>
-                    `);
-                    }
-                  }
-              } else if (lastEV == 'COMPETITIONS') {
-                let trimmedNA = data[i].NA.replace(/\s/g, '').replace(/\W/g, '');
-                res_content.append(`
-                <div class="search-ev-links-${0}" style="
-                width: 100%;
-                height: auto;
-                min-height: 44px;">
-                  <div class="s-ev-link">
-                    <p class="font white t-clicked">${data[i].NA}</p>
-                    <div class="t-market-group active">
-                    <div data-id="${trimmedNA}"class="market-pa">
-                      <div class="market-pa-item">
-                      <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
-                      <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
-                      </div>
-
-                      <div class="market-pa-item">
-                      <span class="font m-white ellipsis" style="font-size: 15px;">Team vs Team</span>
-                      <span class="font m-white ellipsis" style="font-size: 12px;">Dd Mm Tt</span>
-                      </div>
-                    </div>
-                  </div>
-                  </div>
-                </div>
-                  `);
-                  
-                  let compets = getPAforCompets(window.searchDATA, data[i].NA);
-                  //console.log(data[i].NA + ': ' + comp_coefs);
-                  let marketPA = $(`[data-id=${trimmedNA}]`);
-                  marketPA.empty();
-                  for (let b = 0; b < compets.length; b++) {
-                    let comp_coefs = getCoefsCompet(window.searchDATA, data[i].NA ,compets[b]);
-                    marketPA.append(`
-                    <div class="market-pa-item">
-                    <div class="pa-item-names">
-                      <span class="font m-white ellipsis" style="font-size: 15px;">${compets[b]}</span>
-                      <span class="font m-white ellipsis" style="font-size: 12px;">${convertToDate(comp_coefs[3])}</span>
-                    </div>
-                    <div class="pa-item-bets">
-                    <div class="bet-cell">
-                    <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
-                    align-items: flex-start; padding-bottom: 22px">
-                    1<br>${comp_coefs[0]}
-                    </button>
-                  </div>  
-                  <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
-                  align-items: flex-start; padding-bottom: 22px">
-                  x<br>${comp_coefs[1]}
-                  </button>
-                  </div>  
-                  <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
-                  align-items: flex-start; padding-bottom: 22px">
-                  2<br>${comp_coefs[2]}
-                  </button>
-                  </div>   
-                    </div>                        
-                   </div>
-                    `);
-                  }
-                  
-              } else {
-                res_content.append(`
-                    <div class="search-ev-links-${0}" style="display: block;
-                    width: 100%;
-                    height: auto;
-                    min-height: 44px;">
-                      <div class="s-ev-link">
-                        <p class="font white">${data[i].NA}</p>
-                      </div>
-                    </div>
-                  `);
-              }
-            }
-          }
-        }
-        resolve();
-      }).then(() => {
-
-        function eSetClicked(el) {
-          $(el.target).removeClass('t-not-clicked');
-          $(el.target).addClass('t-clicked');
-          $(el.target).prop("onclick", null).off("click");
-
-          let marketDIV = $(el.target).parent().children('.t-market-group');
-          marketDIV.removeClass('not-active');
-          marketDIV.addClass('active');
-
-          $(el.target).on('click', (item) => {
-            eSetNotClicked(item);
-          });
-        }
-
-        function eSetNotClicked(el) {
-          $(el.target).removeClass('t-clicked');
-          $(el.target).addClass('t-not-clicked');
-          $(el.target).prop("onclick", null).off("click");
-
-          let marketDIV = $(el.target).parent().children('.t-market-group');
-          marketDIV.removeClass('active');
-          marketDIV.addClass('not-active');
-
-          $(el.target).on('click', (item) => {
-            eSetClicked(item);
-          });
-        }
-
-        $('.s-ev-link p.t-clicked').on('click', (el) => {
-          eSetNotClicked(el);
-        });
-
-        if (betslipIsLoaded == false) {
-          loadJsModules({
-            betslip_link: { loadCSS: true, loadLanguage: false },
-          });
-          betslipIsLoaded = true;
-        }
-      });
+    function renderResult(id) {
+      switch (id) {
+        case 1:
+          console.log('Soccer');
+          RenderSearchResult(window.searchDATA);
+          break;
+        case 13:
+          console.log('Tennis');
+          RenderSearchResultTennis(window.searchDATA);
+          break;
+      }
     }
 
     function renderSearch() {
@@ -1320,7 +984,7 @@ exports('search', (params, done) => {
 
                   <i data-id="main-search-container"class="fa fa-search" aria-hidden="true" id="search-icon" style="font-size: 20px; color: #fff" data-id="search"></i>
                   <form data-id="search-field"class="search-form" data-id="search">
-                    <input type="text"id="search-input" placeholder="Search..." data-id="search">
+                    <input type="text" id="search-input" placeholder="Search..." data-id="search">
                   </form>
                   <div data-id="search-mic" class="search-mic">
                   <i class="fas fa fa-microphone"></i>
@@ -1335,17 +999,17 @@ exports('search', (params, done) => {
 
             <div class="search-body active">
               <div class="search-example">
-                <p class="font m-white">Search examples:</p>
+                <p class="font m-white" data-id="search-example">Search examples:</p>
               </div>
               <div class="search-links">
                 <div class="s-link">
-                  <p class="font white">AFC Champions League</p>
+                  <p class="font white" data-id="search-example">AFC Champions League</p>
                 </div>
                 <div class="s-link">
-                  <p class="font white">Algeria Youth League</p>
+                  <p class="font white" data-id="search-example">Algeria Youth League</p>
                 </div>
                 <div class="s-link">
-                  <p class="font white">Argentina Reserve League</p>
+                  <p class="font white" data-id="search-example">Argentina Reserve League</p>
                 </div>
               </div>
             </div>
@@ -1407,6 +1071,13 @@ exports('search', (params, done) => {
           $('.main-search-container').removeClass('active');
           $('.main-search-container').addClass('not-active');
         });
+
+        $(`[data-id=search-example]`).on('click', (el) => {
+          let ex_text = $(el.target).text();
+          console.log(ex_text);
+          $(`[data-id=search]`).val(ex_text);
+        });
+
         $(`[data-id=search-field]`).on('input', (el) => {
           let input_val = $(el.target).val();
           if (input_val.length >= 1) {
@@ -1426,7 +1097,7 @@ exports('search', (params, done) => {
             $('.search-mic').prop("onclick", null).off("click");
           }
           if (input_val.length >= 2) {
-            GET('ef');
+            GET(input_val);
             $('.search-body').removeClass('active');
             $('.search-body').addClass('not-active');
 
