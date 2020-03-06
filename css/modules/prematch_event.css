@@ -108,7 +108,7 @@
 }
 .market-group-text {
   text-overflow: ellipsis;
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -126,7 +126,7 @@
 }
 .market-group-name {
   text-overflow: ellipsis;
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap;
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 auto;
@@ -566,8 +566,8 @@ p.timer-el {
 }
 /*end of playtable*/
 /*coef_table*/
-button.button.coefficient {
-  border-bottom: 1px solid #000;
+.coeficient-table button.button.coefficient {
+  border-bottom: 1px solid #000!important;
 }
 .bets_column:last-child {
   border: 0;
@@ -612,10 +612,10 @@ div.row.info.det.not-active:before{
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-flex: 1 1 20%;
-  -webkit-flex: 1 1 20%;
-  -ms-flex: 1 1 20%;
-  flex: 1 1 20%;
+  -webkit-box-flex: 1 1 25%;
+  -webkit-flex: 1 1 25%;
+  -ms-flex: 1 1 25%;
+  flex: 1 1 25%;
   flex-wrap: wrap;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -628,6 +628,12 @@ div.row.info.det.not-active:before{
 }
 .coef_row .bets_column:last-child{
   border: none;
+}
+.bets_column .bets_title {
+  white-space: nowrap;
+}
+.button.coefficient.selected .font {
+  font-weight: bold!important;
 }
 .bets_column.ma-title {
   -webkit-box-flex: 1 1 100%;
