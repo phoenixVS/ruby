@@ -666,6 +666,9 @@ div.row.info.det.not-active:before{
 .half-w {
   width: 49%;
 }
+.prematch-table .coeficient-table .cell {
+  height: 36px!important; 
+}
 .coeficient-table .row.info p{
   padding-left: 20px;
 }
