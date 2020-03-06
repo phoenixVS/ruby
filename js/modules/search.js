@@ -641,19 +641,19 @@ exports('search', (params, done) => {
                     </div>
                     <div class="pa-item-bets">
                     <div class="bet-cell">
-                    <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                    <button class="s button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
                     align-items: flex-start; padding-bottom: 22px">
                     1<br>${coefs[0]}
                     </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="s button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
                   align-items: flex-start; padding-bottom: 22px">
                   x<br>${coefs[1]}
                   </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="s button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
                   align-items: flex-start; padding-bottom: 22px">
                   2<br>${coefs[2]}
                   </button>
@@ -709,19 +709,19 @@ exports('search', (params, done) => {
                     </div>
                     <div class="pa-item-bets">
                     <div class="bet-cell">
-                    <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                    <button class="s button coefficient s" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
                     align-items: flex-start; padding-bottom: 22px">
                     1<br>${comp_coefs[0]}
                     </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient s" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
                   align-items: flex-start; padding-bottom: 22px">
                   x<br>${comp_coefs[1]}
                   </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient s" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
                   align-items: flex-start; padding-bottom: 22px">
                   2<br>${comp_coefs[2]}
                   </button>
@@ -783,19 +783,19 @@ exports('search', (params, done) => {
                       </div>
                       <div class="pa-item-bets">
                       <div class="bet-cell">
-                        <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                        <button class="button coefficient s" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
                         align-items: flex-start; padding-bottom: 22px">
                         1<br>${coefs[0]}
                         </button>
                       </div>  
                       <div class="bet-cell">
-                      <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                      <button class="button coefficient s" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
                       align-items: flex-start; padding-bottom: 22px">
                       x<br>${coefs[1]}
                       </button>
                       </div>  
                       <div class="bet-cell">
-                      <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                      <button class="button coefficient s" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
                       align-items: flex-start; padding-bottom: 22px">
                       2<br>${coefs[2]}
                       </button>
@@ -845,19 +845,19 @@ exports('search', (params, done) => {
                     </div>
                     <div class="pa-item-bets">
                     <div class="bet-cell">
-                    <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                    <button class="button coefficient s" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
                     align-items: flex-start; padding-bottom: 22px">
                     1<br>${comp_coefs[0]}
                     </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient s" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
                   align-items: flex-start; padding-bottom: 22px">
                   x<br>${comp_coefs[1]}
                   </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient s" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
                   align-items: flex-start; padding-bottom: 22px">
                   2<br>${comp_coefs[2]}
                   </button>
