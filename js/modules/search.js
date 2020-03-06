@@ -199,28 +199,19 @@ exports('search', (params, done) => {
         </div>
         `);
         let scroll = $('.search-scroll');
-        let cl_counter = 0;
         for (let i = 0; i < data.length; i++) {
           if (data[i].type == 'CL') {
-            cl_counter++
-            if (cl_counter > 1) {
-              for (let g = 0; g < data.length; g++) {
-                if (data[g].type == 'CL' && data[g].NA != choosen_NA) {
+            if (data[i].ID == 13) {
                   scroll.append(`
-                    <div class="search-scroll-item">
+                    <div class="search-scroll-item choosen">
                       <p class="font">${data[g].NA}</p>
                     </div>
                     `);
-                } else {
-                  continue;
-                }
-              }
-              break;
-            } else {
+            } /*else {
               choosen = true;
               choosen_NA = data[i].NA;
               scroll.append(`
-              <div class="search-scroll-item choosen">
+              <div class="search-scroll-item">
                 <p class="font">${data[i].NA}</p>
               </div>
               `);
@@ -276,19 +267,19 @@ exports('search', (params, done) => {
                     </div>
                     <div class="pa-item-bets">
                     <div class="bet-cell">
-                    <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                    <button class="button coefficient" style="padding: 0; display: inline-flex;
                     align-items: flex-start; padding-bottom: 22px">
                     <span class="coef-name">1</span><br>${coefs[0]}
                     </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient" style="padding: 0; display: inline-flex;
                   align-items: flex-start; padding-bottom: 22px">
                   <span class="coef-name">x</span><br>${coefs[1]}
                   </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient" style="padding: 0; display: inline-flex; 
                   align-items: flex-start; padding-bottom: 22px">
                   <span class="coef-name">2</span><br>${coefs[2]}
                   </button>
@@ -344,19 +335,19 @@ exports('search', (params, done) => {
                     </div>
                     <div class="pa-item-bets">
                     <div class="bet-cell">
-                    <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                    <button class="button coefficient" style="padding: 0; display: inline-flex; 
                     align-items: flex-start; padding-bottom: 22px">
                     <span class="coef-name">1</span><br>${comp_coefs[0]}
                     </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient" style="padding: 0; display: inline-flex; 
                   align-items: flex-start; padding-bottom: 22px">
                   <span class="coef-name">x</span><br>${comp_coefs[1]}
                   </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient" style="padding: 0; display: inline-flex;
                   align-items: flex-start; padding-bottom: 22px">
                   <span class="coef-name">2</span><br>${comp_coefs[2]}
                   </button>
@@ -418,19 +409,19 @@ exports('search', (params, done) => {
                       </div>
                       <div class="pa-item-bets">
                       <div class="bet-cell">
-                        <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                        <button class="button coefficient" style="padding: 0; display: inline-flex; 
                         align-items: flex-start; padding-bottom: 22px">
                         1<br>${coefs[0]}
                         </button>
                       </div>  
                       <div class="bet-cell">
-                      <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                      <button class="button coefficient" style="padding: 0; display: inline-flex;
                       align-items: flex-start; padding-bottom: 22px">
                       x<br>${coefs[1]}
                       </button>
                       </div>  
                       <div class="bet-cell">
-                      <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                      <button class="button coefficient" style="padding: 0; display: inline-flex; 
                       align-items: flex-start; padding-bottom: 22px">
                       2<br>${coefs[2]}
                       </button>
@@ -480,19 +471,19 @@ exports('search', (params, done) => {
                     </div>
                     <div class="pa-item-bets">
                     <div class="bet-cell">
-                    <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                    <button class="button coefficient" style="padding: 0; display: inline-flex; 
                     align-items: flex-start; padding-bottom: 22px">
                     1<br>${comp_coefs[0]}
                     </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient" style="padding: 0; display: inline-flex; 
                   align-items: flex-start; padding-bottom: 22px">
                   x<br>${comp_coefs[1]}
                   </button>
                   </div>  
                   <div class="bet-cell">
-                  <button class="button coefficient" style="padding: 0; display: inline-flex; /* keep the inline nature of buttons */
+                  <button class="button coefficient" style="padding: 0; display: inline-flex;
                   align-items: flex-start; padding-bottom: 22px">
                   2<br>${comp_coefs[2]}
                   </button>
@@ -515,7 +506,7 @@ exports('search', (params, done) => {
                   `);
               }
             }
-          }
+          */}
         }
         resolve();
       }).then(() => {
@@ -1106,7 +1097,7 @@ exports('search', (params, done) => {
             $('.search-mic').prop("onclick", null).off("click");
           }
           if (input_val.length >= 2) {
-            GET('ef');
+            GET(input_val);
             $('.search-body').removeClass('active');
             $('.search-body').addClass('not-active');
 
