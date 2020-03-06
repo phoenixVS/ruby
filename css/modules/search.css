@@ -323,10 +323,10 @@
     max-height: 36px;
 }
 
-.button.coefficient {
+.button.coefficient.s {
     background-color: transparent;
 }
 
-.button.coefficient.selected {
+.button.coefficient.s.selected {
     background-color: #fff;
 }
