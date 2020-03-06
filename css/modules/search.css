@@ -319,8 +319,7 @@
 
 .bet-cell {
     width: 33%;
-    height: auto;
-    max-height: 36px;
+    height: 36px;
 }
 
 .button.coefficient.s {
