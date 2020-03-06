@@ -93,11 +93,11 @@ exports('prematch', (params, done) => {
         console.dir(data);
         $('.prematch-title').text(data[0].NA);
         data.MG[0].MA.forEach((item) => {
-          $('.prematch-table-title').append(`
+          $('.prematch-table-title__main').append(`
           <div class="item" data-id="${item.ID}" data-pd="${item.PD}">${item.NA}</div>
           `);
         });
-        $('.prematch-table-title .item:first-child').addClass('selected');
+        $('.prematch-table-title__main .item:first-child').addClass('selected');
 
         // Render table of leagues
         if (data[0].ID != 1) {
@@ -187,11 +187,11 @@ exports('prematch', (params, done) => {
             window.location.hash = '/' + 'inplay' + '/' + window.location.hash.split('/')[2];
           });
 
-          $('.prematch-table-title .item').on('click', (event) => {
+          $('.prematch-table-title__main .item').on('click', (event) => {
             let cur = $(event.target);
             if (cur.is('.selected')) { }
             else {
-              $('.prematch-table-title .item').removeClass('selected');
+              $('.prematch-table-title__main .item').removeClass('selected');
               cur.addClass('selected');
             }
           });

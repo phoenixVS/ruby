@@ -55,7 +55,7 @@ exports('betslip_link', (params, done) => {
   const keys = Object.keys(parsedCookies);
   for (name of keys) {
     if (name.substring(0, 3) == 'pa_') {
-      $(`[data-id=${name.slice(3)}]`).addClass('selected');
+      $(`[data-id=${name.slice(3)}]:not(.disabled)`).addClass('selected');
       counter++;
     }
   }
