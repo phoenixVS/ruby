@@ -28,7 +28,7 @@ exports('aside', (params, done) => {
         RenderAside(window.inplay);
       }
     });
-
+    
     function AddFav(NAME, ID) {
       localStorage.setItem(NAME, ID);
     }

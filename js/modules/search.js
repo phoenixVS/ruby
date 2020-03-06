@@ -553,7 +553,7 @@ exports('search', (params, done) => {
         $('.s-ev-link p.t-clicked').on('click', (el) => {
           eSetNotClicked(el);
         });
-
+        console.log('Betslip status: ' + betslipIsLoaded);
         if (betslipIsLoaded == false) {
           loadJsModules({
             betslip_link: { loadCSS: true, loadLanguage: false },
@@ -883,7 +883,7 @@ exports('search', (params, done) => {
                     height: auto;
                     min-height: 44px;">
                       <div class="s-ev-link">
-                        <p class="font white">${data[i].NA}</p>
+                        <p class="font white ev-pd" data-sportid="" data-lastev="${lastEV}" data-pd="${data[i].PD}">${data[i].NA}</p>
                       </div>
                     </div>
                   `);
@@ -893,7 +893,6 @@ exports('search', (params, done) => {
         }
         resolve();
       }).then(() => {
-
         function eSetClicked(el) {
           $(el.target).removeClass('t-not-clicked');
           $(el.target).addClass('t-clicked');
@@ -925,6 +924,12 @@ exports('search', (params, done) => {
         $('.s-ev-link p.t-clicked').on('click', (el) => {
           eSetNotClicked(el);
         });
+        
+        $('.ev-pd').on('click', (el) => {
+          if ($(el.target).data('lastev') == 'EVENTS') {
+            window.location.hash = "/sport/1//" + encodeURL($(el.target).data('pd'));
+          }
+        });
 
         $('.search-scroll-item').on('click', (el) => {
           $('.search-scroll').children('.choosen').removeClass('choosen');
@@ -940,15 +945,24 @@ exports('search', (params, done) => {
             renderResult(sport_id);
           }
         });
-
-        if (betslipIsLoaded == false) {
+        loadJsModules({
+          betslip_link: { loadCSS: true, loadLanguage: false },
+          betslip: {loadCSS: true, loadLanguage: false },
+        });
+        //console.log('Betslip ststus: ' + betslipIsLoaded);
+        /*if (betslipIsLoaded == false) {
           loadJsModules({
             betslip_link: { loadCSS: true, loadLanguage: false },
             betslip: {loadCSS: true, loadLanguage: false },
           });
           betslipIsLoaded = true;
-        }
+        }*/
       });
+    }
+
+    function encodeURL(pd) {
+      const url = encodeURIComponent(pd);
+      return url
     }
 
     function renderResult(id) {
@@ -979,7 +993,7 @@ exports('search', (params, done) => {
 
                   <i data-id="main-search-container"class="fa fa-search" aria-hidden="true" id="search-icon" style="font-size: 20px; color: #fff" data-id="search"></i>
                   <form data-id="search-field"class="search-form" data-id="search">
-                    <input type="text"id="search-input" placeholder="Search..." data-id="search">
+                    <input type="text" id="search-input" placeholder="Search..." data-id="search">
                   </form>
                   <div data-id="search-mic" class="search-mic">
                   <i class="fas fa fa-microphone"></i>
@@ -994,17 +1008,17 @@ exports('search', (params, done) => {
 
             <div class="search-body active">
               <div class="search-example">
-                <p class="font m-white">Search examples:</p>
+                <p class="font m-white" data-id="search-example">Search examples:</p>
               </div>
               <div class="search-links">
                 <div class="s-link">
-                  <p class="font white">AFC Champions League</p>
+                  <p class="font white" data-id="search-example">AFC Champions League</p>
                 </div>
                 <div class="s-link">
-                  <p class="font white">Algeria Youth League</p>
+                  <p class="font white" data-id="search-example">Algeria Youth League</p>
                 </div>
                 <div class="s-link">
-                  <p class="font white">Argentina Reserve League</p>
+                  <p class="font white" data-id="search-example">Argentina Reserve League</p>
                 </div>
               </div>
             </div>
@@ -1066,6 +1080,13 @@ exports('search', (params, done) => {
           $('.main-search-container').removeClass('active');
           $('.main-search-container').addClass('not-active');
         });
+
+        $(`[data-id=search-example]`).on('click', (el) => {
+          let ex_text = $(el.target).text();
+          console.log(ex_text);
+          $(`[data-id=search]`).val(ex_text);
+        });
+
         $(`[data-id=search-field]`).on('input', (el) => {
           let input_val = $(el.target).val();
           if (input_val.length >= 1) {
