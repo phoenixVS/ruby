@@ -170,6 +170,8 @@ exports('aside', (params, done) => {
                 aside.addClass('not-active');
                 $('.main-search-container').addClass('active');
                 $('.main-search-container').removeClass('not-active');
+                let vh = window.innerHeight * 0.01;
+                document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
               }
             } else {
               return false;
