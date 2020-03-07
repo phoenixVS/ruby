@@ -291,8 +291,8 @@
 }
 
 .market-pa {
-    height: 100%;
     width: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
     padding-top: 10px;
@@ -306,12 +306,12 @@
 }
 
 .pa-item-names {
-    height: 100%;
+    height: 36px;
     width: 50%;
 }
 
 .pa-item-bets {
-    height: 100%;
+    height: 36px;
     width: 50%;
     display: flex;
     flex-direction: row;
@@ -319,8 +319,7 @@
 
 .bet-cell {
     width: 33%;
-    height: auto;
-    max-height: 36px;
+    height: 36px;
 }
 
 .button.coefficient.s {

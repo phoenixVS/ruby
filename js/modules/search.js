@@ -919,6 +919,8 @@ exports('search', (params, done) => {
         $('.ev-pd').on('click', (el) => {
           if ($(el.target).data('lastev') == 'EVENTS') {
             window.location.hash = "/sport/1//" + encodeURL($(el.target).data('pd'));
+            $('.main-search-container').removeClass('active');
+            $('.main-search-container').addClass('not-active');
           }
         });
 
