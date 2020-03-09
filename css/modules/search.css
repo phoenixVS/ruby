@@ -2,11 +2,10 @@
     display: block;
     position: fixed;
     z-index: 15;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    height: 100vh;
+    left: 50vw;
+    top: 50vh;
+    transform: translate(-50vw, -50vh);
+    -webkit-transform: translate(-50vw, -50vh);
     height: calc(var(--vh, 1vh) * 100);
     width: 100vw;
     overflow-y: none;

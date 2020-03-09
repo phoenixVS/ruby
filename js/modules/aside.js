@@ -154,7 +154,6 @@ exports('aside', (params, done) => {
           });
 
           $(`[data-id=search]`).on('click', (el) => {
-
             el.stopPropagation();
             if ($(el.target).data('id') == 'search') {
               if (window.searchIsLoaded != true) {
