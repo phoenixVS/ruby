@@ -8,6 +8,17 @@ exports('prematch_coupon', (params, done) => {
 
   $('.prematch').empty();
 
+  // load styles and unload event styles
+  if (document.querySelector(`[href="./css/modules/prematch_event.css"]`) !== null) {
+    document.querySelector(`[href="./css/modules/prematch_event.css"]`).parentNode.removeChild(document.querySelector(`[href="./css/modules/prematch_event.css"]`));
+  }
+  let fileref = document.createElement("link");
+  let filename = `./css/modules/prematch_coupon.css`;
+  fileref.setAttribute("rel", "stylesheet");
+  fileref.setAttribute("type", "text/css");
+  fileref.setAttribute("href", filename);
+  document.getElementsByTagName("head")[0].appendChild(fileref);
+
   insertHtmlModules({
     '.prematch': [
       'prematch/prematch_coupon.html',
@@ -119,7 +130,7 @@ exports('prematch_coupon', (params, done) => {
         $('.prematch-title .league').text(data[1].TB.split('#¬')[1].split(',')[0]);
 
         data.MA.forEach((item) => {
-          if (typeof item.PD !== 'undefined') {
+          if (typeof item.PD !== 'undefined' && typeof item.NA !== 'undefined') {
             $('.prematch-table-title').append(`
               <div class="item" data-id="${item.ID}">${item.NA}</div>
             `);
@@ -372,11 +383,21 @@ exports('prematch_coupon', (params, done) => {
           document.querySelectorAll(`[data-event-id]`).forEach((item) => {
             item.addEventListener('click', (event) => {
               const cur = $(event.target);
-              if (typeof cur.parents(`.col-item`).data(`pd`) !== 'undefined') {
-                window.location.hash += '/' + encodeURL(cur.parents(`.col-item`).data(`pd`));
+              if (cur.is('.col-item')) {
+                if (typeof cur.data(`pd`) !== 'undefined') {
+                  window.location.hash += '/' + encodeURL(cur.data(`pd`));
+                }
+                else {
+                  window.location.hash += '/' + encodeURL(cur.data(`pd`));
+                }
               }
               else {
-                window.location.hash += '/' + encodeURL(cur.parents(`.play-link`).data(`pd`));
+                if (typeof cur.parents(`.col-item`).data(`pd`) !== 'undefined') {
+                  window.location.hash += '/' + encodeURL(cur.parents(`.col-item`).data(`pd`));
+                }
+                else {
+                  window.location.hash += '/' + encodeURL(cur.parents(`.play-link`).data(`pd`));
+                }
               }
             });
           });

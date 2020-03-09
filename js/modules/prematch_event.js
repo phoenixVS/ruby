@@ -422,7 +422,7 @@ exports('prematch_event', (params, done) => {
                           }
                           if (ma.NA == '') {
                             if (ma.SY.includes('f')) {
-                              div.style.flex = `1 1 64%`;
+                              div.style.flex = `1 1 63.5%`;
                             }
                             else {
                               div.style.flex = `1 1 30%`;
@@ -505,7 +505,7 @@ exports('prematch_event', (params, done) => {
             });
             // go back to league
             $('.round-b').on('click', (event) => {
-              window.history.back();
+              window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2] + '/' + window.location.hash.split('/')[3];
             });
             loadJsModules({
               betslip_link: { loadCSS: false, loadLanguage: false }

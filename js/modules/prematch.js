@@ -93,9 +93,11 @@ exports('prematch', (params, done) => {
         console.dir(data);
         $('.prematch-title').text(data[0].NA);
         data.MG[0].MA.forEach((item) => {
-          $('.prematch-table-title__main').append(`
-          <div class="item" data-id="${item.ID}" data-pd="${item.PD}">${item.NA}</div>
-          `);
+          if (typeof item.NA !== 'undefined') {
+            $('.prematch-table-title__main').append(`
+              <div class="item" data-id="${item.ID}" data-pd="${item.PD}">${item.NA}</div>
+            `);
+          }
         });
         $('.prematch-table-title__main .item:first-child').addClass('selected');
 
