@@ -120,9 +120,9 @@
   position: relative;
   clear: both;
   background-color: #9F263D;
-  font-size: 1.2rem;
-  line-height: 17px;
-  padding: 17px 11px 13px;
+  font-size: 1.1rem;
+  line-height: 16px;
+  padding: 9px 11px 13px;
   color: #e4e4e4;
   display: -webkit-box;
   display: -webkit-flex;
@@ -149,9 +149,12 @@
   transform: translateY(-50%);
 }
 .market-group.opened .market-group-name:after {
-  transform: rotate(90deg); 
+  transform: rotate(-90deg); 
   transition-duration: 0.5s; 
   margin-top: 0px;
+}
+.market-group.closed {
+  max-height: 34px;
 }
 .market-group.closed .market-group-name:after {
   transform: rotate(0deg); 
@@ -406,11 +409,14 @@
   width: 100%;
   color: yellow;
   background: #343243;
-  margin-right: 1px;
+  margin-right: 1.5px;
   cursor: pointer;
 }
 button.button.coefficient {
   border-bottom: none!important;
+}
+.button.coefficient.selected .od {
+  color: red;
 }
 .button.coefficient.selected .ha{
   color: #000;
@@ -595,3 +601,6 @@ p.timer-el {
   transform: translateY(-3px) rotate(-90deg);
 }
 /*end of playtable*/
+.tableWrapper.hidden {
+  display: none;
+}

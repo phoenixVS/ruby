@@ -739,3 +739,6 @@ button.coefficient .font.ellipsis.mra {
   padding-right: 12px;
   padding-left: 12px;
 }
+.prematch-table-filter {
+  display: none;
+}

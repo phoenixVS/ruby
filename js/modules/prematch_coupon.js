@@ -138,17 +138,41 @@ exports('prematch_coupon', (params, done) => {
         });
         $('.prematch-table-title .item:first-child').addClass('selected');
 
+        let mg_idx = 0;
         data.MA.forEach((item) => {
           if (typeof item.PD === 'undefined' && item.PA.length == 0) {
             $('.prematch-table-filter').append(`
-              <div class="item" data-id="${item.ID}" data-it="${item.IT}">${item.NA}</div>
+              <div class="item" data-idx="${mg_idx}" data-id="${item.ID}" data-it="${item.IT}">${item.NA}</div>
             `);
+            mg_idx++;
           }
         });
         $('.prematch-table-filter .item:first-child').addClass('selected');
-
+        if ($('.prematch-table-filter .item').length == 0) {
+          $('.prematch-table-filter').css('display', 'none');
+        }
         if (data[0].ID !== '1' && data[0].ID !== '13') { // Basketball, ice hockey etc.
-          let events = 0, bets = 0;
+          let events = 0, bets = 0, tables = 0;
+          data.MA.forEach((ma) => {
+            if (ma.SY == 'ccl') {
+              tables++;
+            }
+          });
+          let table = document.querySelector('.tableWrapper').cloneNode(true);
+          document.querySelector('.tableWrapper').parentNode.removeChild(document.querySelector('.tableWrapper'));
+          for (let i = 0; i < tables; i++) {
+            table.dataset.index = i;
+            if (i == 0) {
+              table.classList.add('active');
+            }
+            else {
+              table.classList.remove('active');
+              table.classList.add('hidden');
+            }
+            let new_node = table.cloneNode(true);
+            document.querySelector('.prematch-table').appendChild(new_node);
+            // document.querySelector('.prematch-table-filter').insertAdjacentElement('afterend', table);
+          }
           data.MA.forEach((item, i) => {
             bets = 0;
             if (typeof item.PD === 'undefined' && item.PA.length > 0) {
@@ -193,20 +217,20 @@ exports('prematch_coupon', (params, done) => {
                 }
               }
               else {
-                // Spread && Total
-                let col_name = item.NA;
-                if (item.NA == 'Spread' || item.NA == 'Total') {
-                  $('.tableWrapper').append(`
-                <div class="table-col ${col_name}" data-id="${item.ID}" data-it="${item.IT}">
-                  <div class="col-label flex-container align-center">
-                    ${item.NA}
-                  </div>
-                </div>
-              `);
+                // Spread && Total | Money line
+                let col_name = item.NA !== ' ' ? item.NA : 'Money line';
+                if (item.SY == 'cci') {
+                  $('.tableWrapper[data-index="0"]').append(`
+                    <div class="table-col ${col_name}" data-id="${item.ID}" data-it="${item.IT}">
+                      <div class="col-label flex-container align-center">
+                        ${item.NA}
+                      </div>
+                    </div>
+                  `);
                   item.PA.map((item) => {
                     bets++;
                     if (modifyBets(item.OD) == 'NaN') {
-                      $(`.table-col.${col_name}`).append(`
+                      $(`.table-col${'.' + col_name}`).append(`
                       <div class="col-item flex-container">
                         <button class="button coefficient disabled">
                           <span class="ha">
@@ -218,7 +242,7 @@ exports('prematch_coupon', (params, done) => {
                     }
                     else {
                       bets++;
-                      $(`.table-col.${col_name}`).append(`
+                      $(`.table-col${'.' + col_name}`).append(`
                       <div class="col-item flex-container">
                         <button class="button coefficient" data-id="${item.ID}" data-fi="${item.FI}">
                           <span class="ha">
@@ -234,12 +258,48 @@ exports('prematch_coupon', (params, done) => {
                   });
                 }
                 else {
-                  // 
+                  if (item.SY == 'ccj') {
+                    $('.tableWrapper[data-index="1"]').append(`
+                    <div class="table-col ${col_name}" data-id="${item.ID}" data-it="${item.IT}">
+                      <div class="col-label flex-container align-center">
+                        ${item.NA}
+                      </div>
+                    </div>
+                  `);
+                    item.PA.map((item) => {
+                      // bets++;
+                      if (modifyBets(item.OD) == 'NaN') {
+                        $(`.table-col${'.' + col_name}`).append(`
+                      <div class="col-item flex-container">
+                        <button class="button coefficient disabled">
+                          <span class="ha">
+                            OTB
+                          </span>
+                        </button>
+                      </div>
+                    `);
+                      }
+                      else {
+                        // bets++;
+                        $(`.table-col${'.' + col_name}`).append(`
+                          <div class="col-item flex-container">
+                            <button class="button coefficient" data-id="${item.ID}" data-fi="${item.FI}">
+                              <span class="ha">
+                                ${item.HA}
+                              </span>
+                              <span class="od">
+                                ${modifyBets(item.OD)}
+                              </span>
+                            </button>
+                          </div>
+                        `);
+                      }
+                    });
+                  }
                 }
               }
             }
           });
-
           console.log('bets', bets);
           console.log(`events`, events);
           if (bets / events > 2.5) {
@@ -293,20 +353,20 @@ exports('prematch_coupon', (params, done) => {
                 // append event
                 play_table.append(`
                 <div class="row">
-                <div class="cell" data-pd="${item.PD}" data-event-id="${item.PD}">
-                  <div data-pd="${item.PD}" data-class="play-link" data-pd="${item.PD}" class="[ play-link ]">
-                      <div data-pd="${item.PD}" class="team home">
+                <div class="cell" ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`}>
+                  <div ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`} data-class="play-link" class="[ play-link ]">
+                      <div ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`} class="team home">
                         <p class="font m-white ellipsis" data-pd="${item.PD}">${item.NA}</p>
-                        <div class="team-score" data-pd="${item.PD}"></div>
+                        <div class="team-score" ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`}></div>
                       </div>
-                      <div data-pd="${item.PD}" class="team away">
-                        <p data-pd="${item.PD}" class="font m-white ellipsis">${item.N2}</p>
-                        <div class="team-score" data-pd="${item.PD}"></div>
+                      <div ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`} class="team away">
+                        <p ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`} class="font m-white ellipsis">${item.N2}</p>
+                        <div class="team-score" ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`}"></div>
                       </div>
-                      <div data-pd="${item.PD}" class="[ metadata-wrapper ] text-right">
+                      <div ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`} class="[ metadata-wrapper ] text-right">
                         <p class="font m-white timer-el">${item.BC.slice(-6).slice(0, 2) + ':' + item.BC.slice(-6).slice(2, 4)}</p>
-                        <div class="marketCount" data-pd="${item.PD}">${item.MR}</div>
-                        <div class="sport-icon play" data-pd="${item.PD}"></div>
+                        <div class="marketCount" ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`}> ${typeof item.PD !== 'undefined' ? `${item.MR}` : `INPLAY`}</div>
+                        <div class="sport-icon play" ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`}></div>
                       </div>
                     </div>
                   </div>
@@ -380,6 +440,7 @@ exports('prematch_coupon', (params, done) => {
           document.querySelector('.sport-name').addEventListener('click', (event) => {
             window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2];
           });
+          // load prematch event
           document.querySelectorAll(`[data-event-id]`).forEach((item) => {
             item.addEventListener('click', (event) => {
               const cur = $(event.target);
@@ -401,6 +462,33 @@ exports('prematch_coupon', (params, done) => {
               }
             });
           });
+          // load inplay event
+          document.querySelectorAll(`[data-inplay-id]`).forEach((item) => {
+            item.addEventListener('click', (event) => {
+              event.preventDefault();
+              const cur = $(event.target);
+              if (cur.is('.col-item')) {
+                if (typeof cur.data(`pd`) !== 'undefined') {
+                  window.location.hash = '';
+                  window.location.hash += '/' + 'event/' + encodeURL(cur.data(`inplayId`));
+                }
+                else {
+                  window.location.hash = '';
+                  window.location.hash += '/' + 'event/' + encodeURL(cur.data(`inplayId`));
+                }
+              }
+              else {
+                if (typeof cur.parents(`.col-item`).data(`pd`) !== 'undefined') {
+                  window.location.hash = '';
+                  window.location.hash += '/' + 'event/' + encodeURL(cur.parents(`.col-item`).data(`inplayId`));
+                }
+                else {
+                  window.location.hash = '';
+                  window.location.hash += '/' + 'event/' + encodeURL(cur.parents(`.play-link`).data(`inplayId`));
+                }
+              }
+            });
+          });
 
           $('.prematch-table-title .item').on('click', (event) => {
             let cur = $(event.target);
@@ -415,6 +503,11 @@ exports('prematch_coupon', (params, done) => {
             let cur = $(event.target);
             if (cur.is('.selected')) { }
             else {
+              $('.tableWrapper').removeClass('active').addClass('hidden');
+              let idx = cur.data('idx');
+              console.log(idx);
+              console.log('length: ', $(`.tableWrapper[data-index="${idx}"]`).length);
+              $(`.tableWrapper[data-index="${idx}"]`).removeClass('hidden').addClass('active');
               $('.prematch-table-filter .item').removeClass('selected');
               cur.addClass('selected');
             }
