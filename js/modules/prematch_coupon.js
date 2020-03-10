@@ -218,8 +218,9 @@ exports('prematch_coupon', (params, done) => {
               }
               else {
                 // Spread && Total | Money line
-                let col_name = item.NA !== ' ' ? item.NA : 'Money line';
                 if (item.SY == 'cci') {
+                  let col_name = item.NA !== ' ' ? item.NA : `moneyline${item.SY}`;
+                  col_name = col_name.replace(/\s+/g, '');
                   $('.tableWrapper[data-index="0"]').append(`
                     <div class="table-col ${col_name}" data-id="${item.ID}" data-it="${item.IT}">
                       <div class="col-label flex-container align-center">
@@ -259,6 +260,8 @@ exports('prematch_coupon', (params, done) => {
                 }
                 else {
                   if (item.SY == 'ccj') {
+                    let col_name = item.NA !== ' ' ? item.NA : `moneyline${item.SY}`;
+                    col_name = col_name.replace(/\s+/g, '');
                     $('.tableWrapper[data-index="1"]').append(`
                     <div class="table-col ${col_name}" data-id="${item.ID}" data-it="${item.IT}">
                       <div class="col-label flex-container align-center">
@@ -270,16 +273,18 @@ exports('prematch_coupon', (params, done) => {
                       // bets++;
                       if (modifyBets(item.OD) == 'NaN') {
                         $(`.table-col${'.' + col_name}`).append(`
-                      <div class="col-item flex-container">
-                        <button class="button coefficient disabled">
-                          <span class="ha">
-                            OTB
-                          </span>
-                        </button>
-                      </div>
-                    `);
+                          <div class="col-item flex-container">
+                            <button class="button coefficient disabled">
+                              <span class="ha">
+                                OTB
+                              </span>
+                            </button>
+                          </div>
+                        `);
                       }
                       else {
+                        console.log(col_name);
+                        console.log($(`.table-col${'.' + col_name}`).length);
                         // bets++;
                         $(`.table-col${'.' + col_name}`).append(`
                           <div class="col-item flex-container">
