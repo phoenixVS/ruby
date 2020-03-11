@@ -35,7 +35,10 @@ exports('prematch_coupon', (params, done) => {
     // Convert fractial to decimal
     modifyBets = (od) => {
       const nums = od.split('/');
-      return (nums[0] / nums[1] + 1).toFixed(2)
+      if (typeof nums[1] === 'undefined') {
+        return od + '.00';
+      }
+      return (nums[0] / nums[1] + 1).toFixed(2)      
     };
 
     let url = 'http://bestline.bet/sports/?PD=';
@@ -97,12 +100,6 @@ exports('prematch_coupon', (params, done) => {
       });
       return tree;
     }
-
-    // Convert fractial to decimal
-    modifyBets = (od) => {
-      const nums = od.split('/');
-      return (nums[0] / nums[1] + 1).toFixed(2)
-    };
 
     function transformDay(str) {
       if (str) {
