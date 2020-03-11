@@ -104,7 +104,7 @@ exports('prematch', (params, done) => {
         // Render table of leagues
         if (data[0].ID != 1) {
           data.MG.map((item, i) => {
-            if (i > 1 && typeof item.NA !== 'undefined') {
+            if (typeof item.NA !== 'undefined' && item.NA !== 'Match Coupon' /*for tennis*/) {
               $('.prematch-table .container-fluid').append(`
               <div class="market-group opened" data-id="${item.ID}" data-it="${item.IT}" data-pd="${item.PD}">
                 <div class="market-group-text">

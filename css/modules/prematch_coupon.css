@@ -593,14 +593,28 @@ p.timer-el {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: absolute;
-  top: 2px;
+  top: 1px;
   right: -13px;
   content: "\f107";
   color: #aaa;
   font-size: .9rem;
   transform: translateY(-3px) rotate(-90deg);
 }
+.marketCount.none:after {
+  display: none;
+}
+.sport-icon.none {
+  display: none;
+}
 /*end of playtable*/
 .tableWrapper.hidden {
   display: none;
+}
+.tableWrapper .no-events {
+  color: #fff;
+  background-color: #5e5e5e;
+  padding: 17px 7px;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 1.2rem;
 }

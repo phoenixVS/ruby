@@ -36,7 +36,7 @@ exports('prematch_coupon', (params, done) => {
     modifyBets = (od) => {
       const nums = od.split('/');
       if (typeof nums[1] === 'undefined') {
-        return od + '.00';
+        return od /* + '.00' */;
       }
       return (nums[0] / nums[1] + 1).toFixed(2)      
     };
@@ -64,7 +64,6 @@ exports('prematch_coupon', (params, done) => {
     }
 
     function growTree(data) {
-      console.log(data);
       let curMA = '';
       let tree = [];
       tree.MG = [];
@@ -148,10 +147,11 @@ exports('prematch_coupon', (params, done) => {
         if ($('.prematch-table-filter .item').length == 0) {
           $('.prematch-table-filter').css('display', 'none');
         }
-        if (data[0].ID !== '1' && data[0].ID !== '13') { // Basketball, ice hockey etc.
+        
+        if (data[0].ID == '18' || data[0].ID == '17') { // Basketball, ice hockey etc.
           let events = 0, bets = 0, tables = 0;
           data.MA.forEach((ma) => {
-            if (ma.SY == 'ccl') {
+            if (ma.SY == 'ccl' || ma.SY == 'ccd' ) {
               tables++;
             }
           });
@@ -170,6 +170,8 @@ exports('prematch_coupon', (params, done) => {
             document.querySelector('.prematch-table').appendChild(new_node);
             // document.querySelector('.prematch-table-filter').insertAdjacentElement('afterend', table);
           }
+          let curTable = 0;
+          let prevSY = '';
           data.MA.forEach((item, i) => {
             bets = 0;
             if (typeof item.PD === 'undefined' && item.PA.length > 0) {
@@ -197,10 +199,10 @@ exports('prematch_coupon', (params, done) => {
                       </div>
                       <div class="col-item-name">
                         <div class="team home">
-                          <span>${item.D1.split(',')[0] + '&nbsp;'}</span>${item.NA}
+                          <span>${typeof item.D1 !== 'undefined' ? item.D1.split(',')[0] + '&nbsp;' : ''}</span>${item.NA}
                         </div>
                         <div class="team away">
-                          <span>${item.D1.split(',')[1] + '&nbsp;'}</span>${item.N2}
+                          <span>${typeof item.D1 !== 'undefined' ? item.D1.split(',')[1] + '&nbsp;' : ''}</span>${item.N2}
                         </div>
                         ${item.TM == 'Tie' ? `
                           <div class="team away">
@@ -214,11 +216,18 @@ exports('prematch_coupon', (params, done) => {
                 }
               }
               else {
-                // Spread && Total | Money line
-                if (item.SY == 'cci') {
+                // Spread && Total | Money line | etc
+                if (item.SY == 'cci' || item.SY == 'ccj' || item.SY == 'cce') {
+                  let curSY = item.SY;
+                  if (prevSY == '') {
+                    prevSY = curSY;
+                  }
+                  if (curSY != prevSY) {
+                    curTable++;
+                  }
                   let col_name = item.NA !== ' ' ? item.NA : `moneyline${item.SY}`;
                   col_name = col_name.replace(/\s+/g, '');
-                  $('.tableWrapper[data-index="0"]').append(`
+                  $(`.tableWrapper[data-index="${curTable}"]`).append(`
                     <div class="table-col ${col_name}" data-id="${item.ID}" data-it="${item.IT}">
                       <div class="col-label flex-container align-center">
                         ${item.NA}
@@ -226,8 +235,8 @@ exports('prematch_coupon', (params, done) => {
                     </div>
                   `);
                   item.PA.map((item) => {
-                    bets++;
-                    if (modifyBets(item.OD) == 'NaN') {
+                    curTable == 0 ? bets++ : null;
+                    if (modifyBets(item.OD) == 'NaN' || item.OD == '') {
                       $(`.table-col${'.' + col_name}`).append(`
                       <div class="col-item flex-container">
                         <button class="button coefficient disabled">
@@ -239,13 +248,15 @@ exports('prematch_coupon', (params, done) => {
                     `);
                     }
                     else {
-                      bets++;
+                      curTable == 0 ? bets++ : null;
                       $(`.table-col${'.' + col_name}`).append(`
                       <div class="col-item flex-container">
                         <button class="button coefficient" data-id="${item.ID}" data-fi="${item.FI}">
-                          <span class="ha">
+                          ${item.HA !== '' ?
+                          `<span class="ha">
                             ${item.HA}
-                          </span>
+                          </span>` : ``
+                          }
                           <span class="od">
                             ${modifyBets(item.OD)}
                           </span>
@@ -254,51 +265,52 @@ exports('prematch_coupon', (params, done) => {
                     `);
                     }
                   });
+                  prevSY = curSY;
                 }
-                else {
-                  if (item.SY == 'ccj') {
-                    let col_name = item.NA !== ' ' ? item.NA : `moneyline${item.SY}`;
-                    col_name = col_name.replace(/\s+/g, '');
-                    $('.tableWrapper[data-index="1"]').append(`
-                    <div class="table-col ${col_name}" data-id="${item.ID}" data-it="${item.IT}">
-                      <div class="col-label flex-container align-center">
-                        ${item.NA}
-                      </div>
-                    </div>
-                  `);
-                    item.PA.map((item) => {
-                      // bets++;
-                      if (modifyBets(item.OD) == 'NaN') {
-                        $(`.table-col${'.' + col_name}`).append(`
-                          <div class="col-item flex-container">
-                            <button class="button coefficient disabled">
-                              <span class="ha">
-                                OTB
-                              </span>
-                            </button>
-                          </div>
-                        `);
-                      }
-                      else {
-                        console.log(col_name);
-                        console.log($(`.table-col${'.' + col_name}`).length);
-                        // bets++;
-                        $(`.table-col${'.' + col_name}`).append(`
-                          <div class="col-item flex-container">
-                            <button class="button coefficient" data-id="${item.ID}" data-fi="${item.FI}">
-                              <span class="ha">
-                                ${item.HA}
-                              </span>
-                              <span class="od">
-                                ${modifyBets(item.OD)}
-                              </span>
-                            </button>
-                          </div>
-                        `);
-                      }
-                    });
-                  }
-                }
+                // else {
+                //   if (item.SY == 'ccj') {
+                //     let col_name = item.NA !== ' ' ? item.NA : `moneyline${item.SY}`;
+                //     col_name = col_name.replace(/\s+/g, '');
+                //     $('.tableWrapper[data-index="1"]').append(`
+                //       <div class="table-col ${col_name}" data-id="${item.ID}" data-it="${item.IT}">
+                //         <div class="col-label flex-container align-center">
+                //           ${item.NA}
+                //         </div>
+                //       </div>
+                //     `);
+                //     item.PA.map((item) => {
+                //       // bets++;
+                //       if (modifyBets(item.OD) == 'NaN' || item.OD == '') {
+                //         $(`.table-col${'.' + col_name}`).append(`
+                //           <div class="col-item flex-container">
+                //             <button class="button coefficient disabled">
+                //               <span class="ha">
+                //                 OTB
+                //               </span>
+                //             </button>
+                //           </div>
+                //         `);
+                //       }
+                //       else {
+                //         // bets++;
+                //         $(`.table-col${'.' + col_name}`).append(`
+                //           <div class="col-item flex-container">
+                //             <button class="button coefficient" data-id="${item.ID}" data-fi="${item.FI}">
+                //             ${item.HA !== '' ?
+                //               `<span class="ha">
+                //                 ${item.HA}
+                //               </span>` : ``
+                //               }
+                //               <span class="od">
+                //                 ${modifyBets(item.OD)}
+                //               </span>
+                //             </button>
+                //           </div>
+                //         `);
+                //       }
+                //     });
+                //   }
+                // }
               }
             }
           });
@@ -355,20 +367,23 @@ exports('prematch_coupon', (params, done) => {
                 // append event
                 play_table.append(`
                 <div class="row">
-                <div class="cell" ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`}>
-                  <div ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`} data-class="play-link" class="[ play-link ]">
-                      <div ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`} class="team home">
-                        <p class="font m-white ellipsis" data-pd="${item.PD}">${item.NA}</p>
-                        <div class="team-score" ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`}></div>
+                <div class="cell" ${
+                  item.SU == '1' ? 
+                    'data-event-su="1"' : 
+                    (typeof item.PD !== 'undefined' ? ` data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`)}>
+                  <div data-class="play-link" class="[ play-link ]">
+                      <div class="team home">
+                        <p class="font m-white ellipsis">${item.NA}</p>
+                        <div class="team-score"></div>
                       </div>
-                      <div ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`} class="team away">
-                        <p ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`} class="font m-white ellipsis">${item.N2}</p>
-                        <div class="team-score" ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`}"></div>
+                      <div class="team away">
+                        <p class="font m-white ellipsis">${item.N2}</p>
+                        <div class="team-score"></div>
                       </div>
-                      <div ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`} class="[ metadata-wrapper ] text-right">
+                      <div class="[ metadata-wrapper ] text-right">
                         <p class="font m-white timer-el">${item.BC.slice(-6).slice(0, 2) + ':' + item.BC.slice(-6).slice(2, 4)}</p>
-                        <div class="marketCount" ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`}> ${typeof item.PD !== 'undefined' ? `${item.MR}` : `INPLAY`}</div>
-                        <div class="sport-icon play" ${typeof item.PD !== 'undefined' ? `data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`}></div>
+                        <div class="marketCount ${item.SU == '1' ? ' none' : ''}"> ${item.SU == '1' ? '' : (typeof item.PD !== 'undefined' ? `${item.MR}` : `INPLAY`)}</div>
+                        <div class="sport-icon play ${item.SU == '1' ? ' none' : ''}"></div>
                       </div>
                     </div>
                   </div>
@@ -388,10 +403,10 @@ exports('prematch_coupon', (params, done) => {
                   });
                   play_table.children('.row:last-child').append(`
                     <div class="cell" style="display: table-cell; min-width: 24%; max-width: 24%;">
-                      <button class="button coefficient ${home.OD == '0/0' ? 'disabled' : ''}" data-id="${home.ID}" data-fi="${home.FI}">${home.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(home.OD)}</button> 
+                      <button class="button coefficient ${home.OD == '0/0' || home.OD == '1' ? 'disabled' : ''}" data-id="${home.ID}" data-fi="${home.FI}">${home.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(home.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(home.OD))}</button> 
                     </div> 
                     <div class="cell" style="display: table-cell; min-width: 24%; max-width: 24%;"> 
-                      <button class="button coefficient ${away.OD == '0/0' ? 'disabled' : ''}" data-id="${away.ID}" data-fi="${away.FI}">${away.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(away.OD)}</button>
+                      <button class="button coefficient ${away.OD == '0/0' || away.OD == '1' ? 'disabled' : ''}" data-id="${away.ID}" data-fi="${away.FI}">${away.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(away.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(away.OD))}</button>
                     </div>
                   `);
                 }
@@ -411,13 +426,13 @@ exports('prematch_coupon', (params, done) => {
                   });
                   play_table.children('.row:last-child').append(`
                   <div class="cell" style="display: table-cell;">
-                    <button class="button coefficient ${home.OD == '0/0' ? 'disabled' : ''}" data-id="${home.ID}" data-fi="${home.FI}">${home.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(home.OD)}</button> 
+                    <button class="button coefficient ${home.OD == '0/0' || home.OD == '1' ? 'disabled' : ''}" data-id="${home.ID}" data-fi="${home.FI}">${home.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(home.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(home.OD))}</button> 
                   </div> 
                   <div class="cell" style="display: table-cell;"> 
-                  <button class="button coefficient ${draw.OD == '0/0' ? 'disabled' : ''}" data-id="${draw.ID}" data-fi="${draw.FI}">${draw.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(draw.OD)}</button>
+                  <button class="button coefficient ${draw.OD == '0/0' || draw.OD == '1' ? 'disabled' : ''}" data-id="${draw.ID}" data-fi="${draw.FI}">${draw.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(draw.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(draw.OD))}</button>
                   </div> 
                   <div class="cell" style="display: table-cell;">
-                  <button class="button coefficient ${away.OD == '0/0' ? 'disabled' : ''}" data-id="${away.ID}" data-fi="${away.FI}">${away.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(away.OD)}</button> 
+                  <button class="button coefficient ${away.OD == '0/0' || away.OD == '1' ? 'disabled' : ''}" data-id="${away.ID}" data-fi="${away.FI}">${away.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(away.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(away.OD))}</button> 
                   </div>
                 `);
                 }
@@ -425,6 +440,9 @@ exports('prematch_coupon', (params, done) => {
             }
           });
           $('.tableWrapper').append(play_table);
+        }
+        if(data.MA.length == 0) {
+          $('.tableWrapper .play-table').append($(`<div class="no-events">Sorry, there are no events sheduled coming soon.</div>`));
         }
         // preloader done
         preloader.addClass('done').removeClass('opaci');
@@ -455,11 +473,11 @@ exports('prematch_coupon', (params, done) => {
                 }
               }
               else {
-                if (typeof cur.parents(`.col-item`).data(`pd`) !== 'undefined') {
-                  window.location.hash += '/' + encodeURL(cur.parents(`.col-item`).data(`pd`));
+                if (typeof cur.parents(`.cell`).data(`pd`) !== 'undefined') {
+                  window.location.hash += '/' + encodeURL(cur.parents(`.cell`).data(`pd`));
                 }
                 else {
-                  window.location.hash += '/' + encodeURL(cur.parents(`.play-link`).data(`pd`));
+                  window.location.hash += '/' + encodeURL(cur.parents(`.cell`).data(`pd`));
                 }
               }
             });
@@ -480,13 +498,13 @@ exports('prematch_coupon', (params, done) => {
                 }
               }
               else {
-                if (typeof cur.parents(`.col-item`).data(`pd`) !== 'undefined') {
+                if (typeof cur.parents(`.cell`).data(`pd`) !== 'undefined') {
                   window.location.hash = '';
-                  window.location.hash += '/' + 'event/' + encodeURL(cur.parents(`.col-item`).data(`inplayId`));
+                  window.location.hash += '/' + 'event/' + encodeURL(cur.parents(`.cell`).data(`inplayId`));
                 }
                 else {
                   window.location.hash = '';
-                  window.location.hash += '/' + 'event/' + encodeURL(cur.parents(`.play-link`).data(`inplayId`));
+                  window.location.hash += '/' + 'event/' + encodeURL(cur.parents(`.cell`).data(`inplayId`));
                 }
               }
             });
