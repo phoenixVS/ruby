@@ -25,53 +25,53 @@ exports('coef_table', (params, done) => {
     // Shortening club name
     function shortize(name, gameName) {
       let str = name;
-      let team1 = game.NA.split(' v ')[0] || ev.NA.split(' vs ')[0] || game.NA.split(' @ ')[0],
-        team2 = game.NA.split(' v ')[1] || ev.NA.split(' vs ')[1] || game.NA.split(' @ ')[1];
-      if (name.includes(team1) || name.includes(team2)) {
-        if (screen.width < 350) {
-          if (name.includes(team1)){
-            
-          }
-            str = str.slice(0, 12);
-          if (name.length > 12) {
-            str += '...';
-          }
-          return str;
-        } else if (screen.width > 350 && screen.width < 450) {
-          str = str.slice(0, 16);
-          if (name.length > 16) {
-            str += '...';
-          }
-          return str;
-        } else {
-          str = str.slice(0, 18);
-          if (name.length > 18) {
-            str += '...';
-          }
-          return str;
+      // let team1 = game.NA.split(' v ')[0] || ev.NA.split(' vs ')[0] || game.NA.split(' @ ')[0],
+      //   team2 = game.NA.split(' v ')[1] || ev.NA.split(' vs ')[1] || game.NA.split(' @ ')[1];
+      // if (name.includes(team1) || name.includes(team2)) {
+      // if (screen.width < 350) {
+      //   // if (name.includes(team1)){
+
+      //   // }
+      //   str = str.slice(0, 12);
+      //   if (name.length > 12) {
+      //     str += '...';
+      //   }
+      //   return str;
+      // } else if (screen.width > 350 && screen.width < 450) {
+      //   str = str.slice(0, 16);
+      //   if (name.length > 16) {
+      //     str += '...';
+      //   }
+      //   return str;
+      // } else {
+      //   str = str.slice(0, 18);
+      //   if (name.length > 18) {
+      //     str += '...';
+      //   }
+      //   return str;
+      // }
+      // // }
+      // else {
+      if (screen.width < 350) {
+        str = str.slice(0, 12);
+        if (name.length > 12) {
+          str += '...';
         }
-      }
-      else {
-        if (screen.width < 350) {
-          str = str.slice(0, 12);
-          if (name.length > 12) {
-            str += '...';
-          }
-          return str;
-        } else if (screen.width > 350 && screen.width < 450) {
-          str = str.slice(0, 16);
-          if (name.length > 16) {
-            str += '...';
-          }
-          return str;
-        } else {
-          str = str.slice(0, 18);
-          if (name.length > 18) {
-            str += '...';
-          }
-          return str;
+        return str;
+      } else if (screen.width > 350 && screen.width < 450) {
+        str = str.slice(0, 16);
+        if (name.length > 16) {
+          str += '...';
         }
+        return str;
+      } else {
+        str = str.slice(0, 18);
+        if (name.length > 18) {
+          str += '...';
+        }
+        return str;
       }
+      // }
     }
 
     function renderCoefTable(data, ID, small) {
@@ -327,7 +327,7 @@ exports('coef_table', (params, done) => {
       const div = document.createElement('div');
       div.className = 'bets_title';
       div.innerHTML = `
-        ${shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;', data[0].NA)}
+        ${shortize(CO.NA ? ((CO.NA == ' ' ? '&nbsp;' : CO.NA)) : '&nbsp;', CO.NA)}
       `
       //${CO.NA && !CO.NA.includes('Count') ? CO.NA : '&nbsp;'}
       return div
@@ -359,7 +359,7 @@ exports('coef_table', (params, done) => {
       div.className = `maTable__cell`;
       div.innerHTML = `
       <button class="button coefficient ${SU2}" data-it="${IT}" data-eventNA="${eventNA}" data-cl="${sport}" data-marketNA="${marketNA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}">
-        <p class="font ellipsis mra"> ${shortize(NA ? NA : '', data[0].NA)}</p>
+        <p class="font ellipsis mra"> ${shortize(NA ? NA : '', NA)}</p>
         ${bet()}
       </button >
         `

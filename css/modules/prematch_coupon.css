@@ -404,6 +404,8 @@
   padding: 5px;
 }
 .col-item .button.coefficient {
+  height: 36px;
+  max-height: 36px;
   justify-content: center;
   text-align: center;
   width: 100%;
