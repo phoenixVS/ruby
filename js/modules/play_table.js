@@ -44,8 +44,8 @@ exports('play_table', (params, done) => {
 
             if ($(timers[i]).data("tt") == 0) {
               $(timers[i]).text("Break");
-              //$(timers[i]).data("tm", $(timers[i]).data("tm") + 15);
-            } else {/*
+              $(timers[i]).data("tm", $(timers[i]).data("tm") + 15);
+            } else {
               if ($(timers[i]).data("tm") == 0) {
 
                 let tu = $(timers[i]).data("tu");
@@ -57,14 +57,9 @@ exports('play_table', (params, done) => {
                   hours = etu.substring(8, 10),
                   minute = etu.substring(10, 12),
                   second = etu.substring(12, 14);
-                let curMin = new Date().getMinutes();
-                let curSec = new Date().getSeconds();
 
-                let _minutes = parseInt(curMin) - parseInt(minute);
-                let _secs = parseInt(curSec) - parseInt(second);
-
-                $(timers[i]).data("tm", _minutes);
-                $(timers[i]).data("ts", _secs);
+                $(timers[i]).data("tm", minute);
+                $(timers[i]).data("ts", second);
 
                 let tm = parseInt($(timers[i]).data("tm"));
                 let ts = parseInt($(timers[i]).data("ts"));
@@ -95,28 +90,7 @@ exports('play_table', (params, done) => {
 
                 $(timers[i]).data("tm", tm);
                 $(timers[i]).data("ts", ts);
-              }*/
-              let now = new Date();
-              let tu_time = new Date( $(timers[i]).data("tu") );
-
-              let dat_diff = Math.abs(now - tu_time);
-              let dat_tm = millisToMinutes(dat_diff);
-              let dat_ts = millisToSeconds(dat_diff);
-
-              let tm = parseInt($(timers[i]).data("tm"));
-              let ts = parseInt($(timers[i]).data("ts"));
-
-              let tm_ = parseInt(dat_tm) + tm;
-              let ts_ = parseInt(dat_ts) + ts;
-
-              if (ts_ == 59) {
-                tm_ = tm_ + 1;
-                ts_ = 0;
-              } else {
-                ts_ = ts_ + 1;
               }
-
-              $(timers[i]).text(createTimerInplay(tm_, ts_));
             }
           } else {
             $(timers[i]).text(" ");
@@ -126,16 +100,6 @@ exports('play_table', (params, done) => {
       window.inplay_interval = interval;
     }
 
-    function millisToMinutes(millis) {
-      var minutes = Math.floor(millis / 60000);
-      var seconds = ((millis % 60000) / 1000).toFixed(0);
-      return minutes /*+ ":" + (seconds < 10 ? '0' : '') + seconds;*/;
-    }
-    function millisToSeconds(millis) {
-      var minutes = Math.floor(millis / 60000);
-      var seconds = ((millis % 60000) / 1000).toFixed(0);
-      return (seconds < 10 ? '0' : '') + seconds;
-    }
     function renderTable(data, ID) {
       $(`[data-id="play-table"]`).empty();
       const tableRenderer = new Promise((resolve, reject) => {
