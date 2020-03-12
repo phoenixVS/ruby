@@ -44,6 +44,7 @@ exports('play_table', (params, done) => {
 
             if ($(timers[i]).data("tt") == 0) {
               $(timers[i]).text("Break");
+              $(timers[i]).data("tm", $(timers[i]).data("tm") + 15);
             } else {
               if ($(timers[i]).data("tm") == 0) {
 
