@@ -400,7 +400,7 @@ exports('aside', (params, done) => {
                     cur = cur.parent(`li`);
                   }
                   console.log(cur);
-                  let ID = $(ev.target).data(`div`).split('-')[2];
+                  let ID = cur.data(`div`).split('-')[2];
                   if (ID == -1) {
                     ID = 'home';
                   }
@@ -482,7 +482,7 @@ exports('aside', (params, done) => {
               cur = cur.parent(`li`);
             }
             console.log(cur);
-            let ID = $(ev.target).data(`div`).split('-')[2];
+            let ID = cur.data(`div`).split('-')[2];
             if (ID == -1) {
               ID = 'home';
             }
@@ -623,7 +623,7 @@ exports('aside', (params, done) => {
           cur = cur.parent(`li`);
         }
         console.log(cur);
-        let ID = $(ev.target).data(`div`).split('-')[2];
+        let ID = cur.data(`div`).split('-')[2];
         if (ID == -1) {
           ID = 'home';
         }
