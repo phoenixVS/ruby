@@ -394,7 +394,12 @@ exports('aside', (params, done) => {
                   continue;
                 }
                 // onclick to prematch
+                console.log($(`[data-div]`));
                 $(`[data-div]`).on('click', (ev) => {
+                  let cur = $(ev.target);
+                  if (typeof cur.data(`div`) == 'undefined') {
+                    cur = cur.parents(`li`);
+                  }
                   let ID = $(ev.target).data(`div`).split('-')[2];
                   if (ID == -1) {
                     ID = 'home';
@@ -471,7 +476,12 @@ exports('aside', (params, done) => {
           sessionStorage.removeItem('aside');
           sessionStorage.setItem('aside', 'sport');
           // onclick to prematch
+          console.log($(`[data-div]`));
           $(`[data-div]`).on('click', (ev) => {
+            let cur = $(ev.target);
+            if (typeof cur.data(`div`) == 'undefined') {
+              cur = cur.parents(`li`);
+            }
             let ID = $(ev.target).data(`div`).split('-')[2];
             if (ID == -1) {
               ID = 'home';
@@ -607,7 +617,12 @@ exports('aside', (params, done) => {
         sessionStorage.setItem('aside', 'fav');
       });
       // onclick to prematch
+      console.log($(`[data-div]`));
       $(`[data-div]`).on('click', (ev) => {
+        let cur = $(ev.target);
+        if (typeof cur.data(`div`) == 'undefined') {
+          cur = cur.parents(`li`);
+        }
         let ID = $(ev.target).data(`div`).split('-')[2];
         if (ID == -1) {
           ID = 'home';
