@@ -62,7 +62,7 @@ exports('aside', (params, done) => {
           <a data-id="aside-all" class="[ tab-link ]">Sport</a>
         </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
 
-        /*
+        /* 
         let cks = JSON.parse(JSON.stringify(Cookies.get()));
         let fav_arr = [];
         for (let i in cks) {
@@ -89,8 +89,8 @@ exports('aside', (params, done) => {
           } else {
             continue;
           }
-        }*/
-        /*for (let i = 0; i < data.length; i++) {
+        } */
+        for (let i = 0; i < data.length; i++) {
 
           let ID = data[i].ID;
           let name = data[i].NA;
@@ -115,7 +115,7 @@ exports('aside', (params, done) => {
               aside.addClass('not-active');
             }
           });
-        }*/
+        }
         resolve();
       });
 
