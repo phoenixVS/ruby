@@ -38,7 +38,7 @@ exports('prematch_coupon', (params, done) => {
       if (typeof nums[1] === 'undefined') {
         return od /* + '.00' */;
       }
-      return (nums[0] / nums[1] + 1).toFixed(2)      
+      return (nums[0] / nums[1] + 1).toFixed(2)
     };
 
     let url = 'http://bestline.bet/sports/?PD=';
@@ -147,11 +147,11 @@ exports('prematch_coupon', (params, done) => {
         if ($('.prematch-table-filter .item').length == 0) {
           $('.prematch-table-filter').css('display', 'none');
         }
-        
+
         if (data[0].ID == '18' || data[0].ID == '17') { // Basketball, ice hockey etc.
           let events = 0, bets = 0, tables = 0;
           data.MA.forEach((ma) => {
-            if (ma.SY == 'ccl' || ma.SY == 'ccd' ) {
+            if (ma.SY == 'ccl' || ma.SY == 'ccd') {
               tables++;
             }
           });
@@ -256,7 +256,7 @@ exports('prematch_coupon', (params, done) => {
                           `<span class="ha">
                             ${item.HA}
                           </span>` : ``
-                          }
+                        }
                           <span class="od">
                             ${modifyBets(item.OD)}
                           </span>
@@ -368,8 +368,8 @@ exports('prematch_coupon', (params, done) => {
                 play_table.append(`
                 <div class="row">
                 <div class="cell" ${
-                  item.SU == '1' ? 
-                    'data-event-su="1"' : 
+                  item.SU == '1' ?
+                    'data-event-su="1"' :
                     (typeof item.PD !== 'undefined' ? ` data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`)}>
                   <div data-class="play-link" class="[ play-link ]">
                       <div class="team home">
@@ -441,7 +441,7 @@ exports('prematch_coupon', (params, done) => {
           });
           $('.tableWrapper').append(play_table);
         }
-        if(data.MA.length == 0) {
+        if (data.MA.length == 0) {
           $('.tableWrapper .play-table').append($(`<div class="no-events">Sorry, there are no events sheduled coming soon.</div>`));
         }
         // preloader done
@@ -477,7 +477,7 @@ exports('prematch_coupon', (params, done) => {
                   window.location.hash += '/' + encodeURL(cur.parents(`.cell`).data(`pd`));
                 }
                 else {
-                  window.location.hash += '/' + encodeURL(cur.parents(`.cell`).data(`pd`));
+                  window.location.hash += '/' + encodeURL(cur.parents(`.col-item`).data(`pd`));
                 }
               }
             });
@@ -504,7 +504,7 @@ exports('prematch_coupon', (params, done) => {
                 }
                 else {
                   window.location.hash = '';
-                  window.location.hash += '/' + 'event/' + encodeURL(cur.parents(`.cell`).data(`inplayId`));
+                  window.location.hash += '/' + 'event/' + encodeURL(cur.parents(`.col-item`).data(`inplayId`));
                 }
               }
             });
