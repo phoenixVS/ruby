@@ -52,7 +52,7 @@ div.row.info.det.not-active:before {
   justify-content: center;
   align-items: center;
   border: 1px solid transparent;
-  min-height: 44px;
+  /* min-height: 44px; */
   max-height: 44px;
   height: 100%;
   width: 100%;
