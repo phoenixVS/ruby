@@ -21,7 +21,7 @@ exports('aside', (params, done) => {
       if (sessionStorage.getItem('aside') == 'inplay') {
         RenderAside(window.inplay);
       } else if (sessionStorage.getItem('aside') == 'sport') {
-        RenderAsideAll(window.inplay, window.prematch); RenderAsideAll
+        RenderAsideAll(window.inplay, window.prematch);
       } else if (sessionStorage.getItem('aside') == 'fav') {
         RenderAsideFav(window.inplay);
       } else {
@@ -42,6 +42,7 @@ exports('aside', (params, done) => {
     };
 
     function RenderAside(data) {
+      console.log(`ra`);
       let promise = new Promise((resolve, reject) => {
         $(`[data-id=aside]`).empty();
         $(`[data-id=aside]`).append(`
@@ -180,6 +181,7 @@ exports('aside', (params, done) => {
           sessionStorage.removeItem('aside');
           sessionStorage.setItem('aside', 'inplay');
         });
+
     }
 
     function asideOrderAnim(elem) {
@@ -375,18 +377,6 @@ exports('aside', (params, done) => {
                   continue;
                 }
               }
-
-              $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
-                if (ID == -1) {
-                  ID = 'home';
-                }
-                if (true) {
-                  window.location.hash = '/sport/' + ID;
-
-                  aside.removeClass('active');
-                  aside.addClass('not-active');
-                }
-              });
             }
             else {
               if (fav_arr.includes(name)) {
@@ -403,11 +393,13 @@ exports('aside', (params, done) => {
                 } else {
                   continue;
                 }
-                $(`[data-div=aside-link-${ID}]`).on('click', (elem) => {
+                // onclick to prematch
+                $(`[data-div]`).on('click', (ev) => {
+                  let ID = $(ev.target).data(`div`).split('-')[2];
                   if (ID == -1) {
                     ID = 'home';
                   }
-                  if (true) {
+                  if (ID !== 'home') {
                     window.location.hash = '/sport/' + ID;
 
                     aside.removeClass('active');
@@ -478,6 +470,19 @@ exports('aside', (params, done) => {
           });
           sessionStorage.removeItem('aside');
           sessionStorage.setItem('aside', 'sport');
+          // onclick to prematch
+          $(`[data-div]`).on('click', (ev) => {
+            let ID = $(ev.target).data(`div`).split('-')[2];
+            if (ID == -1) {
+              ID = 'home';
+            }
+            if (ID !== 'home') {
+              window.location.hash = '/sport/' + ID;
+
+              aside.removeClass('active');
+              aside.addClass('not-active');
+            }
+          });
         });
     }
 
@@ -600,6 +605,19 @@ exports('aside', (params, done) => {
         });
         sessionStorage.removeItem('aside');
         sessionStorage.setItem('aside', 'fav');
+      });
+      // onclick to prematch
+      $(`[data-div]`).on('click', (ev) => {
+        let ID = $(ev.target).data(`div`).split('-')[2];
+        if (ID == -1) {
+          ID = 'home';
+        }
+        if (ID !== 'home') {
+          window.location.hash = '/sport/' + ID;
+
+          aside.removeClass('active');
+          aside.addClass('not-active');
+        }
       });
     }
 
