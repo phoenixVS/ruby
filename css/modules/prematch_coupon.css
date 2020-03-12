@@ -424,7 +424,13 @@ button.button.coefficient {
   color: #000;
 }
 .col-item{
+  height: 36px;
+  max-height: 36px;
   margin-bottom: 1px;
+}
+.tableWrapper .col-item:nth-child(odd) {
+  height: 37px;
+  max-height: 37px;
 }
 .table-col .col-item:nth-child(odd){
   border-bottom: 1px solid #757575;
