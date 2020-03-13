@@ -15,3 +15,43 @@ span[data-id='calendar']{
     /* align-self: flex-start; */
     /* text-align: left; */
 }
+
+.log-button {
+    padding: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    behavior: url(PIE.htc);
+    -webkit-transition:width 300ms ease-in-out, height 300ms ease-in-out;
+    -moz-transition:width 300ms ease-in-out, height 300ms ease-in-out;
+    -o-transition:width 300ms ease-in-out, height 300ms ease-in-out;
+    transition:width 300ms ease-in-out, height 300ms ease-in-out;
+}
+
+.log-button.not-clicked {
+    padding: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    behavior: url(PIE.htc);
+    -webkit-transition:width 100ms ease-in-out, height 100ms ease-in-out;
+    -moz-transition:width 100ms ease-in-out, height 100ms ease-in-out;
+    -o-transition:width 100ms ease-in-out, height 100ms ease-in-out;
+    transition:width 100ms ease-in-out, height 100ms ease-in-out;
+}
+
+.log-button.clicked {
+    height: 38px;
+    width: 38px;
+}
+
+.login-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-font {
+    font-size: 14px;
+    margin-left: 3px;
+}

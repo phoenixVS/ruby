@@ -19,7 +19,7 @@ exports('config', (params, done) => {
     },
     "CUSTOMER_CONFIG": {
       "USER_NAME": "",
-      "LOGGED_IN": false,
+      "LOGGED_IN": true,
       "CURRENCY_CODE": "USD",
       "USER_OFFER_STATUS": 1,
       "ODDS_TYPE": "2",

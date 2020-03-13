@@ -5,7 +5,7 @@
     margin-right: 10px;
     z-index: 11;
     right: 0;
-    top: 110px;
+    top: -43;
     box-sizing: border-box;
 }
 .menu-wrapper::before {

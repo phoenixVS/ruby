@@ -192,10 +192,24 @@ exports('search', (params, done) => {
     function RenderSearchResultSport(data, id) {
       new Promise( (resolve, reject) => {
         let ID = id;
+        for (let i = 0; i < data.CL.length; i++) {
+          if (data.CL[i].ID == ID) {
+            let res_content = $('.search-result');
+            res_content.empty();
+            for (let j = 0; j < data.CL[i].EV.length; j++) {
+              if (data.CL[i].EV[j].NA != "") {
+                console.log(data.CL[i].EV[j].NA);
+              } else {
+                console.log("Prematch link");
+              }
+            }
+          }
+        }
       }).then( () => {
-
+        console.log("Then done")
       });
     }
+
     function RenderSearchResult(data) {
       new Promise((resolve, reject) => {
         let lastEV = '';
@@ -601,15 +615,10 @@ exports('search', (params, done) => {
     }
 
     function renderResult(id) {
-      switch (id) {
-        case 1:
-          console.log('Soccer');
-          RenderSearchResult(window.searchDATA);
-          //break;
-        case 13:
-          console.log('Tennis');
-          RenderSearchResultTennis(window.searchDATA);
-          //break;
+      if (id == 1) {
+        RenderSearchResult(window.searchDATA);
+      } else {
+        RenderSearchResultSport(window.searchDATA, id);
       }
     }
 

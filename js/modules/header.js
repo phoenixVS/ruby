@@ -15,11 +15,39 @@ exports('header', (params, done) => {
             "header/menu.html",
         ]
     }, () => {
+        function setBtnClicked() {
+            $('.login-font').hide();
+            $('.log-button').removeClass('not-clicked');
+            $('.log-button').addClass('clicked');
+
+            
+            $('.log-button').on('click', (el) => {
+                setBtnNotClicked();
+            });
+        }
+
+        function setBtnNotClicked() {
+          
+          $('.login-font').show();
+          $('.log-button').removeClass('clicked');
+          $('.log-button').addClass('not-clicked');
+
+          
+            $('.log-button').on('click', (el) => {
+                setBtnClicked();
+            });
+        }
         // Login and user menu handlers
-        Cookies.set('logon', 'false');
+        if (window.conf.CUSTOMER_CONFIG.LOGGED_IN == true) {
+            Cookies.set('logon', 'true');
+        } else {
+            Cookies.set('logon', 'false');
+        }
+
         $(`[data-id=login-button]`).on('click', () => {
             console.log(Cookies.get('logon'));
             if (Cookies.get('logon') == 'true') {
+                setBtnClicked();
                 loadJsModules({
                     user_menu: { loadCSS: true, loadLanguage: false },
                 });
