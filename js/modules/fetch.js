@@ -18,27 +18,7 @@ exports('fetch', (params, done) => {
       httpGet(url, 'bets');
     };
 
-    window.blackList = {
-      inplay: {
-        CL: [],
-        CT: [],
-        EV: [],
-        MA: [],
-      },
-      sports: {
-        Leagues: [],
-        MG: [
-          '45',
-          '10217',
-          'G44',
-          'G10201',
-          'G10219',
-          'G10220',
-          'G10221',
-          'G10222',
-        ],
-      }
-    };
+    console.log(`fetch here!`);
     // Fetch API request
     function httpGet(url, name) {
       fetch(url)
