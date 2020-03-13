@@ -1,6 +1,5 @@
 exports('play_table', (params, done) => {
   insertHtmlModules({}, () => {
-
     let curID = params.sportId;
 
     if (curID === undefined) {
@@ -140,6 +139,11 @@ exports('play_table', (params, done) => {
       return (seconds < 10 ? '0' : '') + seconds;
     }
     function renderTable(data, ID) {
+      // Clean coef_table
+      if ($(`[data-id=coef_table]`).html().length > 0) {
+        $(`[data-id=coef_table]`).empty();
+      }
+      // Clean play-table
       $(`[data-id="play-table"]`).empty();
       const tableRenderer = new Promise((resolve, reject) => {
         data.forEach(sport => {
