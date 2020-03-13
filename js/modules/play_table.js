@@ -37,78 +37,24 @@ exports('play_table', (params, done) => {
 
     function startTimerInplay() {
       let timers = $('.timer-el');
+      for (let i = 0; i < timers.length; i++) {
+        let tmr = $(timers[i]);
+        tmr.data("tmrmin", tElMin(tmr));
+        tmr.data("tmrsec", tElsec(tmr));
+      }
       let interval = setInterval(function () {
         for (let i = 0; i < timers.length; i++) {
-
+          let tmr = $(timers[i]);
           if ($(timers[i]).data("dc") == 1) {
 
             if ($(timers[i]).data("tt") == 0) {
-              $(timers[i]).text("Break");
+              //$(timers[i]).text("Break");
               //$(timers[i]).data("tm", $(timers[i]).data("tm") + 15);
-            } else {/*
-              if ($(timers[i]).data("tm") == 0) {
-
-                let tu = $(timers[i]).data("tu");
-                let etu = tu.toString();
-
-                let years = etu.substring(0, 4),
-                  month = etu.substring(4, 6),
-                  day = etu.substring(6, 8),
-                  hours = etu.substring(8, 10),
-                  minute = etu.substring(10, 12),
-                  second = etu.substring(12, 14);
-                let curMin = new Date().getMinutes();
-                let curSec = new Date().getSeconds();
-
-                let _minutes = parseInt(curMin) - parseInt(minute);
-                let _secs = parseInt(curSec) - parseInt(second);
-
-                $(timers[i]).data("tm", _minutes);
-                $(timers[i]).data("ts", _secs);
-
-                let tm = parseInt($(timers[i]).data("tm"));
-                let ts = parseInt($(timers[i]).data("ts"));
-
-                if (ts == 59) {
-                  tm = tm + 1;
-                  ts = 0;
-                } else {
-                  ts = ts + 1;
-                }
-
-                $(timers[i]).text(createTimerInplay(tm, ts));
-
-                $(timers[i]).data("tm", tm);
-                $(timers[i]).data("ts", ts);
-              } else {
-                let tm = parseInt($(timers[i]).data("tm"));
-                let ts = parseInt($(timers[i]).data("ts"));
-
-                if (ts == 59) {
-                  tm = tm + 1;
-                  ts = 0;
-                } else {
-                  ts = ts + 1;
-                }
-
-                $(timers[i]).text(createTimerInplay(tm, ts));
-
-                $(timers[i]).data("tm", tm);
-                $(timers[i]).data("ts", ts);
-              }*/
-              let now = new Date();
-              let tu_time = new Date( $(timers[i]).data("tu") );
-
-              let dat_diff = Math.abs(now - tu_time);
-              let dat_tm = millisToMinutes(dat_diff);
-              let dat_ts = millisToSeconds(dat_diff);
-
-              let tm = parseInt($(timers[i]).data("tm"));
-              let ts = parseInt($(timers[i]).data("ts"));
-
-              let tm_ = parseInt(dat_tm) + tm;
-              let ts_ = parseInt(dat_ts) + ts;
-
+              $(timers[i]).text( $(timers[i]).data("tm") + ':' + $(timers[i]).data("ts") );
+            } else {
+              /*
+              let tm_ = parseInt(tmr.data("tmrmin"));
+              let ts_ = parseInt(tmr.data("tmrsec"));
               if (ts_ == 59) {
                 tm_ = tm_ + 1;
                 ts_ = 0;
@@ -117,6 +63,35 @@ exports('play_table', (params, done) => {
               }
 
               $(timers[i]).text(createTimerInplay(tm_, ts_));
+              tmr.data("tmrmin", tm_);
+              tmr.data("tmrsec", ts_);
+              */
+            let etu = tmr.data("tu").toString();
+            let etm = tmr.data("tm").toString();
+            let ets = tmr.data("ts").toString();
+            let years = etu.substring(0, 4);
+            let month = etu.substring(4, 6);
+            let day = etu.substring(6, 8);
+            let hours = etu.substring(8, 10);
+            let minute = etu.substring(10, 12);
+            let second = etu.substring(12, 14);
+            let date = years + '-' + month + '-' + day + ' ' + hours + ':' + minute + ':' + second;
+            let ts = new Date(date).getTime() / 1000;
+            let tn = new Date().getTime() / 1000;
+            let offset = new Date().getTimezoneOffset();
+            let dt = Math.floor(tn - ts + etm * 60 + ets - Math.abs(offset) * 60);
+            let min = Math.floor(dt / 60);
+            let sec = dt - min * 60;
+            if (sec == 59) {
+              min = min + 1;
+              sec = 0;
+            } else {
+              sec = sec + 1;
+            }
+            if (min < 10) min = '0' + min;
+            if (sec < 10) sec = '0' + sec;
+            //let timer = min + ':' + sec;
+            tmr.text(min + ":" + sec);
             }
           } else {
             $(timers[i]).text(" ");
@@ -126,6 +101,34 @@ exports('play_table', (params, done) => {
       window.inplay_interval = interval;
     }
 
+    function tElMin(t) {
+      let tu_time = new Date( t.data("tu") ).getTime();
+      let now = new Date().getTime();
+      let dat_diff = Math.round(now - tu_time);
+              //let dat_diff = Math.ceil(Math.abs(tu_time.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
+
+              let dat_tm = millisToMinutes(dat_diff);
+              let dat_ts = millisToSeconds(dat_diff);
+
+              let tm = parseInt(t.data("tm"));
+              let ts = parseInt(t.data("ts"));
+
+              return parseInt(dat_tm) + tm;
+    }
+
+    function tElsec(t) {
+      let tu_time = new Date( t.data("tu") ).getTime();
+      let now = new Date().getTime();
+      let dat_diff = Math.round(now - tu_time);
+
+              let dat_tm = millisToMinutes(dat_diff);
+              let dat_ts = millisToSeconds(dat_diff);
+
+              let tm = parseInt(t.data("tm"));
+              let ts = parseInt(t.data("ts"));
+
+              return parseInt(dat_ts) + ts;
+    }
     function millisToMinutes(millis) {
       var minutes = Math.floor(millis / 60000);
       var seconds = ((millis % 60000) / 1000).toFixed(0);
