@@ -7,9 +7,6 @@ exports('betslip', (params, done) => {
     cln.classList.add('inBetslip');
     cln.classList.remove('done');
     cln.dataset.status = 'not-done';
-    console.log(`#bsDiv!`);
-    console.log(`Height: `, document.querySelector('#bsDiv').offsetHeight);
-    console.log(`Height: `, document.querySelector('#bsDiv').offsetWidth);
     cln.style.height = document.querySelector('#bsDiv').offsetHeight;
     cln.style.width = document.querySelector('#bsDiv').offsetWidth;
     cln.style.top = `calc(100vh - ${document.querySelector('#bsDiv').offsetHeight}px)`;
@@ -640,7 +637,7 @@ exports('betslip', (params, done) => {
             trStr = tr.toString();
 
             if (typeof trStr.split('.')[1] == 'undefined') {
-              trStr += '.00';
+              trStr += `${window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR}00`;
             }
             else {
               if (trStr.split('.')[1].length == 1) {
