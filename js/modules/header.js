@@ -16,19 +16,24 @@ exports('header', (params, done) => {
         ]
     }, () => {
         function setBtnClicked() {
+            const user_menu = $(`[data-id=user-menu]`);
+            $('.log-button').prop("onclick", null).off("click");
             $('.login-font').hide();
+            user_menu.show();
             $('.log-button').removeClass('not-clicked');
             $('.log-button').addClass('clicked');
 
-            
+
             $('.log-button').on('click', (el) => {
                 setBtnNotClicked();
             });
         }
 
         function setBtnNotClicked() {
-          
+            const user_menu = $(`[data-id=user-menu]`);
+          $('.log-button').prop("onclick", null).off("click");
           $('.login-font').show();
+          user_menu.hide();
           $('.log-button').removeClass('clicked');
           $('.log-button').addClass('not-clicked');
 
@@ -40,8 +45,12 @@ exports('header', (params, done) => {
         // Login and user menu handlers
         if (window.conf.CUSTOMER_CONFIG.LOGGED_IN == true) {
             Cookies.set('logon', 'true');
+            $(`[data-id=mybets-button]`).show();
+            $(`[data-id=registration-button]`).hide();
         } else {
             Cookies.set('logon', 'false');
+            $(`[data-id=mybets-button]`).hide();
+            $(`[data-id=registration-button]`).show();
         }
 
         $(`[data-id=login-button]`).on('click', () => {

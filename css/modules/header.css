@@ -22,10 +22,10 @@ span[data-id='calendar']{
     height: 34px;
     border-radius: 50%;
     behavior: url(PIE.htc);
-    -webkit-transition:width 300ms ease-in-out, height 300ms ease-in-out;
-    -moz-transition:width 300ms ease-in-out, height 300ms ease-in-out;
-    -o-transition:width 300ms ease-in-out, height 300ms ease-in-out;
-    transition:width 300ms ease-in-out, height 300ms ease-in-out;
+    -webkit-transition:width 100ms ease-in-out, height 100ms ease-in-out;
+    -moz-transition:width 100ms ease-in-out, height 100ms ease-in-out;
+    -o-transition:width 100ms ease-in-out, height 100ms ease-in-out;
+    transition:width 100ms ease-in-out, height 100ms ease-in-out;
 }
 
 .log-button.not-clicked {
@@ -54,4 +54,27 @@ span[data-id='calendar']{
 .login-font {
     font-size: 14px;
     margin-left: 3px;
+}
+
+.bets-button {
+    width: 36px;
+    height: 50px;
+    -webkit-transition:width 100ms ease-in-out, height 100ms ease-in-out;
+    -moz-transition:width 100ms ease-in-out, height 100ms ease-in-out;
+    -o-transition:width 100ms ease-in-out, height 100ms ease-in-out;
+    transition:width 100ms ease-in-out, height 100ms ease-in-out;
+}
+
+.bets-button.not-clicked {
+    width: 36px;
+    height: 50px;
+    -webkit-transition:width 100ms ease-in-out, height 100ms ease-in-out;
+    -moz-transition:width 100ms ease-in-out, height 100ms ease-in-out;
+    -o-transition:width 100ms ease-in-out, height 100ms ease-in-out;
+    transition:width 100ms ease-in-out, height 100ms ease-in-out;
+}
+
+.bets-button.clicked {
+    width: 36px;
+    height: 36px;
 }

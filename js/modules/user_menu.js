@@ -46,15 +46,16 @@ exports('user_menu', (params, done) => {
         resolve();
       });
       renderPromise.then(() => {
-        $(`[data-id=login]`).off('click', renderUserMenu);
+        //$(`[data-id=login-button]`).off('click', renderUserMenu);
         const user_menu = $(`[data-id=user-menu]`);
-        $(`[data-id=login-button]`).on('click', () => {
+        /*$(`[data-id=login-button]`).on('click', () => {
           user_menu.slideUp("fast").remove("active");
         });
+        */
         $("body").click(function (e) {
           if ($(e.target).closest(`[data-id=login]`).length != 0) return false; // disable trigger on first click to log in
           if ($(e.target).closest(`[data-id=user-menu]`).length != 0) return false; // disable trigger on login popup
-          user_menu.slideUp("fast").remove("active");
+          //user_menu.slideUp("fast").remove("active");
           //$(`[data-id=login]`).on('click', renderUserMenu);
         });
         // Account profile redirect
