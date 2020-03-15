@@ -200,14 +200,14 @@ exports('play_big', (params, done) => {
     function shortize(name) {
       let str = name;
       if (screen.width < 350) {
-        str = str.slice(0, 11);
-        if (name.length > 11) {
+        str = str.slice(0, 14);
+        if (name.length > 14) {
           str += '...';
         }
         return str;
-      } else if (screen.width > 350 && screen.width < 420) {
-        str = str.slice(0, 16);
-        if (name.length > 16) {
+      } else if (screen.width > 350) {
+        str = str.slice(0, 19);
+        if (name.length > 19) {
           str += '...';
         }
         return str;

@@ -248,7 +248,7 @@ exports('play_table', (params, done) => {
                         </div>
                       </div>
                     </div>`);
-      if (typeof XP !== 'undefined') {
+      if (typeof XP !== 'undefined' && ev.ID != 1) {
         if (typeof XP.split(',')[1] !== 'undefined') {
           let counter = 0;
           ev.XP.split(',').map((item) => {
@@ -317,14 +317,14 @@ exports('play_table', (params, done) => {
             $(`[data-id="play-table"]`).children('.row:last-child').append(`
             <div class="right-container" style="width: 100%; height: 100%">
 
-            <div class="bets-container" style="width: 100%; height: 65%; display: table;">
-            <div class="cell" style="display: table-cell;border-right: 1px solid rgb(51, 32, 43);">
+            <div class="bets-container" style="width: 100%; height: 65%; display: flex;">
+            <div class="cell" style="display: table-cell;min-width: 33.33333%;max-width: 33.33333%;display: flex;">
               <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[0].BS}" data-FI="${ev.MA[0].PA[0].FI}" data-HA="${ev.MA[0].PA[0].HA}" data-HD="${ev.MA[0].PA[0].HD}" data-ID="${ev.MA[0].PA[0].ID}" data-IT="${ev.MA[0].PA[0].IT}" data-NA="${ev.MA[0].PA[0].NA}" data-OD="${ev.MA[0].PA[0].OD}" data-OR="${ev.MA[0].PA[0].OR}" data-SU="${ev.MA[0].PA[0].SU}" class="button coefficient ${ev.MA[0].PA[0].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[0].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(ev.MA[0].PA[0].OD)}</button> 
             </div> 
-            <div class="cell" style="display: table-cell; border-right: 1px solid rgb(51, 32, 43);"> 
+            <div class="cell" style="display: table-cell;min-width: 33.33333%;max-width: 33.33333%;display: flex;"> 
               <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[1].BS}" data-FI="${ev.MA[0].PA[1].FI}" data-HA="${ev.MA[0].PA[1].HA}" data-HD="${ev.MA[0].PA[1].HD}" data-ID="${ev.MA[0].PA[1].ID}" data-IT="${ev.MA[0].PA[1].IT}" data-NA="${ev.MA[0].PA[1].NA}" data-OD="${ev.MA[0].PA[1].OD}" data-OR="${ev.MA[0].PA[1].OR}" data-SU="${ev.MA[0].PA[1].SU}" class="button coefficient ${ev.MA[0].PA[1].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[1].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(ev.MA[0].PA[1].OD)}</button>
             </div> 
-            <div class="cell" style="display: table-cell;margin-right: 3px;">
+            <div class="cell" style="display: table-cell;min-width: 33.33333%;max-width: 33.33333%;display: flex;">
               <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[2].BS}" data-FI="${ev.MA[0].PA[2].FI}" data-HA="${ev.MA[0].PA[2].HA}" data-HD="${ev.MA[0].PA[2].HD}" data-ID="${ev.MA[0].PA[2].ID}" data-IT="${ev.MA[0].PA[2].IT}" data-NA="${ev.MA[0].PA[2].NA}" data-OD="${ev.MA[0].PA[2].OD}" data-OR="${ev.MA[0].PA[2].OR}" data-SU="${ev.MA[0].PA[2].SU}" class="button coefficient ${ev.MA[0].PA[2].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[2].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(ev.MA[0].PA[2].OD)}</button> 
             </div>
             </div>

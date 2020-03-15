@@ -1,17 +1,16 @@
 exports('mybets', (params, done) => {
+    console.log(`my bets done`);
     insertHtmlModules({
         // ".mybets": [
         //     "my-bets/my-bets.html",
         // ],
     }, () => {
-        const mybets = $(`[data-id=mybets]`);
+        const mybets = $(`[data-id="mybets"]`);
         function renderMyBets() {
             mybets.empty();
             const promise = new Promise((resolve, reject) => {
                 mybets.append($('<div>').load(`./html/modules/my-bets/my-bets.html`, function () {
-
                     mybets.append($('<div>').load(`./html/modules/my-bets/betslipy.html`, function () {
-
                         $('#betslipContent').append($('<div class="betsBodyWrapper"></div>').load(`./html/modules/my-bets/cash-out.html`, function () {
                             resolve();
                         }));
@@ -22,10 +21,9 @@ exports('mybets', (params, done) => {
                 .then((response) => {
                     // Preloader finishes
                     const preloader = $('#page-preloader');
-                    if (preloader.data(`status`) != 'done') {
-                        preloader.addClass('done');
-                        preloader.data(`status`, 'done').attr('data-status', 'done');
-                    }
+                    preloader.addClass('done');
+                    preloader.removeClass('opaci');
+                    preloader.data(`status`, 'done').attr('data-status', 'done');
                     // navbar logic
                     $('.tab__link').on('click', (event) => {
                         const cur = $(event.target);
@@ -49,7 +47,7 @@ exports('mybets', (params, done) => {
                         const cur = $(event.target);
                         if (!cur.is('.active')) {
                             $('.betsBodyWrapper').remove();
-                            if (cur.html() == 'Cash Out') {
+                            if (cur.data(`name`) == 'cashOut') {
                                 $('#betslipContent').append($('<div class="betsBodyWrapper"></div>').load(`./html/modules/my-bets/cash-out.html`, function () {
                                 }));
                             }

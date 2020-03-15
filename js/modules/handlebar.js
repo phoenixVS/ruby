@@ -688,11 +688,12 @@ function calendarHandler() {
 		if (performance.navigation.type == 1) {
 			const fetchPromise = new Promise((resolve, reject) => {
 				loadJsModules({
+					config: { loadCSS: false, loadLanguage: false },
 					fetch: { loadCSS: false, loadLanguage: false },
 				});
 				setTimeout(() => {
 					resolve();
-				}, 200);
+				}, 500);
 
 			});
 			fetchPromise.then(
