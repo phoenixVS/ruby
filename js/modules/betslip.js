@@ -486,8 +486,10 @@ exports('betslip', (params, done) => {
                     el.parentNode.querySelector('.stakeToReturn').classList.add('hidden');
                   }
                 });
-                if (document.querySelector('.bs-StandardMultipleStake_ToReturnValue').innerHTML == ' 0.00' || document.querySelector('.bs-StandardMultipleStake_ToReturnValue').innerHTML == `&nbsp;0.00`) {
-                  document.querySelector('.bs-StandardMultipleStake_ToReturn').classList.add('hidden');
+                if (document.querySelector('.bs-StandardMultipleStake_ToReturnValue') !== null) {
+                  if (document.querySelector('.bs-StandardMultipleStake_ToReturnValue').innerHTML == ' 0.00' || document.querySelector('.bs-StandardMultipleStake_ToReturnValue').innerHTML == `&nbsp;0.00`) {
+                    document.querySelector('.bs-StandardMultipleStake_ToReturn').classList.add('hidden');
+                  }
                 }
                 $('.stk.focus').removeClass('focus');
                 cur.closest('.hasodds').removeClass('keypad');
@@ -605,7 +607,9 @@ exports('betslip', (params, done) => {
           const cur = $(event.target);
           let multiplyer = 0;
           if (cur.parent().siblings('.odds').length > 0) {
-            document.querySelector('#mltsngstk').value = '';
+            if (document.querySelector('#mltsngstk') !== null) {
+              document.querySelector('#mltsngstk').value = '';
+            }
             multiplyer = parseFloat(cur.parent().siblings('.odds').text());
             ID = cur.closest('.standardBet li.hasodds').data(`itemFpid`);
           }
@@ -634,6 +638,8 @@ exports('betslip', (params, done) => {
 
           if (!isNaN(tr) && $('.stk.focus').val().length > 0) {
             tr = tr.toFixed(2);
+            $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').data(`tr`, tr).attr('data-tr', tr);
+            $('.stk.focus').siblings('.bs-StandardMultipleStake_ToReturn').children('.bs-StandardMultipleStake_ToReturnValue').data(`tr`, tr).attr('data-tr', tr);
             trStr = tr.toString();
 
             if (typeof trStr.split('.')[1] == 'undefined') {
@@ -642,10 +648,33 @@ exports('betslip', (params, done) => {
             else {
               if (trStr.split('.')[1].length == 1) {
                 trStr += '0';
+                trStr = trStr.replace('.', window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR);
+              }
+              else {
+                trStr = trStr.replace('.', window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR);
+              }
+            }
+            // Add currency group and decimal separators from the user's config
+            let lg = trStr.length;
+            let count = 0;
+            for (let i = 0; i < lg && lg > 6; i++) {
+              count++;
+              let item = trStr.charAt(i);
+              if (item == window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR) {
+                break;
+              }
+              if (count == 3) {
+                count = 0;
+                trStr = trStr.slice(0, -(i - 1) - 5) + window.conf.CUSTOMER_CONFIG.CURRENCY_GROUP_SEPARATOR + trStr.slice(-(i - 1) - 5, trStr.length);
+                i++;
+              }
+              if (trStr.charAt(0) == window.conf.CUSTOMER_CONFIG.CURRENCY_GROUP_SEPARATOR) {
+                trStr = trStr.slice(1);
               }
             }
 
             if (cur.is('#mltsngstk')) {
+              $('li.hasodds input.stk').siblings('.stakeToReturn').children('.stakeToReturn_Value').data(`tr`, tr).attr('data-tr', tr);
               $('li.hasodds input.stk').val(trStr);
             }
             $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text(' ' + trStr);
@@ -655,6 +684,7 @@ exports('betslip', (params, done) => {
             if (cur.is('#mltsngstk')) {
               $('li.hasodds input').val('');
             }
+            $('.stk.focus').siblings('.bs-StandardMultipleStake_ToReturn').children('.bs-StandardMultipleStake_ToReturnValue').data(`tr`, 0).attr('data-tr', 0);
             $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').text(' 0.00');
             $('.stk.focus').siblings('.bs-StandardMultipleStake_ToReturn').children('span.bs-StandardMultipleStake_ToReturnValue').text(' 0.00');
           }
@@ -689,7 +719,7 @@ exports('betslip', (params, done) => {
                 }
               }
             }
-            console.log(ID, ' ', curST, ' ', curTR);
+            console.log(ID + ' ' + curST + ' ' + curTR);
           }
           else {
             if (multiID !== 0) {
@@ -799,10 +829,14 @@ exports('betslip', (params, done) => {
           const total = $('#bstsx');
           let sum = 0;
           $('.hasodds input.stk').each((index, el) => {
-            if (el.value !== '')
-              sum += parseFloat(el.value);
+            if (el.value !== '') {
+              sum += parseFloat($(el).siblings('.stakeToReturn').find('.stakeToReturn_Value').data('tr'));
+            }
           });
-          sum += parseFloat($('span.bs-StandardMultipleStake_ToReturnValue').text());
+          if (typeof $('span.bs-StandardMultipleStake_ToReturnValue').data('tr') !== 'undefined') {
+            console.log(parseFloat($('span.bs-StandardMultipleStake_ToReturnValue').data('tr')));
+            sum += parseFloat($('span.bs-StandardMultipleStake_ToReturnValue').data('tr'));
+          }
           // Count sum throw singels multiplyer
           // if (document.querySelector('.bs-MultipleBets_Singles .stake input.stk').value !== '') {
           //   sum += parseFloat(parseFloat(document.querySelector('.bs-MultipleBets_Singles .stake input.stk').value) * parseFloat(document.querySelector('.bs-MultipleBets_Singles .stake .multiplesBetCount').innerText.split('x')[0]));
@@ -816,17 +850,39 @@ exports('betslip', (params, done) => {
               sum += parseFloat(parseFloat(el.querySelector('.stake .bs-stakeContainer input.stk').value) * parseFloat(el.querySelector('.multiplesBetCount').innerText.split('x')[0]));
             }
           });
-          if (typeof String(sum).split('.')[1] === 'undefined') {
-            total.text('$' + sum + '.00');
+
+          let sumStr = sum.toString();
+          if (typeof sumStr.split('.')[1] === 'undefined') {
+            sumStr += '.00';
           }
           else {
             if (String(sum).split('.')[1].length < 2) {
-              total.text('$' + sum + '0');
+              sumStr += '0';
             }
             else {
-              total.text('$' + sum);
+              sumStr;
             }
           }
+          // Add currency group and decimal separators from the user's config (for total)
+          let lg = sumStr.length;
+          let count = 0;
+          for (let i = 0; i < lg && lg > 6; i++) {
+            count++;
+            let item = sumStr.charAt(i);
+            if (item == window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR) {
+              break;
+            }
+            if (count == 3) {
+              count = 0;
+              sumStr = sumStr.slice(0, -(i - 1) - 5) + window.conf.CUSTOMER_CONFIG.CURRENCY_GROUP_SEPARATOR + sumStr.slice(-(i - 1) - 5, trStr.length);
+              i++;
+            }
+            if (sumStr.charAt(0) == window.conf.CUSTOMER_CONFIG.CURRENCY_GROUP_SEPARATOR) {
+              sumStr = sumStr.slice(1);
+            }
+          }
+
+          total.html(window.conf.CUSTOMER_CONFIG.CURRENCY_SYMBOL + sumStr);
         });
       }
       // Edit mode

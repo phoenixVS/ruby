@@ -324,6 +324,7 @@ function filterHandler(ID) {
 	if (performance.navigation.type == 1) {
 		let fetchData = new Promise((resolve, reject) => {
 			loadJsModules({
+				config: { loadCSS: false, loadLanguage: false },
 				fetch: { loadCSS: false, loadLanguage: false },
 				langs: { loadCSS: false, loadLanguage: false },
 			});
@@ -461,6 +462,7 @@ function gameHandler(ID) {
 	if (performance.navigation.type == 1) {
 		let fetchData = new Promise((resolve, reject) => {
 			loadJsModules({
+				config: { loadCSS: false, loadLanguage: false },
 				fetch: { loadCSS: false, loadLanguage: false },
 				langs: { loadCSS: false, loadLanguage: false },
 			});
@@ -788,6 +790,7 @@ function registrationHandler(fast) {
 	$(`[data-id=registrationWrapper]`).empty();
 	if (performance.navigation.type == 1) {
 		loadJsModules({
+			config: { loadCSS: false, loadLanguage: false },
 			header: { loadCSS: true, loadLanguage: false },
 			aside: { loadCSS: false, loadLanguage: false },
 			langs: { loadCSS: false, loadLanguage: false },
@@ -853,6 +856,7 @@ function userHandler(username, nav_link, nav_link_small) {
 	if (performance.navigation.type == 1) {
 		reload_status = 1;
 		loadJsModules({
+			config: { loadCSS: false, loadLanguage: false },
 			header: { loadCSS: true, loadLanguage: false },
 			aside: { loadCSS: true, loadLanguage: false },
 			langs: { loadCSS: false, loadLanguage: false },
@@ -918,6 +922,7 @@ function mybetsHandler() {
 		}
 		else {
 			loadJsModules({
+				config: { loadCSS: false, loadLanguage: false },
 				header: { loadCSS: true, loadLanguage: false },
 				langs: { loadCSS: false, loadLanguage: false },
 				aside: { loadCSS: true, loadLanguage: false },
@@ -976,6 +981,7 @@ function emptyHandler() {
 		}
 		else {
 			loadJsModules({
+				config: { loadCSS: false, loadLanguage: false },
 				langs: { loadCSS: false, loadLanguage: false },
 				header: { loadCSS: true, loadLanguage: false },
 				aside: { loadCSS: true, loadLanguage: false },
