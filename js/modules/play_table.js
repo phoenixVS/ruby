@@ -49,7 +49,7 @@ exports('play_table', (params, done) => {
             if ($(timers[i]).data("tt") == 0) {
               //$(timers[i]).text("Break");
               //$(timers[i]).data("tm", $(timers[i]).data("tm") + 15);
-              $(timers[i]).text( $(timers[i]).data("tm") + ':' + $(timers[i]).data("ts") );
+              $(timers[i]).text($(timers[i]).data("tm") + ':' + $(timers[i]).data("ts"));
             } else {
               /*
               let tm_ = parseInt(tmr.data("tmrmin"));
@@ -65,32 +65,32 @@ exports('play_table', (params, done) => {
               tmr.data("tmrmin", tm_);
               tmr.data("tmrsec", ts_);
               */
-            let etu = tmr.data("tu").toString();
-            let etm = tmr.data("tm").toString();
-            let ets = tmr.data("ts").toString();
-            let years = etu.substring(0, 4);
-            let month = etu.substring(4, 6);
-            let day = etu.substring(6, 8);
-            let hours = etu.substring(8, 10);
-            let minute = etu.substring(10, 12);
-            let second = etu.substring(12, 14);
-            let date = years + '-' + month + '-' + day + ' ' + hours + ':' + minute + ':' + second;
-            let ts = new Date(date).getTime() / 1000;
-            let tn = new Date().getTime() / 1000;
-            let offset = new Date().getTimezoneOffset();
-            let dt = Math.floor(tn - ts + etm * 60 + ets - Math.abs(offset) * 60);
-            let min = Math.floor(dt / 60);
-            let sec = dt - min * 60;
-            if (sec == 59) {
-              min = min + 1;
-              sec = 0;
-            } else {
-              sec = sec + 1;
-            }
-            if (min < 10) min = '0' + min;
-            if (sec < 10) sec = '0' + sec;
-            //let timer = min + ':' + sec;
-            tmr.text(min + ":" + sec);
+              let etu = tmr.data("tu").toString();
+              let etm = tmr.data("tm").toString();
+              let ets = tmr.data("ts").toString();
+              let years = etu.substring(0, 4);
+              let month = etu.substring(4, 6);
+              let day = etu.substring(6, 8);
+              let hours = etu.substring(8, 10);
+              let minute = etu.substring(10, 12);
+              let second = etu.substring(12, 14);
+              let date = years + '-' + month + '-' + day + ' ' + hours + ':' + minute + ':' + second;
+              let ts = new Date(date).getTime() / 1000;
+              let tn = new Date().getTime() / 1000;
+              let offset = new Date().getTimezoneOffset();
+              let dt = Math.floor(tn - ts + etm * 60 + ets - Math.abs(offset) * 60);
+              let min = Math.floor(dt / 60);
+              let sec = dt - min * 60;
+              if (sec == 59) {
+                min = min + 1;
+                sec = 0;
+              } else {
+                sec = sec + 1;
+              }
+              if (min < 10) min = '0' + min;
+              if (sec < 10) sec = '0' + sec;
+              //let timer = min + ':' + sec;
+              tmr.text(min + ":" + sec);
             }
           } else {
             $(timers[i]).text(" ");
@@ -101,32 +101,32 @@ exports('play_table', (params, done) => {
     }
 
     function tElMin(t) {
-      let tu_time = new Date( t.data("tu") ).getTime();
+      let tu_time = new Date(t.data("tu")).getTime();
       let now = new Date().getTime();
       let dat_diff = Math.round(now - tu_time);
-              //let dat_diff = Math.ceil(Math.abs(tu_time.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
+      //let dat_diff = Math.ceil(Math.abs(tu_time.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
 
-              let dat_tm = millisToMinutes(dat_diff);
-              let dat_ts = millisToSeconds(dat_diff);
+      let dat_tm = millisToMinutes(dat_diff);
+      let dat_ts = millisToSeconds(dat_diff);
 
-              let tm = parseInt(t.data("tm"));
-              let ts = parseInt(t.data("ts"));
+      let tm = parseInt(t.data("tm"));
+      let ts = parseInt(t.data("ts"));
 
-              return parseInt(dat_tm) + tm;
+      return parseInt(dat_tm) + tm;
     }
 
     function tElsec(t) {
-      let tu_time = new Date( t.data("tu") ).getTime();
+      let tu_time = new Date(t.data("tu")).getTime();
       let now = new Date().getTime();
       let dat_diff = Math.round(now - tu_time);
 
-              let dat_tm = millisToMinutes(dat_diff);
-              let dat_ts = millisToSeconds(dat_diff);
+      let dat_tm = millisToMinutes(dat_diff);
+      let dat_ts = millisToSeconds(dat_diff);
 
-              let tm = parseInt(t.data("tm"));
-              let ts = parseInt(t.data("ts"));
+      let tm = parseInt(t.data("tm"));
+      let ts = parseInt(t.data("ts"));
 
-              return parseInt(dat_ts) + ts;
+      return parseInt(dat_ts) + ts;
     }
     function millisToMinutes(millis) {
       var minutes = Math.floor(millis / 60000);
@@ -140,8 +140,8 @@ exports('play_table', (params, done) => {
     }
     function renderTable(data, ID) {
       // Clean coef_table
-      if ($(`[data-id=coef_table]`).html().length > 0) {
-        $(`[data-id=coef_table]`).empty();
+      if ($(`[data-id=coef_table]:not(.pb-child)`).html().length > 0) {
+        $(`[data-id=coef_table]:not(.pb-child)`).empty();
       }
       // Clean play-table
       $(`[data-id="play-table"]`).empty();
@@ -248,7 +248,7 @@ exports('play_table', (params, done) => {
                         </div>
                       </div>
                     </div>`);
-      if (typeof XP !== 'undefined') {
+      if (typeof XP !== 'undefined' && ev.ID != 1) {
         if (typeof XP.split(',')[1] !== 'undefined') {
           let counter = 0;
           ev.XP.split(',').map((item) => {
@@ -317,14 +317,14 @@ exports('play_table', (params, done) => {
             $(`[data-id="play-table"]`).children('.row:last-child').append(`
             <div class="right-container" style="width: 100%; height: 100%">
 
-            <div class="bets-container" style="width: 100%; height: 65%; display: table;">
-            <div class="cell" style="display: table-cell;border-right: 1px solid rgb(51, 32, 43);">
+            <div class="bets-container" style="width: 100%; height: 65%; display: flex;">
+            <div class="cell" style="display: table-cell;min-width: 33.33333%;max-width: 33.33333%;display: flex;">
               <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[0].BS}" data-FI="${ev.MA[0].PA[0].FI}" data-HA="${ev.MA[0].PA[0].HA}" data-HD="${ev.MA[0].PA[0].HD}" data-ID="${ev.MA[0].PA[0].ID}" data-IT="${ev.MA[0].PA[0].IT}" data-NA="${ev.MA[0].PA[0].NA}" data-OD="${ev.MA[0].PA[0].OD}" data-OR="${ev.MA[0].PA[0].OR}" data-SU="${ev.MA[0].PA[0].SU}" class="button coefficient ${ev.MA[0].PA[0].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[0].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(ev.MA[0].PA[0].OD)}</button> 
             </div> 
-            <div class="cell" style="display: table-cell; border-right: 1px solid rgb(51, 32, 43);"> 
+            <div class="cell" style="display: table-cell;min-width: 33.33333%;max-width: 33.33333%;display: flex;"> 
               <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[1].BS}" data-FI="${ev.MA[0].PA[1].FI}" data-HA="${ev.MA[0].PA[1].HA}" data-HD="${ev.MA[0].PA[1].HD}" data-ID="${ev.MA[0].PA[1].ID}" data-IT="${ev.MA[0].PA[1].IT}" data-NA="${ev.MA[0].PA[1].NA}" data-OD="${ev.MA[0].PA[1].OD}" data-OR="${ev.MA[0].PA[1].OR}" data-SU="${ev.MA[0].PA[1].SU}" class="button coefficient ${ev.MA[0].PA[1].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[1].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(ev.MA[0].PA[1].OD)}</button>
             </div> 
-            <div class="cell" style="display: table-cell;margin-right: 3px;">
+            <div class="cell" style="display: table-cell;min-width: 33.33333%;max-width: 33.33333%;display: flex;">
               <button data-eventNA="${ev.NA}" data-cl="${ID}" data-marketNA="${ev.MA[0].NA}" data-BS="${ev.MA[0].PA[2].BS}" data-FI="${ev.MA[0].PA[2].FI}" data-HA="${ev.MA[0].PA[2].HA}" data-HD="${ev.MA[0].PA[2].HD}" data-ID="${ev.MA[0].PA[2].ID}" data-IT="${ev.MA[0].PA[2].IT}" data-NA="${ev.MA[0].PA[2].NA}" data-OD="${ev.MA[0].PA[2].OD}" data-OR="${ev.MA[0].PA[2].OR}" data-SU="${ev.MA[0].PA[2].SU}" class="button coefficient ${ev.MA[0].PA[2].OD == '0/0' ? 'disabled' : ''}">${ev.MA[0].PA[2].OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(ev.MA[0].PA[2].OD)}</button> 
             </div>
             </div>

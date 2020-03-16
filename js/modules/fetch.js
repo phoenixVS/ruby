@@ -32,6 +32,7 @@ exports('fetch', (params, done) => {
             if (name == 'inplay') {
               const tree = growTree(data, 'inplay');
               window.inplay = tree;
+              console.log(tree);
             }
             else {
               if (name == 'bets') {

@@ -67,6 +67,7 @@
   transform: rotate(-90deg);
 }
 .prematch-table .prematch-table-title__main {
+  overflow: scroll;
   background-color: #33202B!important;
 }
 .prematch-table-title__main {

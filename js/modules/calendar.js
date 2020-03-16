@@ -82,7 +82,6 @@ exports('calendar', (params, done) => {
 
       function renderSchedule(tree, events) {
         console.log(tree);
-        console.log(events);
         let renderLayout = new Promise((resolve, reject) => {
           $('[data-id=slider]').show();
           $('[data-id=calendarContainer]').show();
@@ -168,6 +167,7 @@ exports('calendar', (params, done) => {
             }
           });
           renderLayout.then(() => {
+            console.log($('[data-id="calendarContainer"]'));
             $('select[data-menu]').each(function () {
 
               let select = $(this),

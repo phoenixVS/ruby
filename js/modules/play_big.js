@@ -200,14 +200,14 @@ exports('play_big', (params, done) => {
     function shortize(name) {
       let str = name;
       if (screen.width < 350) {
-        str = str.slice(0, 11);
-        if (name.length > 11) {
+        str = str.slice(0, 14);
+        if (name.length > 14) {
           str += '...';
         }
         return str;
-      } else if (screen.width > 350 && screen.width < 420) {
-        str = str.slice(0, 16);
-        if (name.length > 16) {
+      } else if (screen.width > 350) {
+        str = str.slice(0, 19);
+        if (name.length > 19) {
           str += '...';
         }
         return str;
@@ -245,7 +245,7 @@ exports('play_big', (params, done) => {
                 </div>
                 </div>
                 </a>
-                <div data-coef="1" data-id="coef_table" class="table [ coeficient-table ]">
+                <div data-coef="1" data-id="coef_table" class="table [ coeficient-table pb-child ]">
                         <div data-coef="1" class="row">
               <div data-coef="1" class="cell w33" >
                 <button data-coef="1" class="button coefficient ${sport.CT[i].EV[0].MA[0].PA[0].OD == '0/0' ? 'disabled' : ''}" style="padding-left: 10px;" data-eventNA="${sport.CT[i].EV[0].NA}" data-cl="${ID}" data-marketNA="${sport.CT[i].EV[0].MA[0].NA}" data-BS="${sport.CT[i].EV[0].MA[0].PA[0].BS}" data-FI="${sport.CT[i].EV[0].MA[0].PA[0].FI}" data-HA="${sport.CT[i].EV[0].MA[0].PA[0].HA}" data-HD="${sport.CT[i].EV[0].MA[0].PA[0].HD}" data-ID="${sport.CT[i].EV[0].MA[0].PA[0].ID}" data-IT="${sport.CT[i].EV[0].MA[0].PA[0].IT}" data-NA="${sport.CT[i].EV[0].MA[0].PA[0].NA}" data-OD="${sport.CT[i].EV[0].MA[0].PA[0].OD}" data-OR="${sport.CT[i].EV[0].MA[0].PA[0].OR}" data-SU="${sport.CT[i].EV[0].MA[0].PA[0].SU}">
