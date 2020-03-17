@@ -16,6 +16,9 @@ exports('header', (params, done) => {
         ]
     }, () => {
         function setBtnClicked() {
+            loadJsModules({
+                user_menu: { loadCSS: true, loadLanguage: false },
+            });
             const user_menu = $(`[data-id=user-menu]`);
             $('.log-button').prop("onclick", null).off("click");
             $('.login-font').hide();
@@ -30,7 +33,7 @@ exports('header', (params, done) => {
         }
 
         function setBtnNotClicked() {
-            const user_menu = $(`[data-id=user-menu]`);
+          const user_menu = $(`[data-id=user-menu]`);
           $('.log-button').prop("onclick", null).off("click");
           $('.login-font').show();
           user_menu.hide();
@@ -45,6 +48,7 @@ exports('header', (params, done) => {
         // Login and user menu handlers
         if (window.conf.CUSTOMER_CONFIG.LOGGED_IN == true) {
             Cookies.set('logon', 'true');
+            //$(`[data-id=user-menu]`).hide();
             $(`[data-id=mybets-button]`).show();
             $(`[data-id=registration-button]`).hide();
         } else {
@@ -54,14 +58,16 @@ exports('header', (params, done) => {
         }
 
         $(`[data-id=login-button]`).on('click', () => {
-            console.log(Cookies.get('logon'));
+            console.log("Log-button onclick");
             if (Cookies.get('logon') == 'true') {
-                setBtnClicked();
+                console.log('User is logged');
                 loadJsModules({
                     user_menu: { loadCSS: true, loadLanguage: false },
                 });
+                setBtnClicked();
             }
             else {
+                console.log('User is not logged');
                 loadJsModules({
                     login: { loadCSS: true, loadLanguage: false },
                 });

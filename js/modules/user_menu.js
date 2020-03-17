@@ -3,8 +3,8 @@ exports('user_menu', (params, done) => {
     function renderUserMenu() {
       let renderPromise = new Promise((resolve, reject) => {
         $('.menu-wrapper').show();
+        $('.menu-wrapper').empty();
         $(`
-        
           <div class="[ user-menu ]">
           <div class="[ user-menu-wrapper ]">
             <div class="[ user-menu-img ]"></div>

@@ -195,7 +195,7 @@ exports('search', (params, done) => {
         for (let i = 0; i < data.CL.length; i++) {
           if (data.CL[i].ID == ID) {
             let res_content = $('.search-result');
-            res_content.empty();
+            //res_content.empty();
             for (let j = 0; j < data.CL[i].EV.length; j++) {
               if (data.CL[i].EV[j].NA != "") {
                 console.log(data.CL[i].EV[j].NA);

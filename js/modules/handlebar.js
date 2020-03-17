@@ -327,6 +327,7 @@ function filterHandler(ID) {
 				config: { loadCSS: false, loadLanguage: false },
 				fetch: { loadCSS: false, loadLanguage: false },
 				langs: { loadCSS: false, loadLanguage: false },
+				user_menu: { loadCSS: true, loadLanguage: false },
 			});
 			// wait until there will be an tableLoad module
 			function wait() {
