@@ -315,11 +315,46 @@ function mainHandler() {
 	});
 }
 
+function setBtnClicked() {
+	loadJsModules({
+		user_menu: { loadCSS: true, loadLanguage: false },
+	});
+	const user_menu = $(`[data-id=user-menu]`);
+	$('.log-button').prop("onclick", null).off("click");
+	$('.login-font').hide();
+	user_menu.show();
+	$('.log-button').removeClass('not-clicked');
+	$('.log-button').addClass('clicked');
 
+
+	$('.log-button').on('click', (el) => {
+		setBtnNotClicked();
+	});
+}
+
+function setBtnNotClicked() {
+  const user_menu = $(`[data-id=user-menu]`);
+  $('.log-button').prop("onclick", null).off("click");
+  $('.login-font').show();
+  user_menu.hide();
+  $('.log-button').removeClass('clicked');
+  $('.log-button').addClass('not-clicked');
+
+  
+	$('.log-button').on('click', (el) => {
+		setBtnClicked();
+	});
+}
 // on filter active
 function filterHandler(ID) {
 	$(`[data-id="play-table"]`).empty();
 	$(`[data-id="play-big"]`).empty();
+
+	if ($(`[data-id=login-button]`).hasClass('clicked')) {
+		setBtnNotClicked();
+	} else {
+		console.log('not has class');
+	}
 
 	if (performance.navigation.type == 1) {
 		let fetchData = new Promise((resolve, reject) => {
