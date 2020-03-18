@@ -19,6 +19,9 @@ div.row.info.det.not-active:before {
   transition-duration: 0.5s;
   margin-top: 0px;
 }
+.row[data-id='coef_row'] {
+  background-color: grey;
+}
 .bets_title {
   display: block;
   justify-content: center;

@@ -25,53 +25,57 @@ exports('coef_table', (params, done) => {
     // Shortening club name
     function shortize(name, gameName) {
       let str = name;
-      // let team1 = game.NA.split(' v ')[0] || ev.NA.split(' vs ')[0] || game.NA.split(' @ ')[0],
-      //   team2 = game.NA.split(' v ')[1] || ev.NA.split(' vs ')[1] || game.NA.split(' @ ')[1];
-      // if (name.includes(team1) || name.includes(team2)) {
-      // if (screen.width < 350) {
-      //   // if (name.includes(team1)){
-
-      //   // }
-      //   str = str.slice(0, 12);
-      //   if (name.length > 12) {
-      //     str += '...';
-      //   }
-      //   return str;
-      // } else if (screen.width > 350 && screen.width < 450) {
-      //   str = str.slice(0, 16);
-      //   if (name.length > 16) {
-      //     str += '...';
-      //   }
-      //   return str;
-      // } else {
-      //   str = str.slice(0, 18);
-      //   if (name.length > 18) {
-      //     str += '...';
-      //   }
-      //   return str;
-      // }
-      // // }
-      // else {
-      if (screen.width < 350) {
-        str = str.slice(0, 12);
-        if (name.length > 12) {
-          str += '...';
+      let team1 = gameName.split(' v ')[0] || gameName.split(' vs ')[0] || gameName.split(' @ ')[0],
+        team2 = gameName.split(' v ')[1] || gameName.split(' vs ')[1] || gameName.split(' @ ')[1];
+      console.table([['team1', team1], ['team2', team2]]);
+      if (str.includes(team1) || str.includes(team2)) {
+        let info = '';
+        info = str.replace(str.includes(team1) ? str = team1 : str = team2, '');
+        str.includes(team1) ? str = team1 : str = team2;
+        if (screen.width < 350) {
+          str = str.slice(0, 12);
+          if (name.length > 12) {
+            str += '...';
+          }
+          return str + info;
         }
-        return str;
-      } else if (screen.width > 350 && screen.width < 450) {
-        str = str.slice(0, 16);
-        if (name.length > 16) {
-          str += '...';
+        else {
+          if (screen.width > 350 && screen.width < 450) {
+            str = str.slice(0, 16);
+            if (name.length > 16) {
+              str += '...';
+            }
+            return str + info;
+          } else {
+            str = str.slice(0, 22);
+            if (name.length > 22) {
+              str += '...';
+            }
+            return str + info;
+          }
         }
-        return str;
-      } else {
-        str = str.slice(0, 18);
-        if (name.length > 18) {
-          str += '...';
-        }
-        return str;
       }
-      // }
+      else {
+        if (screen.width < 350) {
+          str = str.slice(0, 12);
+          if (name.length > 12) {
+            str += '...';
+          }
+          return str;
+        } else if (screen.width > 350 && screen.width < 450) {
+          str = str.slice(0, 16);
+          if (name.length > 16) {
+            str += '...';
+          }
+          return str;
+        } else {
+          str = str.slice(0, 18);
+          if (name.length > 18) {
+            str += '...';
+          }
+          return str;
+        }
+      }
     }
 
     function renderCoefTable(data, ID, small) {
