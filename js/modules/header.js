@@ -20,7 +20,7 @@ exports('header', (params, done) => {
                 user_menu: { loadCSS: true, loadLanguage: false },
             });
             const user_menu = $(`[data-id=user-menu]`);
-            $('.log-button').prop("onclick", null).off("click");
+            $('.log-button').prop("onclick", null).off();
             $('.login-font').hide();
             user_menu.show();
             $('.log-button').removeClass('not-clicked');
@@ -33,14 +33,13 @@ exports('header', (params, done) => {
         }
 
         function setBtnNotClicked() {
-          const user_menu = $(`[data-id=user-menu]`);
-          $('.log-button').prop("onclick", null).off("click");
-          $('.login-font').show();
-          user_menu.hide();
-          $('.log-button').removeClass('clicked');
-          $('.log-button').addClass('not-clicked');
+            const user_menu = $(`[data-id=user-menu]`);
+            $('.log-button').prop("onclick", null).off();
+            $('.login-font').show();
+            user_menu.hide();
+            $('.log-button').removeClass('clicked');
+            $('.log-button').addClass('not-clicked');
 
-          
             $('.log-button').on('click', (el) => {
                 setBtnClicked();
             });
@@ -56,14 +55,9 @@ exports('header', (params, done) => {
             $(`[data-id=mybets-button]`).hide();
             $(`[data-id=registration-button]`).show();
         }
-
         $(`[data-id=login-button]`).on('click', () => {
             console.log("Log-button onclick");
             if (Cookies.get('logon') == 'true') {
-                console.log('User is logged');
-                loadJsModules({
-                    user_menu: { loadCSS: true, loadLanguage: false },
-                });
                 setBtnClicked();
             }
             else {
@@ -85,11 +79,11 @@ exports('header', (params, done) => {
                 hh = date.getUTCHours(),
                 mm = date.getUTCMinutes(),
                 ss = date.getSeconds(),
-                offset = date.getTimezoneOffset();
-            offset /= 60;
-            if (offset > 0) {
+                offset = window.conf.CUSTOMER_CONFIG.TZ;//date.getTimezoneOffset();
+            //offset /= 60;
+            /* if (offset > 0) {
                 offset = 'GMT -' + offset.toString();
-            } else { offset = 'GMT +' + (-(offset.toString())); }
+            } else { offset = 'GMT +' + (-(offset.toString())); } */
             if (hh < 10) hh = "0" + hh;
             if (mm < 10) mm = "0" + mm;
             if (ss < 10) ss = "0" + ss;

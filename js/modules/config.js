@@ -18,7 +18,7 @@ exports('config', (params, done) => {
       "TAX_CONFIGURATION": ""
     },
     "CUSTOMER_CONFIG": {
-      "USER_NAME": "",
+      "USER_NAME": "username@gmail.com",
       "LOGGED_IN": true,
       "CURRENCY_CODE": "USD",
       "USER_OFFER_STATUS": 1,

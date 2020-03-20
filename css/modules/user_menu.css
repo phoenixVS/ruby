@@ -29,6 +29,36 @@
 .user-menu-links {
     background-color: #5b2e49;
 }
+.user-menu-links {
+    margin-top: 2px;
+}
+.user-menu-links.hidden {
+    display: none;
+}
+.prefferences-tab-button {
+    position: absolute;
+    right: 0;
+    color: #391d2e;
+    display: inline-block;
+    margin: -25px 20px 0 0;
+    vertical-align: middle;
+    text-align: right;
+    font-family: FontAwesome;
+    color: #888;
+    clear: both;
+}
+.prefferences-tab-button.to-settings:after {
+    content: "\f013";
+    font-size: 20px;
+    line-height: 44px;
+}
+.prefferences-tab-button.to-menu {
+    margin: -17px 18px 0 0;
+    font-size: 23px;
+}
+.prefferences-tab-button.to-menu:after {
+    content: "\f0c9";
+}
 .user-menu-img {
     height: 80px;
     width: 80px;
@@ -161,3 +191,56 @@ hr {
 .fa-sign-out:before {
     content: '\f08b';
 }
+/*Prefferences*/
+.prefference-menu__row {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    line-height: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 11px;
+}
+.prefference-menu {
+    margin-top: -3px;
+    background-color: #5b2e49;
+}
+.prefference-menu.hidden {
+    display: none;
+}
+.prefference-menu__selectionWrapper {
+    position: relative;
+}
+.selectionWrapper_list {
+    width: 100%;
+    border: 0;
+    background-color: #5B2E49;
+    font-size: 15px;
+    color: #fff;
+    line-height: 20px;
+    padding: 22px 11px 7px;
+    margin-top: -22px;
+    -webkit-background-clip: content-box;
+    background-clip: content-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.prefference-menu__selectionWrapper:after {
+    content: '\f107';
+    color: #fff;
+    font-family: FontAwesome;
+    font-size: 18px;
+    position: absolute;
+    right: 7px;
+    top: 0;
+    transform: translateY(-50%);
+}
+.selectionWrapper_list option {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*end of Prefferences*/

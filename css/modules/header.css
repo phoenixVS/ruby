@@ -46,6 +46,8 @@ span[data-id='calendar']{
 }
 
 .login-button-container {
+    min-width: 40px;
+    max-width: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
