@@ -51,6 +51,7 @@ exports('betslip', (params, done) => {
       }
     }
   }
+
   let ns = '', ms = '||';
   const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
   const keys = Object.keys(parsedCookies);
@@ -79,89 +80,229 @@ exports('betslip', (params, done) => {
   }
 
   function loadBetslip(url, callback) {
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        callback(xhr.responseText);
-      }
+    if (url.includes('refreshslip') || true) {
+      let response = JSON.parse(`{"bg":"","sr":0,"mr":false,"ir":true,"vr":"34","cs":1,"st":1,"bt":[{"cl":1,"sa":"5e749a7d-3744B120","tp":"BS87542537-682184589","mt":2,"mr":false,"bt":1,"pf":"N","od":"1/150","fi":87542537,"fd":"Hantharwady United U19 v Mawyawadi FC U19","pt":[{"pi":682184589,"bd":"Hantharwady United U19","md":"Fulltime Result"}],"sr":0},{"cl":1,"sa":"5e749a7d-BC3A4A33","tp":"BS87542538-682184849","mt":2,"mr":false,"bt":1,"pf":"N","od":"25/1","fi":87542538,"fd":"Kachin United FC U19 v Rakhine United U19","pt":[{"pi":682184849,"bd":"Kachin United FC U19","md":"Fulltime Result"}],"sr":0},{"cl":1,"sa":"5e749a7f-E0E02E53","tp":"BS87542539-682185113","mt":2,"mr":false,"bt":1,"pf":"N","od":"8/13","fi":87542539,"fd":"Myawady FC U19 v Ayeyawady Utd U19","pt":[{"pi":682185113,"bd":"Myawady FC U19","md":"Fulltime Result"}],"sr":0}],"dm":{"bt":3,"od":"41.28/1","bd":"Trebles","bc":1,"ea":false,"cb":false},"mo":[{"bt":-1,"bd":"","bc":3,"ea":false,"cb":false},{"bt":2,"od":"","bd":"Doubles","bc":3,"ea":false,"cb":false},{"bt":14,"od":"","bd":"Trixie","bc":4,"ea":false,"cb":false}],"bs":[1,2]}`);
+      callback(response, true);
     }
+    else {
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          callback(xhr.responseText);
+        }
+      }
 
-    xhr.open("POST", url, true);
-    xhr.send(JSON.stringify(JSON.parse(data)));
+      xhr.open("POST", url, true);
+      xhr.send(JSON.stringify(JSON.parse(data)));
+    }
   }
 
-  loadBetslip(url, (response) => {
-    if (response.length < 36) {
-      const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
-      const keys = Object.keys(parsedCookies);
-      for (name of keys) {
-        if (name.substring(0, 3) == 'pa_') {
-          Cookies.remove(name);
+  loadBetslip(url, (response, refresh = false) => {
+    if (!refresh) {
+      if (response.length < 36) {
+        const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+        const keys = Object.keys(parsedCookies);
+        for (name of keys) {
+          if (name.substring(0, 3) == 'pa_') {
+            Cookies.remove(name);
+          }
+          if (name === 'ms') {
+            Cookies.remove(name);
+          }
         }
-        if (name === 'ms') {
-          Cookies.remove(name);
-        }
+        betslip.slideUp('fast');
+        $('button.coefficient.selected').removeClass('selected');
+        blur.addClass('none');
+        blur.removeClass('block');
+        return;
       }
-      betslip.slideUp('fast');
-      $('button.coefficient.selected').removeClass('selected');
-      blur.addClass('none');
-      blur.removeClass('block');
-      return;
+    }
+    else {
+      console.log(response);
+      // TODO: cookies cleaning
     }
     const betslipRender = new Promise((resolve, reject) => {
-      /{bss}(.*?){bse}/i.exec(response)[1].split('&')[3].slice(3).split('||').map((item) => {
-        if (item) {
-          Cookies.set(`pa_${/fp=(.*)#so/i.exec(item)[1]}`, item + '||');
+      if (!refresh) {
+        /{bss}(.*?){bse}/i.exec(response)[1].split('&')[3].slice(3).split('||').map((item) => {
+          if (item) {
+            Cookies.set(`pa_${/fp=(.*)#so/i.exec(item)[1]}`, item + '||');
+          }
+        });
+        if (typeof /{bss}(.*?){bse}/i.exec(response)[1].split('&')[4] !== 'undefined') {
+          Cookies.remove('ms')
+          Cookies.set('ms', /{bss}(.*?){bse}/i.exec(response)[1].split('&')[4].slice(3));
         }
-      });
-      if (typeof /{bss}(.*?){bse}/i.exec(response)[1].split('&')[4] !== 'undefined') {
-        Cookies.remove('ms')
-        Cookies.set('ms', /{bss}(.*?){bse}/i.exec(response)[1].split('&')[4].slice(3));
-      }
-      response = response.replace(/betSlip/g, 'betSlipy');
-      // let newBetslip = $(response).find('.betSlipyCloseIcon').append(`<span class="close"></span>`);
-      const newBetslip = $(response);
-      const newBetslipContent = newBetslip.children('#betslipContent');
-      const newBetslipFooter = newBetslip.children('#betslipFooter');
-      if (newBetslipContent.find('.bs-useFreeBetAmount').length > 0) {
-        if (/{(.*)}/i.exec(newBetslipContent.find('.bs-useFreeBetAmount').text())[1] == 0) {
-          newBetslipContent.find('.bs-useFreeBet').addClass('hidden');
+        response = response.replace(/betSlip/g, 'betSlipy');
+        // let newBetslip = $(response).find('.betSlipyCloseIcon').append(`<span class="close"></span>`);
+        const newBetslip = $(response);
+        const newBetslipContent = newBetslip.children('#betslipContent');
+        const newBetslipFooter = newBetslip.children('#betslipFooter');
+        if (newBetslipContent.find('.bs-useFreeBetAmount').length > 0) {
+          if (/{(.*)}/i.exec(newBetslipContent.find('.bs-useFreeBetAmount').text())[1] == 0) {
+            newBetslipContent.find('.bs-useFreeBet').addClass('hidden');
+          }
         }
-      }
-      newBetslipContent.find('.removeColumn').empty().append($('<span class="close remove-bet"></span>'));
-      newBetslipContent.find('.single-section.standardBet ul li').each((i, el) => {
-        el.classList.add('hasodds');
-      });
-      newBetslipContent.find('input').attr('readonly', 'readonly').attr('maxlength', '9');
-      // newBetslipContent.find('.bs-MultipleBets_HighestAccumulator').children('.stake').removeClass('stake');
-      // newBetslipContent.find('.bs-MultipleBets_HighestAccumulator .bs-stakeContainer').addClass('stake');
-      if ($('.betslipWrapper').length > 0) {
-        $('.betslipWrapper').empty();
-      }
-      if ($('.preloader.inBetslip').length == 0) {
-        let cln = document.querySelector('#page-preloader').cloneNode(true);
-        cln.classList.add('inBetslip');
-        cln.classList.remove('done');
-        cln.dataset.status = 'not-done';
-        document.querySelector('.betslipWrapper').insertAdjacentElement('beforebegin', cln);;
-      }
+        newBetslipContent.find('.removeColumn').empty().append($('<span class="close remove-bet"></span>'));
+        newBetslipContent.find('.single-section.standardBet ul li').each((i, el) => {
+          el.classList.add('hasodds');
+        });
+        newBetslipContent.find('input').attr('readonly', 'readonly').attr('maxlength', '9');
+        // newBetslipContent.find('.bs-MultipleBets_HighestAccumulator').children('.stake').removeClass('stake');
+        // newBetslipContent.find('.bs-MultipleBets_HighestAccumulator .bs-stakeContainer').addClass('stake');
+        if ($('.betslipWrapper').length > 0) {
+          $('.betslipWrapper').empty();
+        }
+        if ($('.preloader.inBetslip').length == 0) {
+          let cln = document.querySelector('#page-preloader').cloneNode(true);
+          cln.classList.add('inBetslip');
+          cln.classList.remove('done');
+          cln.dataset.status = 'not-done';
+          document.querySelector('.betslipWrapper').insertAdjacentElement('beforebegin', cln);;
+        }
 
-      insertHtmlModules({
-        ".betslipWrapper": [
-          "betslip/betslip.html"
-        ]
-      }, () => {
-        $('.betSlipyCountText').text(betsCounter());
-        $('#betslipContent')
-          .empty()
-          .append(newBetslipContent);
-        $('#betslipFooter')
-          .empty()
-          .append(newBetslipFooter);
-        $('.betslipWrapper').removeClass('locked');
-        resolve();
-      });
+        insertHtmlModules({
+          ".betslipWrapper": [
+            "betslip/betslip.html"
+          ]
+        }, () => {
+          $('.betSlipyCountText').text(betsCounter());
+          $('#betslipContent')
+            .empty()
+            .append(newBetslipContent);
+          $('#betslipFooter')
+            .empty()
+            .append(newBetslipFooter);
+          $('.betslipWrapper').removeClass('locked');
+          resolve();
+        });
+      }
+      else {
+        if ($('.betslipWrapper').length > 0) {
+          $('.betslipWrapper').empty();
+        }
+        if ($('.preloader.inBetslip').length == 0) {
+          let cln = document.querySelector('#page-preloader').cloneNode(true);
+          cln.classList.add('inBetslip');
+          cln.classList.remove('done');
+          cln.dataset.status = 'not-done';
+          document.querySelector('.betslipWrapper').insertAdjacentElement('beforebegin', cln);;
+        }
+        insertHtmlModules({
+          ".betslipWrapper": [
+            "betslip/betslip.html"
+          ]
+        }, () => {
+          $('.betSlipyCountText').text(betsCounter());
+          for (bet of response.bt) {
+            // let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU }
+            appendBet({
+              'eventID': bet.pt[0].pi,
+              'eventNA': bet.fd,
+              'marketNA': bet.fd,
+              'BS': 'BS',
+              'FI': bet.fi,
+              'HA': 'HA',
+              'HD': 'HD',
+              'ID': 'ID',
+              'IT': 'IT',
+              'NA': bet.fd,
+              'OD': bet.od,
+              'OR': 'OR',
+              'SU': bet.su
+            });
+          }
+          let dm = response.dm;
+          appendDm({ 'ID': dm.bt, 'NA': dm.bd, 'OD': dm.od });
 
+          for (bet of response.mo) {
+            // let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU }
+            appendMultiodds({ 'ID': bet.bt, 'NA': bet.bd == '' ? 'Singles' : bet.bd, 'OD': bet.bc });
+          }
+
+          // append odds
+          function appendBet(item) {
+            let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU } = item;
+            if ($('.single-section.standardBet').children('ul').length == 0) {
+              $('.single-section.standardBet').append(`<ul></ul>`);
+            }
+            $('.single-section.standardBet').children('ul').append(`
+            <li class= "hasodds" data-event="${eventID}" data-BS="${BS}" data-FI="${FI}" data-HA="${HA}" data-HD="${HD}" data-ID="${ID}" data-IT="${IT}" data-NA="${NA}" data-OD="${OD}" data-OR="${OR}" data-SU="${SU}" >
+              <div class="bs-ItemOverlay" ></div > <div class="selectionRow">
+                <div class="restrictedMultiple"></div>
+                <div class="removeColumn"><span class="close remove-bet"></span></div>
+                <div class="selection">
+                  <div class="selectionDescription">${NA}</div>
+                  <div class="fullSlipMode">${marketNA}</div>
+                  <div class="fullSlipMode">${eventNA}</div>
+                </div>
+                <div class="odds">${modifyBets(OD)}</div>
+                <div class="stake">
+                  <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Stake" readonly="readonly" maxlength="9">
+                    <div class="stakeToReturn hidden  ">
+                      To return&nbsp;
+                      <span class="stakeToReturn_Value">0.00</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="deleteItem">Delete</div>
+              </li>`);
+          }
+          // appendDm
+          function appendDm(item) {
+            let { ID, NA, OD } = item;
+            if ($('.multiple-section.multipleBets').children('ul.multiplesWrapper').length == 0) {
+              $('.multiple-section.multipleBets').append(`<ul class="multiplesWrapper closed"></ul>`);
+            }
+            $('.multiple-section.multipleBets').children('ul.multiplesWrapper').append(`
+              <li data-item-id="${ID}" data-item-type="multiple" class="mlt bs-MultipleBets_HighestAccumulator" data-item-plbtid="0" data-item-leaguecode="" data-item-fpid="">
+              <div class="stake" data-1="1">
+                <div class="multiplesLabel">
+                  <div class="bs-BetNameNoBreakdown">
+                    <div class="multiplesBetCount"></div>
+                      ${NA}
+                    </div>
+                    <div class="mbHeader">
+                      <div class="mlthd" id="mlthdr" data-stext="Show all multiples" data-htext="Hide all multiples">
+                        Hide all multiples
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bs-multiple-default-odds" style="display:none;">
+                  </div>
+                  <div class="bs-multiple-default-odds" style="">${modifyBets(OD)}</div>
+                  <div class="bs-stakeContainer toReturn">
+                    <input data-inp-type="mltstk" data-system="false" type="text" class="stk mltdftstk" value="" placeholder="Stake" readonly="readonly">
+                    <div class="bs-StandardMultipleStake_ToReturn hidden">To Return<span class="bs-StandardMultipleStake_ToReturnValue">&nbsp;0.00</span></div>
+                  </div>
+                </div>
+                
+                <div class="bs-BetCreditItem">
+                  <div class="bs-BetCreditInfo">
+                    Use 5.00 Bet Credits + 10.00 GBP
+                  </div>
+                </div>
+                <div>
+                </div>
+                </li>`);
+          }
+          // append multiodds
+          function appendMultiodds(item) {
+            let { ID, NA, OD } = item;
+            if ($('.multiple-section.multipleBets').children('ul.multiplesWrapper').length == 0) {
+              return;
+            }
+            $('.multiple-section.multipleBets').children('ul.multiplesWrapper').append(`
+            <li data-item-id="${ID}" data-item-type="multiple" class="bs-MultipleBets_Singles">
+              <div class="stake">
+              <div class="multiplesLabel">${NA}</div>
+              <div class="multiplesBetCount">${OD}x</div>
+                <input id="mltsngstk" data-nbm="true" class="stk" type="text" placeholder="Stake" readonly="readonly">
+              </div>
+            </li>`);
+          }
+          resolve();
+        });
+      }
     });
     betslipRender.then((response) => {
       bsLink.slideUp('fast');
@@ -169,7 +310,6 @@ exports('betslip', (params, done) => {
 
       // preloader done
       let cln = document.querySelector('.preloader.inBetslip');
-      console.log(cln);
       cln.classList.add('done');
       cln.dataset.status = 'done';
       // preloader.addClass('done').removeClass('opaci');
@@ -443,8 +583,10 @@ exports('betslip', (params, done) => {
               el.parentNode.querySelector('.stakeToReturn').classList.add('hidden');
             }
           });
-          if (document.querySelector('.bs-StandardMultipleStake_ToReturnValue').innerHTML == ' 0.00' || document.querySelector('.bs-StandardMultipleStake_ToReturnValue').innerHTML == `&nbsp;0.00`) {
-            document.querySelector('.bs-StandardMultipleStake_ToReturn').classList.add('hidden');
+          if (document.querySelector('span.bs-StandardMultipleStake_ToReturnValue') !== null) {
+            if (document.querySelector('span.bs-StandardMultipleStake_ToReturnValue').innerHTML == ' 0.00' || document.querySelector('span.bs-StandardMultipleStake_ToReturnValue').innerHTML == `&nbsp;0.00`) {
+              document.querySelector('.bs-StandardMultipleStake_ToReturn').classList.add('hidden');
+            }
           }
           cur.closest('.hasodds').removeClass('keypad');
           cur.closest('.bs-stakeContainer').removeClass('keypad');
@@ -1041,10 +1183,28 @@ exports('betslip', (params, done) => {
     });
   });
 
-  // Convert fractial to decimal
-  modifyBets = (od) => {
-    const nums = od.split('/');
-    return (nums[0] / nums[1] + 1).toFixed(2)
+  // Convert odds
+  const modifyBets = (od) => {
+    const ODDS_TYPE = window.conf.CUSTOMER_CONFIG.ODDS_TYPE;
+    // fraction
+    if (ODDS_TYPE == '1') {
+      return od;
+    }
+    // decimal
+    if (ODDS_TYPE == '2') {
+      const nums = od.split('/');
+      return (nums[0] / nums[1] + 1).toFixed(2);
+    }
+    // American
+    if (ODDS_TYPE == '3') {
+      const nums = od.split('/');
+      let bet = (nums[0] / nums[1] + 1).toFixed(2);
+      if (Number(bet) >= 2) {
+        return `+${((Number(bet) - 1) * 100).toFixed(0)}`;
+      } else {
+        return `-${((100) / (Number(bet) - 1)).toFixed(0)}`;
+      }
+    }
   };
   // Count multiplyer if avaliable
   function multiOdds() {
@@ -1075,32 +1235,5 @@ exports('betslip', (params, done) => {
       bsLink.children().children('.text-right').children('p.font').text(' ');
       bsLink.children().children('.text-right').children('p.title').text(' ');
     }
-  }
-
-
-  // oddsChange class
-  function appendBet(item) {
-    let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU } = item;
-    content.children('ul').append(`
-            < li class= "hasodds" data-event="${eventID}" data-BS="${BS}" data-FI="${FI}" data-HA="${HA}" data-HD="${HD}" data-ID="${ID}" data-IT="${IT}" data-NA="${NA}" data-OD="${OD}" data-OR="${OR}" data-SU="${SU}" >
-              <div class="bs-ItemOverlay" ></div > <div class="selectionRow">
-                <div class="restrictedMultiple"></div>
-                <div class="removeColumn"><span class="close remove-bet"></span></div>
-                <div class="selection">
-                  <div class="selectionDescription">${NA}</div>
-                  <div class="fullSlipMode">${marketNA}</div>
-                  <div class="fullSlipMode">${eventNA}</div>
-                </div>
-                <div class="odds">${modifyBets(OD)}</div>
-                <div class="stake">
-                  <input data-inp-type="sngstk" type="text" class="stk" value="" placeholder="Stake" readonly="readonly" maxlength="9">
-                    <div class="stakeToReturn hidden  ">
-                      To return&nbsp;
-                      <span class="stakeToReturn_Value">0.00</span>
-                    </div>
-                    </div>
-                </div>
-                <div class="deleteItem">Delete</div>
-              </li>`);
   }
 });
