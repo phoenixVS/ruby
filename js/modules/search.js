@@ -195,18 +195,74 @@ exports('search', (params, done) => {
         for (let i = 0; i < data.CL.length; i++) {
           if (data.CL[i].ID == ID) {
             let res_content = $('.search-result');
-            //res_content.empty();
+            res_content.empty();
+            res_content.append(`
+              <div class="search-scroll">
+              </div>
+            `);
+            let search_scroll = $('.search-scroll');
+
+            for (let k = 0; k < data.CL.length; k++) {
+              if (data.CL[k].ID == ID) {
+                search_scroll.append(`
+                    <div class="search-scroll-item choosen" data-id="${data.CL[k].ID}">
+                      <p class="font">${data.CL[k].NA}</p>
+                    </div>
+                    `);
+              } else {
+                search_scroll.append(`
+                    <div class="search-scroll-item" data-id="${data.CL[k].ID}">
+                      <p class="font">${data.CL[k].NA}</p>
+                    </div>
+                    `);
+              }
+            }
+
             for (let j = 0; j < data.CL[i].EV.length; j++) {
               if (data.CL[i].EV[j].NA != "") {
-                console.log(data.CL[i].EV[j].NA);
+                res_content.append(`
+                <div class="search-ev">
+                  <p class="font m-white">${data.CL[i].EV[j].NA}</p>
+                </div>
+                `);
+                for (let n = 0; n < data.CL[i].EV[j].MG.length; n++) {
+                  res_content.append(`
+                      <div data-id="sevlinks${n}" class="search-ev-links-0" style="
+                      width: 100%;
+                      height: auto;
+                      min-height: 44px;">
+                      <div class="s-ev-link">
+                      <p class="font white t-not-clicked">${data.CL[i].EV[j].MG[n].NA}</p>
+                      </div>
+                      </div>
+                    `);
+                }
+
               } else {
                 console.log("Prematch link");
               }
             }
+
           }
         }
+        resolve();
       }).then( () => {
-        console.log("Then done")
+
+        $('.search-scroll-item').on('click', (el) => {
+          $('.search-scroll').children('.choosen').removeClass('choosen');
+          if ($(el.target).hasClass('.search-scroll-item')) {
+            $(el.target).addClass('choosen');
+            let sport_id = $(el.target).data('id');
+            console.log(sport_id);
+            renderResult(sport_id);
+          } else {
+            $(el.target).parent().addClass('choosen');
+            let sport_id = $(el.target).parent().data('id');
+            console.log(sport_id);
+            renderResult(sport_id);
+          }
+        });
+        console.log('promise then done');
       });
     }
 
@@ -616,7 +672,7 @@ exports('search', (params, done) => {
 
     function renderResult(id) {
       if (id == 1) {
-        RenderSearchResult(window.searchDATA);
+        GET($(`[data-id=search-field]`).val());
       } else {
         RenderSearchResultSport(window.searchDATA, id);
       }
