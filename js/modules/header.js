@@ -16,8 +16,11 @@ exports('header', (params, done) => {
         ]
     }, () => {
         function setBtnClicked() {
+            loadJsModules({
+                user_menu: { loadCSS: true, loadLanguage: false },
+            });
             const user_menu = $(`[data-id=user-menu]`);
-            $('.log-button').prop("onclick", null).off("click");
+            $('.log-button').prop("onclick", null).off();
             $('.login-font').hide();
             user_menu.show();
             $('.log-button').removeClass('not-clicked');
@@ -31,7 +34,7 @@ exports('header', (params, done) => {
 
         function setBtnNotClicked() {
             const user_menu = $(`[data-id=user-menu]`);
-            $('.log-button').prop("onclick", null).off("click");
+            $('.log-button').prop("onclick", null).off();
             $('.login-font').show();
             user_menu.hide();
             $('.log-button').removeClass('clicked');
@@ -51,14 +54,10 @@ exports('header', (params, done) => {
             $(`[data-id=mybets-button]`).hide();
             $(`[data-id=registration-button]`).show();
         }
-
         $(`[data-id=login-button]`).on('click', () => {
             console.log(Cookies.get('logon'));
             if (Cookies.get('logon') == 'true') {
                 setBtnClicked();
-                loadJsModules({
-                    user_menu: { loadCSS: true, loadLanguage: false },
-                });
             }
             else {
                 loadJsModules({

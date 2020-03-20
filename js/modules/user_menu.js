@@ -1,10 +1,10 @@
 exports('user_menu', (params, done) => {
+  $(`[data-id=user-menu]`).empty();
   insertHtmlModules({}, () => {
     function renderUserMenu() {
       let renderPromise = new Promise((resolve, reject) => {
         $('.menu-wrapper').show();
         $(`
-        
           <div class="[ user-menu ]">
           <div class="[ user-menu-wrapper ]">
             <div class="[ prefferences-tab-button to-settings ]"></div>
@@ -123,7 +123,7 @@ exports('user_menu', (params, done) => {
                 </select>
               </div>
           </div>
-        </div>`).prependTo($('#content .menu-wrapper')).slideDown("fast");
+        </div>`).prependTo($(`[data-id=user-menu]`)).slideDown("fast");
         console.log('Rendering');
         resolve();
       });
@@ -193,7 +193,6 @@ exports('user_menu', (params, done) => {
     }
 
     renderUserMenu();
-    console.log('Rendered user menu');
   });
   done();
 });
