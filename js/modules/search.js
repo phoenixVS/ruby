@@ -130,7 +130,7 @@ exports('search', (params, done) => {
 
     function convertToDate(millis) {
       let x = millis;
-      if (x.charAt(x.length - 1) == "L") { x = x.slice(0, -1) }
+      if (x.charAt(x.length - 1) == "L") { x = x.slice(0, -1) } else if(x == 'undefined') {return "";}
       var checkedOffset = new Number(x);
       //var convertUrl='https://currentmillis.com/?'+checkedOffset;
       //convertLink.setAttribute('href',convertUrl);
@@ -220,22 +220,60 @@ exports('search', (params, done) => {
 
             for (let j = 0; j < data.CL[i].EV.length; j++) {
               if (data.CL[i].EV[j].NA != "") {
+                let style;
+                if (data.CL[i].EV[j].NA != 'COMPETITIONS') {
+                  style = 't-clicked';
+                } else {
+                  style = 't-not-clicked';
+                }
                 res_content.append(`
                 <div class="search-ev">
                   <p class="font m-white">${data.CL[i].EV[j].NA}</p>
                 </div>
                 `);
                 for (let n = 0; n < data.CL[i].EV[j].MG.length; n++) {
+                  if (data.CL[i].EV[j].NA != 'COMPETITIONS') {
+                    let trimmedNA = data.CL[i].EV[j].MG[n].NA.replace(/\s/g, '');
                   res_content.append(`
                       <div data-id="sevlinks${n}" class="search-ev-links-0" style="
                       width: 100%;
                       height: auto;
                       min-height: 44px;">
                       <div class="s-ev-link">
-                      <p class="font white t-not-clicked">${data.CL[i].EV[j].MG[n].NA}</p>
+                      <p class="font white ${style}">${data.CL[i].EV[j].MG[n].NA}</p>
+                      <div class="t-market-group active">
+                      <div data-id="${trimmedNA}" class="market-pa">
+
+                      </div>
+                      </div>
                       </div>
                       </div>
                     `);
+
+                    if ( ID == 13 ) {
+                      let millis = data.CL[i].EV[j].MG[n].MA[0].PA[0].BC;
+                      //console.log(millis);
+                      $(`[data-id=${trimmedNA}]`).append(`
+                        <div class="market-pa-item">
+                          <div class="pa-item-names">
+                          <span class="font m-white ellipsis" style="font-size: 15px;">${data.CL[i].EV[j].MG[n].MA[0].PA[0].NA}</span>
+                          <span class="font m-white ellipsis" style="font-size: 12px;">${convertToDate(millis)}</span>
+                          </div>
+                        </div>
+                      `);
+                    }
+                  } else {
+                    res_content.append(`
+                      <div data-id="sevlinks${n}" class="search-ev-links-0" style="
+                      width: 100%;
+                      height: auto;
+                      min-height: 44px;">
+                      <div class="s-ev-link">
+                      <p data-id="competpd"data-pd="${data.CL[i].EV[j].MG[n].PD}"class="font white ${style}">${data.CL[i].EV[j].MG[n].NA}</p>
+                      </div>
+                      </div>
+                    `);
+                  }
                 }
 
               } else {
@@ -247,6 +285,13 @@ exports('search', (params, done) => {
         }
         resolve();
       }).then( () => {
+
+        $(`[data-id=competpd]`).on('click', (el) => {
+          let pd_url = encodeURL($(el.target).data('pd'))
+            window.location.hash = "/sport/"+ ID + "//" + encodeURL($(el.target).data('pd'));
+            $('.main-search-container').removeClass('active');
+            $('.main-search-container').addClass('not-active');
+        });
 
         $('.search-scroll-item').on('click', (el) => {
           $('.search-scroll').children('.choosen').removeClass('choosen');
@@ -261,6 +306,38 @@ exports('search', (params, done) => {
             console.log(sport_id);
             renderResult(sport_id);
           }
+        });
+
+        function eSetClicked(el) {
+          $(el.target).removeClass('t-not-clicked');
+          $(el.target).addClass('t-clicked');
+          $(el.target).prop("onclick", null).off("click");
+
+          let marketDIV = $(el.target).parent().children('.t-market-group');
+          marketDIV.removeClass('not-active');
+          marketDIV.addClass('active');
+
+          $(el.target).on('click', (item) => {
+            eSetNotClicked(item);
+          });
+        }
+
+        function eSetNotClicked(el) {
+          $(el.target).removeClass('t-clicked');
+          $(el.target).addClass('t-not-clicked');
+          $(el.target).prop("onclick", null).off("click");
+
+          let marketDIV = $(el.target).parent().children('.t-market-group');
+          marketDIV.removeClass('active');
+          marketDIV.addClass('not-active');
+
+          $(el.target).on('click', (item) => {
+            eSetClicked(item);
+          });
+        }
+
+        $('.s-ev-link p.t-clicked').on('click', (el) => {
+          eSetNotClicked(el);
         });
         console.log('promise then done');
       });
