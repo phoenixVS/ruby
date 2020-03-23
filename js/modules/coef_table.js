@@ -27,28 +27,28 @@ exports('coef_table', (params, done) => {
       let str = name;
       let team1 = gameName.split(' v ')[0] || gameName.split(' vs ')[0] || gameName.split(' @ ')[0],
         team2 = gameName.split(' v ')[1] || gameName.split(' vs ')[1] || gameName.split(' @ ')[1];
-      console.table([['team1', team1], ['team2', team2]]);
+      // console.table([['team1', team1], ['team2', team2]]);
       if (str.includes(team1) || str.includes(team2)) {
         let info = '';
         info = str.replace(str.includes(team1) ? str = team1 : str = team2, '');
         str.includes(team1) ? str = team1 : str = team2;
         if (screen.width < 350) {
-          str = str.slice(0, 12);
-          if (name.length > 12) {
+          str = str.slice(0, 9);
+          if (name.length > 9) {
             str += '...';
           }
           return str + info;
         }
         else {
           if (screen.width > 350 && screen.width < 450) {
-            str = str.slice(0, 16);
-            if (name.length > 16) {
+            str = str.slice(0, 12);
+            if (name.length > 12) {
               str += '...';
             }
             return str + info;
           } else {
-            str = str.slice(0, 22);
-            if (name.length > 22) {
+            str = str.slice(0, 18);
+            if (name.length > 18) {
               str += '...';
             }
             return str + info;
@@ -57,14 +57,14 @@ exports('coef_table', (params, done) => {
       }
       else {
         if (screen.width < 350) {
-          str = str.slice(0, 12);
-          if (name.length > 12) {
+          str = str.slice(0, 11);
+          if (name.length > 11) {
             str += '...';
           }
           return str;
         } else if (screen.width > 350 && screen.width < 450) {
-          str = str.slice(0, 16);
-          if (name.length > 16) {
+          str = str.slice(0, 14);
+          if (name.length > 14) {
             str += '...';
           }
           return str;
@@ -167,13 +167,22 @@ exports('coef_table', (params, done) => {
                           </div>`).hide();
                         cur.after(new_item);
                         if (ma.CO.length > 1) {
+                          let maxColLength = 0;
+                          for (item of ma.CO) {
+                            console.log(item, 'length', item.PA.length);
+                            if (item.PA.length > maxColLength) {
+                              maxColLength = item.PA.length;
+                            }
+                          }
                           ma.CO.map(co => {
                             const div = document.createElement('div');
                             div.className = 'bets_column';
                             div.appendChild(titleTemplateForBets(co));
-                            co.PA.map(pa => {
+                            console.log(`maxCol`, maxColLength);
+                            for (let i = 0; i < maxColLength; i++) {
+                              let pa = typeof co.PA[i] == 'undefined' ? undefined : co.PA[i];
                               div.appendChild(forEventDataColumnTemplate(pa, co.SY, data[0].NA, ma.NA, data[0].CL));
-                            });
+                            }
                             new_item.append(div)
                           });
                         }
@@ -230,13 +239,22 @@ exports('coef_table', (params, done) => {
                       </div>`).hide();
                           cur.after(new_item);
                           if (ma.CO.length > 1) {
+                            let maxColLength = 0;
+                            for (item of ma.CO) {
+                              console.log(item, 'length', item.PA.length);
+                              if (item.PA.length > maxColLength) {
+                                maxColLength = item.PA.length;
+                              }
+                            }
                             ma.CO.map(co => {
                               const div = document.createElement('div');
                               div.className = 'bets_column';
                               div.appendChild(titleTemplateForBets(co));
-                              co.PA.map(pa => {
+                              console.log(`maxCol`, maxColLength);
+                              for (let i = 0; i < maxColLength; i++) {
+                                let pa = typeof co.PA[i] == 'undefined' ? undefined : co.PA[i];
                                 div.appendChild(forEventDataColumnTemplate(pa, co.SY, data[0].NA, ma.NA, data[0].CL));
-                              });
+                              }
                               new_item.append(div)
                             });
                           }
@@ -338,7 +356,23 @@ exports('coef_table', (params, done) => {
     };
     // Render column for bet coef_row
     forEventDataColumnTemplate = (pa, SY, eventNA, marketNA, sport) => {
-      const { NA, SU, IT, OD } = pa;
+      console.log(pa);
+      let NA, SU, IT, OD;
+      if (typeof pa !== 'undefined') {
+        NA = pa.NA;
+        SU = pa.SU;
+        IT = pa.IT;
+        OD = pa.OD;
+      }
+      else {
+        let NA = '';
+        let SU = '';
+        let IT = '';
+        let OD = '';
+      }
+      // if (typeof SU == 'undefined') {
+      //   SU = '';
+      // }
       const SU2 = (SU == 1) ? 'disabled' : '';
       const div = document.createElement('div');
 
@@ -361,12 +395,21 @@ exports('coef_table', (params, done) => {
         }
       };
       div.className = `maTable__cell`;
-      div.innerHTML = `
-      <button class="button coefficient ${SU2}" data-it="${IT}" data-eventNA="${eventNA}" data-cl="${sport}" data-marketNA="${marketNA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}">
-        <p class="font ellipsis mra"> ${shortize(NA ? NA : '', NA)}</p>
-        ${bet()}
-      </button >
-        `
+
+      if (typeof pa == 'undefined') {
+        div.innerHTML = `
+        <button class="button coefficient disabled">
+          <p class="font ellipsis mra"></p>
+        </button>`
+      }
+      else {
+        div.innerHTML = `
+        <button class="button coefficient ${SU2}" data-it="${IT}" data-eventNA="${eventNA}" data-cl="${sport}" data-marketNA="${marketNA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}">
+          <p class="font ellipsis mra"> ${shortize(NA ? NA : '', NA)}</p>
+          ${bet()}
+        </button >
+          `
+      }
       return div
     };
     done();

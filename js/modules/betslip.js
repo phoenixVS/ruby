@@ -81,7 +81,7 @@ exports('betslip', (params, done) => {
 
   function loadBetslip(url, callback) {
     if (url.includes('refreshslip') || true) {
-      let response = JSON.parse(`{"bg":"","sr":0,"mr":false,"ir":true,"vr":"34","cs":1,"st":1,"bt":[{"cl":1,"sa":"5e749a7d-3744B120","tp":"BS87542537-682184589","mt":2,"mr":false,"bt":1,"pf":"N","od":"1/150","fi":87542537,"fd":"Hantharwady United U19 v Mawyawadi FC U19","pt":[{"pi":682184589,"bd":"Hantharwady United U19","md":"Fulltime Result"}],"sr":0},{"cl":1,"sa":"5e749a7d-BC3A4A33","tp":"BS87542538-682184849","mt":2,"mr":false,"bt":1,"pf":"N","od":"25/1","fi":87542538,"fd":"Kachin United FC U19 v Rakhine United U19","pt":[{"pi":682184849,"bd":"Kachin United FC U19","md":"Fulltime Result"}],"sr":0},{"cl":1,"sa":"5e749a7f-E0E02E53","tp":"BS87542539-682185113","mt":2,"mr":false,"bt":1,"pf":"N","od":"8/13","fi":87542539,"fd":"Myawady FC U19 v Ayeyawady Utd U19","pt":[{"pi":682185113,"bd":"Myawady FC U19","md":"Fulltime Result"}],"sr":0}],"dm":{"bt":3,"od":"41.28/1","bd":"Trebles","bc":1,"ea":false,"cb":false},"mo":[{"bt":-1,"bd":"","bc":3,"ea":false,"cb":false},{"bt":2,"od":"","bd":"Doubles","bc":3,"ea":false,"cb":false},{"bt":14,"od":"","bd":"Trixie","bc":4,"ea":false,"cb":false}],"bs":[1,2]}`);
+      let response = JSON.parse(`{"bg":"8de704e2-3a86-4385-87c5-59b7edea127d","sr":14,"mr":false,"ir":true,"vr":"35","cs":1,"st":1,"mi":"selections_changed","mv":"","bt":[{"cl":1,"sa":"5e75f965-CD4145E6","tp":"BS87573810-683588356","oc":true,"mt":2,"mr":false,"bt":1,"pf":"N","od":"4/11","fi":87573810,"fd":"FC Vitebsk v FK Gorodeya","pt":[{"pi":683588356,"bd":"FC Vitebsk","md":"Fulltime Result"}],"sr":14},{"cl":1,"sa":"5e75f963-9557A3CC","tp":"BS87573840-683591101","mt":2,"mr":false,"bt":1,"pf":"N","od":"11/10","fi":87573840,"fd":"Bujumbura City v Kayanza Utd","pt":[{"pi":683591101,"bd":"Bujumbura City","md":"Fulltime Result"}],"sr":0},{"cl":1,"sa":"5e75f96a-5896A733","tp":"BS87574329-683622557","mt":2,"mr":false,"bt":1,"pf":"N","od":"1/20","fi":87574329,"fd":"Katrineholm v Halleforsnas IF","pt":[{"pi":683622557,"bd":"Katrineholm","md":"Fulltime Result"}],"sr":0}],"dm":{"bt":3,"od":"2/1","bd":"Trebles","bc":1,"ea":false,"cb":false},"mo":[{"bt":-1,"bd":"","bc":3,"ea":false,"cb":false},{"bt":2,"od":"","bd":"Doubles","bc":3,"ea":false,"cb":false},{"bt":14,"od":"","bd":"Trixie","bc":4,"ea":false,"cb":false}],"bs":[1,2]}`);
       callback(response, true);
     }
     else {
@@ -194,7 +194,6 @@ exports('betslip', (params, done) => {
         }, () => {
           $('.betSlipyCountText').text(betsCounter());
           for (bet of response.bt) {
-            // let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU }
             appendBet({
               'eventID': bet.pt[0].pi,
               'eventNA': bet.fd,
@@ -208,7 +207,8 @@ exports('betslip', (params, done) => {
               'NA': bet.fd,
               'OD': bet.od,
               'OR': 'OR',
-              'SU': bet.su
+              'SU': bet.su,
+              'OC': bet.oc
             });
           }
           let dm = response.dm;
@@ -221,12 +221,12 @@ exports('betslip', (params, done) => {
 
           // append odds
           function appendBet(item) {
-            let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU } = item;
+            let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU, OC } = item;
             if ($('.single-section.standardBet').children('ul').length == 0) {
               $('.single-section.standardBet').append(`<ul></ul>`);
             }
             $('.single-section.standardBet').children('ul').append(`
-            <li class= "hasodds" data-event="${eventID}" data-BS="${BS}" data-FI="${FI}" data-HA="${HA}" data-HD="${HD}" data-ID="${ID}" data-IT="${IT}" data-NA="${NA}" data-OD="${OD}" data-OR="${OR}" data-SU="${SU}" >
+            <li class= "hasodds${OC == true ? ' oddsChange' : ''}" data-event="${eventID}" data-BS="${BS}" data-FI="${FI}" data-HA="${HA}" data-HD="${HD}" data-ID="${ID}" data-IT="${IT}" data-NA="${NA}" data-OD="${OD}" data-OR="${OR}" data-SU="${SU}" >
               <div class="bs-ItemOverlay" ></div > <div class="selectionRow">
                 <div class="restrictedMultiple"></div>
                 <div class="removeColumn"><span class="close remove-bet"></span></div>
@@ -307,7 +307,13 @@ exports('betslip', (params, done) => {
     betslipRender.then((response) => {
       bsLink.slideUp('fast');
       betslip.slideDown('fast');
-
+      $('.betSlipyLogin').replaceWith(`
+        <div id="BetSlipBalance">
+          <div class="balanceText">Balance</div>
+          <div class="balance">
+          ${window.conf.CUSTOMER_CONFIG.CURRENCY_SYMBOL}${floatToCurrency(2525252525.25)}
+          </div>
+        </div>`);
       // preloader done
       let cln = document.querySelector('.preloader.inBetslip');
       cln.classList.add('done');
@@ -766,7 +772,6 @@ exports('betslip', (params, done) => {
             }
           }
 
-          // For Cookies
           curST = document.querySelector('input.stk.focus').value;
           curUST = curST;
 
@@ -782,38 +787,7 @@ exports('betslip', (params, done) => {
             tr = tr.toFixed(2);
             $('.stk.focus').siblings('.stakeToReturn').children('.stakeToReturn_Value').data(`tr`, tr).attr('data-tr', tr);
             $('.stk.focus').siblings('.bs-StandardMultipleStake_ToReturn').children('.bs-StandardMultipleStake_ToReturnValue').data(`tr`, tr).attr('data-tr', tr);
-            trStr = tr.toString();
-
-            if (typeof trStr.split('.')[1] == 'undefined') {
-              trStr += `${window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR}00`;
-            }
-            else {
-              if (trStr.split('.')[1].length == 1) {
-                trStr += '0';
-                trStr = trStr.replace('.', window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR);
-              }
-              else {
-                trStr = trStr.replace('.', window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR);
-              }
-            }
-            // Add currency group and decimal separators from the user's config
-            let lg = trStr.length;
-            let count = 0;
-            for (let i = 0; i < lg && lg > 6; i++) {
-              count++;
-              let item = trStr.charAt(i);
-              if (item == window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR) {
-                break;
-              }
-              if (count == 3) {
-                count = 0;
-                trStr = trStr.slice(0, -(i - 1) - 5) + window.conf.CUSTOMER_CONFIG.CURRENCY_GROUP_SEPARATOR + trStr.slice(-(i - 1) - 5, trStr.length);
-                i++;
-              }
-              if (trStr.charAt(0) == window.conf.CUSTOMER_CONFIG.CURRENCY_GROUP_SEPARATOR) {
-                trStr = trStr.slice(1);
-              }
-            }
+            trStr = floatToCurrency(tr);
 
             if (cur.is('#mltsngstk')) {
               $('li.hasodds input.stk').siblings('.stakeToReturn').children('.stakeToReturn_Value').data(`tr`, tr).attr('data-tr', tr);
@@ -993,36 +967,7 @@ exports('betslip', (params, done) => {
             }
           });
 
-          let sumStr = sum.toString();
-          if (typeof sumStr.split('.')[1] === 'undefined') {
-            sumStr += '.00';
-          }
-          else {
-            if (String(sum).split('.')[1].length < 2) {
-              sumStr += '0';
-            }
-            else {
-              sumStr;
-            }
-          }
-          // Add currency group and decimal separators from the user's config (for total)
-          let lg = sumStr.length;
-          let count = 0;
-          for (let i = 0; i < lg && lg > 6; i++) {
-            count++;
-            let item = sumStr.charAt(i);
-            if (item == window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR) {
-              break;
-            }
-            if (count == 3) {
-              count = 0;
-              sumStr = sumStr.slice(0, -(i - 1) - 5) + window.conf.CUSTOMER_CONFIG.CURRENCY_GROUP_SEPARATOR + sumStr.slice(-(i - 1) - 5, trStr.length);
-              i++;
-            }
-            if (sumStr.charAt(0) == window.conf.CUSTOMER_CONFIG.CURRENCY_GROUP_SEPARATOR) {
-              sumStr = sumStr.slice(1);
-            }
-          }
+          let sumStr = floatToCurrency(sum);
 
           total.html(window.conf.CUSTOMER_CONFIG.CURRENCY_SYMBOL + sumStr);
         });
@@ -1237,3 +1182,38 @@ exports('betslip', (params, done) => {
     }
   }
 });
+// String money value from float number
+function floatToCurrency(number) {
+  trStr = number.toString();
+  if (typeof trStr.split('.')[1] == 'undefined') {
+    trStr += `${window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR}00`;
+  }
+  else {
+    if (trStr.split('.')[1].length == 1) {
+      trStr += '0';
+      trStr = trStr.replace('.', window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR);
+    }
+    else {
+      trStr = trStr.replace('.', window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR);
+    }
+  }
+  // Add currency group and decimal separators from the user's config
+  let lg = trStr.length;
+  let count = 0;
+  for (let i = 0; i < lg && lg > 6; i++) {
+    count++;
+    let item = trStr.charAt(i);
+    if (item == window.conf.CUSTOMER_CONFIG.CURRENCY_DECIMAL_SEPARATOR) {
+      break;
+    }
+    if (count == 3) {
+      count = 0;
+      trStr = trStr.slice(0, -(i - 1) - 5) + window.conf.CUSTOMER_CONFIG.CURRENCY_GROUP_SEPARATOR + trStr.slice(-(i - 1) - 5, trStr.length);
+      i++;
+    }
+    if (trStr.charAt(0) == window.conf.CUSTOMER_CONFIG.CURRENCY_GROUP_SEPARATOR) {
+      trStr = trStr.slice(1);
+    }
+  }
+  return trStr;
+}
