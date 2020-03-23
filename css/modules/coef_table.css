@@ -1,3 +1,12 @@
+.coeficient-table {
+  overflow-x: hidden;
+}
+.bets_title {
+  white-space: nowrap;
+}
+.button.coefficient span {
+  white-space: nowrap;
+}
 div.row.info.det:before {
   cursor: pointer;
   content: '\f107';

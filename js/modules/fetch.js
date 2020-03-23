@@ -1,4 +1,5 @@
 exports('fetch', (params, done) => {
+  console.log(`fetching...`);
   insertHtmlModules({}, () => {
 
     let urlInplay = 'http://bestline.bet/api/?key=inplay',
@@ -18,7 +19,6 @@ exports('fetch', (params, done) => {
       httpGet(url, 'bets');
     };
 
-    console.log(`fetch here!`);
     // Fetch API request
     function httpGet(url, name) {
       fetch(url)

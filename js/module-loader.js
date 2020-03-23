@@ -23,42 +23,49 @@ function insertHtmlModules(srcs, onLoad) {
 };
 
 async function loadJsModules(config) {
-	// $(() => {
 	const keys = Object.keys(config);
-	let loaded = keys.length;
-	console.log('loaded', loaded);
+	const asyncs = [];
+	for (let i = 0; i < keys.length; i++) {
+		asyncs.push(processKey(i));
+	}
 
-	(function processKey(index) {
-		if (index === keys.length) return;
+	console.log(asyncs);
+	const modulesLoaded = await Promise.all(asyncs);
 
+	// load js module
+	async function processKey(index) {
 		const moduleName = keys[index];
 		const moduleParams = config[keys[index]];
-
-		imports("js/modules/" + moduleName + ".js", moduleParams.async, load => {
-			load(moduleParams, () => {
-				processKey(index + 1);
-				loaded--;
-			});
-		})
-
-		// Loading css dynamically
+		// load css if it's needed
 		if (moduleParams.loadCSS) {
-			let fileref = document.createElement("link");
-			let filename = `./css/modules/${moduleName}.css`;
-			if (document.querySelector(`[href=${CSS.escape(filename)}]`)) { }
-			else {
-				fileref.setAttribute("rel", "stylesheet");
-				fileref.setAttribute("type", "text/css");
-				fileref.setAttribute("href", filename);
-				if (typeof fileref != "undefined") {
-					document.getElementsByTagName("head")[0].appendChild(fileref);
-				}
-			}
+			loadCSS(moduleParams, moduleName);
 		}
-	})(0);
-	// });
+		imports("js/modules/" + moduleName + ".js", load => {
+			load(moduleParams, () => {
+				return Promise.resolve('imported');
+			});
+		});
+	}
+
+	return Promise.resolve(modulesLoaded);
 }
 
+// Loading css dynamically
+function loadCSS(moduleParams, moduleName) {
+	let fileref = document.createElement("link");
+	let filename = `./css/modules/${moduleName}.css`;
+	if (document.querySelector(`[href=${CSS.escape(filename)}]`)) { }
+	else {
+		fileref.setAttribute("rel", "stylesheet");
+		fileref.setAttribute("type", "text/css");
+		fileref.setAttribute("href", filename);
+		if (typeof fileref != "undefined") {
+			document.getElementsByTagName("head")[0].appendChild(fileref);
+		}
+	}
+}
+
+// Loading js libs
 function loadJsLibs(config) {
 	$(() => {
 		const keys = Object.keys(config);

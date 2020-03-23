@@ -1,5 +1,5 @@
 exports('config', (params, done) => {
-
+  console.log(`config loading...`);
   window.conf = {
     "SITE_CONFIG": {
       "SERVER_TIME": 1584018708,
@@ -18,7 +18,7 @@ exports('config', (params, done) => {
       "TAX_CONFIGURATION": ""
     },
     "CUSTOMER_CONFIG": {
-      "USER_NAME": "username@gmail.com",
+      "USER_NAME": "username",
       "LOGGED_IN": true,
       "CURRENCY_CODE": "USD",
       "USER_OFFER_STATUS": 1,

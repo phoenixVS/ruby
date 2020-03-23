@@ -6,12 +6,9 @@ function exports(name, data) {
     }
 }
 
-function imports(src, async = true, onLoad) {
+function imports(src, onLoad) {
     var name = src.split('/').slice(-1)[0].slice(0, -3),
         scr = document.createElement("script");
-
-    scr.async = async;
-
     scr.src = src;
     scr.onload = () => {
         if (modules[name] === src) {

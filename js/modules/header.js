@@ -61,7 +61,7 @@ exports('header', (params, done) => {
                 setBtnClicked();
             }
             else {
-                console.log('User is not logged');
+                console.log('User is not logged in!');
                 loadJsModules({
                     login: { loadCSS: true, loadLanguage: false },
                 });
