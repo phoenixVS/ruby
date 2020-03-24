@@ -144,6 +144,10 @@ exports('prematch_coupon', (params, done) => {
           }
         });
         $('.prematch-table-filter .item:first-child').addClass('selected');
+        console.log(mg_idx);
+        if ($('.prematch-table-filter .item:first-child').text() == 'undefined') {
+          $('.prematch-table-filter').css('display', 'none');
+        }
         if ($('.prematch-table-filter .item').length == 0) {
           $('.prematch-table-filter').css('display', 'none');
         }

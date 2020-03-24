@@ -237,14 +237,24 @@
   color:#fff;
 }
 .sport-name {
+  display: inline-block;
   padding-left: 15px;
   color: #ddd;
+  text-overflow: ellipsis; 
+  display: inline-block; 
+  overflow: hidden; 
+  white-space: nowrap;
 }
 .prematch-title span {
   font-size: 1rem;
   color: #ddd;
 }
 .prematch-title span:last-child {
+  text-overflow: ellipsis; 
+  display: inline-block; 
+  overflow: hidden; 
+  white-space: nowrap;
+  max-width: 60%;
   border-bottom: 1px solid #fff;
   color: #fff;
 }
