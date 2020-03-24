@@ -239,27 +239,28 @@ exports('aside', (params, done) => {
       let listHeight = $(`[data-id=aside-ul]`).innerHeight();
       let elemHeight = $myLi.height();
       let elemTop = $myLi.position().top;
-      let moveUp = listHeight - (listHeight - elemTop);
       let moveDown = elemHeight;
+      let moveUp = (listHeight - elemTop - moveDown);
       let liId = $myLi.attr("id");
       let enough = false;
       let liHtml = $myLi.outerHTML();
 
-      $(`[data-id=liel]`).each((index, el) => {
+      $($(`[data-id=liel]`).get().reverse()).each((index, el) => {
         console.log(liId);
         console.log($(el).attr('id'));
         if ($(el).attr('id') == liId) {
           return false;
         } else {
-          $(el).animate({ "top": '+=' + moveDown }, 380);
+          $(el).animate({ "top": '-=' + moveDown }, 380);
         }
       });
 
-      $myLi.animate({ "top": '-=' + moveUp }, 380, function () {
+      $myLi.animate({ "top": '+=' + moveUp }, 380, function () {
         $myLi.remove();
         let oldHtml = $(`[data-id=aside-ul]`).html();
-        $(`[data-id=aside-ul]`).html(liHtml + oldHtml);
+        $(`[data-id=aside-ul]`).html(oldHtml + liHtml);
         $(`[data-id=liel]`).attr("style", "position: relative; top: 0; left: 0;");
+
         $(`[data-id=fav-star]`).on('click', (el) => {
 
           if ($(el.target).data('clicked') == 'on') {
@@ -292,14 +293,20 @@ exports('aside', (params, done) => {
       <div class="[ tab-header border ] flex-container align-middle align-justify">
         <a data-id="aside-live" class="[ tab-link ]">In-play</a>
         <a data-id="aside-all" class="[ tab-link active ]">Sport</a>
-      </div><ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
-        $(`[data-id=aside-ul]`).append(`
+      </div>
+      <div data-div="home" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+      <span class="sports--1" style="margin-left: 5px; "></span>
+      <span class="font sport-name" style = "margin-left: 10px;">Home</span>
+      <span data-id="home" style="position: absolute; left: 79%;"></span>
+      </div>
+      <ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
+        /*$(`[data-id=aside-ul]`).append(`
       <li id="0" data-id="liel" data-div="home" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
       <span class="sports--1" style="margin-left: 5px; "></span>
       <span class="font sport-name" style = "margin-left: 10px;">Home</span>
       <span data-id="home" style="position: absolute; left: 79%;"></span>
       </li>
-      `);
+      `);*/
         let cks = getAllStorage();
         let fav_arr = [];
         for (let i = 0; i < cks.length; i++) {
