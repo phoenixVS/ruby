@@ -124,11 +124,58 @@ exports('user_menu', (params, done) => {
                 </select>
               </div>
           </div>
-        </div>`).prependTo($(`[data-id=user-menu]`)).slideDown("fast");
+        </div>
+        `).prependTo($(`[data-id=user-menu]`)).slideDown("fast");
         console.log('Rendering');
         resolve();
       });
       renderPromise.then(() => {
+        let rect = document.querySelector(`[data-id="login-button"]`).getBoundingClientRect();
+        let selfRect = document.querySelector(`.user-menu`).getBoundingClientRect();
+        console.log(`bot`, selfRect.bottom);
+        console.log(`top`, selfRect.top);
+        let a = 0;
+        if (selfRect.top > 30) {
+          a = 60
+        }
+        if (document.querySelector('.slider').style.display != 'none') {
+          document.querySelector(`.menu-wrapper`).style.top = '-43px';
+        }
+        else {
+          document.querySelector(`.menu-wrapper`).style.top = '2px';
+        }
+        let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
+        if (orientation === "landscape-primary") {
+          console.log("That looks good.");
+          $('.user-menu').css('max-height', '270px');
+        } else if (orientation === "landscape-secondary") {
+          $('.user-menu').css('max-height', '270px');
+          console.log("Mmmh... the screen is upside down!");
+        } else if (orientation === "portrait-secondary" || orientation === "portrait-primary") {
+          $('.user-menu').css('max-height', '500px');
+          console.log("Mmmh... you should rotate your device to landscape");
+        } else if (orientation === undefined) {
+          $('.user-menu').css('max-height', '500px');
+          console.log("The orientation API isn't supported in this browser :(");
+        }
+        window.addEventListener("orientationchange", function () {
+          let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
+          if (orientation === "landscape-primary") {
+            console.log("That looks good.");
+            $('.user-menu').css('max-height', '270px');
+          } else if (orientation === "landscape-secondary") {
+            $('.user-menu').css('max-height', '270px');
+            console.log("Mmmh... the screen is upside down!");
+          } else if (orientation === "portrait-secondary" || orientation === "portrait-primary") {
+            $('.user-menu').css('max-height', '500px');
+            console.log("Mmmh... you should rotate your device to landscape");
+          } else if (orientation === undefined) {
+            $('.user-menu').css('max-height', '500px');
+            console.log("The orientation API isn't supported in this browser :(");
+          }
+        });
+        // $('.user-menu').css('top', `${rect.bottom - a}px`);
+        // $('.menu-wrapper').css('top', `${rect.bottom - a}px`);
         $(`.prefferences-tab-button`).on('click', (ev) => {
           // switch menu button
           $('.prefferences-tab-button').toggleClass('to-settings').toggleClass('to-menu');

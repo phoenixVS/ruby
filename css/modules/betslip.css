@@ -1339,6 +1339,11 @@ ul li.multipleBets ul.closed li:not(.mbHeader):not(.bs-MultipleBets_HighestAccum
   max-height: 75vh;
   overflow-y: auto;
 }
+@media (orientation: landscape) {
+  .betslipContent {
+    max-height: 60vh;
+  }
+}
 .stk.focus {
   color: rgba(67, 42, 56, 1)!important;
   border-bottom: 2px solid #888!important;

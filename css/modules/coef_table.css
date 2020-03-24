@@ -1,6 +1,11 @@
 .coeficient-table {
   overflow-x: hidden;
 }
+span.font.m-white {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .bets_title {
   white-space: nowrap;
 }

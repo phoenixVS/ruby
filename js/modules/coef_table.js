@@ -178,7 +178,6 @@ exports('coef_table', (params, done) => {
                             const div = document.createElement('div');
                             div.className = 'bets_column';
                             div.appendChild(titleTemplateForBets(co));
-                            console.log(`maxCol`, maxColLength);
                             for (let i = 0; i < maxColLength; i++) {
                               let pa = typeof co.PA[i] == 'undefined' ? undefined : co.PA[i];
                               div.appendChild(forEventDataColumnTemplate(pa, co.SY, data[0].NA, ma.NA, data[0].CL));
@@ -189,12 +188,12 @@ exports('coef_table', (params, done) => {
                         else {
                           ma.CO[0].PA.forEach((pa) => {
                             $(`[data-bet=${ma.ID}]`).append(`
-                          <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
-                          <button style="padding-left: 10px;" class="button coefficient" data-eventNA="${data[0].NA}" data-cl="${data[0].CL}" data-marketNA="${ma.NA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}" class="button coefficient" >
-                            <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${shortize(pa.N2 ? pa.N2 : pa.NA, data[0].NA)}</span>
-                            <span class="font coeff">${pa.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(pa.OD)}</span>
-                          </button>
-                        </div>`);
+                          <div style="margin: auto;flex: 1 1 ${ma.ID == '1778' ? '100%' : 'auto'};margin-left: 1px;" class="cell">
+                            <button style="padding-left: 10px;" class="button coefficient" data-eventNA="${data[0].NA}" data-cl="${data[0].CL}" data-marketNA="${ma.NA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}" class="button coefficient" >
+                              <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${(pa.N2 ? pa.N2 : pa.NA)}</span>
+                              <span class="font coeff">${pa.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(pa.OD)}</span>
+                            </button>
+                          </div>`);
                           });
                           if (ma.CO[0].CN < ma.CO[0].PA.length) {
                             $(`[data-bet=${ma.ID}]`).children('.cell').addClass('half-w');
@@ -250,7 +249,6 @@ exports('coef_table', (params, done) => {
                               const div = document.createElement('div');
                               div.className = 'bets_column';
                               div.appendChild(titleTemplateForBets(co));
-                              console.log(`maxCol`, maxColLength);
                               for (let i = 0; i < maxColLength; i++) {
                                 let pa = typeof co.PA[i] == 'undefined' ? undefined : co.PA[i];
                                 div.appendChild(forEventDataColumnTemplate(pa, co.SY, data[0].NA, ma.NA, data[0].CL));
@@ -261,12 +259,12 @@ exports('coef_table', (params, done) => {
                           else {
                             ma.CO[0].PA.forEach((pa) => {
                               $(`[data-bet=${ma.ID}]`).append(`
-                          <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
-                          <button style="padding-left: 10px;" class="button coefficient" data-eventNA="${data[0].NA}" data-cl="${data[0].CL}" data-marketNA="${ma.NA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}" class="button coefficient" >
-                            <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${shortize(pa.N2 ? pa.N2 : pa.NA, data[0].NA)}</span>
-                            <span class="font coeff">${pa.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(pa.OD)}</span>
-                          </button>
-                        </div>`);
+                          <div style="margin: auto;flex: 1 1 ${ma.ID == '1778' ? '100%' : 'auto'};margin-left: 1px;" class="cell">
+                            <button style="padding-left: 10px;" class="button coefficient" data-eventNA="${data[0].NA}" data-cl="${data[0].CL}" data-marketNA="${ma.NA}" data-BS="${pa.BS}" data-FI="${pa.FI}" data-HA="${pa.HA}" data-HD="${pa.HD}" data-ID="${pa.ID}" data-IT="${pa.IT}" data-NA="${pa.NA}" data-OD="${pa.OD}" data-OR="${pa.OR}" data-SU="${pa.SU}" class="button coefficient" >
+                              <span data-id="bet_name_${cur.data('coefId')}" class="font m-white">${(pa.N2 ? pa.N2 : pa.NA)}</span>
+                              <span class="font coeff">${pa.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : modifyBets(pa.OD)}</span>
+                            </button>
+                          </div>`);
                             });
                             if (ma.CO[0].CN < ma.CO[0].PA.length) {
                               $(`[data-bet=${ma.ID}]`).children('.cell').addClass('half-w');
@@ -356,7 +354,6 @@ exports('coef_table', (params, done) => {
     };
     // Render column for bet coef_row
     forEventDataColumnTemplate = (pa, SY, eventNA, marketNA, sport) => {
-      console.log(pa);
       let NA, SU, IT, OD;
       if (typeof pa !== 'undefined') {
         NA = pa.NA;

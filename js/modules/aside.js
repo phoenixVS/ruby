@@ -370,7 +370,7 @@ exports('aside', (params, done) => {
                   <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
                   <span class="sports-${ID}" style="margin-left: 5px; "></span>
                   <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
-                  <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>'
+                  <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
                   </li>
                   `);
                 } else {
