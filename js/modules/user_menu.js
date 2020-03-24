@@ -139,10 +139,10 @@ exports('user_menu', (params, done) => {
           a = 60
         }
         if (document.querySelector('.slider').style.display != 'none') {
-          document.querySelector(`.menu-wrapper`).style.top = '-43px';
+          document.querySelector(`.menu-wrapper`).style.top = '-50px';
         }
         else {
-          document.querySelector(`.menu-wrapper`).style.top = '2px';
+          document.querySelector(`.menu-wrapper`).style.top = '-32px';
         }
         let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
         if (orientation === "landscape-primary") {
