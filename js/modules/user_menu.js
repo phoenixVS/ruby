@@ -5,129 +5,10 @@ exports('user_menu', (params, done) => {
       let renderPromise = new Promise((resolve, reject) => {
         $('.menu-wrapper').show();
         $('.menu-wrapper').empty();
-        $(`
-          <div class="[ user-menu ]">
-          <div class="[ user-menu-wrapper ]">
-            <div class="[ prefferences-tab-button to-settings ]"></div>
-            <div class="[ user-menu-img ]"></div>
-            <p class="[ user-menu-name ] text-center">Ivan Ivanov</p>
-            <p class="[ user-menu-email ] text-center">${window.conf.CUSTOMER_CONFIG.USER_NAME}</p>
-            <hr class="[ user-menu-separate ]">
-            <p class="font [ user-menu-text ]">Game score:</p>
-            <p class="font text-uppercase [ user-menu-big primary ]">1707101</p>
-            <p class="font [ user-menu-text ]">Balance on the account:</p>
-            <p class="font text-uppercase [ user-menu-big second ]">1.50 UAH</p>
-            <p class="font [ user-menu-text ]">Unsettled bets:</p>
-            <p class="font text-uppercase [ user-menu-big primary ]">0.00 UAH</p>
-          </div>
-          <div class="[ user-menu-links ]">
-            <a data-id="accountHistory" href="#" class="[ user-menu-link ] flex-container align-middle">
-              <p class="fa fa-money"></p>
-              <p class="font">Account history</p>
-            </a>
-            <a data-id="accountSettings" href="#" class="[ user-menu-link ] flex-container align-middle">
-              <p class="fa fa-cogs"></p>
-              <p class="font">Account settings</p>
-              <div class="[ user-menu-notification ]"></div>
-            </a>
-            <a data-id="depositWithdraw" href="#" class="[ user-menu-link ] flex-container align-middle">
-              <p class="fa fa-refresh"></p>
-              <p class="font">Deposit / Withdraw funds</p>
-            </a>
-            <a data-id="promoBonuses" href="#" class="[ user-menu-link ] flex-container align-middle">
-              <p class="fa fa-gift"></p>
-              <p class="font">Promotions and bonuses</p>
-            </a>
-            <a data-id="exitUser" href="#" class="[ user-menu-link ] flex-container align-middle">
-              <p class="fa fa-sign-out"></p>
-              <p class="font">Exit</p>
-            </a>
-          </div>
-          <div class="[ prefference-menu hidden ]">
-            <div class="[ prefference-menu__row ]">
-            Time Zone
-            </div>
-              <div class="[ prefference-menu__selectionWrapper ]">
-                <select class="selectionWrapper_list">
-                  "Time Zone"
-                  <option id="1">UK</option>
-                  <option id="2">ET</option>
-                  <option id="3">PT</option>
-                  <option id="4">CET</option>
-                  <option id="5">CT</option>
-                  <option id="6">MT</option>
-                  <option id="7">GMT-12</option>
-                  <option id="8">GMT-11</option>
-                  <option id="9">GMT-10</option>
-                  <option id="10">GMT-9</option>
-                  <option id="11">GMT-8</option>
-                  <option id="12">GMT-7</option>
-                  <option id="13">GMT-6</option>
-                  <option id="14">GMT-5</option>
-                  <option id="15">GMT-4</option>
-                  <option id="16">GMT-3</option>
-                  <option id="17">GMT-2</option>
-                  <option id="18">GMT-1</option>
-                  <option id="19">GMT</option>
-                  <option id="20">GMT+1</option>
-                  <option id="21" selected="selected">GMT+2</option>
-                  <option id="22">GMT+3</option>
-                  <option id="23">GMT+4</option>
-                  <option id="24">GMT+5</option>
-                  <option id="25">GMT+6</option>
-                  <option id="26">GMT+7</option>
-                  <option id="27">GMT+8</option>
-                  <option id="28">GMT+9</option>
-                  <option id="35">GMT+9.5</option>
-                  <option id="29">GMT+10</option>
-                  <option id="36">GMT+10.5</option>
-                  <option id="30">GMT+11</option>
-                  <option id="31">GMT+12</option>
-                  <option id="32">GMT+13</option>
-                  <option id="33">EET</option>
-                  <option id="34">POR</option>
-                </select>
-              </div>
-              <div class="[ prefference-menu__row ]">
-                Odds Display
-              </div>
-              <div class="[ prefference-menu__selectionWrapper ]">
-                <select data-select="odds" class="selectionWrapper_list">
-                  "Odds Display"
-                  <option value="1" id="1">Fractional</option>
-                  <option value="2" id="2">Decimal</option>
-                  <option value="3" id="3">American</option>
-                </select>
-              </div>
-              <div class="[ prefference-menu__row ]">
-                Max Inactivity Time
-              </div>
-              <div class="[ prefference-menu__selectionWrapper ]">
-                <select class="selectionWrapper_list">
-                "Max Inactivity Time"
-                  <option id="1">20 Minutes</option>
-                  <option id="2">1 Hour</option>
-                  <option id="3">2 Hour</option>
-                  <option id="4">3 Hour</option>
-                  <option id="5">6 Hour</option>
-                  <option id="6">12 Hour</option>
-                </select>
-              </div>
-              <div class="[ prefference-menu__row ]">
-                Betting Currency
-              </div>
-              <div class="[ prefference-menu__selectionWrapper ]">
-                <select class="selectionWrapper_list">
-                "Betting Currency"
-                <option id="1">USD</option>
-                <option id="2">EUR</option>
-                </select>
-              </div>
-          </div>
-        </div>
-        `).prependTo($(`[data-id=user-menu]`)).slideDown("fast");
-        console.log('Rendering');
-        resolve();
+        $(`[data-id=user-menu]`).empty().append($('<div>').load(`./html/modules/user/user-menu/user-menu.html`, () => {
+          $(`[data-id=user-menu]`).slideDown("fast");
+          resolve();
+        }));
       });
       renderPromise.then(() => {
         let rect = document.querySelector(`[data-id="login-button"]`).getBoundingClientRect();
@@ -142,38 +23,28 @@ exports('user_menu', (params, done) => {
           document.querySelector(`.menu-wrapper`).style.top = '-50px';
         }
         else {
-          document.querySelector(`.menu-wrapper`).style.top = '-32px';
+          document.querySelector(`.menu-wrapper`).style.top = '0';
         }
-        let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
-        if (orientation === "landscape-primary") {
-          console.log("That looks good.");
-          $('.user-menu').css('max-height', '270px');
-        } else if (orientation === "landscape-secondary") {
-          $('.user-menu').css('max-height', '270px');
-          console.log("Mmmh... the screen is upside down!");
-        } else if (orientation === "portrait-secondary" || orientation === "portrait-primary") {
-          $('.user-menu').css('max-height', '500px');
-          console.log("Mmmh... you should rotate your device to landscape");
-        } else if (orientation === undefined) {
-          $('.user-menu').css('max-height', '500px');
-          console.log("The orientation API isn't supported in this browser :(");
-        }
-        window.addEventListener("orientationchange", function () {
+        const orientationCalcHeight = (ev) => {
           let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
           if (orientation === "landscape-primary") {
+
             console.log("That looks good.");
-            $('.user-menu').css('max-height', '270px');
+            $('.user-menu').css('max-height', '70vh');
           } else if (orientation === "landscape-secondary") {
-            $('.user-menu').css('max-height', '270px');
+            $('.user-menu').css('max-height', '70vh');
             console.log("Mmmh... the screen is upside down!");
           } else if (orientation === "portrait-secondary" || orientation === "portrait-primary") {
-            $('.user-menu').css('max-height', '500px');
+            $('.user-menu').css('max-height', '77vh');
             console.log("Mmmh... you should rotate your device to landscape");
           } else if (orientation === undefined) {
-            $('.user-menu').css('max-height', '500px');
+            $('.user-menu').css('max-height', '77vh');
             console.log("The orientation API isn't supported in this browser :(");
           }
-        });
+          $('.user-menu-email').text(window.conf.CUSTOMER_CONFIG.USER_NAME);
+        }
+        orientationCalcHeight();
+        window.addEventListener("orientationchange", orientationCalcHeight);
         // $('.user-menu').css('top', `${rect.bottom - a}px`);
         // $('.menu-wrapper').css('top', `${rect.bottom - a}px`);
         $(`.prefferences-tab-button`).on('click', (ev) => {

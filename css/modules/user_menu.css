@@ -10,6 +10,7 @@
   top: 0;
   background-color: #391d2e;
 }
+
 /* .menu-wrapper::before {
     content: '\A';
     border-style: solid;
@@ -265,4 +266,39 @@ hr {
 }
 .UserMenu_Overlay.hidden {
   display: none;
+}
+
+@media (orientation: landscape) {
+  .user-menu {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+  .menu-wrapper {
+    min-width: 520px;
+    max-width: 520px;
+  }
+  .user-menu-wrapper {
+    order: 2;
+    min-width: 50%;
+    max-width: 50%;
+  }
+  .user-menu-links {
+    order: 1;
+    min-width: 50%;
+    max-width: 50%;
+    margin-top: 0;
+    border-right: 1px solid #33202B;
+  }
+  .prefference-menu {
+    order: 1;
+    min-width: 50%;
+    max-width: 50%;
+    border-right: 1px solid #33202B;
+    margin-top: 0;
+    border-top: 0px solid #33202B;
+  }
+  .prefference-menu__row {
+    margin-top: 0;
+  }
 }
