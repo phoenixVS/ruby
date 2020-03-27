@@ -38,6 +38,7 @@ exports('fetch', (params, done) => {
               if (name == 'bets') {
                 const tree = growTree(data, 'bets');
                 window.event = tree;
+                console.log(tree);
               }
               else {
                 throw new Error('Uncorrect handler name.');

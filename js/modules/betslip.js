@@ -80,7 +80,7 @@ exports('betslip', (params, done) => {
   }
 
   function loadBetslip(url, callback) {
-    if (url.includes('refreshslip') || true) {
+    if (url.includes('refreshslip') || false) {
       let response = JSON.parse(`{"bg":"8de704e2-3a86-4385-87c5-59b7edea127d","sr":14,"mr":false,"ir":true,"vr":"35","cs":1,"st":1,"mi":"selections_changed","mv":"","bt":[{"cl":1,"sa":"5e75f965-CD4145E6","tp":"BS87573810-683588356","oc":true,"mt":2,"mr":false,"bt":1,"pf":"N","od":"4/11","fi":87573810,"fd":"FC Vitebsk v FK Gorodeya","pt":[{"pi":683588356,"bd":"FC Vitebsk","md":"Fulltime Result"}],"sr":14},{"cl":1,"sa":"5e75f963-9557A3CC","tp":"BS87573840-683591101","mt":2,"mr":false,"bt":1,"pf":"N","od":"11/10","fi":87573840,"fd":"Bujumbura City v Kayanza Utd","pt":[{"pi":683591101,"bd":"Bujumbura City","md":"Fulltime Result"}],"sr":0},{"cl":1,"sa":"5e75f96a-5896A733","tp":"BS87574329-683622557","mt":2,"mr":false,"bt":1,"pf":"N","od":"1/20","fi":87574329,"fd":"Katrineholm v Halleforsnas IF","pt":[{"pi":683622557,"bd":"Katrineholm","md":"Fulltime Result"}],"sr":0}],"dm":{"bt":3,"od":"2/1","bd":"Trebles","bc":1,"ea":false,"cb":false},"mo":[{"bt":-1,"bd":"","bc":3,"ea":false,"cb":false},{"bt":2,"od":"","bd":"Doubles","bc":3,"ea":false,"cb":false},{"bt":14,"od":"","bd":"Trixie","bc":4,"ea":false,"cb":false}],"bs":[1,2]}`);
       callback(response, true);
     }

@@ -1,14 +1,17 @@
 .menu-wrapper {
-    position: absolute;
-    min-width: 260px;
-    max-width: 260px;
-    margin-right: 10px;
-    z-index: 11;
-    right: 0;
-    top: -43;
-    box-sizing: border-box;
+  /* position: absolute; */
+  z-index: 65;
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 65;
+  min-width: 260px;
+  max-width: 260px;
+  right: 0;
+  top: 0;
+  background-color: #391d2e;
 }
-.menu-wrapper::before {
+
+/* .menu-wrapper::before {
     content: '\A';
     border-style: solid;
     border-width: 0 15px 25px 15px;
@@ -16,18 +19,23 @@
     position: absolute;
     top: -20px;
     right: 0px;
-    z-index: 12;
+    z-index: 65;
+} */
+.connectedToLogin {
+  /* position: element(#loginButton); */
+  transform: translateY(-15%);
 }
 .user-menu {
-    background-color: #391d2e;
-    padding: 5px;
+  overflow-y: scroll;
+  padding: 5px;
 }
 .user-menu-wrapper {
     padding: 20px;
 }
 .user-menu-wrapper,
 .user-menu-links {
-    background-color: #5b2e49;
+  overflow: scroll;
+  background-color: #5b2e49;
 }
 .user-menu-links {
     margin-top: 2px;
@@ -244,3 +252,53 @@ hr {
 }
 
 /*end of Prefferences*/
+
+/* overlay */
+.UserMenu_Overlay {
+  z-index: 60;
+  position: fixed;
+  top: 0;
+  right: 0;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  bottom: 0;
+}
+.UserMenu_Overlay.hidden {
+  display: none;
+}
+
+@media (orientation: landscape) {
+  .user-menu {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+  .menu-wrapper {
+    min-width: 520px;
+    max-width: 520px;
+  }
+  .user-menu-wrapper {
+    order: 2;
+    min-width: 50%;
+    max-width: 50%;
+  }
+  .user-menu-links {
+    order: 1;
+    min-width: 50%;
+    max-width: 50%;
+    margin-top: 0;
+    border-right: 1px solid #33202B;
+  }
+  .prefference-menu {
+    order: 1;
+    min-width: 50%;
+    max-width: 50%;
+    border-right: 1px solid #33202B;
+    margin-top: 0;
+    border-top: 0px solid #33202B;
+  }
+  .prefference-menu__row {
+    margin-top: 0;
+  }
+}

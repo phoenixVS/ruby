@@ -34,17 +34,17 @@ exports('game', (params, done) => {
             gameWrapper.empty().append(`
             <div class="[ video-title not-active ] flex-container align-center-middle" >
               <button class="button square [ video-title-button ] fa fa-angle-left"></button>
-              <p class="font [ video-title-text ] bet-title"><span class="team-name-1">${shortize(data[0].TE[0].NA)
-              + ' </span><span class="vs">&nbsp;&nbsp; VS &nbsp;&nbsp;</span><span class="team-name-2">' + shortize(data[0].TE[1].NA)}</span></p>
+              <p class="font [ video-title-text ] bet-title"><span class="team-name-1">${data[0].TE[0].NA
+              + ' </span><span class="vs">&nbsp;VS&nbsp;</span><span class="team-name-2">' + data[0].TE[1].NA}</span></p>
             </div>
             <div class="[ video-play ] flex-container align-middle align-justify">
               <p class="flex-container align-middle">
                 <span class="[ video-play-square white ]"></span>
-                <span class="font">${shortize(data[0].TE[0].NA)}</span>
+                <span class="font">${data[0].TE[0].NA}</span>
               </p>
               <p class="font title [ video-play-count ]">${data[0].SS}</p>
               <p class="flex-container align-middle">
-                <span class="font">${shortize(data[0].TE[1].NA)}</span>
+                <span class="font">${data[0].TE[1].NA}</span>
                 <span class="[ video-play-square red ]"></span>
               </p>
             </div>
@@ -91,10 +91,9 @@ exports('game', (params, done) => {
                 </div>
                 <div class="ipe-EventViewTitle_Overlay "></div>
                 `);
-
-                console.log('inplay', window.inplay);
-                console.log('event', window.event);
-
+                window.scrollTo(0, 0);
+                document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+                document.getElementsByTagName('html')[0].style.overflow = 'hidden';
                 for (cl of window.inplay) {
                   if (cl.ID == window.event[0].CL) {
                     for (ct of cl.CT) {
@@ -234,7 +233,23 @@ exports('game', (params, done) => {
                     $('.video-title').removeClass('active').addClass('not-active');
                     $('.ipe-EventSwitcher').remove();
                     $('.ipe-EventViewTitle_Overlay').remove();
+                    document.getElementsByTagName('body')[0].style.removeProperty('overflow');
+                    document.getElementsByTagName('html')[0].style.removeProperty('overflow');
                   });
+                  let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
+                  if (orientation === "landscape-primary") {
+                    console.log("That looks good.");
+                    $('.ipe-EventSwitcher_Container').css('max-height', '250px');
+                  } else if (orientation === "landscape-secondary") {
+                    $('.ipe-EventSwitcher_Container').css('max-height', '250px');
+                    console.log("Mmmh... the screen is upside down!");
+                  } else if (orientation === "portrait-secondary" || orientation === "portrait-primary") {
+                    $('.ipe-EventSwitcher_Container').css('max-height', '647px');
+                    console.log("Mmmh... you should rotate your device to landscape");
+                  } else if (orientation === undefined) {
+                    $('.ipe-EventSwitcher_Container').css('max-height', '647px');
+                    console.log("The orientation API isn't supported in this browser :(");
+                  }
                   $('.ipe-EventSwitcherFixture_GameDetail').on('click', (event) => {
                     event.stopPropagation();
                     event.preventDefault();

@@ -4,6 +4,29 @@ exports('play_big', (params, done) => {
     //   "main/play-big.html"
     // ]
   }, () => {
+    // Convert odds
+    const modifyBets = (od) => {
+      const ODDS_TYPE = window.conf.CUSTOMER_CONFIG.ODDS_TYPE;
+      // fraction
+      if (ODDS_TYPE == '1') {
+        return od;
+      }
+      // decimal
+      if (ODDS_TYPE == '2') {
+        const nums = od.split('/');
+        return (nums[0] / nums[1] + 1).toFixed(2);
+      }
+      // American
+      if (ODDS_TYPE == '3') {
+        const nums = od.split('/');
+        let bet = (nums[0] / nums[1] + 1).toFixed(2);
+        if (Number(bet) >= 2) {
+          return `+${((Number(bet) - 1) * 100).toFixed(0)}`;
+        } else {
+          return `-${((100) / (Number(bet) - 1)).toFixed(0)}`;
+        }
+      }
+    };
 
     let curID = params.sportId;
     let ID;
@@ -33,12 +56,6 @@ exports('play_big', (params, done) => {
 
       return tm_ + ':' + ts_;
     }
-
-    // Convert fractial to decimal
-    modifyBets = (od) => {
-      const nums = od.split('/');
-      return (nums[0] / nums[1] + 1).toFixed(2)
-    };
 
     function calculateDiffMinutes(data, c_years, c_mounth, c_days, c_hr, c_tm, c_ts) {
       let now = new Date();

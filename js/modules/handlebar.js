@@ -333,14 +333,14 @@ function setBtnClicked() {
 }
 
 function setBtnNotClicked() {
-  const user_menu = $(`[data-id=user-menu]`);
-  $('.log-button').prop("onclick", null).off("click");
-  $('.login-font').show();
-  user_menu.hide();
-  $('.log-button').removeClass('clicked');
-  $('.log-button').addClass('not-clicked');
+	const user_menu = $(`[data-id=user-menu]`);
+	$('.log-button').prop("onclick", null).off("click");
+	$('.login-font').show();
+	user_menu.hide();
+	$('.log-button').removeClass('clicked');
+	$('.log-button').addClass('not-clicked');
 
-  
+
 	$('.log-button').on('click', (el) => {
 		setBtnClicked();
 	});
@@ -605,6 +605,7 @@ function prematchHandler(ID, optID, eventID) {
 	if (performance.navigation.type == 1) {
 		let fetchData = new Promise((resolve, reject) => {
 			loadJsModules({
+				config: {},
 				fetch: { loadCSS: false, loadLanguage: false },
 				langs: { loadCSS: false, loadLanguage: false },
 			});

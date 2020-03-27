@@ -1630,7 +1630,7 @@ body::-webkit-scrollbar-track {
 }
 @media print, screen and (max-width: 400px) {
   .header .logo {
-    transform: translateX(5%);
+    transform: translateX(25%);
     max-width: 120px;
     margin-left: 5px;
     margin-right: 10px;

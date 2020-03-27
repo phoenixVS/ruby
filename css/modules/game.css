@@ -30,11 +30,31 @@
 .bet-title .span.vs {
     text-align: center;
 }
-.bet-title .span.team-name-1 {
-    text-align: right;
+.bet-title span.team-name-1 {
+    display: block;
+    overflow: hidden; 
+    max-width: 60%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
-.bet-title .span.team-name-2 {
-    text-align: left;
+.bet-title span.team-name-2 {
+    display: block;
+    overflow: hidden; 
+    max-width: 60%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.video-title {
+    justify-content: space-between;
+}
+.video-title-text {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    padding-right: 5%;
+    max-width: 85%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .video-title-text span {
     display: inline-block;
@@ -54,6 +74,34 @@
     padding-right: 10px;
     margin-right: auto;
     right: 0;
+}
+.video-play-count{
+  text-align: center;
+  min-width: 70px;
+  white-space: nowrap;
+}
+.video-play span.font {
+  display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.video-play {
+  justify-content: space-between;
+}
+.video-play p:nth-child(3) span.font {
+  padding-left: 5px;
+  justify-content: flex-end;
+}
+.video-play p:nth-child(3), .video-play p:nth-child(1){
+  overflow: hidden;
+  text-overflow: ellipsis ellipsis;
+  display: flex;
+  justify-content: flex-end;
+  /* text-align: right; */
+}
+.video-play p:nth-child(1){
+  justify-content: flex-start;
 }
 .ipe-EventSwitcher_Container {
     overflow-y: scroll;
