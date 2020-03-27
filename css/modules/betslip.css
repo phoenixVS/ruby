@@ -1348,6 +1348,10 @@ ul li.multipleBets ul.closed li:not(.mbHeader):not(.bs-MultipleBets_HighestAccum
   color: rgba(67, 42, 56, 1)!important;
   border-bottom: 2px solid #888!important;
 }
+.inBetslip {
+  margin: 0 auto;
+  right: 0;
+}
 li.bsError.feedBack, li.bsPotentialReturns {
   margin-bottom: 0;
   border-radius: 0;
