@@ -21,15 +21,18 @@
   border-bottom: 1px solid #ccf;
 }
 .prematch-title {
-  font-size: 1.4rem;
+  font-size: 1.9rem;
   color: #fff;
-  /* padding-left: 11px; */
+  padding-left: 0px;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: scroll;
   white-space: nowrap;
+}
+.video-title-button.active, .video-title-button:hover {
+  background-color: #281420;
 }
 .prematch-title .event-name {
   overflow-x: scroll;
@@ -218,6 +221,7 @@
 }
 /* PREMATCH*/
 .round-b {
+  max-height: 50px;
   border-right: 1px solid #fff;
   background-color: #281420;
 }
@@ -741,4 +745,17 @@ button.coefficient .font.ellipsis.mra {
 }
 .prematch-table-filter {
   display: none;
+}
+
+.sport-name {
+  display: inline-block;
+  overflow: scroll;
+}
+.league {
+  display: inline-block;
+  overflow: scroll;
+}
+.event-name{
+  display: inline-block;
+  overflow: scroll;
 }
