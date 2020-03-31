@@ -12,6 +12,10 @@ exports('prematch_event', (params, done) => {
     }, afterViewLoad);
   }
   else {
+    if ($('.prematch .play-table').length != 0) {
+      $('.prematch').empty();
+      fromCoupon = true;
+    }
     if ($('.event-date').length == 0) {
       insertHtmlModules({
         '.prematch': [
@@ -19,11 +23,9 @@ exports('prematch_event', (params, done) => {
         ]
       }, afterViewLoad);
     }
-    if ($('.prematch .play-table').length != 0) {
-      $('.prematch').empty();
-      fromCoupon = true;
+    else {
+      afterViewLoad();
     }
-    afterViewLoad();
   }
   function afterViewLoad() {
     const PD = params.PD;
