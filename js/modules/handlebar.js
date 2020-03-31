@@ -236,6 +236,11 @@ function mainHandler() {
 			.then((response) => {
 				// loading modules for main view
 				let onModulesLoad = new Promise((resolve, reject) => {
+					// if inplay empty go to soccer prematch
+					if (window.inplay.length == 0) {
+						window.location.hash = '#/sport/1';
+						return;
+					}
 					if ($('script[src="js/modules/header.js"]').length > 0) {
 						loadJsModules({
 							wsocket: { loadCSS: false, loadLanguage: false },
@@ -644,7 +649,7 @@ function prematchHandler(ID, optID, eventID) {
 		fetchPromise
 			.then((response) => {
 				return new Promise((resolve, reject) => {
-					if (performance.navigation.type == 1) {
+					if (performance.navigation.type == 1 || $('.show-menu .show-menu-item').length == 0) {
 						loadJsModules({
 							header: { loadCSS: true, loadLanguage: false },
 							aside: { loadCSS: true, loadLanguage: false },

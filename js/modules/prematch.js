@@ -91,7 +91,7 @@ exports('prematch', (params, done) => {
     function renderPrematch(data) {
       let render = new Promise((resolve, reject) => {
         console.dir(data);
-        $('.prematch-title').text(data[0].NA);
+        $('.prematch-title-main').text(data[0].NA);
         data.MG[0].MA.forEach((item) => {
           if (typeof item.NA !== 'undefined') {
             $('.prematch-table-title__main').append(`
@@ -128,7 +128,6 @@ exports('prematch', (params, done) => {
                   </div>
                   `);
                   if (ma.DO == '1') {
-                    console.log($('.prematch-table .container-fluid .market-group:last-child'));
                     const cur = $('.prematch-table .container-fluid .market-group:last-child');
                     let url = 'http://bestline.bet/sports/?PD=';
                     let coupon_list = $(`<div class="coupon-list"></div>`);
