@@ -144,7 +144,7 @@
   transform: translateY(-50%);
 }
 .market-group.opened .market-group-name:after {
-  transform: rotate(-90deg); 
+  transform: rotate(-180deg); 
   transition-duration: 0.5s; 
   margin-top: 0px;
 }
