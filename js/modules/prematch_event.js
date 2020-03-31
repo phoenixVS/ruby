@@ -1,19 +1,31 @@
 exports('prematch_event', (params, done) => {
-  if (typeof window.prematch === 'undefined') {
-    window.sportsLoad();
-  }
   const preloader = $('#page-preloader');
   preloader.children('img').remove();
   preloader.removeClass('done').addClass('opaci');
-
-  $('.prematch').empty();
-
-  insertHtmlModules({
-    '.prematch': [
-      'prematch/prematch_event.html',
-    ]
-  }, () => {
-
+  let fromCoupon = false;
+  if (performance.navigation.type == 1) {
+    $('.prematch').empty();
+    insertHtmlModules({
+      '.prematch': [
+        'prematch/prematch_event.html',
+      ]
+    }, afterViewLoad);
+  }
+  else {
+    if ($('.event-date').length == 0) {
+      insertHtmlModules({
+        '.prematch': [
+          'prematch/prematch_event.html',
+        ]
+      }, afterViewLoad);
+    }
+    if ($('.prematch .play-table').length != 0) {
+      $('.prematch').empty();
+      fromCoupon = true;
+    }
+    afterViewLoad();
+  }
+  function afterViewLoad() {
     const PD = params.PD;
     const CT = params.CT;
 
@@ -61,8 +73,6 @@ exports('prematch_event', (params, done) => {
               let skipStatus = 0;
               for (mg of window.blackList.sports.MG) {
                 if (mg == item.ID || (typeof item.PD !== 'undefined' ? item.PD.includes(mg) : false)) {
-                  console.log(`mg == item.ID: `, mg == item.ID);
-                  console.log(`(typeof item.PD`, typeof item.PD !== 'undefined' ? item.PD.includes(mg) : false);
                   skipStatus = 1;
                   break;
                 }
@@ -77,9 +87,6 @@ exports('prematch_event', (params, done) => {
                 curMG = item;
                 curMG.MA = [];
               }
-              /* tree.MG.push(item);
-              curMG = item;
-              curMG.MA = []; */
             }
             else {
               if (item.type === 'MA') {
@@ -138,25 +145,31 @@ exports('prematch_event', (params, done) => {
 
     function renderPrematch(data) {
       let render = new Promise((resolve, reject) => {
-        console.dir(data);
-        $('.prematch-title .sport-name').text(data[1].TB.split(',')[0] + ' / ');
-        $('.prematch-title .league').text(data[1].TB.split('#¬')[1].split(',')[0]);
-        $('.event-name').text(' / ' + data[1].TB.split('#¬')[2].split(',')[0]);
+        if (performance.navigation.type == 1 || fromCoupon) {
+          console.dir(data);
+          $('.prematch-title .sport-name').text(data[1].TB.split(',')[0] + ' / ');
+          $('.prematch-title .league').text(data[1].TB.split('#¬')[1].split(',')[0]);
+          $('.event-name').text(' / ' + data[1].TB.split('#¬')[2].split(',')[0]);
 
-        data.MG.forEach((mg) => {
-          if (mg.SY == 'cm') {
-            mg.MA.forEach(item => {
-              $('.prematch-table-title').append(`
+          data.MG.forEach((mg) => {
+            if (mg.SY == 'cm') {
+              mg.MA.forEach(item => {
+                $('.prematch-table-title').append(`
               <div class="item" data-ls="${typeof item.LS === 'undefined' ? '0' : '1'}" data-pd="${item.PD}">${item.NA}</div>
             `);
-            });
-          }
-        });
-        document.querySelectorAll('.prematch-table-title .item').forEach((el) => {
-          if (el.dataset.ls == '1') {
-            el.classList.add('selected');
-          }
-        });
+              });
+            }
+          });
+          document.querySelectorAll('.prematch-table-title .item').forEach((el) => {
+            if (el.dataset.ls == '1') {
+              el.classList.add('selected');
+            }
+          });
+        }
+        else {
+          $('.prematch-table .coeficient-table').empty();
+        }
+
         for (mg of data.MG) {
           if (mg.N2 == 'Start Time') {
             document.querySelector('.event-date').innerText = new Date(transformDay(mg.BC)[1]).toDateString();
@@ -600,5 +613,5 @@ exports('prematch_event', (params, done) => {
       return (el.matches || el.matchesSelector || el.msMatchesSelector || el.mozMatchesSelector || el.webkitMatchesSelector || el.oMatchesSelector).call(el, selector);
     };
     done();
-  });
+  }
 });
