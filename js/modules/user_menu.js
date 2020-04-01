@@ -5,7 +5,7 @@ exports('user_menu', (params, done) => {
       let renderPromise = new Promise((resolve, reject) => {
         // $('.menu-wrapper').show();
         // $('.menu-wrapper').empty();
-        $(`[data-id=user-menu]`).empty().append($('<div>').load(`./html/modules/user/user-menu/user-menu.html`, () => {
+        $(`[data-id=user-menu]`).empty().append($('<div id="user-menu">').load(`./html/modules/user/user-menu/user-menu.html`, () => {
           $(`[data-id=user-menu]`).slideDown("fast", () => {
             resolve();
           });
