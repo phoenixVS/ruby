@@ -255,16 +255,16 @@ exports('play_table', (params, done) => {
                       <div data-game-id="${ev.ID}" data-class="play-link" data-game-id="${ev.ID}" class="[ play-link ]">
                           <div data-game-id="${ev.ID}" class="team home">
                             <p class="font m-white ellipsis" data-game-id="${ev.ID}">${typeof ev.NA.split(' v ')[1] !== 'undefined' ? ev.NA.split(' v ')[0] : ev.NA.split(' vs ')[0]}</p>
-                            <div class="team-score" data-game-id="${ev.ID}"></div>
+                            ${ev.SS == '' ? '' : `<div class="team-score" data-game-id="${ev.ID}"></div>`}
                           </div>
                           <div data-game-id="${ev.ID}" class="team away">
-                            <p data-game-id="${ev.ID}" class="font m-white ellipsis">${typeof ev.NA.split(' v ')[1] !== 'undefined' ? ev.NA.split(' v ')[1] : ev.NA.split(' vs ')[1]}</p>
-                            <div class="team-score" data-game-id="${ev.ID}"></div>
+                           ${typeof ev.NA.split(' v ')[1] == 'undefined' && typeof ev.NA.split(' v ')[1] == 'undefined' && typeof ev.NA.split(' vs ')[1] == 'undefined' ? '' : `<p data-game-id="${ev.ID}" class="font m-white ellipsis">${typeof ev.NA.split(' v ')[1] !== 'undefined' ? ev.NA.split(' v ')[1] : ev.NA.split(' vs ')[1]}</p>`}
+                            ${ev.SS == '' ? '' : `<div class="team-score" data-game-id="${ev.ID}"></div>`}
                           </div>
                           <div data-game-id="${ev.ID}" class="[ metadata-wrapper ] text-right">
-                            <p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p>
+                            ${ev.TU = '' ? `` : `<p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p>`}
                             <div class="marketCount " data-game-id="${ev.ID}">${ev.LM}</div>
-                            <div class="sport-icon play" data-game-id="${ev.ID}"></div>
+                            <!--<div class="sport-icon play" data-game-id="${ev.ID}"></div>-->
                           </div>
                         </div>
                       </div>

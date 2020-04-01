@@ -311,7 +311,7 @@ exports('betslip', (params, done) => {
         <div id="BetSlipBalance">
           <div class="balanceText">Balance</div>
           <div class="balance">
-          ${window.conf.CUSTOMER_CONFIG.CURRENCY_SYMBOL}${floatToCurrency(2525252525.25)}
+          ${window.conf.CUSTOMER_CONFIG.CURRENCY_SYMBOL}${floatToCurrency(0.00)}
           </div>
         </div>`);
       // preloader done

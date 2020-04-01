@@ -41,7 +41,7 @@ exports('slider', (params, done) => {
                   data-topic-id="${el.IT}"
                   class="[ slider-link ]"
                   href="#/inplay/${el.ID}">
-                  <span class="sports-${parseInt(el.ID) + 3} [ slider-icon ]">
+                  <span class="sports-4 [ slider-icon ]">
                   <p class="slider-text">${shortize(el.NA)}</p><span>
                 </a>
               `);
