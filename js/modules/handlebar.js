@@ -457,7 +457,7 @@ function filterHandler(ID) {
 						});
 				}
 				else {
-					emptyHandler();
+					window.location.hash = '';
 				}
 			});
 	}

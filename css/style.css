@@ -885,6 +885,7 @@ body::-webkit-scrollbar-track {
   color: #fff;
 }
 .slider-icon {
+  text-align: center;
   color: hsla(0, 0%, 100%, 0.6);
   font-size: 20px;
 }

@@ -6,9 +6,9 @@
     color: #fff;
 }
 .slider-wrapper a:first-child span:before{
-    margin-left: 5px!important;
+    margin: 0 auto;
 }
-.sports-4:before{margin-left: 5px;}
+/* .sports-4:before{margin-left: 5px;}
 .sports-1:before{margin-left: 5px;}
 .sports-5:before{margin-left: 5px;}
 .sports-6:before{margin-left: 5px;}
@@ -102,4 +102,4 @@
 .sports-96:before{margin-left: 5px;}
 .sports-97:before{margin-left: 5px;}
 .sports-98:before{margin-left: 5px;}
-.sports-99:before{margin-left: 5px;}
+.sports-99:before{margin-left: 5px;} */
