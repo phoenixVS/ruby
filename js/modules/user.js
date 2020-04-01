@@ -35,7 +35,7 @@ exports('user', (params, done) => {
       $(`.container .userContent`).empty();
       // $('.main>.container').empty();
       //content.htmlTo('.main .container');
-      content.prepentTo('.main .container');
+      content.prependTo($('.main .container'));
     }
     let renderPromise = new Promise((resolve, reject) => {
       let navRenderPromise = new Promise((resolve, reject) => {
