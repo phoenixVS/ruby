@@ -241,7 +241,7 @@ function mainHandler() {
 						window.location.hash = '#/sport/1';
 						return;
 					}
-					if ($('script[src="js/modules/header.js"]').length > 0) {
+					if ($('script[src="js/modules/header.js"]').length > 0 && $('.live-title').length != 0) {
 						loadJsModules({
 							wsocket: { loadCSS: false, loadLanguage: false },
 							slider: { loadCSS: true, loadLanguage: false },
@@ -319,47 +319,10 @@ function mainHandler() {
 			});
 	});
 }
-
-function setBtnClicked() {
-	loadJsModules({
-		user_menu: { loadCSS: true, loadLanguage: false },
-	});
-	const user_menu = $(`[data-id=user-menu]`);
-	$('.log-button').prop("onclick", null).off("click");
-	$('.login-font').hide();
-	user_menu.show();
-	$('.log-button').removeClass('not-clicked');
-	$('.log-button').addClass('clicked');
-
-
-	$('.log-button').on('click', (el) => {
-		setBtnNotClicked();
-	});
-}
-
-function setBtnNotClicked() {
-	const user_menu = $(`[data-id=user-menu]`);
-	$('.log-button').prop("onclick", null).off("click");
-	$('.login-font').show();
-	user_menu.hide();
-	$('.log-button').removeClass('clicked');
-	$('.log-button').addClass('not-clicked');
-
-
-	$('.log-button').on('click', (el) => {
-		setBtnClicked();
-	});
-}
 // on filter active
 function filterHandler(ID) {
 	$(`[data-id="play-table"]`).empty();
 	$(`[data-id="play-big"]`).empty();
-
-	if ($(`[data-id=login-button]`).hasClass('clicked')) {
-		setBtnNotClicked();
-	} else {
-		console.log('not has class');
-	}
 
 	if (performance.navigation.type == 1) {
 		let fetchData = new Promise((resolve, reject) => {
@@ -411,7 +374,8 @@ function filterHandler(ID) {
 					}
 				}
 				if (valid) {
-					if (performance.navigation.type == 1) {
+					// if (performance.navigation.type == 1) {
+					if (($('script[src="js/modules/header.js"]').length > 0 && $('.live-title').length == 0) || performance.navigation.type == 1) {
 						clearInterval(window.t_interval);
 						clearInterval(window.inplay_interval);
 						/*for (let i = 0; i < window.intervals.length; i++) {

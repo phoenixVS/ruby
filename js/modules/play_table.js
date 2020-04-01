@@ -172,6 +172,9 @@ exports('play_table', (params, done) => {
                 drawCompet(sport.CT[i].NA, ID == 1 ? true : false);
               }
               else {
+                if (typeof sport.CT[0].EV[0].MA[0] == 'undefined') {
+                  continue;
+                }
                 if (typeof sport.CT[0].EV[0].MA[0].PA[2] === 'undefined' || sport.CT[0].EV[0].MA[0].PA[2] == null) {
                   drawCompet(sport.CT[i].NA, false);
                 }

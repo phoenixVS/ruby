@@ -11,10 +11,24 @@ exports('user_menu', (params, done) => {
         }));
       });
       renderPromise.then(() => {
-        let rect = document.querySelector(`[data-id="login-button"]`).getBoundingClientRect();
+        let rect = document.querySelector(`[data-id=login-button]`).getBoundingClientRect();
         let selfRect = document.querySelector(`.user-menu`).getBoundingClientRect();
-        console.log(`bot`, selfRect.bottom);
-        console.log(`top`, selfRect.top);
+        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        const scrollDown = document.querySelector('.menu-wrapper .scrollDown');
+        if (document.querySelector('.menu-wrapper').scrollHeight < 0.7 * vh) {
+          console.log(`70vh: `, 0.7 * vh);
+          console.log(`scrollHeight: `, document.querySelector('.menu-wrapper').scrollHeight);
+          console.log(`Height fits in`);
+          scrollDown.parentNode.removeChild(scrollDown);
+        }
+        else {
+          setTimeout(() => {
+            if (scrollDown !== null) {
+              scrollDown.parentNode.removeChild(scrollDown);
+            }
+          }, 1900);
+          console.log(`Height doesn't fits in`);
+        }
         let a = 0;
         if (selfRect.top > 30) {
           a = 60
@@ -28,18 +42,13 @@ exports('user_menu', (params, done) => {
         const orientationCalcHeight = (ev) => {
           let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
           if (orientation === "landscape-primary") {
-
-            console.log("That looks good.");
             $('.user-menu').css('max-height', '70vh');
           } else if (orientation === "landscape-secondary") {
             $('.user-menu').css('max-height', '70vh');
-            console.log("Mmmh... the screen is upside down!");
           } else if (orientation === "portrait-secondary" || orientation === "portrait-primary") {
             $('.user-menu').css('max-height', '77vh');
-            console.log("Mmmh... you should rotate your device to landscape");
           } else if (orientation === undefined) {
             $('.user-menu').css('max-height', '77vh');
-            console.log("The orientation API isn't supported in this browser :(");
           }
           $('.user-menu-email').text(window.conf.CUSTOMER_CONFIG.USER_NAME);
         }
