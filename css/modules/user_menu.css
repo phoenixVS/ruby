@@ -268,7 +268,7 @@ hr {
   display: none;
 }
 
-@media (orientation: landscape) {
+/* @media (orientation: landscape) {
   .user-menu {
     display: flex;
     flex-wrap: wrap;
@@ -301,4 +301,4 @@ hr {
   .prefference-menu__row {
     margin-top: 0;
   }
-}
+} */
