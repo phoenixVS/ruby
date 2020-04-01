@@ -41,6 +41,12 @@ exports('aside', (params, done) => {
       return $(this).clone().wrap('<div></div>').parent().html();
     };
 
+    function resort(){
+      Array.from($(`[data-id=liel`)).sort( (c,n) => $(c).attr("data-sort") - $(n).attr("data-sort")).sort((c,n)=> ($(n).hasClass("active")?1:0) - ($(c).hasClass("active")?1:0)).forEach((e,i)=>{
+        $(e).css("top",i*37+"px");
+      });
+    }
+
     function RenderAside(data) {
       console.log(`ra`);
       let promise = new Promise((resolve, reject) => {
@@ -146,13 +152,7 @@ exports('aside', (params, done) => {
             RenderAsideFav(window.inplay);
           });
 
-          $(`[data-id=fav-star]`).on('click', (el) => {
-            if ($(el.target).data('clicked') == 'on') {
-              asideOrderBack(el);
-            } else {
-              asideOrderAnim(el);
-            }
-          });
+          
 
           $(`[data-id=search]`).on('click', (el) => {
             el.stopPropagation();
@@ -191,40 +191,17 @@ exports('aside', (params, done) => {
       $(elem.target).addClass('active');
       $(elem.target).removeClass('not-active');
       $(elem.target).attr('data-clicked', 'on');
+      $(elem.target).parent().toggleClass("active");
 
-      let $myLi = $($(elem.target)).parent();
-      let listHeight = $(`[data-id=aside-ul]`).innerHeight();
-      let elemHeight = $myLi.height();
-      let elemTop = $myLi.position().top;
-      let moveUp = listHeight - (listHeight - elemTop);
-      let moveDown = elemHeight;
-      let liId = $myLi.attr("id");
-      let enough = false;
-      let liHtml = $myLi.outerHTML();
-
-      $(`[data-id=liel]`).each((index, el) => {
-        console.log(liId);
-        console.log($(el).attr('id'));
-        if ($(el).attr('id') == liId) {
-          return false;
+      resort();
+      $(elem.target).prop("onclick", null).off("click");
+      
+      $(elem.target).click((el) => {
+        if ($(el.target).data('clicked') == 'on') {
+          asideOrderBack(el);
         } else {
-          $(el).animate({ "top": '+=' + moveDown }, 380);
+          asideOrderAnim(el);
         }
-      });
-
-      $myLi.animate({ "top": '-=' + moveUp }, 380, function () {
-        $myLi.remove();
-        let oldHtml = $(`[data-id=aside-ul]`).html();
-        $(`[data-id=aside-ul]`).html(liHtml + oldHtml);
-        $(`[data-id=liel]`).attr("style", "position: relative; top: 0; left: 0;");
-        $(`[data-id=fav-star]`).on('click', (el) => {
-
-          if ($(el.target).data('clicked') == 'on') {
-            asideOrderBack(el);
-          } else {
-            asideOrderAnim(el);
-          }
-        });
       });
     }
 
@@ -234,41 +211,17 @@ exports('aside', (params, done) => {
       $(elem.target).addClass('not-active');
       $(elem.target).removeClass('active');
       $(elem.target).attr('data-clicked', 'off');
+      $(elem.target).parent().toggleClass("active");
 
-      let $myLi = $($(elem.target)).parent();
-      let listHeight = $(`[data-id=aside-ul]`).innerHeight();
-      let elemHeight = $myLi.height();
-      let elemTop = $myLi.position().top;
-      let moveDown = elemHeight;
-      let moveUp = (listHeight - elemTop - moveDown);
-      let liId = $myLi.attr("id");
-      let enough = false;
-      let liHtml = $myLi.outerHTML();
+      resort();
+      $(elem.target).prop("onclick", null).off("click");
 
-      $($(`[data-id=liel]`).get().reverse()).each((index, el) => {
-        console.log(liId);
-        console.log($(el).attr('id'));
-        if ($(el).attr('id') == liId) {
-          return false;
+      $(elem).click((el) => {
+        if ($(el.target).data('clicked') == 'on') {
+          asideOrderBack(el);
         } else {
-          $(el).animate({ "top": '-=' + moveDown }, 380);
+          asideOrderAnim(el);
         }
-      });
-
-      $myLi.animate({ "top": '+=' + moveUp }, 380, function () {
-        $myLi.remove();
-        let oldHtml = $(`[data-id=aside-ul]`).html();
-        $(`[data-id=aside-ul]`).html(oldHtml + liHtml);
-        $(`[data-id=liel]`).attr("style", "position: relative; top: 0; left: 0;");
-
-        $(`[data-id=fav-star]`).on('click', (el) => {
-
-          if ($(el.target).data('clicked') == 'on') {
-            asideOrderBack(el);
-          } else {
-            asideOrderAnim(el);
-          }
-        });
       });
     }
 
@@ -299,7 +252,7 @@ exports('aside', (params, done) => {
       <span class="font sport-name" style = "margin-left: 10px;">Home</span>
       <span data-id="home" style="position: absolute; left: 79%;"></span>
       </div>
-      <ul data-id="aside-ul" style="position: relative; top: 0; left: 0;"></ul>`);
+      <ul data-id="aside-ul" style="position:relative; width: 100%; height: auto; min-height: 500px;"></ul>`);
         /*$(`[data-id=aside-ul]`).append(`
       <li id="0" data-id="liel" data-div="home" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
       <span class="sports--1" style="margin-left: 5px; "></span>
@@ -307,6 +260,7 @@ exports('aside', (params, done) => {
       <span data-id="home" style="position: absolute; left: 79%;"></span>
       </li>
       `);*/
+        let sort_counter = 0;
         let cks = getAllStorage();
         let fav_arr = [];
         for (let i = 0; i < cks.length; i++) {
@@ -321,13 +275,17 @@ exports('aside', (params, done) => {
               }
             }
 
-            $(`[data-id=aside-ul]`).append(`
-            <li id=${id_} data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
-            <span class="sports-${ID_}" style="margin-left: 5px; "></span>
-            <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
-            <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
-            </li>
-            `);
+            
+              $(`[data-id=aside-ul]`).append(`
+              <li id=${id_} data-sort="${sort_counter}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link active" style="position: absolute; width: 100%; transition: 0.5s;" >
+              <span class="sports-${ID_}" style="margin-left: 5px; "></span>
+              <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
+              <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
+              </li>
+              `);
+           
+            sort_counter++;
+            
             fav_arr.push(name_);
           } else {
             continue;
@@ -373,13 +331,17 @@ exports('aside', (params, done) => {
                 name = event.NA;
                 PD = event.NA;
                 if (ID != -1) {
-                  $(`[data-id=aside-ul]`).append(`
-                  <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+                  
+                    $(`[data-id=aside-ul]`).append(`
+                  <li id="${i}" data-sort="${sort_counter}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: absolute;width: 100%; transition: 0.5s;" >
                   <span class="sports-${ID}" style="margin-left: 5px; "></span>
                   <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
                   <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
                   </li>
                   `);
+                  
+                  sort_counter++;
+                  
                 } else {
                   continue;
                 }
@@ -390,13 +352,17 @@ exports('aside', (params, done) => {
                 continue;
               } else {
                 if (ID != -1) {
-                  $(`[data-id=aside-ul]`).append(`
-                <li id="${i}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+                  
+                    $(`[data-id=aside-ul]`).append(`
+                <li id="${i}" data-sort="${sort_counter}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: absolute; width: 100%; transition: 0.5s;" >
                 <span class="sports-${ID}" style="margin-left: 5px; "></span>
                 <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
                 <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
                 </li>
                 `);
+                 
+                    sort_counter++;
+                  
                 } else {
                   continue;
                 }
@@ -427,6 +393,7 @@ exports('aside', (params, done) => {
       });
       promise
         .then(() => {
+          resort();
 
           $(`[data-div=home]`).on('click', () => {
             window.location.hash = '/sport/home';
@@ -446,7 +413,11 @@ exports('aside', (params, done) => {
             //console.log("FadeIn");
           });
           $(`[data-id=fav-star]`).click((elem) => {
-            asideOrderAnim(elem);
+            if ($(elem.target).data('clicked') == 'on') {
+              asideOrderBack(elem);
+            } else {
+              asideOrderAnim(elem);
+            }
           });
           $(`[data-id=search]`).on('click', (el) => {
 
