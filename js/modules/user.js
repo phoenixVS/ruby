@@ -5,32 +5,37 @@ exports('user', (params, done) => {
     // ]
   }, () => {
     function renderUserContent(username) {
+      $.fn.htmlTo = function (elem) {
+        return this.each(function () {
+          $(elem).html($(this).html());
+        });
+      }
       let content = $(`
       <div class="userContent">
 			
-			<div class="[ setting ]">
-				<div class="[ setting-nav ] flex-container align-middle">
-					<a data-id="balance" data-status="not-active" class="[ setting-nav-link ]">
-						<span data-id="balance" class="font">BALANCE MANAGEMENT</span>
-					</a>
-					<a data-id="personal" data-status="not-active" class="[ setting-nav-link ]">
-						<span data-id="personal" class="font">PERSONAL INFORMATION</span>
-					</a>
-					<a data-id="transaction" data-def="casier" data-status="not-active" class="[ setting-nav-link ]">
-						<span data-id="transaction" class="font">TRANSACTION HISTORY</span>
-					</a>
-					<a data-id="access" data-def="casier" data-status="not-active" class="[ setting-nav-link ]">
-						<span data-id="access" class="font">ACCESS LOG</span>
-					</a>
-				</div>
-				<div data-id="setting-box" class="[ setting-box primary ]">
-						
-				</div>
-			</div>
+        <div class="[ setting ]">
+          <div class="[ setting-nav ] flex-container align-middle">
+            <a data-id="balance" data-status="not-active" class="[ setting-nav-link ]">
+              <span data-id="balance" class="font">BALANCE MANAGEMENT</span>
+            </a>
+            <a data-id="personal" data-status="not-active" class="[ setting-nav-link ]">
+              <span data-id="personal" class="font">PERSONAL INFORMATION</span>
+            </a>
+            <a data-id="transaction" data-def="casier" data-status="not-active" class="[ setting-nav-link ]">
+              <span data-id="transaction" class="font">TRANSACTION HISTORY</span>
+            </a>
+            <a data-id="access" data-def="casier" data-status="not-active" class="[ setting-nav-link ]">
+              <span data-id="access" class="font">ACCESS LOG</span>
+            </a>
+          </div>
+          <div data-id="setting-box" class="[ setting-box primary ]"></div>
+        </div>
+      </div>
       `);
-      $(`.userContent`).remove();
+      $(`.container .userContent`).empty();
       // $('.main>.container').empty();
-      content.prependTo($('.main .container'));
+      //content.htmlTo('.main .container');
+      content.prepentTo('.main .container');
     }
     let renderPromise = new Promise((resolve, reject) => {
       let navRenderPromise = new Promise((resolve, reject) => {

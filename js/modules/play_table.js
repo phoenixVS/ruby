@@ -22,7 +22,6 @@ exports('play_table', (params, done) => {
       }
     }
   };
-
   insertHtmlModules({}, () => {
     let curID = params.sportId;
 
@@ -228,12 +227,10 @@ exports('play_table', (params, done) => {
           });
           // Preloader finishes
           const preloader = $('#page-preloader');
-          if (preloader.data(`status`) != 'done') {
-            preloader.children('img').remove();
-            preloader.addClass('done');
-            preloader.removeClass('opaci');
-            preloader.data(`status`, 'done').attr('data-status', 'done');
-          }
+          preloader.children('img').remove();
+          preloader.addClass('done');
+          preloader.removeClass('opaci');
+          preloader.data(`status`, 'done').attr('data-status', 'done');
 
           window.translate();
 
