@@ -262,7 +262,7 @@ exports('play_table', (params, done) => {
                             ${ev.SS == '' ? '' : `<div class="team-score" data-game-id="${ev.ID}"></div>`}
                           </div>
                           <div data-game-id="${ev.ID}" class="[ metadata-wrapper ] text-right">
-                            ${ev.TU = '' ? `` : `<p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p>`}
+                            ${ev.TU == '' ? `` : `<p data-find="timer" data-timer="${ev.FI}" data-game-id="${ev.ID}" data-tu="${ev.TU}" data-tm="${ev.TM}" data-ts="${ev.TS}" data-dc="${ev.DC}" class="font m-white timer-el"></p>`}
                             <div class="marketCount " data-game-id="${ev.ID}">${ev.LM}</div>
                             <!--<div class="sport-icon play" data-game-id="${ev.ID}"></div>-->
                           </div>

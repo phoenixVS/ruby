@@ -30,7 +30,7 @@ exports('user', (params, done) => {
       `);
       $(`.userContent`).remove();
       // $('.main>.container').empty();
-      content.prependTo($('.main>.container')).slideDown('slow');
+      content.prependTo($('.main .container'));
     }
     let renderPromise = new Promise((resolve, reject) => {
       let navRenderPromise = new Promise((resolve, reject) => {
