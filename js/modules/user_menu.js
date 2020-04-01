@@ -5,7 +5,7 @@ exports('user_menu', (params, done) => {
       let renderPromise = new Promise((resolve, reject) => {
         // $('.menu-wrapper').show();
         // $('.menu-wrapper').empty();
-        $(`[data-id=user-menu]`).empty().append($('<div id="user-menu">').load(`./html/modules/user/user-menu/user-menu.html`, () => {
+        $(`[data-id=user-menu]`).empty().append($('<div>').load(`./html/modules/user/user-menu/user-menu.html`, () => {
           $(`[data-id=user-menu]`).slideDown("fast", () => {
             resolve();
           });
@@ -93,29 +93,74 @@ exports('user_menu', (params, done) => {
           //$(`[data-id=login]`).on('click', renderUserMenu);
         });
         // Account profile redirect
-        let username = 'vasya1999';
+        async function setBtnClicked() {
+          window.scrollTo(0, 0);
+          document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+          document.getElementsByTagName('html')[0].style.overflow = 'hidden';
+          let processing = await loadJsModules({
+            user_menu: { loadCSS: true, loadLanguage: false },
+          });
+          $('div.UserMenu_Overlay').removeClass('hidden');
+          $('div.UserMenu_Overlay').on('click', (ev) => {
+            console.log(`overlay`);
+            setBtnNotClicked();
+          });
+          const user_menu = $(`[data-id=user-menu]`);
+          $('.log-button').prop("onclick", null).off();
+          $('.login-font').hide();
+          user_menu.show();
+          $('.log-button').removeClass('not-clicked');
+          $('.log-button').addClass('clicked');
+
+
+          $('.log-button').on('click', (el) => {
+            setBtnNotClicked();
+          });
+        }
+        async function setBtnNotClicked() {
+          $('div.UserMenu_Overlay').addClass('hidden');
+          $('.UserMenu_Overlay').off();
+          document.getElementsByTagName('body')[0].style.removeProperty('overflow');
+          document.getElementsByTagName('html')[0].style.removeProperty('overflow');
+          const user_menu = $(`[data-id=user-menu]`);
+          $('.log-button').prop("onclick", null).off();
+          $('.login-font').show();
+          user_menu.hide();
+          $('.log-button').removeClass('clicked');
+          $('.log-button').addClass('not-clicked');
+
+          $('.log-button').on('click', (el) => {
+            setBtnClicked();
+          });
+        }
+        let username = 'username';
         $(`[data-id=accountHistory]`).prop('href', `#/user/${username}/transaction`)
           .on('click', () => {
             window.location.hash = `/user/${username}/transaction`;
-            user_menu.slideUp("fast").remove("active").remove();
+            setBtnNotClicked();
+            user_menu.slideUp("fast").removeClass("active").hide();
           });
         $(`[data-id=accountSettings]`).prop('href', `#/user/${username}/balance/account`)
           .on('click', () => {
+            setBtnNotClicked();
             window.location.hash = `/user/${username}/balance/account`;
-            user_menu.slideUp("fast").remove("active").remove();
+            user_menu.slideUp("fast").removeClass("active").hide();
           });
         $(`[data-id=depositWithdraw]`).prop('href', `#/user/${username}/balance/deposit`)
           .on('click', () => {
+            setBtnNotClicked();
             window.location.hash = `/user/${username}/balance/deposit`;
-            user_menu.slideUp("fast").remove("active").remove();
+            user_menu.slideUp("fast").removeClass("active").hide();
           });
         $(`[data-id=promoBonuses]`).prop('href', `#`)
           .on('click', () => {
+            setBtnNotClicked();
             window.location.hash = ``;
-            user_menu.slideUp("fast").remove("active").remove();
+            user_menu.slideUp("fast").removeClass("active").hide();
           });
         $(`[data-id=exitUser]`).on('click', (event) => {
-          user_menu.slideUp("fast").remove("active").remove();
+          user_menu.slideUp("fast").removeClass("active").hide();
+          setBtnNotClicked();
           window.location.href = ``;
           Cookies.set('logon', 'false');
         });
