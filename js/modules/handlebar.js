@@ -1037,22 +1037,27 @@ function emptyHandler() {
 
 function locationHashChanged() {
 	let hash = window.location.href.split('/')[4];
-	if (hash == '') {
-		mainHandler();
+	if (window.location.hash.includes('undefined')) {
+		window.location.hash = '';
 	}
 	else {
-		switch (window.location.href.split('/')[5]) {
-			case '': case undefined: mainHandler(); break;
-			case 'sport': prematchHandler(window.location.href.split('/')[6], window.location.href.split('/')[7], window.location.href.split('/')[8]); break;
-			case 'inplay': filterHandler(window.location.href.split('/')[6]); break;
-			case 'event': gameHandler(window.location.href.split('/')[6]); break;
-			case 'betslip': betslipHandler(); break;
-			case 'betslip-small': betslip_smallHandler(); break;
-			case 'registration': registrationHandler(typeof window.location.href.split('/')[6] !== 'undefined' ? window.location.href.split('/')[6] : null); break;
-			case 'user': userHandler(window.location.href.split('/')[6], window.location.href.split('/')[7], window.location.href.split('/')[8]); break;
-			case 'mybets': mybetsHandler(); break;
-			case 'calendar': calendarHandler(); break;
-			default: emptyHandler();
+		if (hash == '') {
+			mainHandler();
+		}
+		else {
+			switch (window.location.href.split('/')[5]) {
+				case '': case undefined: mainHandler(); break;
+				case 'sport': prematchHandler(window.location.href.split('/')[6], window.location.href.split('/')[7], window.location.href.split('/')[8]); break;
+				case 'inplay': filterHandler(window.location.href.split('/')[6]); break;
+				case 'event': gameHandler(window.location.href.split('/')[6]); break;
+				case 'betslip': betslipHandler(); break;
+				case 'betslip-small': betslip_smallHandler(); break;
+				case 'registration': registrationHandler(typeof window.location.href.split('/')[6] !== 'undefined' ? window.location.href.split('/')[6] : null); break;
+				case 'user': userHandler(window.location.href.split('/')[6], window.location.href.split('/')[7], window.location.href.split('/')[8]); break;
+				case 'mybets': mybetsHandler(); break;
+				case 'calendar': calendarHandler(); break;
+				default: emptyHandler();
+			}
 		}
 	}
 }
