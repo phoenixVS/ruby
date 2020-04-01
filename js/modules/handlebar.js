@@ -375,7 +375,7 @@ function filterHandler(ID) {
 				}
 				if (valid) {
 					// if (performance.navigation.type == 1) {
-					if (($('script[src="js/modules/header.js"]').length > 0 && $('.live-title').length == 0) || performance.navigation.type == 1) {
+					if (($('script[src="js/modules/header.js"]').length == 0 && $('.live-title').length == 0) || performance.navigation.type == 1) {
 						clearInterval(window.t_interval);
 						clearInterval(window.inplay_interval);
 						/*for (let i = 0; i < window.intervals.length; i++) {
