@@ -129,6 +129,10 @@ exports('fetch', (params, done) => {
           let curCO = '';
           let curPA = '';
           let tree = [];
+          if (data == null) {
+            window.location.hash = '';
+            return;
+          }
           data.map((item, index) => {
             if (type == 'bets') {
               if (item.type === 'EV') {

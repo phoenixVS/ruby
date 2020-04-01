@@ -5,7 +5,9 @@
 .slider-link.active {
     color: #fff;
 }
-
+.slider-wrapper a:first-child span:before{
+    margin-left: 5px!important;
+}
 .sports-4:before{margin-left: 5px;}
 .sports-1:before{margin-left: 5px;}
 .sports-5:before{margin-left: 5px;}

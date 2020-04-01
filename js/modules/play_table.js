@@ -269,67 +269,92 @@ exports('play_table', (params, done) => {
                         </div>
                       </div>
                     </div>`);
-      if (typeof XP !== 'undefined' && ev.ID != 1) {
-        if (typeof XP.split(',')[1] !== 'undefined') {
-          let counter = 0;
-          ev.XP.split(',').map((item) => {
-            counter++;
-            $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
-              <span data-game-id="${ev.ID}" class="point">${item.split('-')[0]}
-            `);
-            $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
-              <span data-game-id="${ev.ID}" class="point">${item.split('-')[1]}
-            `);
-          });
-        }
-        else {
-          let counter = 0;
-          ev.SS.split(',').map((item) => {
-            counter++;
-            $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
-              <span data-game-id="${ev.ID}" class="point">${item.split('-')[0]}
-            `);
-            $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
-              <span data-game-id="${ev.ID}" class="point">${item.split('-')[1]}
-            `);
-          });
-        }
-      }
-      else {
-        let counter = 0;
-        ev.SS.split(',').map((item) => {
-          counter++;
-          $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
-            <span data-game-id="${ev.ID}" class="point">${item.split('-')[0]}
-          `);
-          $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
-          <span data-game-id="${ev.ID}" class="point">${item.split('-')[1]}
-        `);
-        });
-      }
+      // if (typeof XP !== 'undefined' && ev.ID != 1) {
+      //   if (typeof XP.split(',')[1] !== 'undefined') {
+      //     let counter = 0;
+      //     ev.XP.split(',').map((item) => {
+      //       counter++;
+      //       $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+      //         <span data-game-id="${ev.ID}" class="point">${item.split('-')[0]}
+      //       `);
+      //       $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+      //         <span data-game-id="${ev.ID}" class="point">${item.split('-')[1]}
+      //       `);
+      //     });
+      //   }
+      //   else {
+      //     let counter = 0;
+      //     ev.SS.split(',').map((item) => {
+      //       counter++;
+      //       $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+      //         <span data-game-id="${ev.ID}" class="point">${item.split('-')[0]}
+      //       `);
+      //       $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+      //         <span data-game-id="${ev.ID}" class="point">${item.split('-')[1]}
+      //       `);
+      //     });
+      //   }
+      // }
+      // else {
+      //   let counter = 0;
+      //   ev.SS.split(',').map((item) => {
+      //     counter++;
+      //     $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+      //       <span data-game-id="${ev.ID}" class="point">${item.split('-')[0]}
+      //     `);
+      //     $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+      //     <span data-game-id="${ev.ID}" class="point">${item.split('-')[1]}
+      //   `);
+      //   });
+      // }
+      // if (typeof XP !== 'undefined') {
+      //   if (ev.PI.split(',')[0] == '1')
+      //     $(`div[data-game-id="${ev.ID}"] .team.home p`).addClass('bowler');
+      //   if (ev.PI.split(',')[1] == '1')
+      //     $(`div[data-game-id="${ev.ID}"] .team.away p`).addClass('bowler');
+      //   $(`div[data-game-id="${ev.ID}"] .timer-el`).remove();
+      //   if (typeof XP.split(',')[1] !== 'undefined') {
+      //     $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+      //       <span class="point">${ev.SS.split('-')[0]}
+      //     `);
+      //     $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+      //       <span class="point">${ev.SS.split('-')[1]}
+      //     `);
+      //   }
+      //   else {
+      //     if (XP !== '') {
+      //       $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+      //       <span class="point">${XP.split('-')[0]}
+      //     `);
+      //       $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+      //       <span class="point">${XP.split('-')[1]}
+      //     `);
+      //     }
+      //   }
+      // }
+
+      // if just 1 score:
       if (typeof XP !== 'undefined') {
-        if (ev.PI.split(',')[0] == '1')
-          $(`div[data-game-id="${ev.ID}"] .team.home p`).addClass('bowler');
-        if (ev.PI.split(',')[1] == '1')
-          $(`div[data-game-id="${ev.ID}"] .team.away p`).addClass('bowler');
-        $(`div[data-game-id="${ev.ID}"] .timer-el`).remove();
-        if (typeof XP.split(',')[1] !== 'undefined') {
+        if (XP !== '') {
+          ev.SS.split(',').map((item, idx, arr) => {
+            if (idx == arr.length - 1) {
+              $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
+        <span class="point">${item.split('-')[0]}
+      `);
+              $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
+        <span class="point">${item.split('-')[1]}
+      `);
+            }
+          });
+        }
+      } else {
+        if (typeof ev.SS.split('-')[1] !== 'undefined') {
           $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
             <span class="point">${ev.SS.split('-')[0]}
           `);
           $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
             <span class="point">${ev.SS.split('-')[1]}
           `);
-        }
-        else {
-          if (XP !== '') {
-            $(`div[data-game-id="${ev.ID}"] .home .team-score`).append(`
-            <span class="point">${XP.split('-')[0]}
-          `);
-            $(`div[data-game-id="${ev.ID}"] .away .team-score`).append(`
-            <span class="point">${XP.split('-')[1]}
-          `);
-          }
         }
       }
       if (ev.MA.length > 0 && (typeof ev.MA !== 'undefined' && ev.MA[0].SU != '1')) {

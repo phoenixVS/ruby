@@ -19,6 +19,7 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	margin-top: 2px;
+	margin-left: 9px!important;
 }
 /* .sports-gd-home:before{content:""}
 .sports-check:before{content:""}
@@ -201,3 +202,6 @@
 .sports-97:before{content:""}
 .sports-98:before{content:""}
 .sports-99:before{content:""}
+[class^="sports-"]:before, [class*=" sports-"]:before {
+	margin-left: 14px;
+}
