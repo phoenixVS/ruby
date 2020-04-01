@@ -43,7 +43,7 @@ exports('aside', (params, done) => {
 
     function resort(){
       Array.from($(`[data-id=liel`)).sort( (c,n) => $(c).attr("data-sort") - $(n).attr("data-sort")).sort((c,n)=> ($(n).hasClass("active")?1:0) - ($(c).hasClass("active")?1:0)).forEach((e,i)=>{
-        $(e).css("top",i*20+"px");
+        $(e).css("top",i*37+"px");
       });
     }
 
