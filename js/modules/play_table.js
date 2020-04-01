@@ -227,6 +227,14 @@ exports('play_table', (params, done) => {
           });
           // Preloader finishes
           const preloader = $('#page-preloader');
+          $('#page-preloader').append(`
+          <div class="loader">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
+          `);
           preloader.children('img').remove();
           preloader.addClass('done');
           preloader.removeClass('opaci');
