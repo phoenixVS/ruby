@@ -31,6 +31,12 @@ exports('live', (params, done) => {
         }, 0);
         $('.live-title span.font.mr').text(`${count} EVENTS`);
       }
+      setTimeout(() => {
+        console.log(`live-title length: `, $('.live-title').length);
+        if ($('.live-title').length > 1) {
+          $(`[data-id=live] .live-title:last-child`).remove();
+        }
+      }, 100)
       done();
     });
 });
