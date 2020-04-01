@@ -28,7 +28,8 @@ exports('user', (params, done) => {
 				</div>
 			</div>
       `);
-      $('.main>.container').empty();
+      $(`.userContent`).remove();
+      // $('.main>.container').empty();
       content.prependTo($('.main>.container')).slideDown('slow');
     }
     let renderPromise = new Promise((resolve, reject) => {
@@ -40,16 +41,16 @@ exports('user', (params, done) => {
         .then(() => {
           let nav_link = params.nav_link;
           $(`[data-id=${nav_link}]`).addClass('active');
-          $(`[data-id=setting-box]`).append($('<div>').load(`./html/modules/user/${nav_link}/setting-nav.html`, function () {
+          $(`[data-id=setting-box]`).append($('<div id="userRoom">').load(`./html/modules/user/${nav_link}/setting-nav.html`, function () {
             let nav_link_small = params.nav_link_small;
             if (nav_link_small === undefined) {
-              $(`[data-id=setting-box]`).empty().append($('<div>').load(`./html/modules/user/${nav_link}/default.html`, () => {
+              $(`[data-id=setting-box]`).empty().append($('<div id="userRoom">').load(`./html/modules/user/${nav_link}/default.html`, () => {
                 resolve();
               }));
             }
             else {
               $(`[data-id=${nav_link_small}]`).addClass('active');
-              $(`[data-id=setting-box]`).append($('<div>').load(`./html/modules/user/${nav_link}/${nav_link_small}.html`, () => {
+              $(`[data-id=setting-box]`).append($('<div id="userRoom">').load(`./html/modules/user/${nav_link}/${nav_link_small}.html`, () => {
                 resolve();
               }));
             }
