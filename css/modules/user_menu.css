@@ -44,7 +44,8 @@
     display: none;
 }
 .prefferences-tab-button {
-    position: absolute;
+    /* position: absolute; */
+    text-align: right;
     right: 0;
     color: #391d2e;
     display: inline-block;

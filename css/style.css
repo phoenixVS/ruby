@@ -187,6 +187,8 @@ span {
   box-sizing: border-box;
 }
 .font {
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 14px;
   font-family: Roboto Condensed, sans-serif;
   font-weight: 400;
