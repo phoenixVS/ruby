@@ -32,294 +32,279 @@ function lurking(lurks, unlurks) {
 	}
 }
 
-class defaultHandler {
-	constructor(moduleLoader, contentHandler) {
-		this.defaultLoading(moduleLoader, contentHandler);
-	}
-	defaultLoading(moduleLoader, contentHandler) {
-		// Loading user config
-		const configPromise = new Promise((res, rej) => {
-			loadJsModules({
-				config: { loadCSS: false, loadLanguage: false, async: false }
-			})
-				.then(
-					response => { res(); }
-				);
-		});
-		configPromise.then(
-			// loading prematch sports, inplay and language
-			response => {
-				return new Promise((res, rej) => {
-					loadJsModules({
-						fetch: { loadCSS: false, loadLanguage: false, async: false },
-						langs: { loadCSS: false, loadLanguage: false, async: false },
-					})
-						.then(response => {
-							let counter = 2;
-							function decrement(ev) {
-								console.log(ev.target, ' loaded');
-								counter--;
-								ev.target.removeEventListenter('load', decrement);
-							}
-							// document.querySelector('script[src="js/modules/fetch.js"]').onload(decrement);
-							// document.querySelector('script[src="js/modules/langs.js"]').onload(decrement);
-							// document.querySelector('script[src="js/modules/fetch.js"]').addEventListener('load', decrement);
-							// document.querySelector('script[src="js/modules/langs.js"]').addEventListener('load', decrement);
-
-							// waitForScriptsLoading();
-							res();
-						});
-				});
-			}
-		)
-			.then(
-				response => {
-					return new Promise((res, rej) => {
-						function waitForScriptsLoading() {
-							if (typeof window.tableLoad == 'function' && typeof window.sportsLoad == 'function') {
-								setTimeout(() => {
-									waitForScriptsLoading();
-								}, 20);
-							}
-							else {
-								window.tableLoad();
-								window.sportsLoad();
-								function waitForData() {
-									if (!(typeof window.inplay !== 'undefined' && typeof window.sports !== 'undefined')) {
-										setTimeout(() => {
-											waitForData();
-										}, 20);
-									}
-									else {
-										res();
-										return;
-									}
-								}
-
-							}
-						}
-					});
-				}
-			)
-			.then(
-				response => {
-					console.dir(window.inplay);
-					console.dir(window.dict);
-					return new Promise((res, rej) => {
-						// loading renderer modules
-						moduleLoader()
-							.then(response => { res(); });
-					});
-				}
-			)
-			.then(
-				response => {
-					return new Promise((res, rej) => {
-						// showing and hiding content
-						contentHandler()
-							.then(response => { res(); });
-					});
-				}
-			)
-	}
-}
-
-/* function mainHandler() {
+function mainHandler() {
 	async function moduleLoader() {
+		console.log(`window.inplay`, window.inplay);
+		if (window.inplay.length == 0) {
+			window.location.hash = '#/sport/1';
+			return;
+		}
+		if (window.sports.length == 0) {
+			window.location.hash = '#/sport/1';
+			return;
+		}
 		return new Promise((res, rej) => {
 			if ($('script[src="js/modules/header.js"]').length > 0) {
 				loadJsModules({
 					// wsocket: { loadCSS: false, loadLanguage: false },
-slider: { loadCSS: true, loadLanguage: false },
-play_big: { loadCSS: true, loadLanguage: false },
-play_table: { loadCSS: true, loadLanguage: false },
-coef_table: { loadCSS: true, loadLanguage: false },
+					slider: { loadCSS: true, loadLanguage: false },
+					play_big: { loadCSS: true, loadLanguage: false },
+					play_table: { loadCSS: true, loadLanguage: false },
+					coef_table: { loadCSS: true, loadLanguage: false },
 				});
-res();
+				res();
 			}
 			else {
-	loadJsModules({
-		header: { loadCSS: true, loadLanguage: false },
-		aside: { loadCSS: true, loadLanguage: false },
-		slider: { loadCSS: true, loadLanguage: false },
-		coef_table: { loadCSS: true, loadLanguage: false },
-		live: { loadCSS: false, loadLanguage: false },
-		// wsocket: { loadCSS: false, loadLanguage: false },
-		play_big: { loadCSS: true, loadLanguage: false },
-		play_table: { loadCSS: true, loadLanguage: false },
-	});
-	res();
-}
+				loadJsModules({
+					header: { loadCSS: true, loadLanguage: false },
+					aside: { loadCSS: true, loadLanguage: false },
+					slider: { loadCSS: true, loadLanguage: false },
+					coef_table: { loadCSS: true, loadLanguage: false },
+					live: { loadCSS: false, loadLanguage: false },
+					// wsocket: { loadCSS: false, loadLanguage: false },
+					play_big: { loadCSS: true, loadLanguage: false },
+					play_table: { loadCSS: true, loadLanguage: false },
+				});
+				res();
+			}
 		});
 	}
 
-async function contentHandler() {
-	return new Promise((res, rej) => {
-		const user_menu = $(`[data-id=user-menu]`);
-		const mybets = $(`[data-id=mybets]`);
-		const slider = $(`[data-id=slider]`);
-		const formWrapper = $(`[data-id=registrationWrapper]`);
-		const play_big = $(`[data-id=play-big]`);
-		const coef_table = $(`[data-id=coef_table]`);
-		const play_table = $(`[data-id=play-table]`);
-		const live = $(`[data-id=live]`);
-		const game = $(`[data-id=game]`);
-		const betslip = $(`[data-id=betslip]`);
-		const betslip_link = $(`[data-id=betslip-link]`);
-		const betslip_small = $(`[data-id=betslip-small]`);
-		const calendar = $('[data-id=calendarContainer]');
-		const prematch = $('.prematch');
-		const lurks = [
-			mybets,
-			formWrapper,
-			game,
-			betslip,
-			betslip_link,
-			betslip_small,
-			user_menu,
-			calendar,
-			prematch,
-		];
-		const unlurks = [
-			play_big,
-			coef_table,
-			play_table,
-			live,
-			slider,
-		];
-		lurking(lurks, unlurks);
-		mybets.empty();
-		user_menu.empty();
-		game.empty();
-		unloadCSS('regist');
-		unloadCSS('mybets');
-		unloadCSS('user');
-		res();
-	});
+	async function contentHandler() {
+		if (window.inplay.length == 0) {
+			window.location.hash = '#/sport/1';
+			return;
+		}
+		if (window.sports.length == 0) {
+			window.location.hash = '#/sport/1';
+			return;
+		}
+		return new Promise((res, rej) => {
+			const user_menu = $(`[data-id=user-menu]`);
+			const mybets = $(`[data-id=mybets]`);
+			const slider = $(`[data-id=slider]`);
+			const formWrapper = $(`[data-id=registrationWrapper]`);
+			const play_big = $(`[data-id=play-big]`);
+			const coef_table = $(`[data-id=coef_table]`);
+			const play_table = $(`[data-id=play-table]`);
+			const live = $(`[data-id=live]`);
+			const game = $(`[data-id=game]`);
+			const betslip = $(`[data-id=betslip]`);
+			const betslip_link = $(`[data-id=betslip-link]`);
+			const betslip_small = $(`[data-id=betslip-small]`);
+			const calendar = $('[data-id=calendarContainer]');
+			const prematch = $('.prematch');
+			const lurks = [
+				mybets,
+				formWrapper,
+				game,
+				betslip,
+				betslip_link,
+				betslip_small,
+				user_menu,
+				calendar,
+				prematch,
+			];
+			const unlurks = [
+				play_big,
+				coef_table,
+				play_table,
+				live,
+				slider,
+			];
+			lurking(lurks, unlurks);
+			mybets.empty();
+			user_menu.empty();
+			game.empty();
+			unloadCSS('regist');
+			unloadCSS('mybets');
+			unloadCSS('user');
+			res();
+		});
+	}
+
+	const module = defaultLoading(moduleLoader, contentHandler);
 }
 
-const module = new defaultHandler(moduleLoader, contentHandler);
-} */
-
-function mainHandler() {
-	console.log(`MAIN HANDLER CALLED`);
-	let fetchData = new Promise((resolve, reject) => {
-		loadJsModules({
-			config: { loadCSS: false, loadLanguage: false },
-			fetch: { loadCSS: false, loadLanguage: false },
-			langs: { loadCSS: false, loadLanguage: false },
-		});
-		// wait until there will be an tableLoad module
-		function wait() {
-			if (typeof window.tableLoad === 'undefined') {
-				setTimeout(wait, 10);
-				return;
+async function defaultLoading(moduleLoader, contentHandler) {
+	// Loading user config
+	let config = await loadJsModules({
+		config: {}
+	});
+	let fetch_langs = await loadJsModules({
+		fetch: {},
+		langs: {}
+	});
+	// wait until scripts are loaded
+	const scriptsPromise = new Promise((res, rej) => {
+		const waitForScriptsLoading = () => {
+			let scriptsLoaded = false;
+			if (!(typeof window.tableLoad == 'function' && typeof window.sportsLoad == 'function')) {
+				setTimeout(() => {
+					waitForScriptsLoading();
+				}, 250);
 			}
 			else {
-				resolve();
+				scriptsLoaded = true;
+				window.tableLoad();
+				window.sportsLoad();
+			}
+			if (scriptsLoaded == true) {
+				res();
 			}
 		}
-		wait();
+		waitForScriptsLoading();
 	});
-	fetchData.then((response) => {
-		const fetchPromise = new Promise((resolve, reject) => {
-			window.tableLoad();
-			window.sportsLoad();
-			const wait = setInterval(() => {
-				if (window.inplay == undefined) { }
-				else {
-					clearInterval(wait);
-					resolve();
-				}
-			}, 10);
-		});
-		fetchPromise
-			.then((response) => {
-				// loading modules for main view
-				let onModulesLoad = new Promise((resolve, reject) => {
-					// if inplay empty go to soccer prematch
-					if (window.inplay.length == 0) {
-						window.location.hash = '#/sport/1';
-						return;
-					}
-					if ($('script[src="js/modules/header.js"]').length > 0 && $('.live-title').length != 0) {
-						loadJsModules({
-							wsocket: { loadCSS: false, loadLanguage: false },
-							slider: { loadCSS: true, loadLanguage: false },
-							play_big: { loadCSS: true, loadLanguage: false },
-							play_table: { loadCSS: true, loadLanguage: false },
-							coef_table: { loadCSS: true, loadLanguage: false },
-						});
-						resolve();
-					}
-					else {
-						loadJsModules({
-							header: { loadCSS: true, loadLanguage: false },
-							aside: { loadCSS: true, loadLanguage: false },
-							slider: { loadCSS: true, loadLanguage: false },
-							coef_table: { loadCSS: true, loadLanguage: false },
-							live: { loadCSS: false, loadLanguage: false },
-							wsocket: { loadCSS: false, loadLanguage: false },
-							play_big: { loadCSS: true, loadLanguage: false },
-							play_table: { loadCSS: true, loadLanguage: false },
-						});
-						// if ($('script[src="js/modules/betslip_link.js"]').length == 0) {
-						//     loadJsModules({
-						//         betslip_link: { loadCSS: false, loadLanguage: false },
-						//     });
-						// }
-						resolve();
-					}
-				});
-				onModulesLoad.then(
-					result => {
-						const user_menu = $(`[data-id=user-menu]`);
-						const mybets = $(`[data-id=mybets]`);
-						const slider = $(`[data-id=slider]`);
-						const formWrapper = $(`[data-id=registrationWrapper]`);
-						const play_big = $(`[data-id=play-big]`);
-						const coef_table = $(`[data-id=coef_table]`);
-						const play_table = $(`[data-id=play-table]`);
-						const live = $(`[data-id=live]`);
-						const game = $(`[data-id=game]`);
-						const betslip = $(`[data-id=betslip]`);
-						const betslip_link = $(`[data-id=betslip-link]`);
-						const betslip_small = $(`[data-id=betslip-small]`);
-						const calendar = $('[data-id=calendarContainer]');
-						const prematch = $('.prematch');
-						const lurks = [
-							mybets,
-							formWrapper,
-							game,
-							betslip,
-							betslip_link,
-							betslip_small,
-							user_menu,
-							calendar,
-							prematch,
-						];
-						const unlurks = [
-							play_big,
-							coef_table,
-							play_table,
-							live,
-							slider,
-						];
-						lurking(lurks, unlurks);
-						mybets.empty();
-						user_menu.empty();
-						game.empty();
-						unloadCSS('regist');
-						unloadCSS('mybets');
-						unloadCSS('user');
-					},
-					error => {
-						console.log(`modules haven't been loaded :_( \n
-                    and everthing because of: ${error}`);
-					});
-			});
+	// wait until data is being loaded
+	const dataPromise = new Promise((res, rej) => {
+		const waitForData = (dataLoaded) => {
+			if (!(typeof window.inplay == "object" && typeof window.sports == "object")) {
+				setTimeout(() => {
+					waitForData();
+				}, 250);
+			}
+			else {
+				dataLoaded = true;
+				return Promise.resolve(1);
+			}
+			if (dataLoaded == true) {
+				res();
+			}
+		}
+		waitForData(false);
 	});
+	const promise1Result = await scriptsPromise;
+	const promise2Result = await dataPromise;
+	console.dir(window.tableLoad);
+	console.dir(window.sportsLoad);
+	// console.dir(window.inplay);
+	// console.dir(window.dict);
+	// loading view modules
+	await moduleLoader();
+	// showing and hiding content
+	await contentHandler();
 }
+
+
+// function mainHandler() {
+// 	console.log(`MAIN HANDLER CALLED`);
+// 	let fetchData = new Promise((resolve, reject) => {
+// 		loadJsModules({
+// 			config: { loadCSS: false, loadLanguage: false },
+// 			fetch: { loadCSS: false, loadLanguage: false },
+// 			langs: { loadCSS: false, loadLanguage: false },
+// 		});
+// 		// wait until there will be an tableLoad module
+// 		function wait() {
+// 			if (typeof window.tableLoad === 'undefined') {
+// 				setTimeout(wait, 10);
+// 				return;
+// 			}
+// 			else {
+// 				resolve();
+// 			}
+// 		}
+// 		wait();
+// 	});
+// 	fetchData.then((response) => {
+// 		const fetchPromise = new Promise((resolve, reject) => {
+// 			window.tableLoad();
+// 			window.sportsLoad();
+// 			const wait = setInterval(() => {
+// 				if (window.inplay == undefined) { }
+// 				else {
+// 					clearInterval(wait);
+// 					resolve();
+// 				}
+// 			}, 10);
+// 		});
+// 		fetchPromise
+// 			.then((response) => {
+// 				// loading modules for main view
+// 				let onModulesLoad = new Promise((resolve, reject) => {
+// 					// if inplay empty go to soccer prematch
+// 					if (window.inplay.length == 0) {
+// 						window.location.hash = '#/sport/1';
+// 						return;
+// 					}
+// 					if ($('script[src="js/modules/header.js"]').length > 0 && $('.live-title').length != 0) {
+// 						loadJsModules({
+// 							wsocket: { loadCSS: false, loadLanguage: false },
+// 							slider: { loadCSS: true, loadLanguage: false },
+// 							play_big: { loadCSS: true, loadLanguage: false },
+// 							play_table: { loadCSS: true, loadLanguage: false },
+// 							coef_table: { loadCSS: true, loadLanguage: false },
+// 						});
+// 						resolve();
+// 					}
+// 					else {
+// 						loadJsModules({
+// 							header: { loadCSS: true, loadLanguage: false },
+// 							aside: { loadCSS: true, loadLanguage: false },
+// 							slider: { loadCSS: true, loadLanguage: false },
+// 							coef_table: { loadCSS: true, loadLanguage: false },
+// 							live: { loadCSS: false, loadLanguage: false },
+// 							wsocket: { loadCSS: false, loadLanguage: false },
+// 							play_big: { loadCSS: true, loadLanguage: false },
+// 							play_table: { loadCSS: true, loadLanguage: false },
+// 						});
+// 						// if ($('script[src="js/modules/betslip_link.js"]').length == 0) {
+// 						//     loadJsModules({
+// 						//         betslip_link: { loadCSS: false, loadLanguage: false },
+// 						//     });
+// 						// }
+// 						resolve();
+// 					}
+// 				});
+// 				onModulesLoad.then(
+// 					result => {
+// 						const user_menu = $(`[data-id=user-menu]`);
+// 						const mybets = $(`[data-id=mybets]`);
+// 						const slider = $(`[data-id=slider]`);
+// 						const formWrapper = $(`[data-id=registrationWrapper]`);
+// 						const play_big = $(`[data-id=play-big]`);
+// 						const coef_table = $(`[data-id=coef_table]`);
+// 						const play_table = $(`[data-id=play-table]`);
+// 						const live = $(`[data-id=live]`);
+// 						const game = $(`[data-id=game]`);
+// 						const betslip = $(`[data-id=betslip]`);
+// 						const betslip_link = $(`[data-id=betslip-link]`);
+// 						const betslip_small = $(`[data-id=betslip-small]`);
+// 						const calendar = $('[data-id=calendarContainer]');
+// 						const prematch = $('.prematch');
+// 						const lurks = [
+// 							mybets,
+// 							formWrapper,
+// 							game,
+// 							betslip,
+// 							betslip_link,
+// 							betslip_small,
+// 							user_menu,
+// 							calendar,
+// 							prematch,
+// 						];
+// 						const unlurks = [
+// 							play_big,
+// 							coef_table,
+// 							play_table,
+// 							live,
+// 							slider,
+// 						];
+// 						lurking(lurks, unlurks);
+// 						mybets.empty();
+// 						user_menu.empty();
+// 						game.empty();
+// 						unloadCSS('regist');
+// 						unloadCSS('mybets');
+// 						unloadCSS('user');
+// 					},
+// 					error => {
+// 						console.log(`modules haven't been loaded :_( \n
+//                     and everthing because of: ${error}`);
+// 					});
+// 			});
+// 	});
+// }
 // on filter active
 function filterHandler(ID) {
 	console.log(`FILTER HANDLER CALLED`);

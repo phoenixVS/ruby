@@ -27,6 +27,7 @@ exports('fetch', (params, done) => {
           if (name == 'sports') {
             const tree = growTree(data, 'sports');
             window.prematch = tree;
+            console.log(tree);
           }
           else {
             if (name == 'inplay') {
@@ -61,6 +62,10 @@ exports('fetch', (params, done) => {
         let curMA = '';
         let curPA = '';
         let tree = [];
+        if (data == null) {
+          window.location.hash = '#/sport/1';
+          return [];
+        }
         data.map((item, index) => {
           if (item.type === 'CL') {
             if (data[index + 1].type != 'CT') {
