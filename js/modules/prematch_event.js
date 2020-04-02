@@ -12,7 +12,7 @@ exports('prematch_event', (params, done) => {
     }, afterViewLoad);
   }
   else {
-    if ($('.prematch .play-table').length != 0) {
+    if ($('.prematch .play-table').length != 0 || $('.prematch .tableWrapper').length != 0) {
       $('.prematch').empty();
       fromCoupon = true;
     }
