@@ -62,7 +62,7 @@ exports('fetch', (params, done) => {
         let curMA = '';
         let curPA = '';
         let tree = [];
-        if (data == null) {
+        if (data == null && (window.location.hash == '' || window.location.hash == '#')) {
           window.location.hash = '#/sport/1';
           return [];
         }
