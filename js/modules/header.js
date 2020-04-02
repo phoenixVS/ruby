@@ -187,7 +187,14 @@ exports('header', (params, done) => {
         });
       });
     })(0); // end of langs changer
-
+    $('#page-preloader').append(`
+    <div class="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    `);
     // Sticky navbar
     window.onscroll = function () { stick() };
     // Get the navbar
