@@ -66,6 +66,11 @@ exports('fetch', (params, done) => {
           window.location.hash = '#/sport/1';
           return [];
         }
+        else {
+          if (data == null) {
+            return [];
+          }
+        }
         data.map((item, index) => {
           if (item.type === 'CL') {
             if (data[index + 1].type != 'CT') {
@@ -136,7 +141,7 @@ exports('fetch', (params, done) => {
           let tree = [];
           if (data == null) {
             window.location.hash = '';
-            return;
+            return [];
           }
           data.map((item, index) => {
             if (type == 'bets') {
