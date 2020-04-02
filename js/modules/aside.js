@@ -375,6 +375,10 @@ exports('aside', (params, done) => {
                   let ID = cur.data(`div`).split('/')[1];
                   if (ID == -1) {
                     ID = 'home';
+                    window.location.hash = '';
+                    aside.removeClass('active');
+                    aside.addClass('not-active');
+                    return;
                   }
                   console.log(`//ID//${ID}`);
                   window.location.hash = '/sport/' + ID;
@@ -461,6 +465,10 @@ exports('aside', (params, done) => {
             let ID = cur.data(`div`).split('/')[1];
             if (ID == -1) {
               ID = 'home';
+              window.location.hash = '';
+              aside.removeClass('active');
+              aside.addClass('not-active');
+              return;
             }
             console.log(`//ID//${ID}`);
             window.location.hash = '/sport/' + ID;
@@ -601,6 +609,10 @@ exports('aside', (params, done) => {
         let ID = cur.data(`div`).split('/')[1];
         if (ID == -1) {
           ID = 'home';
+          window.location.hash = '';
+          aside.removeClass('active');
+          aside.addClass('not-active');
+          return;
         }
         console.log(`//ID//${ID}`);
         window.location.hash = '/sport/' + ID;
