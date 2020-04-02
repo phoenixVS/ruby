@@ -44,11 +44,13 @@
     display: none;
 }
 .prefferences-tab-button {
-    position: absolute;
+    /* position: absolute; */
+    position: relative;
     right: 0;
+    float: right;
     color: #391d2e;
     display: inline-block;
-    margin: -25px 20px 0 0;
+    margin: -20px -5px 0 0;
     vertical-align: middle;
     text-align: right;
     font-family: FontAwesome;

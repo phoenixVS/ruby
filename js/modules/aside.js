@@ -41,9 +41,9 @@ exports('aside', (params, done) => {
       return $(this).clone().wrap('<div></div>').parent().html();
     };
 
-    function resort(){
-      Array.from($(`[data-id=liel`)).sort( (c,n) => $(c).attr("data-sort") - $(n).attr("data-sort")).sort((c,n)=> ($(n).hasClass("active")?1:0) - ($(c).hasClass("active")?1:0)).forEach((e,i)=>{
-        $(e).css("top",i*37+"px");
+    function resort() {
+      Array.from($(`[data-id=liel`)).sort((c, n) => $(c).attr("data-sort") - $(n).attr("data-sort")).sort((c, n) => ($(n).hasClass("active") ? 1 : 0) - ($(c).hasClass("active") ? 1 : 0)).forEach((e, i) => {
+        $(e).css("top", i * 37 + "px");
       });
     }
 
@@ -152,7 +152,7 @@ exports('aside', (params, done) => {
             RenderAsideFav(window.inplay);
           });
 
-          
+
 
           $(`[data-id=search]`).on('click', (el) => {
             el.stopPropagation();
@@ -195,7 +195,7 @@ exports('aside', (params, done) => {
 
       resort();
       $(elem.target).prop("onclick", null).off("click");
-      
+
       $(elem.target).click((el) => {
         if ($(el.target).data('clicked') == 'on') {
           asideOrderBack(el);
@@ -247,11 +247,11 @@ exports('aside', (params, done) => {
         <a data-id="aside-live" class="[ tab-link ]">In-play</a>
         <a data-id="aside-all" class="[ tab-link active ]">Sport</a>
       </div>
-      <div data-div="home" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
-      <span class="sports--1" style="margin-left: 5px; "></span>
-      <span class="font sport-name" style = "margin-left: 10px;">Home</span>
-      <span data-id="home" style="position: absolute; left: 79%;"></span>
-      </div>
+      <li id='-1' data-div="aside/link/-1" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+        <span class="sports--1" style="margin-left: 5px; "></span>
+        <span class="font sport-name" style = "margin-left: 10px;">Home</span>
+        <span data-id="home" style="position: absolute; left: 79%;"></span>
+      </li>
       <ul data-id="aside-ul" style="position:relative; width: 100%; height: auto; min-height: 500px;"></ul>`);
         /*$(`[data-id=aside-ul]`).append(`
       <li id="0" data-id="liel" data-div="home" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
@@ -275,17 +275,17 @@ exports('aside', (params, done) => {
               }
             }
 
-            
-              $(`[data-id=aside-ul]`).append(`
+
+            $(`[data-id=aside-ul]`).append(`
               <li id=${id_} data-sort="${sort_counter}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link active" style="position: absolute; width: 100%; transition: 0.5s;" >
               <span class="sports-${ID_}" style="margin-left: 5px; "></span>
               <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
               <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
               </li>
               `);
-           
+
             sort_counter++;
-            
+
             fav_arr.push(name_);
           } else {
             continue;
@@ -331,17 +331,17 @@ exports('aside', (params, done) => {
                 name = event.NA;
                 PD = event.NA;
                 if (ID != -1) {
-                  
-                    $(`[data-id=aside-ul]`).append(`
-                  <li id="${i}" data-sort="${sort_counter}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: absolute;width: 100%; transition: 0.5s;" >
+
+                  $(`[data-id=aside-ul]`).append(`
+                  <li id="${i}" data-sort="${sort_counter}" data-id="liel" data-div="aside/link/${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: absolute;width: 100%; transition: 0.5s;" >
                   <span class="sports-${ID}" style="margin-left: 5px; "></span>
                   <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
                   <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
                   </li>
                   `);
-                  
+
                   sort_counter++;
-                  
+
                 } else {
                   continue;
                 }
@@ -352,17 +352,17 @@ exports('aside', (params, done) => {
                 continue;
               } else {
                 if (ID != -1) {
-                  
-                    $(`[data-id=aside-ul]`).append(`
-                <li id="${i}" data-sort="${sort_counter}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: absolute; width: 100%; transition: 0.5s;" >
+
+                  $(`[data-id=aside-ul]`).append(`
+                <li id="${i}" data-sort="${sort_counter}" data-id="liel" data-div="aside/link/${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: absolute; width: 100%; transition: 0.5s;" >
                 <span class="sports-${ID}" style="margin-left: 5px; "></span>
                 <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
                 <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
                 </li>
                 `);
-                 
-                    sort_counter++;
-                  
+
+                  sort_counter++;
+
                 } else {
                   continue;
                 }
@@ -373,7 +373,7 @@ exports('aside', (params, done) => {
                     cur = cur.parent(`li`);
                   }
                   console.log(cur);
-                  let ID = cur.data(`div`).split('-')[2];
+                  let ID = cur.data(`div`).split('/')[2];
                   if (ID == -1) {
                     ID = 'home';
                   }
