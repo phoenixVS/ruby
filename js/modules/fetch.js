@@ -63,6 +63,7 @@ exports('fetch', (params, done) => {
         let curPA = '';
         let tree = [];
         if (data == null && (window.location.hash == '' || window.location.hash == '#')) {
+          console.log(`window.location.hash`, window.location.hash);
           window.location.hash = '#/sport/1';
           return [];
         }
@@ -86,7 +87,6 @@ exports('fetch', (params, done) => {
               curCL.CT = [];
             }
           }
-
           if (item.type === 'CT') {
             curCL.CT.push(item);
             curCT = item;
@@ -116,6 +116,9 @@ exports('fetch', (params, done) => {
         if (type == 'sports') {
           let curCL = '';
           let tree = [];
+          if (data == null) {
+            return [];
+          }
           data.map((item, index) => {
             if (item.type === 'CL') {
               tree.push(item);

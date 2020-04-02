@@ -247,11 +247,11 @@ exports('aside', (params, done) => {
         <a data-id="aside-live" class="[ tab-link ]">In-play</a>
         <a data-id="aside-all" class="[ tab-link active ]">Sport</a>
       </div>
-      <li id='-1' data-div="aside/link/-1" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
+      <div id='-1' data-div="asidelink/-1" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
         <span class="sports--1" style="margin-left: 5px; "></span>
         <span class="font sport-name" style = "margin-left: 10px;">Home</span>
         <span data-id="home" style="position: absolute; left: 79%;"></span>
-      </li>
+      </div>
       <ul data-id="aside-ul" style="position:relative; width: 100%; height: auto; min-height: 500px;"></ul>`);
         /*$(`[data-id=aside-ul]`).append(`
       <li id="0" data-id="liel" data-div="home" class="[ navigation-link ] flex-container align-middle nav-link" style="position: relative; top: 0; left: 0;" >
@@ -277,7 +277,7 @@ exports('aside', (params, done) => {
 
 
             $(`[data-id=aside-ul]`).append(`
-              <li id=${id_} data-sort="${sort_counter}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link active" style="position: absolute; width: 100%; transition: 0.5s;" >
+              <li id=${id_} data-sort="${sort_counter}" data-id="liel" data-div="asidelink/${ID_}" class="[ navigation-link ] flex-container align-middle nav-link active" style="position: absolute; width: 100%; transition: 0.5s;" >
               <span class="sports-${ID_}" style="margin-left: 5px; "></span>
               <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
               <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
@@ -333,7 +333,7 @@ exports('aside', (params, done) => {
                 if (ID != -1) {
 
                   $(`[data-id=aside-ul]`).append(`
-                  <li id="${i}" data-sort="${sort_counter}" data-id="liel" data-div="aside/link/${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: absolute;width: 100%; transition: 0.5s;" >
+                  <li id="${i}" data-sort="${sort_counter}" data-id="liel" data-div="asidelink/${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: absolute;width: 100%; transition: 0.5s;" >
                   <span class="sports-${ID}" style="margin-left: 5px; "></span>
                   <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
                   <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
@@ -352,37 +352,34 @@ exports('aside', (params, done) => {
                 continue;
               } else {
                 if (ID != -1) {
-
                   $(`[data-id=aside-ul]`).append(`
-                <li id="${i}" data-sort="${sort_counter}" data-id="liel" data-div="aside/link/${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: absolute; width: 100%; transition: 0.5s;" >
+                <li id="${i}" data-sort="${sort_counter}" data-id="liel" data-div="asidelink/${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: absolute; width: 100%; transition: 0.5s;" >
                 <span class="sports-${ID}" style="margin-left: 5px; "></span>
                 <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
                 <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
                 </li>
                 `);
-
                   sort_counter++;
 
                 } else {
                   continue;
                 }
                 // onclick to prematch
-                $(`[data-div]`).on('click', (ev) => {
+                $(`.navigation-link`).off();
+                $(`.navigation-link`).on('click', (ev) => {
                   let cur = $(ev.target);
-                  if (typeof cur.data(`div`) == 'undefined') {
-                    cur = cur.parent(`li`);
+                  if (!cur.is(`.navigation-link`)) {
+                    cur = cur.parent(`.navigation-link`);
                   }
                   console.log(cur);
-                  let ID = cur.data(`div`).split('/')[2];
+                  let ID = cur.data(`div`).split('/')[1];
                   if (ID == -1) {
                     ID = 'home';
                   }
-                  if (ID !== 'home') {
-                    window.location.hash = '/sport/' + ID;
-
-                    aside.removeClass('active');
-                    aside.addClass('not-active');
-                  }
+                  console.log(`//ID//${ID}`);
+                  window.location.hash = '/sport/' + ID;
+                  aside.removeClass('active');
+                  aside.addClass('not-active');
                 });
               }
             }
@@ -454,22 +451,21 @@ exports('aside', (params, done) => {
           sessionStorage.removeItem('aside');
           sessionStorage.setItem('aside', 'sport');
           // onclick to prematch
-          $(`[data-div]`).on('click', (ev) => {
+          $(`.navigation-link`).off();
+          $(`.navigation-link`).on('click', (ev) => {
             let cur = $(ev.target);
-            if (typeof cur.data(`div`) == 'undefined') {
-              cur = cur.parent(`li`);
+            if (!cur.is(`.navigation-link`)) {
+              cur = cur.parent(`.navigation-link`);
             }
             console.log(cur);
-            let ID = cur.data(`div`).split('-')[2];
+            let ID = cur.data(`div`).split('/')[1];
             if (ID == -1) {
               ID = 'home';
             }
-            if (ID !== 'home') {
-              window.location.hash = '/sport/' + ID;
-
-              aside.removeClass('active');
-              aside.addClass('not-active');
-            }
+            console.log(`//ID//${ID}`);
+            window.location.hash = '/sport/' + ID;
+            aside.removeClass('active');
+            aside.addClass('not-active');
           });
         });
     }
@@ -595,22 +591,21 @@ exports('aside', (params, done) => {
         sessionStorage.setItem('aside', 'fav');
       });
       // onclick to prematch
-      $(`[data-div]`).on('click', (ev) => {
+      $(`.navigation-link`).off();
+      $(`.navigation-link`).on('click', (ev) => {
         let cur = $(ev.target);
-        if (typeof cur.data(`div`) == 'undefined') {
-          cur = cur.parent(`li`);
+        if (!cur.is(`.navigation-link`)) {
+          cur = cur.parent(`.navigation-link`);
         }
         console.log(cur);
-        let ID = cur.data(`div`).split('-')[2];
+        let ID = cur.data(`div`).split('/')[1];
         if (ID == -1) {
           ID = 'home';
         }
-        if (ID !== 'home') {
-          window.location.hash = '/sport/' + ID;
-
-          aside.removeClass('active');
-          aside.addClass('not-active');
-        }
+        console.log(`//ID//${ID}`);
+        window.location.hash = '/sport/' + ID;
+        aside.removeClass('active');
+        aside.addClass('not-active');
       });
     }
 

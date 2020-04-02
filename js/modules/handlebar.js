@@ -34,15 +34,6 @@ function lurking(lurks, unlurks) {
 
 function mainHandler() {
 	async function moduleLoader() {
-		console.log(`window.inplay`, window.inplay);
-		if (window.inplay.length == 0) {
-			window.location.hash = '#/sport/1';
-			return;
-		}
-		if (window.sports.length == 0) {
-			window.location.hash = '#/sport/1';
-			return;
-		}
 		return new Promise((res, rej) => {
 			if ($('script[src="js/modules/header.js"]').length > 0) {
 				loadJsModules({
@@ -71,14 +62,6 @@ function mainHandler() {
 	}
 
 	async function contentHandler() {
-		if (window.inplay.length == 0) {
-			window.location.hash = '#/sport/1';
-			return;
-		}
-		if (window.sports.length == 0) {
-			window.location.hash = '#/sport/1';
-			return;
-		}
 		return new Promise((res, rej) => {
 			const user_menu = $(`[data-id=user-menu]`);
 			const mybets = $(`[data-id=mybets]`);
@@ -1023,7 +1006,7 @@ function emptyHandler() {
 function locationHashChanged() {
 	let hash = window.location.href.split('/')[4];
 	if (window.location.hash.includes('undefined')) {
-		window.location.hash = '';
+		// window.location.hash = '';
 	}
 	else {
 		if (hash == '') {
