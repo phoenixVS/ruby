@@ -639,3 +639,53 @@ p.timer-el {
   margin: 0 auto;
   font-size: 1.2rem;
 }
+.row .cell-left {
+  width: 50%;
+  text-align: left;
+}
+.row .cell-right {
+  width: 50%;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+}
+.row .cell-right p{
+  padding-right: 8px;
+}
+.play-table .row .cell.cell-right:nth-child(2) {
+  min-width: 50%;
+  max-width: 50%;
+}
+.play-table .row .cell.cell-left:nth-child(1) {
+  min-width: 50%;
+  max-width: 50%;
+}
+.play-table .playersWrapper {
+  /* height: calc(100vh - 110px); */
+  /* overflow-y: auto; */
+  display: flex;
+  flex-direction: column; 
+  flex-wrap: wrap;
+  max-width:100vw;
+}
+.play-table .playersWrapper .button.coefficient {
+  display: flex;
+  justify-content: flex-start;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  height:43px;
+  max-height:43px;
+}
+.play-table .playersWrapper span.playerName {
+  text-align: left;
+}
+.play-table .playersWrapper span.coef {
+  color: yellow;
+  text-align: right;
+}
+.play-table .playersWrapper .button.coefficient.selected span.coef {
+  color: #C8304D;
+}
+.play-table .playersWrapper .button.coefficient.selected span.playerName {
+  color: black;
+}

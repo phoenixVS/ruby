@@ -327,14 +327,37 @@ exports('prematch_coupon', (params, done) => {
         else {   // Soccer && Tennis
           let prevDate = 0;
           let play_table = $(`<div class="play-table table"></div>`);
-          data.MA.forEach((item, i) => {
-            if (item.NA == ' ' && item.SY == 'ccd') {
-              data.MA[i].PA.forEach((item, i) => {
-                if (prevDate == item.BC) { }
-                else {
-                  // append date group
-                  if (data[0].ID != '1') {
-                    play_table.append(`
+          if (data.MA.length == 1) {
+            play_table.append(`
+          <div class="row [ info ]"> 
+                <div class="cell cell-left"> 
+                  <p class="font">${new Date(transformDay(data.MA[0].BC)[1]).toDateString()}</p> 
+                </div>
+                <div class="cell cell-right"> 
+                  <p class="font">${data.MA[0].NA}</p> 
+                </div>
+              </div>
+          `);
+            let row = $(`<div class="playersWrapper"/>`);
+            data.MA[0].PA.forEach((item, i) => {
+              row.append(`
+                <div class="cell" style="min-width: 100%; max-width: 100%;height:44px;max-height:44px;margin-bottom: 1px solid #282832;">
+                  <button class="button coefficient ${item.OD == '0/0' || item.OD == '1' ? 'disabled' : ''}" data-id="${item.ID}" data-fi="${item.FI}"><span class="playerName">${item.NA}</span>&nbsp;<span class="coef">${item.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(item.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(item.OD))}</span></button> 
+                </div>
+              `);
+            });
+            play_table.append(row);
+          }
+
+          else {
+            data.MA.forEach((item, i) => {
+              if (item.NA == ' ' && item.SY == 'ccd') {
+                data.MA[i].PA.forEach((item, i) => {
+                  if (prevDate == item.BC) { }
+                  else {
+                    // append date group
+                    if (data[0].ID != '1') {
+                      play_table.append(`
                   <div class="row [ info ]"> 
                     <div class="cell"> 
                       <p class="font">${new Date(transformDay(item.BC)[1]).toDateString()}</p> 
@@ -347,9 +370,9 @@ exports('prematch_coupon', (params, done) => {
                     </div>
                   </div>
                   `);
-                  }
-                  else {
-                    play_table.append(`
+                    }
+                    else {
+                      play_table.append(`
                     <div class="row [ info ]"> 
                       <div class="cell"> 
                         <p class="font">${new Date(transformDay(item.BC)[1]).toDateString()}</p> 
@@ -365,16 +388,16 @@ exports('prematch_coupon', (params, done) => {
                       </div>
                     </div>
                     `);
+                    }
+                    prevDate = item.BC;
                   }
-                  prevDate = item.BC;
-                }
-                // append event
-                play_table.append(`
+                  // append event
+                  play_table.append(`
                 <div class="row">
                 <div class="cell" ${
-                  item.SU == '1' ?
-                    'data-event-su="1"' :
-                    (typeof item.PD !== 'undefined' ? ` data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`)}>
+                    item.SU == '1' ?
+                      'data-event-su="1"' :
+                      (typeof item.PD !== 'undefined' ? ` data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`)}>
                   <div data-class="play-link" class="[ play-link ]">
                       <div class="team home">
                         <p class="font m-white ellipsis">${item.NA}</p>
@@ -393,19 +416,19 @@ exports('prematch_coupon', (params, done) => {
                   </div>
                 </div>
                 `);
-                // append bet
-                if (data[0].ID != '1') {
-                  // tennis
-                  let home = 0, away = 0;
-                  data.MA.forEach((ma) => {
-                    if (ma.IT === 'C41-83-1') {
-                      home = ma.PA[i];
-                    }
-                    if (ma.IT === 'C41-83-2') {
-                      away = ma.PA[i];
-                    }
-                  });
-                  play_table.children('.row:last-child').append(`
+                  // append bet
+                  if (data[0].ID != '1') {
+                    // tennis
+                    let home = 0, away = 0;
+                    data.MA.forEach((ma) => {
+                      if (ma.IT === 'C41-83-1') {
+                        home = ma.PA[i];
+                      }
+                      if (ma.IT === 'C41-83-2') {
+                        away = ma.PA[i];
+                      }
+                    });
+                    play_table.children('.row:last-child').append(`
                     <div class="cell" style="display: table-cell; min-width: 24%; max-width: 24%;">
                       <button class="button coefficient ${home.OD == '0/0' || home.OD == '1' ? 'disabled' : ''}" data-id="${home.ID}" data-fi="${home.FI}">${home.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(home.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(home.OD))}</button> 
                     </div> 
@@ -413,22 +436,22 @@ exports('prematch_coupon', (params, done) => {
                       <button class="button coefficient ${away.OD == '0/0' || away.OD == '1' ? 'disabled' : ''}" data-id="${away.ID}" data-fi="${away.FI}">${away.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(away.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(away.OD))}</button>
                     </div>
                   `);
-                }
-                else {
-                  // soccer
-                  let home = 0, draw = 0, away = 0;
-                  data.MA.forEach((ma) => {
-                    if (ma.IT === 'C41-40-1') {
-                      home = ma.PA[i];
-                    }
-                    if (ma.IT === 'C41-40-2') {
-                      draw = ma.PA[i];
-                    }
-                    if (ma.IT === 'C41-40-3') {
-                      away = ma.PA[i];
-                    }
-                  });
-                  play_table.children('.row:last-child').append(`
+                  }
+                  else {
+                    // soccer
+                    let home = 0, draw = 0, away = 0;
+                    data.MA.forEach((ma) => {
+                      if (ma.IT === 'C41-40-1') {
+                        home = ma.PA[i];
+                      }
+                      if (ma.IT === 'C41-40-2') {
+                        draw = ma.PA[i];
+                      }
+                      if (ma.IT === 'C41-40-3') {
+                        away = ma.PA[i];
+                      }
+                    });
+                    play_table.children('.row:last-child').append(`
                   <div class="cell" style="display: table-cell;">
                     <button class="button coefficient ${home.OD == '0/0' || home.OD == '1' ? 'disabled' : ''}" data-id="${home.ID}" data-fi="${home.FI}">${home.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(home.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(home.OD))}</button> 
                   </div> 
@@ -439,18 +462,20 @@ exports('prematch_coupon', (params, done) => {
                   <button class="button coefficient ${away.OD == '0/0' || away.OD == '1' ? 'disabled' : ''}" data-id="${away.ID}" data-fi="${away.FI}">${away.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(away.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(away.OD))}</button> 
                   </div>
                 `);
-                }
-              });
-            }
-          });
+                  }
+                });
+              }
+            });
+          }
           $('.tableWrapper').append(play_table);
+
+          if (data.MA.length == 0) {
+            $('.tableWrapper .play-table').append($(`<div class="no-events">Sorry, there are no events sheduled coming soon.</div>`));
+          }
+          // preloader done
+          preloader.addClass('done').removeClass('opaci');
+          resolve();
         }
-        if (data.MA.length == 0) {
-          $('.tableWrapper .play-table').append($(`<div class="no-events">Sorry, there are no events sheduled coming soon.</div>`));
-        }
-        // preloader done
-        preloader.addClass('done').removeClass('opaci');
-        resolve();
       });
       render.then(
         response => {
