@@ -92,6 +92,14 @@ exports('prematch', (params, done) => {
       let render = new Promise((resolve, reject) => {
         console.dir(data);
         $('.prematch-title-main').text(data[0].NA);
+        if (data.MG.length == 0) {
+          $('.prematch .prematch-table').append(`
+          <div class="no-markets">Sorry, there are no markets currently available in this category.</div>
+          `);
+          // preloader done
+          preloader.addClass('done').removeClass('opaci');
+          return;
+        }
         data.MG[0].MA.forEach((item) => {
           if (typeof item.NA !== 'undefined') {
             $('.prematch-table-title__main').append(`

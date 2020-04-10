@@ -626,7 +626,7 @@ exports('aside', (params, done) => {
       aside.removeClass('active');
       aside.addClass('not-active');
     });
-    $('.close-field').on('touchstart', () => {
+    $('.close-field').on('click', () => {
       aside.removeClass('active');
       aside.addClass('not-active');
     });

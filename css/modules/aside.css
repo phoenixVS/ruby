@@ -3,7 +3,7 @@
     font-family: FontAwesome;
     font-size: 20px;
     color: rgba(255,255,0, .5);
-    z-index: 2;
+    z-index: 65;
 }
 
 .star.not-active:before {
@@ -13,12 +13,12 @@
     color: rgba(0,0,0,.5);
     z-index: 2;
 }
-.aside:::-webkit-scrollbar {
+.aside::-webkit-scrollbar {
   display: none;
 }
-.aside {
-  z-index: 92;
-
+.aside.active {
+  display: block;
+  z-index: 65;
 /* Hide scrollbar for IE and Edge */
   -ms-overflow-style: none;
 }
@@ -77,23 +77,18 @@
   line-height: 1.3;
 }
 .close-field {
-  position: absolute;
   display: none;
-  /* Firefox */
-  width: -moz-calc(100vw - 230px);
-  /* WebKit */
-  width: -webkit-calc(100vw - 230px);
-  /* Opera */
-  width: -o-calc(100vw - 230px);
-  /* Standard */
-  width: calc(100vw - 230px);
-  height: 100vh;
-  left: 80vw;
-  top: 0;
-  transition: translateX(-200px);
-  -ms-touch-action: none;
-  touch-action: none;
+  position: absolute;
 }
 .aside.active .close-field {
+  top: 0;
+  right: 0;
+  left: 100%;
+  bottom: 0;
+  overflow: hidden;
+  width: 100vw;
   display: block;
+  z-index: 60;
+  -ms-touch-action: none;
+  touch-action: none;
 }

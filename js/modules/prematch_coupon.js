@@ -397,7 +397,7 @@ exports('prematch_coupon', (params, done) => {
                 <div class="cell" ${
                     item.SU == '1' ?
                       'data-event-su="1"' :
-                      (typeof item.PD !== 'undefined' ? ` data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`)}>
+                      (typeof item.PD !== 'undefined' ? ` data-pd="${item.PD}" data-event-id="${item.PD}"` : typeof item.ML !== 'undefined' ? `data-inplay-id="${'C' + item.ML.split('/')[1]}"` : '')}>
                   <div data-class="play-link" class="[ play-link ]">
                       <div class="team home">
                         <p class="font m-white ellipsis">${item.NA}</p>
