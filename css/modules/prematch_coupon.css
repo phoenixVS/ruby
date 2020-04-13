@@ -365,6 +365,8 @@
   padding-bottom: 3px;
 }
 .col-item-name .team {
+  white-space: nowrap;
+  text-overflow: ellipsis;
   padding-top: 10px;
 }
 .col-item .col-info {
