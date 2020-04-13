@@ -48,7 +48,6 @@ exports('aside', (params, done) => {
     }
 
     function RenderAside(data) {
-      console.log(`ra`);
       let promise = new Promise((resolve, reject) => {
         $(`[data-id=aside]`).empty();
         $(`[data-id=aside]`).append(`
@@ -145,7 +144,6 @@ exports('aside', (params, done) => {
 
 
           $(`[data-id=main-fav-star]`).click((el) => {
-            //console.log("Just click");
             $(el.target).slideUp();
           });
           $(`[data-id=main-fav-star]`).click(() => {
@@ -187,7 +185,6 @@ exports('aside', (params, done) => {
     function asideOrderAnim(elem) {
       elem.stopPropagation();
       AddFav($(elem.target).data(`name`), $(elem.target).data(`sport`));
-      console.log('Added to fav ' + $(elem.target).data(`sport`));
       $(elem.target).addClass('active');
       $(elem.target).removeClass('not-active');
       $(elem.target).attr('data-clicked', 'on');
@@ -226,8 +223,6 @@ exports('aside', (params, done) => {
     }
 
     function RenderAsideAll(data, prematch) {
-      console.log(`render All`);
-      console.log(prematch);
       let promise = new Promise((resolve, reject) => {
         $(`[data-id=aside]`).empty();
         $(`[data-id=aside]`).append(`
@@ -371,7 +366,6 @@ exports('aside', (params, done) => {
                   if (!cur.is(`.navigation-link`)) {
                     cur = cur.parent(`.navigation-link`);
                   }
-                  console.log(cur);
                   let ID = cur.data(`div`).split('/')[1];
                   if (ID == -1) {
                     ID = 'home';
@@ -380,7 +374,6 @@ exports('aside', (params, done) => {
                     aside.addClass('not-active');
                     return;
                   }
-                  console.log(`//ID//${ID}`);
                   window.location.hash = '/sport/' + ID;
                   aside.removeClass('active');
                   aside.addClass('not-active');
@@ -406,12 +399,10 @@ exports('aside', (params, done) => {
           });
 
           $(`[data-id=main-fav-star]`).click((el) => {
-            //console.log("Just click");
             $(el.target).slideUp();
           });
           $(`[data-id=main-fav-star]`).click((el) => {
             RenderAsideFav(window.inplay);
-            //console.log("FadeIn");
           });
           $(`[data-id=fav-star]`).click((elem) => {
             if ($(elem.target).data('clicked') == 'on') {
@@ -438,7 +429,6 @@ exports('aside', (params, done) => {
                 $('.main-search-container').addClass('active');
                 $('.main-search-container').removeClass('not-active');
                 let vh = window.innerHeight * 0.01;
-                console.log(vh);
                 // Then we set the value in the --vh custom property to the root of the document
                 document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
                 // We listen to the resize event
@@ -461,7 +451,6 @@ exports('aside', (params, done) => {
             if (!cur.is(`.navigation-link`)) {
               cur = cur.parent(`.navigation-link`);
             }
-            console.log(cur);
             let ID = cur.data(`div`).split('/')[1];
             if (ID == -1) {
               ID = 'home';
@@ -470,7 +459,6 @@ exports('aside', (params, done) => {
               aside.addClass('not-active');
               return;
             }
-            console.log(`//ID//${ID}`);
             window.location.hash = '/sport/' + ID;
             aside.removeClass('active');
             aside.addClass('not-active');
@@ -492,7 +480,6 @@ exports('aside', (params, done) => {
     }
 
     function RenderAsideFav(data) {
-      console.log(`render FAV`);
 
       let promise = new Promise((resolve, reject) => {
         $(`[data-id=aside]`).empty();
@@ -516,9 +503,6 @@ exports('aside', (params, done) => {
         for (let f = 0; f < cookies.length; f++) {
           let name = cookies[f];
           let ID = localStorage.getItem(name);
-
-          console.log("Name: " + name);
-          console.log("Value: " + ID);
 
           if (name != 'logon' && name != 'username' && name != 'password') {
             $(`[data-id=aside]`).append(`
@@ -581,7 +565,6 @@ exports('aside', (params, done) => {
               $('.main-search-container').addClass('active');
 
               let vh = window.innerHeight * 0.01;
-              console.log(vh);
               // Then we set the value in the --vh custom property to the root of the document
               document.querySelector('.main-search-container').style.setProperty('--vh', `${vh}px`);
               // We listen to the resize event
@@ -605,7 +588,6 @@ exports('aside', (params, done) => {
         if (!cur.is(`.navigation-link`)) {
           cur = cur.parent(`.navigation-link`);
         }
-        console.log(cur);
         let ID = cur.data(`div`).split('/')[1];
         if (ID == -1) {
           ID = 'home';
@@ -614,7 +596,6 @@ exports('aside', (params, done) => {
           aside.addClass('not-active');
           return;
         }
-        console.log(`//ID//${ID}`);
         window.location.hash = '/sport/' + ID;
         aside.removeClass('active');
         aside.addClass('not-active');

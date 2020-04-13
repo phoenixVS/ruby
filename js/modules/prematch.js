@@ -202,6 +202,14 @@ exports('prematch', (params, done) => {
             else {
               $('.prematch-table-title__main .item').removeClass('selected');
               cur.addClass('selected');
+              url += encodeURL(cur.data(`pd`));
+              fetch(url)
+                .then((response) => {
+                  return response.json();
+                })
+                .then((json) => {
+                  console.log(json);
+                })
             }
           });
           // appending MAs aka list-item

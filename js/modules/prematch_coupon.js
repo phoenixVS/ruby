@@ -34,6 +34,7 @@ exports('prematch_coupon', (params, done) => {
 
     // Convert fractial to decimal
     modifyBets = (od) => {
+      if (od == undefined) { return od; }
       const nums = od.split('/');
       if (typeof nums[1] === 'undefined') {
         return od /* + '.00' */;
@@ -128,7 +129,7 @@ exports('prematch_coupon', (params, done) => {
         data.MA.forEach((item) => {
           if (typeof item.PD !== 'undefined' && typeof item.NA !== 'undefined') {
             $('.prematch-table-title').append(`
-              <div class="item" data-id="${item.ID}">${item.NA}</div>
+              <div class="item" data-id="${item.ID}" data-pd="${item.PD}">${item.NA}</div>
             `);
           }
         });
@@ -240,7 +241,7 @@ exports('prematch_coupon', (params, done) => {
                   `);
                   item.PA.map((item) => {
                     curTable == 0 ? bets++ : null;
-                    if (modifyBets(item.OD) == 'NaN' || item.OD == '') {
+                    if (modifyBets(item.OD) == 'NaN' || item.OD == '' || typeof item.OD === 'undefined') {
                       $(`.table-col${'.' + col_name}`).append(`
                       <div class="col-item flex-container">
                         <button class="button coefficient disabled">
@@ -409,7 +410,7 @@ exports('prematch_coupon', (params, done) => {
                       </div>
                       <div class="[ metadata-wrapper ] text-right">
                         <p class="font m-white timer-el">${item.BC.slice(-6).slice(0, 2) + ':' + item.BC.slice(-6).slice(2, 4)}</p>
-                        <div class="marketCount ${item.SU == '1' ? ' none' : ''}"> ${item.SU == '1' ? '' : (typeof item.PD !== 'undefined' ? `${item.MR}` : `INPLAY`)}</div>
+                        <div class="marketCount ${item.SU == '1' ? ' none' : ''}"> ${item.SU == '1' ? '' : (typeof item.PD !== 'undefined' ? `${item.MR}` : ``)}</div>
                         <div class="sport-icon play ${item.SU == '1' ? ' none' : ''}"></div>
                       </div>
                     </div>
@@ -420,12 +421,16 @@ exports('prematch_coupon', (params, done) => {
                   if (data[0].ID != '1') {
                     // tennis
                     let home = 0, away = 0;
+                    let homeStatus = true;
                     data.MA.forEach((ma) => {
-                      if (ma.IT === 'C41-83-1') {
+                      if (ma.SY === 'cce' && homeStatus) {
                         home = ma.PA[i];
+                        homeStatus = false;
+                        return;
                       }
-                      if (ma.IT === 'C41-83-2') {
+                      if (ma.SY === 'cce' && !homeStatus) {
                         away = ma.PA[i];
+                        homeStatus = true;
                       }
                     });
                     play_table.children('.row:last-child').append(`
@@ -486,7 +491,7 @@ exports('prematch_coupon', (params, done) => {
           $('.round-b').on('click', (event) => {
             window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2];
           });
-          document.querySelector('.sport-name').addEventListener('click', (event) => {
+          $('.sport-name').on('click', (event) => {
             window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2];
           });
           // load prematch event
@@ -545,6 +550,14 @@ exports('prematch_coupon', (params, done) => {
             else {
               $('.prematch-table-title .item').removeClass('selected');
               cur.addClass('selected');
+              url += encodeURL(cur.data(`pd`));
+              fetch(url)
+                .then((response) => {
+                  return response.json();
+                })
+                .then((json) => {
+                  console.log(json);
+                })
             }
           });
 

@@ -1,6 +1,6 @@
 .prematch {
   position: relative;
-  overflow: auto;
+  overflow: visible;
   width: 100%;
   height: calc(100vh - 109px);
   height: -webkit-calc(100vh - 109px);
