@@ -427,12 +427,12 @@ exports('prematch_coupon', (params, done) => {
                     let home = 0, away = 0;
                     let homeStatus = true;
                     data.MA.forEach((ma) => {
-                      if (ma.SY === 'cce' && homeStatus) {
+                      if ((ma.SY === 'cce' || ma.SY === 'ccf') && homeStatus) {
                         home = ma.PA[i];
                         homeStatus = false;
                         return;
                       }
-                      if (ma.SY === 'cce' && !homeStatus) {
+                      if ((ma.SY === 'cce' || ma.SY === 'ccf') && !homeStatus) {
                         away = ma.PA[i];
                         homeStatus = true;
                       }
