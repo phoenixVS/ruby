@@ -324,11 +324,13 @@ exports('prematch_coupon', (params, done) => {
           if (bets / events > 2.5) {
             $('.table-col.Teams').addClass('three');
           }
+          resolve();
         }
         else {   // Soccer && Tennis
           let prevDate = 0;
           let play_table = $(`<div class="play-table table"></div>`);
-          if (data.MA.length == 1) {
+          // show To Win Outright 
+          if (data.MA.length <= 2) {
             play_table.append(`
           <div class="row [ info ]"> 
                 <div class="cell cell-left"> 
@@ -340,7 +342,9 @@ exports('prematch_coupon', (params, done) => {
               </div>
           `);
             let row = $(`<div class="playersWrapper"/>`);
-            data.MA[0].PA.forEach((item, i) => {
+            let maIdx = 0;
+            data.MA[maIdx].PA.length == 0 ? maIdx = 1 : maIdx = 0;
+            data.MA[maIdx].PA.forEach((item, i) => {
               row.append(`
                 <div class="cell" style="min-width: 100%; max-width: 100%;height:44px;max-height:44px;margin-bottom: 1px solid #282832;">
                   <button class="button coefficient ${item.OD == '0/0' || item.OD == '1' ? 'disabled' : ''}" data-id="${item.ID}" data-fi="${item.FI}"><span class="playerName">${item.NA}</span>&nbsp;<span class="coef">${item.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(item.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(item.OD))}</span></button> 
@@ -349,7 +353,7 @@ exports('prematch_coupon', (params, done) => {
             });
             play_table.append(row);
           }
-
+          // To Win Match
           else {
             data.MA.forEach((item, i) => {
               if (item.NA == ' ' && item.SY == 'ccd') {
@@ -477,13 +481,15 @@ exports('prematch_coupon', (params, done) => {
           if (data.MA.length == 0) {
             $('.tableWrapper .play-table').append($(`<div class="no-events">Sorry, there are no events sheduled coming soon.</div>`));
           }
-          // preloader done
-          preloader.addClass('done').removeClass('opaci');
+
           resolve();
         }
       });
       render.then(
         response => {
+          // preloader done
+          const preloader = $('#page-preloader');
+          preloader.addClass('done').removeClass('opaci');
 
           document.querySelector('body').scrollTop;
 
