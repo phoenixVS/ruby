@@ -240,6 +240,7 @@ button {
 }
 .text-right {
     text-align: right;
+    white-space: nowrap;
 }
 .fa-pencil:before {
     content: '\f040';

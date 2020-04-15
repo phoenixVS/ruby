@@ -16,16 +16,16 @@ exports('user', (params, done) => {
         <div class="[ setting ]">
           <div class="[ setting-nav ] flex-container align-middle">
             <a data-id="balance" data-status="not-active" class="[ setting-nav-link ]">
-              <span data-id="balance" class="font">BALANCE MANAGEMENT</span>
+              <span data-id="balance" class="font" data-lang="usr__balmanage">BALANCE MANAGEMENT</span>
             </a>
             <a data-id="personal" data-status="not-active" class="[ setting-nav-link ]">
-              <span data-id="personal" class="font">PERSONAL INFORMATION</span>
+              <span data-id="personal" class="font" data-lang="usr__persinfo">PERSONAL INFORMATION</span>
             </a>
             <a data-id="transaction" data-def="casier" data-status="not-active" class="[ setting-nav-link ]">
-              <span data-id="transaction" class="font">TRANSACTION HISTORY</span>
+              <span data-id="transaction" class="font" data-lang="usr__transahist">TRANSACTION HISTORY</span>
             </a>
             <a data-id="access" data-def="casier" data-status="not-active" class="[ setting-nav-link ]">
-              <span data-id="access" class="font">ACCESS LOG</span>
+              <span data-id="access" class="font" data-lang="usr__accesslog">ACCESS LOG</span>
             </a>
           </div>
           <div data-id="setting-box" class="[ setting-box primary ]"></div>
@@ -87,6 +87,7 @@ exports('user', (params, done) => {
             window.location.href = `#/user/${params.username}/${$('.setting-nav-link.active').data('id')}/${cur.data('id')}`;
           }
         });
+        window.translate();
       });
     done();
   });
