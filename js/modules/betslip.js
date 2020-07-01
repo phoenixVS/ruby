@@ -63,6 +63,10 @@ exports('betslip', (params, done) => {
       ms = parsedCookies[name];
     }
   }
+
+  //const prevns = JSON.parse(sessionStorage.getItem('ns') || '{}')
+  //let ns = Object.values(prevns).join('')
+  //const ms = sessionStorage.getItem('ms') || ''
   // Data to send on the server
   const data = `{
       "bt": "1",
@@ -71,17 +75,50 @@ exports('betslip', (params, done) => {
       "ms": "${ms}",
       "cs": ""
     }`;
+
+  const reqData = {
+    ns: ns,
+    ms: ms,
+  }
+
   let url = '';
   if (typeof params.update === 'undefined') {
+    //url = 'https://www.bestline.bet/bs/?op=1';
     url = 'https://www.bestline.bet/bs/?op=1';
   }
   else {
     url = 'https://www.bestline.bet/bs/?op=9';
+    //url = 'http://bestline.bet/betsapi/refreshslip';
   }
+
+  (async () => {
+    console.log("REFRESH_BETSLIP");
+    const rawResponse = await fetch('https://bestline.bet/betsapi/refreshslip', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reqData)
+    });
+    const content = await rawResponse.json();
+    changes = content.sr !== 0 && content.sr !== 2 && typeof content.sr !== 'undefined';
+    /*if sr == 0 - place bet*/
+    /*if sr == 2 - */
+    console.log(content);
+  })();
 
   function loadBetslip(url, callback) {
     if (url.includes('refreshslip') || false) {
-      let response = JSON.parse(`{"bg":"8de704e2-3a86-4385-87c5-59b7edea127d","sr":14,"mr":false,"ir":true,"vr":"35","cs":1,"st":1,"mi":"selections_changed","mv":"","bt":[{"cl":1,"sa":"5e75f965-CD4145E6","tp":"BS87573810-683588356","oc":true,"mt":2,"mr":false,"bt":1,"pf":"N","od":"4/11","fi":87573810,"fd":"FC Vitebsk v FK Gorodeya","pt":[{"pi":683588356,"bd":"FC Vitebsk","md":"Fulltime Result"}],"sr":14},{"cl":1,"sa":"5e75f963-9557A3CC","tp":"BS87573840-683591101","mt":2,"mr":false,"bt":1,"pf":"N","od":"11/10","fi":87573840,"fd":"Bujumbura City v Kayanza Utd","pt":[{"pi":683591101,"bd":"Bujumbura City","md":"Fulltime Result"}],"sr":0},{"cl":1,"sa":"5e75f96a-5896A733","tp":"BS87574329-683622557","mt":2,"mr":false,"bt":1,"pf":"N","od":"1/20","fi":87574329,"fd":"Katrineholm v Halleforsnas IF","pt":[{"pi":683622557,"bd":"Katrineholm","md":"Fulltime Result"}],"sr":0}],"dm":{"bt":3,"od":"2/1","bd":"Trebles","bc":1,"ea":false,"cb":false},"mo":[{"bt":-1,"bd":"","bc":3,"ea":false,"cb":false},{"bt":2,"od":"","bd":"Doubles","bc":3,"ea":false,"cb":false},{"bt":14,"od":"","bd":"Trixie","bc":4,"ea":false,"cb":false}],"bs":[1,2]}`);
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          console.log(xhr.responseText);
+        }
+      }
+      xhr.open("POST", url, true);
+      xhr.send(JSON.stringify(JSON.parse(reqData)));
+      //let response = JSON.parse(`{"bg":"8de704e2-3a86-4385-87c5-59b7edea127d","sr":14,"mr":false,"ir":true,"vr":"35","cs":1,"st":1,"mi":"selections_changed","mv":"","bt":[{"cl":1,"sa":"5e75f965-CD4145E6","tp":"BS87573810-683588356","oc":true,"mt":2,"mr":false,"bt":1,"pf":"N","od":"4/11","fi":87573810,"fd":"FC Vitebsk v FK Gorodeya","pt":[{"pi":683588356,"bd":"FC Vitebsk","md":"Fulltime Result"}],"sr":14},{"cl":1,"sa":"5e75f963-9557A3CC","tp":"BS87573840-683591101","mt":2,"mr":false,"bt":1,"pf":"N","od":"11/10","fi":87573840,"fd":"Bujumbura City v Kayanza Utd","pt":[{"pi":683591101,"bd":"Bujumbura City","md":"Fulltime Result"}],"sr":0},{"cl":1,"sa":"5e75f96a-5896A733","tp":"BS87574329-683622557","mt":2,"mr":false,"bt":1,"pf":"N","od":"1/20","fi":87574329,"fd":"Katrineholm v Halleforsnas IF","pt":[{"pi":683622557,"bd":"Katrineholm","md":"Fulltime Result"}],"sr":0}],"dm":{"bt":3,"od":"2/1","bd":"Trebles","bc":1,"ea":false,"cb":false},"mo":[{"bt":-1,"bd":"","bc":3,"ea":false,"cb":false},{"bt":2,"od":"","bd":"Doubles","bc":3,"ea":false,"cb":false},{"bt":14,"od":"","bd":"Trixie","bc":4,"ea":false,"cb":false}],"bs":[1,2]}`);
       callback(response, true);
     }
     else {
@@ -122,6 +159,7 @@ exports('betslip', (params, done) => {
       // TODO: cookies cleaning
     }
     const betslipRender = new Promise((resolve, reject) => {
+
       if (!refresh) {
         /{bss}(.*?){bse}/i.exec(response)[1].split('&')[3].slice(3).split('||').map((item) => {
           if (item) {
@@ -135,6 +173,7 @@ exports('betslip', (params, done) => {
         response = response.replace(/betSlip/g, 'betSlipy');
         // let newBetslip = $(response).find('.betSlipyCloseIcon').append(`<span class="close"></span>`);
         const newBetslip = $(response);
+        // console.log(response);
         const newBetslipContent = newBetslip.children('#betslipContent');
         const newBetslipFooter = newBetslip.children('#betslipFooter');
         if (newBetslipContent.find('.bs-useFreeBetAmount').length > 0) {
@@ -348,6 +387,22 @@ exports('betslip', (params, done) => {
         console.log(`Height: `, document.querySelector('#bsDiv').offsetWidth);
         cln.style.height = document.querySelector('#bsDiv').offsetHeight;
         cln.style.width = document.querySelector('#bsDiv').offsetWidth;
+
+        (async () => {
+          const rawResponse = await fetch('https://bestline.bet/betsapi/refreshslip', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reqData)
+          });
+          const content = await rawResponse.json();
+          changes = content.sr !== 0 && content.sr !== 2 && typeof content.sr !== 'undefined';
+          /*if sr == 0 - place bet*/
+          /*if sr == 2 - */
+          console.log(content);
+        })();
         // cln.style.bottom = 0;
         loadJsModules({
           betslip: { update: true, loadCSS: true, loadLanguage: false },
@@ -997,6 +1052,22 @@ exports('betslip', (params, done) => {
               Cookies.remove(name);
             }
           }
+          (async () => {
+            console.log("REMOVEALL");
+            const rawResponse = await fetch('https://bestline.bet/betsapi/removeall', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(reqData)
+            });
+            const content = await rawResponse.json();
+            changes = content.sr !== 0 && content.sr !== 2 && typeof content.sr !== 'undefined';
+            /*if sr == 0 - place bet*/
+            /*if sr == 2 - */
+            console.log(content);
+          })();
           blur.removeClass('block');
           blur.addClass('none');
           betslip.slideUp('fast');
@@ -1026,6 +1097,23 @@ exports('betslip', (params, done) => {
               window.BetslipList.splice(index, 1);
             }
           });
+
+          (async () => {
+            console.log("REMOVE_BET");
+            const rawResponse = await fetch('https://bestline.bet/betsapi/removebet', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(reqData)
+            });
+            const content = await rawResponse.json();
+            changes = content.sr !== 0 && content.sr !== 2 && typeof content.sr !== 'undefined';
+            /*if sr == 0 - place bet*/
+            /*if sr == 2 - */
+            console.log(content);
+          })();
 
           $(`.button.coefficient[data-id= ${ID}]`).removeClass('selected');
           $('.betSlipyCountText').text(betsCounter());
