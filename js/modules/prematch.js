@@ -30,6 +30,23 @@ exports('prematch', (params, done) => {
     httpGet(url, 'prematch');
     // Fetch API request
     function httpGet(url, name) {
+
+      fetch("https://bestline.bet/api2/?key=sports")
+        .then((res) => res.json())
+        .then((data) => {
+          if (name == 'prematch') {
+            //const tree = growTree(data);
+            //renderPrematch(tree);
+            console.log(data);
+          }
+          else {
+            throw new Error('Uncorrect handler name.');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+
       fetch(url)
         .then((res) => res.json())
         .then((data) => {

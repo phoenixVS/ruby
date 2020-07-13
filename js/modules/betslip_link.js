@@ -98,6 +98,7 @@ exports('betslip_link', (params, done) => {
       let m = 1;
       const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
       const keys = Object.keys(parsedCookies);
+
       for (name of keys) {
         if (name.substring(0, 3) == 'pa_') {
           m *= (/o=(.*)#f=/i.exec(parsedCookies[name])[1].includes('/') ? modifyBets(/o=(.*)#f=/i.exec(parsedCookies[name])[1]) : /o=(.*)#f=/i.exec(parsedCookies[name])[1]);
@@ -144,6 +145,41 @@ exports('betslip_link', (params, done) => {
       });
     }
   })(0);
+
+  async function addBet() {
+
+    let ns = '', ms = '||';
+    const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+    const keys = Object.keys(parsedCookies);
+    for (name of keys) {
+      if (name.substring(0, 3) == 'pa_') {
+        ns += parsedCookies[name];
+      }
+      if (name === 'ms') {
+        ms = parsedCookies[name];
+      }
+    }
+
+    const reqData = {
+      ns: ns,
+      ms: ms,
+    }
+
+    console.log("ADD_BET");
+    const rawResponse = await fetch('https://bestline.bet/betsapi/addbet', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reqData)
+    });
+    const content = await rawResponse.json();
+    changes = content.sr !== 0 && content.sr !== 2 && typeof content.sr !== 'undefined';
+    /*if sr == 0 - place bet*/
+    /*if sr == 2 - */
+    console.log(content);
+  }
 
   coefBtn.on('click', (event) => {
     const cur = $(event.target).closest('.button.coefficient');
@@ -203,6 +239,8 @@ exports('betslip_link', (params, done) => {
       bsLink.slideDown('fast');
       rerenderLink(betsCounter());
       PAs.active = betsCounter();
+
+      addBet();
     }
   });
 
