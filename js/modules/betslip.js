@@ -91,9 +91,9 @@ exports('betslip', (params, done) => {
     //url = 'http://bestline.bet/betsapi/refreshslip';
   }
 
-  (async () => {
+  /*(async () => {
     console.log("REFRESH_BETSLIP");
-    const rawResponse = await fetch('https://bestline.bet/betsapi/refreshslip', {
+    const rawResponse = await fetch('https://bestline.bet/betsapi2/refreshslip', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -103,10 +103,8 @@ exports('betslip', (params, done) => {
     });
     const content = await rawResponse.json();
     changes = content.sr !== 0 && content.sr !== 2 && typeof content.sr !== 'undefined';
-    /*if sr == 0 - place bet*/
-    /*if sr == 2 - */
     console.log(content);
-  })();
+  })();*/
 
   function loadBetslip(url, callback) {
     if (url.includes('refreshslip') || false) {
