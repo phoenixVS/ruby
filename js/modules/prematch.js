@@ -14,6 +14,8 @@ exports('prematch', (params, done) => {
     ]
   }, () => {
 
+    //console.log("PREMATCH LOADED");
+
     const ID = params.ID;
 
     function encodeURL(pd) {
@@ -21,31 +23,36 @@ exports('prematch', (params, done) => {
       return url
     }
     let url = 'http://bestline.bet/sports/?PD=';
+    let url2 = 'https://bestline.bet/api2/?key=sports';
     for (sport of window.prematch) {
       if (sport.ID == ID) {
         url += encodeURL(sport.PD);
       }
     }
 
-    httpGet(url, 'prematch');
-    // Fetch API request
-    function httpGet(url, name) {
+    //httpGet(url, 'prematch');
+    httpGetNew(url2, 'prematch');
 
-      fetch("https://bestline.bet/api2/?key=sports")
+    // Fetch API request
+    function httpGetNew(url, name) {
+      fetch(url)
         .then((res) => res.json())
         .then((data) => {
-          if (name == 'prematch') {
-            //const tree = growTree(data);
-            //renderPrematch(tree);
+          if (name == "prematch") {
             console.log(data);
-          }
-          else {
+            const tree = growNewTree(data, ID);
+            renderNewPrematch(tree);
+          } else {
             throw new Error('Uncorrect handler name.');
           }
         })
         .catch((err) => {
           console.log(err);
         })
+    }
+
+
+    function httpGet(url, name) {
 
       fetch(url)
         .then((res) => res.json())
@@ -61,6 +68,29 @@ exports('prematch', (params, done) => {
         .catch((err) => {
           console.log(err);
         })
+    }
+
+    function growNewTree(data, id) {
+
+      let leguesOBJ = [];
+      let spName = "";
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].id == id) {
+          spName = data[i].name;
+          for (let j = 0; j < data[i].categories.length; j++) {
+            let name = data[i].categories[j].name;
+            //leguesOBJ[name] = [];
+            let tempLeagArr = [];
+            data[i].categories[j].leagues.forEach(legue => {
+              tempLeagArr.push({ [legue.name]: legue.id })
+            })
+
+            leguesOBJ.push({ [name]: tempLeagArr });
+          }
+        }
+      }
+      leguesOBJ.push({ ["spName"]: spName })
+      return leguesOBJ;
     }
 
     function growTree(data) {
@@ -103,6 +133,93 @@ exports('prematch', (params, done) => {
         }
       });
       return tree;
+    }
+
+    function renderNewPrematch(data) {
+      console.log(data);
+      let render = new Promise((resolve, reject) => {
+        let spName = "";
+        data.forEach(item => {
+          if (item.spName) {
+            spName = item.spName;
+          }
+        })
+        $('.prematch-title-main').text(spName);
+        $('.prematch-table-title__main').append(`
+              <div class="item" data-id="" data-pd="">Coupons</div>
+              <div class="item" data-id="" data-pd="">My Teams</div>
+              <div class="item" data-id="" data-pd="">Outrights</div>
+            `);
+        $('.prematch-table-title__main .item:first-child').addClass('selected');
+
+        data.forEach(item => {
+          if (!item.spName) {
+            $('.prematch-table .container-fluid').append(`
+              <div class="market-group opened" data-id="" data-it="" data-pd="">
+                <div class="market-group-text" id="">
+                  <span class="market-group-name">${Object.keys(item)[0]}</span>
+                </div>
+                <div id="${Object.keys(item)[0].replace(/\s/g, '')}" class=""coupon-list></div>
+              </div>
+              `);
+            //console.log(Object.values(item)[0]);
+            Object.values(item)[0].forEach(elem => {
+              //console.log(Object.keys(elem)[0]);
+              $('#' + Object.keys(item)[0].replace(/\s/g, '')).append(`
+                <div data-legueid="${Object.values(elem)[0]}" class="coupon-name">${Object.keys(elem)[0]}</div>
+              `)
+            })
+          }
+        })
+        resolve();
+      }).then(
+        response => {
+          preloader.addClass('done').removeClass('opaci');
+
+          // go to sport inplay
+          $('.inplay-link').on('click', (event) => {
+            window.location.hash = '/' + 'inplay' + '/' + window.location.hash.split('/')[2];
+          });
+
+          $('.coupon-name').on('click', (event) => {
+            let cur = $(event.target.closest('.coupon-name'));
+            let legueID = cur.data(`legueid`);
+            console.log(legueID)
+            let url = 'https://bestline.bet/api2/?key=league&leagueId=' + legueID;
+
+            fetch(url)
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+          });
+
+          $('.market-group').on('click', (event) => {
+            let cur = $(event.target.closest('.market-group'));
+            if (cur.is('.opened')) {
+              cur.removeClass('opened');
+              cur.addClass('closed');
+            } else {
+              cur.removeClass('closed');
+              cur.addClass('opened');
+            }
+          })
+
+          $('.prematch-table-title__main .item').on('click', (event) => {
+            let cur = $(event.target);
+            if (cur.is('.selected')) {
+              cur.removeClass('.selected');
+            }
+            else {
+              $('.prematch-table-title__main .item').removeClass('selected');
+              cur.addClass('selected');
+            }
+          });
+        }
+      )
     }
 
     function renderPrematch(data) {

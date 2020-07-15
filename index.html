@@ -1,5 +1,8 @@
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0" />
+<meta
+	name="viewport"
+	content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0"
+/>
 <title>Ruby.bet</title>
 <!-- <link rel="stylesheet" href="./css/style-rtl.css"> -->
 <link rel="shortcut icon" href="#" />
@@ -9,23 +12,24 @@
 <link rel="stylesheet" type="text/css" href="./css/preloader.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 <script src="js/import-export.js"></script>
 <script src="js/module-loader.js"></script>
 <script src="js/connection.js"></script>
 <!-- <script src="js/libs/hammer.js"></script> -->
 <!-- <script src="js/libs/jquery_hammer.js"></script> -->
 <script>
-    // loadJsLibs({
-    //     hammer: {},
-    //     jquery_hammer: {},
-    // });
-    loadJsModules({
-        handlebar: { loadCSS: false, loadLanguage: false } /* hash routing */
-    });
+	// loadJsLibs({
+	//     hammer: {},
+	//     jquery_hammer: {},
+	// });
+	loadJsModules({
+		handlebar: { loadCSS: false, loadLanguage: false } /* hash routing */,
+	})
 </script>
 <div id="page-preloader" data-status="not-done" class="preloader">
-    <img src="./img/logo.png" alt="Ruby.bet" />
-    <!-- <div class="loader">
+	<img src="./img/logo.png" alt="Ruby.bet" />
+	<!-- <div class="loader">
         <span></span>
         <span></span>
         <span></span>
@@ -33,43 +37,60 @@
     </div> -->
 </div>
 <div id="content">
-    <div data-id="blur" class="blur none">
-        <!--header-->
-        <header class="[ header ]">
-            <div class="[ top ] container-fluid"></div>
-            <div id="navbar">
-                <nav class="[ nav ] container-fluid">
-                    <div class="container flex-container align-middle align-justify">
-                        <a class="[ show-menu ]"></a>
-                        <a href="" class="[ logo ]"><img src="./img/logo.png" alt="Everest bet" /></a>
-                        <menu class="[ menu ] flex-container align-center-middle"></menu>
-                    </div>
-                </nav>
-            </div>
-        </header>
-        <!--aside-->
-        <aside class="[ aside not-active ]"></aside>
+	<div data-id="blur" class="blur none">
+		<!--header-->
+		<header class="[ header ]">
+			<div class="[ top ] container-fluid"></div>
+			<div id="navbar">
+				<nav class="[ nav ] container-fluid">
+					<div class="container flex-container align-middle align-justify">
+						<a class="[ show-menu ]"></a>
+						<a href="" class="[ logo ]"
+							><img src="./img/logo.png" alt="Everest bet"
+						/></a>
+						<menu class="[ menu ] flex-container align-center-middle"></menu>
+					</div>
+				</nav>
+			</div>
+		</header>
+		<!--aside-->
+		<aside class="[ aside not-active ]"></aside>
 
-        <div class="main">
-            <!--slider-->
-            <div data-id="slider" class="[ slider ]"></div>
-            <div class="container">
-                <!--user room-->
-                <div data-id="user-menu" class="menu-wrapper"></div>
-                <div class="UserMenu_Overlay hidden"></div>
-                <!--registration form-->
-                <div data-id="registrationWrapper" data-display="none" class="[ registrationWrapper ] container-fluid">
-                </div>
-                <div style="display: none;" data-id="calendarContainer" class="calendarContainer"></div>
-                <!--My bets-->
-                <div data-id="mybets" data-display="none" class="[ mybets ] container-fluid"></div>
-                <!--game and video-player-->
-                <div data-id="game" data-display="none" class="[ video game ]"></div>
-                <!--prematch view-->
-                <div data-id="prematch" data-display="none" class="[ prematch ] container-fluid"></div>
+		<div class="main">
+			<!--slider-->
+			<div data-id="slider" class="[ slider ]"></div>
+			<div class="container">
+				<!--user room-->
+				<div data-id="user-menu" class="menu-wrapper"></div>
+				<div class="UserMenu_Overlay hidden"></div>
+				<!--registration form-->
+				<div
+					data-id="registrationWrapper"
+					data-display="none"
+					class="[ registrationWrapper ] container-fluid"
+				></div>
+				<div
+					style="display: none;"
+					data-id="calendarContainer"
+					class="calendarContainer"
+				></div>
+				<!--My bets-->
+				<div
+					data-id="mybets"
+					data-display="none"
+					class="[ mybets ] container-fluid"
+				></div>
+				<!--game and video-player-->
+				<div data-id="game" data-display="none" class="[ video game ]"></div>
+				<!--prematch view-->
+				<div
+					data-id="prematch"
+					data-display="none"
+					class="[ prematch ] container-fluid"
+				></div>
 
-                <div data-id="play-big" class="slider-big" data-display="true">
-                    <!--<a data-id="play-big-wrapper" class="cell">
+				<div data-id="play-big" class="slider-big" data-display="true">
+					<!--<a data-id="play-big-wrapper" class="cell">
                         <div data-id="coef_table" class="table [ coeficient-table ]"></div>
                     </a>
                     <a data-id="play-big-wrapper" class="cell">
@@ -81,18 +102,30 @@
                         <div data-id="play-big-4" class="flex-container align-justify [ play-big ]"></div>
                         <div data-id="coef_table" class="table [ coeficient-table ]"></div>
                     </a>-->
-                </div>
-                <div data-id="coef_table" class="table [ coeficient-table ]"></div>
-                <div data-id="live" class="[ live ]"></div>
-                <div data-id="play-table" data-display="true" class="table [ play-table ]"></div>
-            </div>
-        </div>
-    </div>
-    <!-- betslip -->
-    <div data-id="betslip" data-display="none" class="[ betslipWrapper ]"></div>
-    <!-- betslip-small -->
-    <div data-id="betslip-small" data-display="none" class="[ betslip-small ] scroll"></div>
-    <!--betslip-link-->
-    <div data-id="betslip-link" data-display="none" class="[ betslip-link active ]"></div>
+				</div>
+				<div data-id="coef_table" class="table [ coeficient-table ]"></div>
+				<div data-id="live" class="[ live ]"></div>
+				<div
+					data-id="play-table"
+					data-display="true"
+					class="table [ play-table ]"
+				></div>
+			</div>
+		</div>
+	</div>
+	<!-- betslip -->
+	<div data-id="betslip" data-display="none" class="[ betslipWrapper ]"></div>
+	<!-- betslip-small -->
+	<div
+		data-id="betslip-small"
+		data-display="none"
+		class="[ betslip-small ] scroll"
+	></div>
+	<!--betslip-link-->
+	<div
+		data-id="betslip-link"
+		data-display="none"
+		class="[ betslip-link active ]"
+	></div>
 </div>
 <!-- end of content -->

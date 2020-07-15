@@ -111,7 +111,7 @@ exports('fetch', (params, done) => {
               tree.push(item);
               curCL = item;
               curCL.EV = [];
-              console.log(curCL.EV)
+              //console.log(curCL.EV)
             }
             if (item.type === 'EV') {
               curCL.EV.push(item);
