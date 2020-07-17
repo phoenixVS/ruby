@@ -16,7 +16,7 @@ exports('aside', (params, done) => {
       if (typeof window.prematch === 'undefined') {
         window.sportsLoad();
       }
-      RenderAside(window.inplay);
+      RenderAsideAll([''], window.prematch);
 
       if (sessionStorage.getItem('aside') == 'inplay') {
         RenderAside(window.inplay);
@@ -41,9 +41,9 @@ exports('aside', (params, done) => {
       return $(this).clone().wrap('<div></div>').parent().html();
     };
 
-    function resort(){
-      Array.from($(`[data-id=liel`)).sort( (c,n) => $(c).attr("data-sort") - $(n).attr("data-sort")).sort((c,n)=> ($(n).hasClass("active")?1:0) - ($(c).hasClass("active")?1:0)).forEach((e,i)=>{
-        $(e).css("top",i*37+"px");
+    function resort() {
+      Array.from($(`[data-id=liel`)).sort((c, n) => $(c).attr("data-sort") - $(n).attr("data-sort")).sort((c, n) => ($(n).hasClass("active") ? 1 : 0) - ($(c).hasClass("active") ? 1 : 0)).forEach((e, i) => {
+        $(e).css("top", i * 37 + "px");
       });
     }
 
@@ -152,7 +152,7 @@ exports('aside', (params, done) => {
             RenderAsideFav(window.inplay);
           });
 
-          
+
 
           $(`[data-id=search]`).on('click', (el) => {
             el.stopPropagation();
@@ -195,7 +195,7 @@ exports('aside', (params, done) => {
 
       resort();
       $(elem.target).prop("onclick", null).off("click");
-      
+
       $(elem.target).click((el) => {
         if ($(el.target).data('clicked') == 'on') {
           asideOrderBack(el);
@@ -275,17 +275,17 @@ exports('aside', (params, done) => {
               }
             }
 
-            
-              $(`[data-id=aside-ul]`).append(`
+
+            $(`[data-id=aside-ul]`).append(`
               <li id=${id_} data-sort="${sort_counter}" data-id="liel" data-div="aside-link-${ID_}" class="[ navigation-link ] flex-container align-middle nav-link active" style="position: absolute; width: 100%; transition: 0.5s;" >
               <span class="sports-${ID_}" style="margin-left: 5px; "></span>
               <span class="font sport-name" style = "margin-left: 10px;">${name_}</span>
               <span data-id="fav-star" data-sport="${ID_}" data-name="${name_}" data-clicked="on" class="star not-active:before active" style="position: absolute; left: 79%;"></span>
               </li>
               `);
-           
+
             sort_counter++;
-            
+
             fav_arr.push(name_);
           } else {
             continue;
@@ -331,17 +331,17 @@ exports('aside', (params, done) => {
                 name = event.NA;
                 PD = event.NA;
                 if (ID != -1) {
-                  
-                    $(`[data-id=aside-ul]`).append(`
+
+                  $(`[data-id=aside-ul]`).append(`
                   <li id="${i}" data-sort="${sort_counter}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: absolute;width: 100%; transition: 0.5s;" >
                   <span class="sports-${ID}" style="margin-left: 5px; "></span>
                   <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
                   <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
                   </li>
                   `);
-                  
+
                   sort_counter++;
-                  
+
                 } else {
                   continue;
                 }
@@ -352,17 +352,17 @@ exports('aside', (params, done) => {
                 continue;
               } else {
                 if (ID != -1) {
-                  
-                    $(`[data-id=aside-ul]`).append(`
+
+                  $(`[data-id=aside-ul]`).append(`
                 <li id="${i}" data-sort="${sort_counter}" data-id="liel" data-div="aside-link-${ID}" class="[ navigation-link ] flex-container align-middle nav-link" style="position: absolute; width: 100%; transition: 0.5s;" >
                 <span class="sports-${ID}" style="margin-left: 5px; "></span>
                 <span class="font sport-name" style = "margin-left: 10px;">${name}</span>
                 <span data-id="fav-star" data-sport="${ID}" data-name="${name}" class="star not-active:before" style="position: absolute; left: 79%;"></span>
                 </li>
                 `);
-                 
-                    sort_counter++;
-                  
+
+                  sort_counter++;
+
                 } else {
                   continue;
                 }

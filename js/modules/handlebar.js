@@ -572,7 +572,7 @@ function gameHandler(ID) {
 	}
 }
 
-function prematchHandler(ID, optID, eventID) {
+function prematchHandler(ID, legueID, eventID) {
 	if (performance.navigation.type == 1) {
 		let fetchData = new Promise((resolve, reject) => {
 			loadJsModules({
@@ -622,7 +622,23 @@ function prematchHandler(ID, optID, eventID) {
 							betslip_link: { loadCSS: true, loadLanguage: false },
 						});
 					}
-					if (typeof optID === 'undefined') {
+					if (ID == true && typeof legueID === 'undefined' && typeof eventID === 'undefined') {
+						console.log('Loading prematch')
+						loadJsModules({
+							prematch: { ID: ID, loadCSS: true, loadLanguage: false },
+						})
+					} else if (ID == true && typeof legueID !== 'undefined' && typeof eventID === 'undefined') {
+						console.log('Loading legue');
+						loadJsModules({
+							prematch_coupon: { ligID: legueID, loadCSS: true, loadLanguage: false },
+						});
+					} else if (ID == true && typeof legueID !== 'undefined' && typeof eventID !== 'undefined') {
+						console.log('Loading event');
+						loadJsModules({
+							prematch_event: { ligID: legueID, matchID: eventID, loadCSS: true, loadLanguage: false },
+						});
+					}
+					/*if (typeof optID === 'undefined') {
 						loadJsModules({
 							prematch: { ID: ID, loadCSS: true, loadLanguage: false },
 						});
@@ -638,7 +654,7 @@ function prematchHandler(ID, optID, eventID) {
 								prematch_event: { PD: eventID, CT: optID, loadCSS: true, loadLanguage: false },
 							});
 						}
-					}
+				}*/
 
 					resolve();
 				});

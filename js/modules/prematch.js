@@ -22,13 +22,13 @@ exports('prematch', (params, done) => {
       const url = encodeURIComponent(pd);
       return url
     }
-    let url = 'http://bestline.bet/sports/?PD=';
+    //let url = 'http://bestline.bet/sports/?PD=';
     let url2 = 'https://bestline.bet/api2/?key=sports';
-    for (sport of window.prematch) {
+    /*for (sport of window.prematch) {
       if (sport.ID == ID) {
         url += encodeURL(sport.PD);
       }
-    }
+    }*/
 
     //httpGet(url, 'prematch');
     httpGetNew(url2, 'prematch');
@@ -68,6 +68,10 @@ exports('prematch', (params, done) => {
         .catch((err) => {
           console.log(err);
         })
+    }
+
+    function growEventTree(data) {
+      //TODO
     }
 
     function growNewTree(data, id) {
@@ -166,7 +170,7 @@ exports('prematch', (params, done) => {
             Object.values(item)[0].forEach(elem => {
               //console.log(Object.keys(elem)[0]);
               $('#' + Object.keys(item)[0].replace(/\s/g, '')).append(`
-                <div data-legueid="${Object.values(elem)[0]}" class="coupon-name">${Object.keys(elem)[0]}</div>
+                <div data-legueid="${Object.values(elem)[0]}" data-leguename="${Object.keys(elem)[0]}" data-spname="${spName}" class="coupon-name">${Object.keys(elem)[0]}</div>
               `)
             })
           }
@@ -184,17 +188,23 @@ exports('prematch', (params, done) => {
           $('.coupon-name').on('click', (event) => {
             let cur = $(event.target.closest('.coupon-name'));
             let legueID = cur.data(`legueid`);
+            let legueName = cur.data(`leguename`);
+            let sport = cur.data(`spname`);
             console.log(legueID)
-            let url = 'https://bestline.bet/api2/?key=league&leagueId=' + legueID;
+            sessionStorage.setItem('prematchSport', sport);
+            sessionStorage.setItem('prematchLeague', legueName);
+            /*let url = 'https://bestline.bet/api2/?key=league&leagueId=' + legueID;
 
             fetch(url)
               .then((res) => res.json())
               .then((data) => {
-                console.log(data);
+                console.log(data.events);
               })
               .catch((err) => {
                 console.log(err);
-              })
+              })*/
+
+            window.location.hash += '/' + legueID;
           });
 
           $('.market-group').on('click', (event) => {

@@ -31,12 +31,15 @@ exports('prematch_event', (params, done) => {
     const PD = params.PD;
     const CT = params.CT;
 
-    function encodeURL(pd) {
+    const leagueID = params.ligID;
+    const eventID = params.matchID;
+
+    /*function encodeURL(pd) {
       const url = encodeURIComponent(pd);
       return url
     }
-    let url = 'http://bestline.bet/sports/?PD=';
-    url += PD;
+    */
+    let url = 'https://bestline.bet/api2/?key=league&leagueId=' + leagueID;
 
     httpGet(url, 'prematch');
     // Fetch API request
@@ -45,8 +48,15 @@ exports('prematch_event', (params, done) => {
         .then((res) => res.json())
         .then((data) => {
           if (name == 'prematch') {
-            const tree = growTree(data);
-            renderPrematch(tree);
+            let event = [];
+            data.events.forEach((item) => {
+              if (item.id == eventID) {
+                event = item.odds;
+              }
+            })
+            console.log(event);
+            //const tree = growTree(data);
+            renderPrematch(event);
           }
           else {
             throw new Error('Uncorrect handler name.');
@@ -57,122 +67,101 @@ exports('prematch_event', (params, done) => {
         })
     }
 
-    function growTree(data) {
-      let curMA = '';
-      let curMG = '';
-      let tree = [];
-      tree.MG = [];
-      data.map((item, index) => {
-        if (item.type === 'CL') {
-          tree.push(item);
-        }
-        else {
-          if (item.type === 'EV') {
+    /*  function growTree(data) {
+        let curMA = '';
+        let curMG = '';
+        let tree = [];
+        tree.MG = [];
+        data.map((item, index) => {
+          if (item.type === 'CL') {
             tree.push(item);
           }
           else {
-            if (item.type === 'MG') {
-              let skipStatus = 0;
-              for (mg of window.blackList.sports.MG) {
-                if (mg == item.ID || (typeof item.PD !== 'undefined' ? item.PD.includes(mg) : false)) {
-                  skipStatus = 1;
-                  break;
-                }
-                else {
-                }
-              }
-              if (skipStatus == 1) {
-                curMG = '';
-              }
-              else {
-                tree.MG.push(item);
-                curMG = item;
-                curMG.MA = [];
-              }
+            if (item.type === 'EV') {
+              tree.push(item);
             }
             else {
-              if (item.type === 'MA') {
-                if (curMG == '') {
-
+              if (item.type === 'MG') {
+                let skipStatus = 0;
+                for (mg of window.blackList.sports.MG) {
+                  if (mg == item.ID || (typeof item.PD !== 'undefined' ? item.PD.includes(mg) : false)) {
+                    skipStatus = 1;
+                    break;
+                  }
+                  else {
+                  }
+                }
+                if (skipStatus == 1) {
+                  curMG = '';
                 }
                 else {
-                  curMG.MA.push(item);
-                  curMA = item;
-                  curMA.PA = [];
+                  tree.MG.push(item);
+                  curMG = item;
+                  curMG.MA = [];
                 }
               }
               else {
-                if (item.type === 'PA') {
+                if (item.type === 'MA') {
                   if (curMG == '') {
-
+  
                   }
                   else {
-                    curMA.PA.push(item);
+                    curMG.MA.push(item);
+                    curMA = item;
+                    curMA.PA = [];
+                  }
+                }
+                else {
+                  if (item.type === 'PA') {
+                    if (curMG == '') {
+  
+                    }
+                    else {
+                      curMA.PA.push(item);
+                    }
                   }
                 }
               }
             }
           }
-        }
-      });
-      console.log('filtered: ', tree);
-      return tree;
-    }
-
+        });
+        console.log('filtered: ', tree);
+        return tree;
+      }
+  */
     // Convert fractial to decimal
-    modifyBets = (od) => {
+    /*modifyBets = (od) => {
       const nums = od.split('/');
       return (nums[0] / nums[1] + 1).toFixed(2)
-    };
+    };*/
 
-    function transformDay(str) {
-      if (str) {
-        const year = str.substring(0, 4);
-        let month = parseInt(str.substring(4, 6));
-        month--;
-        const day = str.substring(6, 8);
-        let time = str.substring(8, 12);
-        const ls2lt = time.substring(0, 2);
-        time = time.replace(ls2lt, `${ls2lt}: `)
-
-        /* const date = ${time} ${month}/${day};*/
-        const date = `${time}`;
-        const dt = new Date(year, month, day).getTime();
-
-        return [date, dt]
-      } else {
-        return ''
-      }
-    };
-
+    /*  function transformDay(str) {
+        if (str) {
+          const year = str.substring(0, 4);
+          let month = parseInt(str.substring(4, 6));
+          month--;
+          const day = str.substring(6, 8);
+          let time = str.substring(8, 12);
+          const ls2lt = time.substring(0, 2);
+          time = time.replace(ls2lt, `${ls2lt}: `)
+  
+          
+          const date = `${time}`;
+          const dt = new Date(year, month, day).getTime();
+  
+          return [date, dt]
+        } else {
+          return ''
+        }
+      };
+  */
     function renderPrematch(data) {
       let render = new Promise((resolve, reject) => {
-        if (performance.navigation.type == 1 || fromCoupon) {
-          console.dir(data);
-          $('.prematch-title .sport-name').text(data[1].TB.split(',')[0] + ' / ');
-          $('.prematch-title .league').text(data[1].TB.split('#¬')[1].split(',')[0]);
-          $('.event-name').text(' / ' + data[1].TB.split('#¬')[2].split(',')[0]);
+        $('.prematch-title .sport-name').text(sessionStorage.getItem('prematchSport') + ' / ');
+        $('.prematch-title .league').text(sessionStorage.getItem('prematchLeague'));
+        $('.event-name').text(' / ' + sessionStorage.getItem('prematchEvent'));
 
-          data.MG.forEach((mg) => {
-            if (mg.SY == 'cm') {
-              mg.MA.forEach(item => {
-                $('.prematch-table-title').append(`
-              <div class="item" data-ls="${typeof item.LS === 'undefined' ? '0' : '1'}" data-pd="${item.PD}">${item.NA}</div>
-            `);
-              });
-            }
-          });
-          document.querySelectorAll('.prematch-table-title .item').forEach((el) => {
-            if (el.dataset.ls == '1') {
-              el.classList.add('selected');
-            }
-          });
-        }
-        else {
-          $('.prematch-table .coeficient-table').empty();
-        }
-
-        for (mg of data.MG) {
+        /*for (mg of data.MG) {
           if (mg.N2 == 'Start Time') {
             document.querySelector('.event-date').innerText = new Date(transformDay(mg.BC)[1]).toDateString();
             break;
@@ -191,13 +180,53 @@ exports('prematch_event', (params, done) => {
                   </div>
               `);
           }
-        });
+        });*/
+        let ids = [];
+        data.forEach((od) => {
+          $('.coeficient-table').append(`
+          <div class="row info det active" style="height: 50px; border-bottom: 0.5px solid black; position: relative;">
+          <div class="cell" style="position: relative;">
+            <p class="font">${od.name}</p>
+          </div>
+        </div>
+
+        <div data-id="${od.outcomes[0].id}" data-bet="G40" class="row" style="height: auto;">
+        </div>
+          `);
+
+          od.outcomes.forEach((item) => {
+            let outcome = item.outcome;
+            if (item.outcome.includes('$')) {
+              if (item.outcome.includes('1')) {
+                outcome = '1'
+              } else if (item.outcome.includes('2')) {
+                outcome = '2';
+              } else if (item.outcome.includes('X')) {
+                outcome = 'X';
+              }
+            } else if (item.outcome.includes('u')) {
+              outcome = 'Under'
+            } else if (item.outcome.includes('o')) {
+              outcome = 'Over'
+            }
+            $(`[data-id="${od.outcomes[0].id}"]`).append(`
+            <div style="margin: auto;flex: 1 1 auto;margin-left: 1px;" class="cell">
+            <button style="padding-left: 10px;" class="button coefficient">
+              <span data-id="bet_name_G40" class="font m-white">${outcome}</span>
+              <span class="font coeff">${Math.round(parseFloat(item.oddValue) * 100) / 100}</span>
+            </button>
+          </div>
+            `);
+          })
+
+        })
+
         resolve();
       });
       render
         .then(
           response => {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {/*
               data.MG.forEach((mg, i) => {
                 if (mg.DO == 1 && i > 1) {
                   const cur = $(`[data-coef-id="${mg.IT}"]`);
@@ -209,7 +238,7 @@ exports('prematch_event', (params, done) => {
                       let new_item = $(`<div data-id="coef_row" data-bet="${mg.IT}" class="row" style="height: auto;">
                         </div>`).hide();
                       cur.after(new_item);
-                      if ((mg.MA[0].PY !== 'cj' && mg.MA[0].PY !== 'CJ' && mg.MA[0].PY !== 'cm') || mg.MA[0].SY == 'A'/* && typeof mg.MA[0].PA[0].OD !== 'undefined' */) {
+                      if ((mg.MA[0].PY !== 'cj' && mg.MA[0].PY !== 'CJ' && mg.MA[0].PY !== 'cm') || mg.MA[0].SY == 'A'/* && typeof mg.MA[0].PA[0].OD !== 'undefined' ) {
                         let counter = 0, cb_counter = 1;
                         if (mg.MA[0].PY == 'cb') {
                           for (item of mg.MA) {
@@ -309,7 +338,7 @@ exports('prematch_event', (params, done) => {
                   });
 
                 }
-              });
+              });*/
               resolve();
             });
           }

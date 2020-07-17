@@ -25,12 +25,13 @@ exports('prematch_coupon', (params, done) => {
     ]
   }, () => {
 
-    const PD = params.PD;
+    const leagueID = params.ligID;
+    console.log(leagueID)
 
-    function encodeURL(pd) {
+    /*function encodeURL(pd) {
       const url = encodeURIComponent(pd);
       return url
-    }
+    }*/
 
     // Convert fractial to decimal
     modifyBets = (od) => {
@@ -41,8 +42,9 @@ exports('prematch_coupon', (params, done) => {
       return (nums[0] / nums[1] + 1).toFixed(2)
     };
 
-    let url = 'http://bestline.bet/sports/?PD=';
-    url += PD;
+    /*let url = 'http://bestline.bet/sports/?PD=';
+    url += PD;*/
+    let url = 'https://bestline.bet/api2/?key=league&leagueId=' + leagueID;
 
     httpGet(url, 'prematch');
     // Fetch API request
@@ -51,8 +53,9 @@ exports('prematch_coupon', (params, done) => {
         .then((res) => res.json())
         .then((data) => {
           if (name == 'prematch') {
-            const tree = growTree(data);
-            renderPrematch(tree);
+            //const tree = growTree(data);
+            console.log(data.events);
+            renderPrematch(data.events);
           }
           else {
             throw new Error('Uncorrect handler name.');
@@ -122,38 +125,43 @@ exports('prematch_coupon', (params, done) => {
     function renderPrematch(data) {
       let render = new Promise((resolve, reject) => {
         console.dir(data);
-        $('.prematch-title .sport-name').text(data[1].TB.split(',')[0] + ' / ');
-        $('.prematch-title .league').text(data[1].TB.split('#¬')[1].split(',')[0]);
+        $('.prematch-title .sport-name').text(sessionStorage.getItem('prematchSport') + ' / ');
+        $('.prematch-title .league').text(sessionStorage.getItem('prematchLeague'));
 
-        data.MA.forEach((item) => {
-          if (typeof item.PD !== 'undefined' && typeof item.NA !== 'undefined') {
-            $('.prematch-table-title').append(`
-              <div class="item" data-id="${item.ID}">${item.NA}</div>
-            `);
-          }
-        });
+        $('.prematch-table-title').append(`
+        <div class="item selected" data-id="undefined">Matches</div>
+            
+        <div class="item" data-id="undefined">Teams</div>
+      
+        <div class="item" data-id="undefined">Outrights</div>
+      
+        <div class="item" data-id="undefined">Table</div>
+        `);
+
         $('.prematch-table-title .item:first-child').addClass('selected');
-
-        let mg_idx = 0;
-        data.MA.forEach((item) => {
-          if (typeof item.PD === 'undefined' && item.PA.length == 0) {
-            $('.prematch-table-filter').append(`
-              <div class="item" data-idx="${mg_idx}" data-id="${item.ID}" data-it="${item.IT}">${item.NA}</div>
-            `);
-            mg_idx++;
-          }
-        });
-        $('.prematch-table-filter .item:first-child').addClass('selected');
-        console.log(mg_idx);
-        if ($('.prematch-table-filter .item:first-child').text() == 'undefined') {
-          $('.prematch-table-filter').css('display', 'none');
-        }
-        if ($('.prematch-table-filter .item').length == 0) {
-          $('.prematch-table-filter').css('display', 'none');
-        }
-
-        if (data[0].ID == '18' || data[0].ID == '17') { // Basketball, ice hockey etc.
-          let events = 0, bets = 0, tables = 0;
+        $('.prematch-table-filter').hide();
+        /*
+                let mg_idx = 0;
+                data.MA.forEach((item) => {
+                  if (typeof item.PD === 'undefined' && item.PA.length == 0) {
+                    $('.prematch-table-filter').append(`
+                      <div class="item" data-idx="${mg_idx}" data-id="${item.ID}" data-it="${item.IT}">${item.NA}</div>
+                    `);
+                    mg_idx++;
+                  }
+                });
+                $('.prematch-table-filter .item:first-child').addClass('selected');
+                console.log(mg_idx);
+                if ($('.prematch-table-filter .item:first-child').text() == 'undefined') {
+                  $('.prematch-table-filter').css('display', 'none');
+                }
+                if ($('.prematch-table-filter .item').length == 0) {
+                  $('.prematch-table-filter').css('display', 'none');
+                }
+        */
+        if (1 == 2/*sessionStorage.getItem('prematchSport') !== 'Soccer' || sessionStorage.getItem('prematchSport') !== 'Tennis'*/) { // Basketball, ice hockey etc.
+          console.log("Fuk u asshole")
+          /* let events = 0, bets = 0, tables = 0;
           data.MA.forEach((ma) => {
             if (ma.SY == 'ccl' || ma.SY == 'ccd') {
               tables++;
@@ -323,11 +331,71 @@ exports('prematch_coupon', (params, done) => {
           if (bets / events > 2.5) {
             $('.table-col.Teams').addClass('three');
           }
-        }
+        */}
         else {   // Soccer && Tennis
+          console.log('Rendering matches')
           let prevDate = 0;
           let play_table = $(`<div class="play-table table"></div>`);
-          data.MA.forEach((item, i) => {
+          data.forEach((match) => {
+            //console.log(match.odds[0].name)
+            if (match.odds[0].name == "3 Way") {
+              play_table.append(`
+            <div class="row [ info ]"> 
+            <div class="cell"> 
+              <p class="font">${match.startDate.slice(0, 10).replace("-", " ").replace("-", " ")}</p> 
+            </div> 
+            <div class="cell"> 
+              <p class="font">1</p> 
+            </div> 
+            <div class="cell"> 
+              <p class="font">X</p> 
+            </div>
+            <div class="cell"> 
+              <p class="font">2</p> 
+            </div>
+          </div>
+            `);
+
+              play_table.append(`
+            <div class="row">
+            <div class="cell" ${/*
+              item.SU == '1' ?
+                'data-event-su="1"' :
+            (typeof item.PD !== 'undefined' ? ` data-pd="${item.PD}" data-event-id="${item.PD}"` : `data-inplay-id="${'C' + item.ML.split('/')[1]}"`)*/""}>
+              <div id="prematch-event" data-class="play-link" data-eventid="${match.id}" data-eventtitle="${match.competitors[0].name + ' v ' + match.competitors[1].name}" class="[ play-link ]">
+                  <div class="team home">
+                    <p class="font m-white ellipsis">${match.competitors[0].name}</p>
+                    <div class="team-score"></div>
+                  </div>
+                  <div class="team away">
+                    <p class="font m-white ellipsis">${match.competitors[1].name}</p>
+                    <div class="team-score"></div>
+                  </div>
+                  <div class="[ metadata-wrapper ] text-right">
+                    <p class="font m-white timer-el">${match.startDate.slice(11, 16)}</p>
+                    <div class="marketCount">${match.oddsCount}</div>
+                    <div class="sport-icon play"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            `);
+
+              play_table.children('.row:last-child').append(`
+                  <div class="cell" style="display: table-cell;">
+            <button class="button coefficient ${/*home.OD == '0/0' || home.OD == '1' ? 'disabled' : ''*/''}" data-id="${''/*home.ID*/}" data-fi="${''/*home.FI*/}">${match.odds[0].outcomes[0].oddValue/*home.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(home.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(home.OD))*/}</button> 
+                  </div> 
+                  <div class="cell" style="display: table-cell;">
+            <button class="button coefficient ${/*home.OD == '0/0' || home.OD == '1' ? 'disabled' : ''*/''}" data-id="${''/*home.ID*/}" data-fi="${''/*home.FI*/}">${match.odds[0].outcomes[1].oddValue/*home.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(home.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(home.OD))*/}</button> 
+                  </div> 
+                  <div class="cell" style="display: table-cell;">
+            <button class="button coefficient ${/*home.OD == '0/0' || home.OD == '1' ? 'disabled' : ''*/''}" data-id="${''/*home.ID*/}" data-fi="${''/*home.FI*/}">${match.odds[0].outcomes[2].oddValue/*home.OD == '0/0' ? '<span class="fa fa-lock lock"></span>' : (modifyBets(home.OD) == '1' ? '<span class="fa fa-lock lock"></span>' : modifyBets(home.OD))*/}</button> 
+                  </div> 
+                `);
+            }
+          })
+
+          /*data.MA.forEach((item, i) => {
             if (item.NA == ' ' && item.SY == 'ccd') {
               data.MA[i].PA.forEach((item, i) => {
                 if (prevDate == item.BC) { }
@@ -442,12 +510,12 @@ exports('prematch_coupon', (params, done) => {
                 }
               });
             }
-          });
+          });*/
           $('.tableWrapper').append(play_table);
         }
-        if (data.MA.length == 0) {
+        /*if (data.MA.length == 0) {
           $('.tableWrapper .play-table').append($(`<div class="no-events">Sorry, there are no events sheduled coming soon.</div>`));
-        }
+        }*/
         // preloader done
         preloader.addClass('done').removeClass('opaci');
         resolve();
@@ -464,6 +532,19 @@ exports('prematch_coupon', (params, done) => {
           document.querySelector('.sport-name').addEventListener('click', (event) => {
             window.location.hash = '/' + window.location.hash.split('/')[1] + '/' + window.location.hash.split('/')[2];
           });
+
+          document.querySelectorAll(`[data-eventid]`).forEach((item) => {
+            item.addEventListener('click', (event) => {
+              let cur = $(event.target).closest('.play-link');
+              let matchID = cur.data(`eventid`);
+              let matchTitle = cur.data(`eventtitle`);
+              console.log(matchTitle)
+
+              sessionStorage.setItem('prematchEvent', matchTitle);
+
+              window.location.hash += '/' + matchID;
+            });
+          })
           // load prematch event
           document.querySelectorAll(`[data-event-id]`).forEach((item) => {
             item.addEventListener('click', (event) => {
