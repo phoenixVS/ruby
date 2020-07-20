@@ -70,10 +70,6 @@ exports('prematch', (params, done) => {
         })
     }
 
-    function growEventTree(data) {
-      //TODO
-    }
-
     function growNewTree(data, id) {
 
       let leguesOBJ = [];
