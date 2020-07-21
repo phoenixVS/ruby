@@ -7,36 +7,30 @@ exports('live', (params, done) => {
   },
     () => {
       let ID = params.sportId;
-      let count = 0;
+      let eventsCount = 0;
+      let index = 0;
       if (typeof ID !== 'undefined') {
-        let index = 0;
         for (sport of window.inplay) {
-          if (sport.ID == ID) {
+          if (sport.id == ID) {
             break;
           }
           index++;
         }
-        window.inplay[index].CT.reduce((counter, currentValue) => {
-          currentValue.EV.reduce((counter, currentValue) => {
-            count++;
+      }
+      window.currentView?.categories.forEach(category => {
+        category.leagues.forEach(league => {
+          league.events?.forEach(event => {
+            eventsCount++;
           }, 0);
         }, 0);
-        $('.live-title span.font.mr').text(`${count} EVENTS`);
-      }
-      else {
-        window.inplay[0].CT.reduce((counter, currentValue) => {
-          currentValue.EV.reduce((counter, currentValue) => {
-            count++;
-          }, 0);
-        }, 0);
-        $('.live-title span.font.mr').text(`${count} EVENTS`);
-      }
+      }, 0);
+      $('.live-title span.font.mr').text(`${eventsCount} EVENTS`);
       setTimeout(() => {
         console.log(`live-title length: `, $('.live-title').length);
         if ($('.live-title').length > 1) {
           $(`[data-id=live] .live-title:last-child`).remove();
         }
-      }, 100)
+      }, 10)
       done();
     });
 });

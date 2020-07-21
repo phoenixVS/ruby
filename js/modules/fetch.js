@@ -3,6 +3,7 @@ exports('fetch', (params, done) => {
   insertHtmlModules({}, () => {
 
     let urlInplay = 'http://bestline.bet/api/?key=inplay',
+      urlInplayNew = 'https://bestline.bet/api2/?key=inplay-tree',
       urlBets = 'http://bestline.bet/api/?key=',
       urlSports = 'http://bestline.bet/sports/?PD=all';
 
@@ -11,7 +12,8 @@ exports('fetch', (params, done) => {
     };
 
     window.tableLoad = () => {
-      httpGet(urlInplay, 'inplay');
+      /* httpGet(urlInplay, 'inplay'); */
+      httpGet(urlInplayNew, 'inplay')
     };
 
     window.eventLoad = (ID) => {
@@ -30,7 +32,8 @@ exports('fetch', (params, done) => {
           }
           else {
             if (name == 'inplay') {
-              const tree = growTree(data, 'inplay');
+              /* const tree = growTree(data, 'inplay'); */
+              const tree = growNewTree(data, 'inplay')
               window.inplay = tree;
               console.log(tree);
             }
@@ -182,6 +185,12 @@ exports('fetch', (params, done) => {
       }
     }
 
+    function growNewTree(data, type) {
+      if (type === 'inplay') {
+        data = data.sort((a, b) => a.priority - b.priority)
+        return data
+      }
+    }
     done();
   });
 });

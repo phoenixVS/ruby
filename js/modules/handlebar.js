@@ -202,7 +202,6 @@ const module = new defaultHandler(moduleLoader, contentHandler);
 } */
 
 function mainHandler() {
-	console.log(`MAIN HANDLER CALLED`);
 	let fetchData = new Promise((resolve, reject) => {
 		loadJsModules({
 			config: { loadCSS: false, loadLanguage: false },
@@ -322,7 +321,6 @@ function mainHandler() {
 }
 // on filter active
 function filterHandler(ID) {
-	console.log(`FILTER HANDLER CALLED`);
 	$(`[data-id="play-table"]`).empty();
 	$(`[data-id="play-big"]`).empty();
 
@@ -369,8 +367,8 @@ function filterHandler(ID) {
 			.then((response) => {
 				// if fileter valid
 				let valid = false;
-				for (let item of window.inplay) {
-					if (item.ID == ID) {
+				for (let sport of window.inplay) {
+					if (sport.id == ID) {
 						valid = true;
 						break;
 					}
@@ -386,9 +384,13 @@ function filterHandler(ID) {
 						loadJsModules({
 							header: { loadCSS: true, loadLanguage: false },
 							aside: { loadCSS: false, loadLanguage: false },
-							slider: { loadCSS: true, loadLanguage: false },
 							live: { sportId: ID, loadCSS: false, loadLanguage: false },
 						});
+						if ($('.slider-wrapper').length == 0) {
+							loadJsModules({
+								slider: { loadCSS: true, loadLanguage: false },
+							});
+						}
 						if ($('script[src="js/modules/betslip_link.js"]').length == 0) {
 							loadJsModules({
 								betslip_link: { loadCSS: false, loadLanguage: false },

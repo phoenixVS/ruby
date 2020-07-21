@@ -1,6 +1,7 @@
 exports('langs', (params, done) => {
   async function loadLanguage() {
-    const language = Cookies.get('lang');
+    const language = Cookies.get('lang') ?? 'English';
+    console.log(`cookies get lang`, language);
     const scr = document.createElement("script");
     const dic = {
       'English': 'eng-l.js',
@@ -15,7 +16,7 @@ exports('langs', (params, done) => {
   loadLanguage();
 
   window.translate = () => {
-    const language = Cookies.get('lang');
+    const language = Cookies.get('lang') ?? 'English';
     if ($(`script#lang[data-langname=${language}]`).length == 0) {
       loadLanguage().then(() => {
         setTimeout(() => {
@@ -27,7 +28,7 @@ exports('langs', (params, done) => {
               $(el).text(window.dict[$(el).data(`lang`)]);
             });
           }
-        }, 1000);
+        }, 500);
       });
     }
     else {

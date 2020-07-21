@@ -33,8 +33,8 @@ exports('wsocket', (params, done) => {
     } */
 
     const conn = new Connection({
-      webSocket: "ws://premws.bestline.bet/",
-      httpURL: "http://bestline.bet/api/?key=inplay",
+      webSocket: "wss://echo.websocket.org",
+      httpURL: "http://bestline.bet/api2/?key=inplay",
     });
 
     // const
