@@ -84,14 +84,15 @@ exports('betslip', (params, done) => {
   let url = '';
   if (typeof params.update === 'undefined') {
     //url = 'https://www.bestline.bet/bs/?op=1';
-    url = 'https://www.bestline.bet/bs/?op=1';
+    // url = 'https://www.bestline.bet/bs/?op=1';
+    url = 'http://bestline.bet/betsapi2/refreshslip';
   }
   else {
     // url = 'https://www.bestline.bet/bs/?op=9';
     url = 'http://bestline.bet/betsapi2/refreshslip';
   }
 
-  /*(async () => {
+  /* (async () => {
     console.log("REFRESH_BETSLIP");
     const rawResponse = await fetch('https://bestline.bet/betsapi2/refreshslip', {
       method: 'POST',
@@ -104,20 +105,20 @@ exports('betslip', (params, done) => {
     const content = await rawResponse.json();
     changes = content.sr !== 0 && content.sr !== 2 && typeof content.sr !== 'undefined';
     console.log(content);
-  })();*/
+  })(); */
 
   function loadBetslip(url, callback) {
     if (url.includes('refreshslip') || false) {
       const xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-          console.log(xhr.responseText);
+          console.log(JSON.parse(xhr.responseText));
+          callback(JSON.parse(xhr.responseText), true);
         }
       }
       xhr.open("POST", url, true);
-      xhr.send(JSON.stringify(JSON.parse(reqData)));
-      //let response = JSON.parse(`{"bg":"8de704e2-3a86-4385-87c5-59b7edea127d","sr":14,"mr":false,"ir":true,"vr":"35","cs":1,"st":1,"mi":"selections_changed","mv":"","bt":[{"cl":1,"sa":"5e75f965-CD4145E6","tp":"BS87573810-683588356","oc":true,"mt":2,"mr":false,"bt":1,"pf":"N","od":"4/11","fi":87573810,"fd":"FC Vitebsk v FK Gorodeya","pt":[{"pi":683588356,"bd":"FC Vitebsk","md":"Fulltime Result"}],"sr":14},{"cl":1,"sa":"5e75f963-9557A3CC","tp":"BS87573840-683591101","mt":2,"mr":false,"bt":1,"pf":"N","od":"11/10","fi":87573840,"fd":"Bujumbura City v Kayanza Utd","pt":[{"pi":683591101,"bd":"Bujumbura City","md":"Fulltime Result"}],"sr":0},{"cl":1,"sa":"5e75f96a-5896A733","tp":"BS87574329-683622557","mt":2,"mr":false,"bt":1,"pf":"N","od":"1/20","fi":87574329,"fd":"Katrineholm v Halleforsnas IF","pt":[{"pi":683622557,"bd":"Katrineholm","md":"Fulltime Result"}],"sr":0}],"dm":{"bt":3,"od":"2/1","bd":"Trebles","bc":1,"ea":false,"cb":false},"mo":[{"bt":-1,"bd":"","bc":3,"ea":false,"cb":false},{"bt":2,"od":"","bd":"Doubles","bc":3,"ea":false,"cb":false},{"bt":14,"od":"","bd":"Trixie","bc":4,"ea":false,"cb":false}],"bs":[1,2]}`);
-      callback(response, true);
+      xhr.send(JSON.stringify(reqData));
+      // let response = JSON.parse(`{"bg":"8de704e2-3a86-4385-87c5-59b7edea127d","sr":14,"mr":false,"ir":true,"vr":"35","cs":1,"st":1,"mi":"selections_changed","mv":"","bt":[{"cl":1,"sa":"5e75f965-CD4145E6","tp":"BS87573810-683588356","oc":true,"mt":2,"mr":false,"bt":1,"pf":"N","od":"4/11","fi":87573810,"fd":"FC Vitebsk v FK Gorodeya","pt":[{"pi":683588356,"bd":"FC Vitebsk","md":"Fulltime Result"}],"sr":14},{"cl":1,"sa":"5e75f963-9557A3CC","tp":"BS87573840-683591101","mt":2,"mr":false,"bt":1,"pf":"N","od":"11/10","fi":87573840,"fd":"Bujumbura City v Kayanza Utd","pt":[{"pi":683591101,"bd":"Bujumbura City","md":"Fulltime Result"}],"sr":0},{"cl":1,"sa":"5e75f96a-5896A733","tp":"BS87574329-683622557","mt":2,"mr":false,"bt":1,"pf":"N","od":"1/20","fi":87574329,"fd":"Katrineholm v Halleforsnas IF","pt":[{"pi":683622557,"bd":"Katrineholm","md":"Fulltime Result"}],"sr":0}],"dm":{"bt":3,"od":"2/1","bd":"Trebles","bc":1,"ea":false,"cb":false},"mo":[{"bt":-1,"bd":"","bc":3,"ea":false,"cb":false},{"bt":2,"od":"","bd":"Doubles","bc":3,"ea":false,"cb":false},{"bt":14,"od":"","bd":"Trixie","bc":4,"ea":false,"cb":false}],"bs":[1,2]}`);
     }
     else {
       const xhr = new XMLHttpRequest();
@@ -153,9 +154,27 @@ exports('betslip', (params, done) => {
       }
     }
     else {
+      const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
+      const keys = Object.keys(parsedCookies);
+      for (name of keys) {
+        if (name.substring(0, 3) == 'pa_') {
+          let find = response.bt.find(bet => {
+            if (bet !== null) {
+              return (
+                bet.pt[0].pi ===
+                Cookies.get(`pa_${bet.pt[0].pi}`).match(/#fp=(.*)#so=/gi)[0].slice(4, -4)
+              )
+            }
+          })
+          if (!find) {
+            Cookies.remove(name);
+          }
+        }
+      }
       console.log(response);
       // TODO: cookies cleaning
     }
+
     const betslipRender = new Promise((resolve, reject) => {
 
       if (!refresh) {
@@ -239,7 +258,7 @@ exports('betslip', (params, done) => {
               'FI': bet.fi,
               'HA': 'HA',
               'HD': 'HD',
-              'ID': 'ID',
+              'ID': bet.pt[0].pi,
               'IT': 'IT',
               'NA': bet.fd,
               'OD': bet.od,
@@ -249,11 +268,14 @@ exports('betslip', (params, done) => {
             });
           }
           let dm = response.dm;
-          appendDm({ 'ID': dm.bt, 'NA': dm.bd, 'OD': dm.od });
-
-          for (bet of response.mo) {
-            // let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU }
-            appendMultiodds({ 'ID': bet.bt, 'NA': bet.bd == '' ? 'Singles' : bet.bd, 'OD': bet.bc });
+          if (dm) {
+            appendDm({ 'ID': dm.bt, 'NA': dm.bd, 'OD': dm.od });
+          }
+          if (response.mo?.length > 0) {
+            for (bet of response.mo) {
+              // let { eventID, eventNA, marketNA, BS, FI, HA, HD, ID, IT, NA, OD, OR, SU }
+              appendMultiodds({ 'ID': bet.bt, 'NA': bet.bd == '' ? 'Singles' : bet.bd, 'OD': bet.bc });
+            }
           }
 
           // append odds
@@ -355,6 +377,7 @@ exports('betslip', (params, done) => {
       let cln = document.querySelector('.preloader.inBetslip');
       cln.classList.add('done');
       cln.dataset.status = 'done';
+      $('.bs-ContentOverlay').css('display', 'none')
       // preloader.addClass('done').removeClass('opaci');
 
       const content = $('li.single-section.standardBet');
@@ -520,7 +543,7 @@ exports('betslip', (params, done) => {
           $('.deleteItem').on('touchstart', (event) => {
             const cur = $(event.target).closest('li.hasodds');
             const eventID = cur.closest('li.hasodds').data('event');
-            const ID = cur.closest('li.hasodds').data(`itemFpid`);
+            const ID = cur.closest('li.hasodds').data(`id`);
             const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
             const keys = Object.keys(parsedCookies);
 
@@ -563,7 +586,7 @@ exports('betslip', (params, done) => {
           let endTranslated = transformStyleEnd.replace(/[^\d.]/g, '');
           if (endTranslated > 200) {
             let eventID = cur.closest('li.hasodds').data('event');
-            const ID = cur.closest('li.hasodds').data(`itemFpid`);
+            const ID = cur.closest('li.hasodds').data(`id`);
 
             const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
             const keys = Object.keys(parsedCookies);
@@ -1074,7 +1097,7 @@ exports('betslip', (params, done) => {
         $('.removeColumn').on('click', (event) => {
           let cur = $(event.target);
           let eventID = cur.closest('li.hasodds').data('event');
-          let ID = cur.closest('li.hasodds').data(`itemFpid`);
+          let ID = cur.closest('li.hasodds').data(`id`);
 
           let counter = 0;
           const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
@@ -1083,7 +1106,7 @@ exports('betslip', (params, done) => {
             if (name.substring(0, 3) == 'pa_') {
               if (name.slice(3) == ID) {
                 Cookies.remove(`pa_${ID}`);
-                $(`[data-id= ${ID}]`).removeClass('selected');
+                $(`[data-id=${ID}]`).removeClass('selected');
                 counter--;
               }
               counter++;
@@ -1215,28 +1238,103 @@ exports('betslip', (params, done) => {
   });
 
   // Convert odds
-  const modifyBets = (od) => {
-    const ODDS_TYPE = window.conf.CUSTOMER_CONFIG.ODDS_TYPE;
-    // fraction
-    if (ODDS_TYPE == '1') {
-      return od;
-    }
-    // decimal
-    if (ODDS_TYPE == '2') {
-      const nums = od.split('/');
-      return (nums[0] / nums[1] + 1).toFixed(2);
-    }
-    // American
-    if (ODDS_TYPE == '3') {
-      const nums = od.split('/');
-      let bet = (nums[0] / nums[1] + 1).toFixed(2);
-      if (Number(bet) >= 2) {
-        return `+${((Number(bet) - 1) * 100).toFixed(0)}`;
-      } else {
-        return `-${((100) / (Number(bet) - 1)).toFixed(0)}`;
+  const modifyBets = (bet, type = '2') => {
+    bet = bet.toString()
+    if (bet) {
+      switch (type) {
+        case '1':
+          return transformBetAsDecimal(bet)
+        case '2':
+          return transformBetAsFraction(bet)
+        case '3':
+          return transformBetAsAmerican(bet)
+        default:
+          return transformBetAsDecimal(bet)
       }
     }
-  };
+    return ''
+  }
+  //.
+  function transformBetAsFraction(bet) {
+
+    if (bet.includes('/')) {
+      const btArr = bet.split('/')
+      const res = (btArr[0] / btArr[1] + 1).toFixed(2)
+      return res
+    }
+
+    if (bet.includes('+') || bet.includes('-')) {
+      return bet.includes('+')
+        ? positiveAmericanBets(bet)
+        : negativeAmericanBets(bet)
+    }
+
+    return Number(bet).toFixed(2)
+  }
+  // --/--
+  function transformBetAsDecimal(bet) {
+
+    if (bet.includes('.')) {
+      return decimalToFraction(bet)
+    }
+
+    if (bet.includes('+') || bet.includes('-')) {
+      const fractionBet = bet.includes('+')
+        ? positiveAmericanBets(bet)
+        : negativeAmericanBets(bet)
+      return decimalToFraction(fractionBet)
+    }
+
+    return bet
+  }
+  //+-
+  function transformBetAsAmerican(bet) {
+
+    if (bet.includes('/')) {
+      const fractionBet = transformBetAsFraction(bet)
+      return fromFractionToAmerican(fractionBet)
+    }
+
+    if (bet.includes('.')) {
+      return fromFractionToAmerican(bet)
+    }
+
+    return bet
+  }
+
+  function fromFractionToAmerican(bet) {
+    if (Number(bet) >= 2) {
+      return `+${((Number(bet) - 1) * 100).toFixed(0)}`
+    } else {
+      return `-${(100 / (Number(bet) - 1)).toFixed(0)}`
+    }
+  }
+
+  function positiveAmericanBets(bet) {
+    const newStr = bet.replace('+', '')
+    return (Number(newStr) / 100 + 1).toFixed(2)
+  }
+
+  function negativeAmericanBets(bet) {
+    const newStr = bet.replace('-', '')
+    return (100 / Number(newStr) + 1).toFixed(2)
+  }
+
+  function gcd(a, b) {
+    return b ? gcd(b, a % b) : a
+  }
+
+  function decimalToFraction(_decimal) {
+    let top = _decimal.toString().replace(/\d+[.]/, '')
+    const bottom = Math.pow(10, top.length)
+
+    if (_decimal > 1) {
+      top = +top + Math.floor(_decimal) * bottom
+    }
+
+    const x = gcd(top, bottom)
+    return `${top / x + '/' + bottom / x}`
+  }
   // Count multiplyer if avaliable
   function multiOdds() {
     if (BetslipList.uniquenes(window.BetslipList)) {

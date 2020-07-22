@@ -24,7 +24,6 @@ exports('header', (params, done) => {
       });
       $('div.UserMenu_Overlay').removeClass('hidden');
       $('div.UserMenu_Overlay').on('click', (ev) => {
-        console.log(`overlay`);
         setBtnNotClicked();
       });
       const user_menu = $(`[data-id=user-menu]`);
@@ -58,7 +57,7 @@ exports('header', (params, done) => {
     }
     // Login and user menu handlers
     if (window.conf.CUSTOMER_CONFIG.LOGGED_IN == true) {
-      Cookies.set('logon', 'true');
+      Cookies.set('logon', 'false');
       //$(`[data-id=user-menu]`).hide();
       $(`[data-id=mybets-button]`).show();
       $(`[data-id=registration-button]`).hide();
