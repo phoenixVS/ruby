@@ -622,7 +622,7 @@ exports('play_table', (params, done) => {
                   window.currentView.categories.forEach(category => {
                     category.leagues.forEach(league => {
                       league.events = responses.find(response => {
-                        return response.events[0].leagueId == league.id
+                        return response.events[0]?.leagueId == league.id
                       })?.events ?? []
                     })
                   })
@@ -1049,8 +1049,9 @@ exports('play_table', (params, done) => {
           `);
         }
       } */
-      if (ev.odds?.length > 0) {
-        const fulltime = ev.odds.find(odd => odd.id === 1 || odd.id === 175)
+      if (ev.odds?.length > 0 && ev.odds.find(odd => odd.id === 1 || odd.id === 175 || odd.id === 206)) {
+        const fulltime = ev.odds.find(odd => odd.id === 1 || odd.id === 175 || odd.id === 206)
+        console.log(`fulltime`, fulltime);
         if (fulltime) {
           $(`[data-id="play-table"]`).children('.row:last-child').append(`
             <div class="cell" ${type !== 1 ? `style="min-width: 24%; max-width: 24%;"` : ''}>
@@ -1059,7 +1060,7 @@ exports('play_table', (params, done) => {
                 data-cl="${ID}" 
                 data-marketNA="${fulltime.name}" 
                 data-FI="${ev.id}" 
-                data-ID="${fulltime.id}" 
+                data-ID="${fulltime.outcomes[0].id}" 
                 data-NA="${fulltime.outcomes[0].outcome}" 
                 data-OD="${modifyBets(fulltime.outcomes[0].oddValue, ODDS_TYPE)}" 
                 data-SU="${fulltime.outcomes[0].status}" 
@@ -1073,7 +1074,7 @@ exports('play_table', (params, done) => {
               data-cl="${ID}" 
               data-marketNA="${fulltime.name}" 
               data-FI="${ev.id}" 
-              data-ID="${fulltime.id}" 
+              data-ID="${fulltime.outcomes[1].id}" 
               data-NA="${fulltime.outcomes[1].outcome}" 
               data-OD="${modifyBets(fulltime.outcomes[1].oddValue, ODDS_TYPE)}" 
               data-SU="${fulltime.outcomes[1].status}" 
@@ -1088,7 +1089,7 @@ exports('play_table', (params, done) => {
               data-cl="${ID}" 
               data-marketNA="${fulltime.name}" 
               data-FI="${ev.id}" 
-              data-ID="${fulltime.id}" 
+              data-ID="${fulltime.outcomes[2].id}" 
               data-NA="${fulltime.outcomes[2].name}" 
               data-OD="${modifyBets(fulltime.outcomes[2].oddValue, ODDS_TYPE)}" 
               data-SU="${fulltime.outcomes[2].status}" 

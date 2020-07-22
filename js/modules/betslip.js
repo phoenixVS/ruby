@@ -87,8 +87,8 @@ exports('betslip', (params, done) => {
     url = 'https://www.bestline.bet/bs/?op=1';
   }
   else {
-    url = 'https://www.bestline.bet/bs/?op=9';
-    //url = 'http://bestline.bet/betsapi/refreshslip';
+    // url = 'https://www.bestline.bet/bs/?op=9';
+    url = 'http://bestline.bet/betsapi2/refreshslip';
   }
 
   /*(async () => {
@@ -387,7 +387,7 @@ exports('betslip', (params, done) => {
         cln.style.width = document.querySelector('#bsDiv').offsetWidth;
 
         (async () => {
-          const rawResponse = await fetch('https://bestline.bet/betsapi/refreshslip', {
+          const rawResponse = await fetch('https://bestline.bet/betsapi2/refreshslip', {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
@@ -1052,7 +1052,7 @@ exports('betslip', (params, done) => {
           }
           (async () => {
             console.log("REMOVEALL");
-            const rawResponse = await fetch('https://bestline.bet/betsapi/removeall', {
+            const rawResponse = await fetch('https://bestline.bet/betsapi2/removeall', {
               method: 'POST',
               headers: {
                 'Accept': 'application/json',
@@ -1098,7 +1098,7 @@ exports('betslip', (params, done) => {
 
           (async () => {
             console.log("REMOVE_BET");
-            const rawResponse = await fetch('https://bestline.bet/betsapi/removebet', {
+            const rawResponse = await fetch('https://bestline.bet/betsapi2/removebet', {
               method: 'POST',
               headers: {
                 'Accept': 'application/json',

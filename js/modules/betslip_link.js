@@ -166,7 +166,7 @@ exports('betslip_link', (params, done) => {
     }
 
     console.log("ADD_BET");
-    const rawResponse = await fetch('https://bestline.bet/betsapi/addbet', {
+    const rawResponse = await fetch('https://bestline.bet/betsapi2/addbet', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
