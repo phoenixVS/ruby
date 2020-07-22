@@ -187,8 +187,11 @@ exports('fetch', (params, done) => {
 
     function growNewTree(data, type) {
       if (type === 'inplay') {
-        data = data.sort((a, b) => a.priority - b.priority)
-        return data
+        if (data) {
+          data = data.sort((a, b) => a.priority - b.priority)
+          return data
+        }
+        return []
       }
     }
     done();
