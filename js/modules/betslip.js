@@ -156,20 +156,30 @@ exports('betslip', (params, done) => {
     else {
       const parsedCookies = JSON.parse(JSON.stringify(Cookies.get()));
       const keys = Object.keys(parsedCookies);
+      let counter = 0;
       for (name of keys) {
         if (name.substring(0, 3) == 'pa_') {
-          let find = response.bt.find(bet => {
+          counter++;
+          let check = response.bt.some(bet => {
             if (bet !== null) {
-              return (
-                bet.pt[0].pi ===
-                Cookies.get(`pa_${bet.pt[0].pi}`).match(/#fp=(.*)#so=/gi)[0].slice(4, -4)
-              )
+              return (bet.pt[0].pi ===
+                Cookies.get(name).match(/#fp=(.*)#so=/gi)[0].slice(4, -4))
             }
+            return false
           })
-          if (!find) {
+          console.log(`check `, name, check);
+          if (!check) {
+            console.log(`remove`, name.slice(2));
+            $(`[data-id=${name.slice(3)}]`).removeClass('selected')
             Cookies.remove(name);
           }
         }
+      }
+      if (counter > response.bt.filter(bet => bet !== null).length) {
+        setTimeout(loadJsModules({
+          betslip: { update: true, loadCSS: false, loadLanguage: false }
+        }), 200)
+        return;
       }
       console.log(response);
       // TODO: cookies cleaning

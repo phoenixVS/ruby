@@ -261,6 +261,7 @@ function mainHandler() {
 							wsocket: { loadCSS: false, loadLanguage: false },
 							play_big: { loadCSS: true, loadLanguage: false },
 							play_table: { loadCSS: true, loadLanguage: false },
+							footer: { loadCSS: true, loadLanguage: false }
 						});
 						// if ($('script[src="js/modules/betslip_link.js"]').length == 0) {
 						//     loadJsModules({
@@ -286,6 +287,7 @@ function mainHandler() {
 						const betslip_small = $(`[data-id=betslip-small]`);
 						const calendar = $('[data-id=calendarContainer]');
 						const prematch = $('.prematch');
+						const footer = $('.footer');
 						const lurks = [
 							mybets,
 							formWrapper,
@@ -303,6 +305,7 @@ function mainHandler() {
 							play_table,
 							live,
 							slider,
+							footer
 						];
 						lurking(lurks, unlurks);
 						mybets.empty();
@@ -410,6 +413,7 @@ function filterHandler(ID) {
 							coef_table: { filtered: true, sportId: ID, loadCSS: false, loadLanguage: false },
 							play_big: { sportId: ID, loadCSS: true, loadLanguage: false },
 							play_table: { sportId: ID, loadCSS: true, loadLanguage: false },
+							footer: { loadCSS: true, loadLanguage: false }
 						});
 						resolve();
 					});
@@ -430,6 +434,7 @@ function filterHandler(ID) {
 							const betslip_small = $(`[data-id=betslip-small]`);
 							const calendar = $('[data-id=calendarContainer]');
 							const prematch = $('.prematch');
+							const footer = $('.footer')
 							const lurks = [
 								user_menu,
 								mybets,
@@ -439,7 +444,7 @@ function filterHandler(ID) {
 								betslip_link,
 								betslip_small,
 								calendar,
-								prematch,
+								prematch
 							];
 							const unlurks = [
 								play_big,
@@ -447,6 +452,7 @@ function filterHandler(ID) {
 								play_table,
 								live,
 								slider,
+								footer
 							];
 							lurking(lurks, unlurks);
 							user_menu.empty();
@@ -892,6 +898,7 @@ function userHandler(username, nav_link, nav_link_small) {
 	let onModulesLoad = new Promise((resolve, reject) => {
 		loadJsModules({
 			user: { username: username, nav_link: nav_link, nav_link_small: nav_link_small, loadCSS: true, loadLanguage: false },
+			footer: { loadCSS: true, loadLanguage: false },
 		});
 		resolve();
 	});

@@ -57,7 +57,7 @@ exports('header', (params, done) => {
     }
     // Login and user menu handlers
     if (window.conf.CUSTOMER_CONFIG.LOGGED_IN == true) {
-      Cookies.set('logon', 'false');
+      Cookies.set('logon', 'true');
       //$(`[data-id=user-menu]`).hide();
       $(`[data-id=mybets-button]`).show();
       $(`[data-id=registration-button]`).hide();
@@ -205,6 +205,9 @@ exports('header', (params, done) => {
         if ($('.video-title').length) {
           document.querySelector('.video-title').style.marginTop = '64px';
         }
+        if ($('#userRoom').length) {
+          document.querySelector('.video-title').style.marginTop = '64px';
+        }
       } else {
         navbar.classList.remove("sticky");
         document.querySelector('.slider').style.marginTop = '0';
@@ -212,6 +215,9 @@ exports('header', (params, done) => {
           document.querySelector(`[data-id="calendarContainer"]`).style.marginTop = '0';
         }
         if ($('.video-title').length) {
+          document.querySelector('.video-title').style.marginTop = '0';
+        }
+        if ($('#userRoom').length) {
           document.querySelector('.video-title').style.marginTop = '0';
         }
       }

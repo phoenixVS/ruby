@@ -1606,7 +1606,7 @@ body::-webkit-scrollbar-track {
 	background-color: #9f263d;
 }
 .header .logo {
-	transform: translateX(25%);
+	transform: translateX(15%);
 	max-width: 150px;
 	margin-left: 10px;
 	margin-right: 10px;
