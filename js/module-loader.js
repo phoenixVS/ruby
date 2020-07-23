@@ -40,7 +40,7 @@ async function loadJsModules(config) {
 		if (moduleParams.loadCSS) {
 			loadCSS(moduleParams, moduleName);
 		}
-		imports("js/modules/" + moduleName + ".js", load => {
+		imports("dist/modules/" + moduleName + ".js", load => {
 			load(moduleParams, () => {
 				return Promise.resolve('imported');
 			});
@@ -76,7 +76,7 @@ function loadJsLibs(config) {
 			const moduleName = keys[index];
 			const moduleParams = config[keys[index]];
 
-			imports("js/libs/" + moduleName + ".js", () => { });
+			imports("dist/libs/" + moduleName + ".js", () => { });
 		})(0);
 	});
 }

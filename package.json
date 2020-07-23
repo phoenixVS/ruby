@@ -1,27 +1,25 @@
 {
-  "name": "ruby.bet",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/phoenixVS/ruby.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/phoenixVS/ruby/issues"
-  },
-  "homepage": "https://github.com/phoenixVS/ruby#readme",
-  "devDependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.10.5",
-    "@babel/preset-env": "^7.10.4"
-  },
-  "dependencies": {
-    "@babel/polyfill": "^7.10.4"
-  }
+	"name": "ruby.bet",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/phoenixVS/ruby.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/phoenixVS/ruby/issues"
+	},
+	"homepage": "https://github.com/phoenixVS/ruby#readme",
+	"devDependencies": {
+		"@babel/cli": "^7.10.5",
+		"@babel/core": "^7.10.5",
+		"@babel/preset-env": "^7.10.4"
+	},
+	"dependencies": {
+		"@babel/polyfill": "^7.10.4"
+	}
 }

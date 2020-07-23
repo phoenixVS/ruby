@@ -1,0 +1,33 @@
+"use strict";
+
+window.dict = {
+  chat: "Chat",
+  support: "Support",
+  language: "Language:",
+  login: "Login",
+  submit: "Submit",
+  register: "Registration",
+  password: "Forgot the password?",
+  remain: "Remain in the system",
+  usr_det: "User details",
+  pers_inf: "Personal info",
+  confim: "Comfirmation",
+  usrname: "Username",
+  pass: "Password",
+  pass_conf: "Confirm password:",
+  fields: "All the fields, marked by (*) are required.",
+  next: "Next",
+  my_bets: "My bets",
+  cash_out: "Cash out",
+  cash_out_main: "Cash out",
+  live: "Live",
+  betslip: "Bet slip",
+  multiodds: "Multiply Odds",
+  unsettled: "Unsettled",
+  settled: "Settled",
+  all: "All",
+  edit_bet: "Edit bet",
+  full_time: "Fulltime result",
+  stake: "To Stake",
+  "return": "Return"
+};
